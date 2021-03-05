@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeSquareApp", "HomeSquareApp\HomeSquareApp.csproj", "{C2E76A94-E1BC-471D-A3B0-A5767C38C840}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeSquareApp", "HomeSquareApp\HomeSquareApp.csproj", "{DE9AEDFB-C792-44FC-9D20-3A15D036291A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C2E76A94-E1BC-471D-A3B0-A5767C38C840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2E76A94-E1BC-471D-A3B0-A5767C38C840}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2E76A94-E1BC-471D-A3B0-A5767C38C840}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2E76A94-E1BC-471D-A3B0-A5767C38C840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9AEDFB-C792-44FC-9D20-3A15D036291A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9AEDFB-C792-44FC-9D20-3A15D036291A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9AEDFB-C792-44FC-9D20-3A15D036291A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9AEDFB-C792-44FC-9D20-3A15D036291A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FC96DAAB-A2B1-4FBC-8E9D-5EF1542EB391}
+		SolutionGuid = {0D697B54-C32D-4ADC-94D1-7556D11C2CCA}
 	EndGlobalSection
 EndGlobal

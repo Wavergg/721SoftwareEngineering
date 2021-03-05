@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>aspnet-HomeSquareApp-25D238A1-5008-4044-AD17-85152E742AD3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
