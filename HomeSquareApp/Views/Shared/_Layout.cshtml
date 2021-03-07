@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@* DOCUMENT INFO: PAY EXTRA ATTENTION FOR NYD COMMENT *@
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,8 +11,139 @@
     
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/css/site.css" />
+    <style>
+        /*NYD MOVE THIS TO CSS FILE have to find better font?*/
+        a {
+            text-decoration:none;
+            color: #ffffff;
+        }
+
+        a:hover {
+            color: #dddddd;
+        }
+
+        .nav-ribbon:hover {
+            background-color: #0F6B41;
+        }
+
+        .nav-ribbon {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            flex: 1 1 auto;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    @* Navigation bar start*@
+    <header>
+        @* Desktop navigation *@
+        <div class="container-fluid px-0 d-none d-md-block">
+            <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
+                <a href="#" class="col-md-4 col-12">
+                    <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" />
+                </a>
+
+                <div class="col-md-4 col-12">
+                    @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
+                    <div class="input-group">
+                        <input type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" placeholder="Search Product" aria-label="Search" aria-describedby="basic-addon2">
+                        <span class="" id="basic-addon2">
+                            <button class="btn btn-success border-0" style="border-top-right-radius:12.5rem;border-bottom-right-radius:12.5rem" type="button">
+                                <svg class="bi text-white" width="16" height="24">
+                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="container">
+                        <div class="d-flex justify-content-md-end justify-content-between">
+                            <button type="button" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                            <button type="button" class="btn btn-outline-dark rounded-pill">
+                                <svg class="bi" width="16" height="24" fill="currentColor">
+                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                                </svg>
+                                <span>View Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center">
+                <a class="nav-ribbon" href="#">Shop</a>
+                <a class="nav-ribbon" href="#">Recipes</a>
+                <a class="nav-ribbon" href="#">Deals</a>
+                <a class="nav-ribbon" href="#">Shop</a>
+            </div>
+        </div>
+        @* Desktop Navbar end *@
+
+        @* Mobile Navbar start *@
+        <div class="d-md-none d-block navbar pb-0 fixed-top shadow-sm">
+            <div class="container-fluid text-center d-flex flex-row justify-content-center">
+                <a href="#" class="pt-3 col-9">
+                    <img class="img-fluid" src="~/lib/images/appLogo.svg" />
+                </a>
+            </div>
+            <div class="container-fluid mt-3 px-0" style="background-color: #0F6B41">
+                <div class="col-auto">
+                    <button type="button" class="btn rounded-0" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <svg class="bi text-white" width="36" height="54">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#list" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="col-9 d-flex flex-row justify-content-end">
+                    @* NYD NEED TO REPLACE THE NAME *@
+                    <button type="button" class="btn btn-light rounded-pill me-2">
+                        <svg class="bi" width="24" height="36" fill="currentColor">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                    @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
+                    <button type="button" class="btn btn-light rounded-pill me-2">
+                        <svg class="bi" width="24" height="36" fill="currentColor">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                        </svg>
+                        <span>0</span>
+                    </button>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <div class="container-fluid">
+                    @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" placeholder="Search Product" aria-label="Search" aria-describedby="basic-addon2">
+                        <span class="" id="basic-addon2">
+                            <button class="btn btn-success border-0" style="border-top-right-radius:12.5rem;border-bottom-right-radius:12.5rem" type="button">
+                                <svg class="bi text-white" width="16" height="24">
+                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+
+                    @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
+                    <a href="#">
+                        <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Shop</div>
+                    </a>
+                    <a href="#">
+                        <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
+                    </a>
+                    <a href="#">
+                        <div class="d-flex p-2 py-3 bg-white ">Deals</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        @* mobile nav end *@
+    </header>
+    
+
     @RenderBody()
 
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
