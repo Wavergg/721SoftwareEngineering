@@ -29,3 +29,4 @@ C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\HomeSquareApp.genruntimeconfig.cache
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\HomeSquareApp.csproj.CopyComplete
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\bin\Debug\netcoreapp2.1\libman.json
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Login\Index.cshtml.g.cs

@@ -4,13 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HomeSquareApp</title>
+    <title>@ViewData["Title"] - HomeSquare</title>
 
     @* replace icon later *@
     <link rel="icon" href="~/lib/favicon.ico" />
     
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/css/site.css" />
     <style>
         /*NYD MOVE THIS TO CSS FILE have to find better font?*/
         nav a {
@@ -66,7 +65,8 @@
         @* Desktop navigation *@
         <div class="container-fluid px-0 d-none d-md-block">
             <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
-                <a href="#" class="col-md-4 col-12">
+                @* Home link for logo *@
+                <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
                     <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" />
                 </a>
 
@@ -87,7 +87,7 @@
                 <div class="col-md-4">
                     <div class="container">
                         <div class="d-flex justify-content-md-end justify-content-between">
-                            <button type="button" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                            <a asp-controller="Login" asp-action="index" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</a>
                             <button type="button" class="btn btn-outline-dark rounded-pill">
                                 <svg class="bi" width="16" height="24" fill="currentColor">
                                     <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
@@ -102,7 +102,9 @@
                 <a class="nav-ribbon" href="#">Shop</a>
                 <a class="nav-ribbon" href="#">Recipes</a>
                 <a class="nav-ribbon" href="#">Deals</a>
-                <a class="nav-ribbon" href="#">Shop</a>
+                <a class="nav-ribbon" href="#">Deals</a>
+                <a class="nav-ribbon" href="#">Deals</a>
+                <a class="nav-ribbon" href="#">Deals</a>
             </nav>
         </div>
         @* Desktop Navbar end *@
@@ -111,7 +113,7 @@
         @* NYD ADD FIXED-TOP CLASS For it to be sticky do it in JS *@
         <div class="d-md-none d-block navbar pb-0 shadow-sm bg-white">
             <div class="container-fluid text-center d-flex flex-row justify-content-center">
-                <a href="#" class="pt-3 col-9">
+                <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
                     <img class="img-fluid" src="~/lib/images/appLogo.svg" />
                 </a>
             </div>
@@ -125,12 +127,12 @@
                 </div>
                 <div class="col-9 d-flex flex-row justify-content-end">
                     @* NYD NEED TO REPLACE THE NAME *@
-                    <button type="button" class="btn btn-light rounded-pill me-2">
+                    <a asp-controller="Login" asp-action="index" class="btn btn-light rounded-pill me-2">
                         <svg class="bi" width="24" height="36" fill="currentColor">
                             <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
                         </svg>
                         <span>Login</span>
-                    </button>
+                    </a>
                     @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
                     <button type="button" class="btn btn-light rounded-pill me-2">
                         <svg class="bi" width="24" height="36" fill="currentColor">
@@ -172,10 +174,6 @@
     @RenderBody()
 
 
-
-    @*<div class="bg-light py-3 container">
-        <a href="#" class="text-dark">Back to top</a>
-    </div>*@
     <!-- FOOTER -->
     <footer class="container-fluid px-0 text-dark bg-light">
         <div class="container d-md-flex flex-row pt-5 pb-3">
