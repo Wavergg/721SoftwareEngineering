@@ -1,0 +1,12 @@
+﻿.cardRecipe-title {
+    font-family: Bahnschrift;
+    font-size: 1.5rem;
+}
+
+.btn:hover {
+    transform: scale(1.03)
+}
+
+.btn {
+    transition: ease-out 500ms
+}

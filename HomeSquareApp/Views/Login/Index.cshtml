@@ -22,13 +22,13 @@
             <div class="card login-card">
                 <div class="row no-gutters">
                     <div class="col-md-5">
-                        <img src="~/lib/images/groceries.jpg" alt="login" class="login-card-img">
+                        <img src="~/lib/images/groceries.jpg" alt="login" class="login-card-img" asp-append-version="true">
                     </div>
                     <div class="col-md-7">
                         <div class="card-body">
                             <div class="brand-wrapper">
                                 <a asp-controller="Home" asp-action="index">
-                                    <img src="~/lib/images/logo.svg" alt="logo" class="logo">
+                                    <img src="~/lib/images/logo.svg" alt="logo" class="logo" asp-append-version="true">
                                 </a>
                             </div>
                             <p class="login-card-description">Sign into your account</p>
@@ -45,7 +45,7 @@
                             </form>
                             <a href="#!" class="forgot-password-link">Forgot password?</a>
                             <p class="login-card-footer-text">
-                                Don't have an account? 
+                                Don't have an account?
                                 <a href="#!" class="text-info" style="font-weight:bold">Register here</a>
                             </p>
                             <nav class="login-card-footer-nav">
@@ -58,7 +58,7 @@
             </div>
         </div>
     </main>
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

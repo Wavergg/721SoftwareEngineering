@@ -1,6 +1,436 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<main>
-    
-</main>
+<div class="mb-5">
+    @* Carousel For Promotional ADS/PRODUCTS *@
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-indicators d-md-flex d-none" style="bottom:15%">
+            <button style="width:10px;height:10px;margin:0 8px 0 0px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button style="width:10px;height:10px;margin:0 8px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button style="width:10px;height:10px;margin:0 0px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            @* Replace with actual image banner *@
+            <div class="carousel-item active">
+                <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Beef-Banner.png" class="d-block w-100" alt="...">
+                @*<div class="carousel-caption d-none d-md-block" style="bottom:25%;">
+                        <button class="btn btn-outline-danger rounded-pill border border-secondary">Shop Now</button>
+                    </div>*@
+            </div>
+            <div class="carousel-item">
+                <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Chicken-Banner1.png" class="d-block w-100" alt="...">
+
+            </div>
+            <div class="carousel-item">
+                <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Lamb-Banner.png" class="d-block w-100" alt="...">
+
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+    <div class=" container d-flex justify-content-center p-0">
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a href="#">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person-fill" />
+                </svg>
+            </a>
+            <span class="mt-2">Contact Us</span>
+        </div>
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a href="#">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#award" />
+                </svg>
+            </a>
+            <span class="mt-2">Fresh Product</span>
+        </div>
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a href="#">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#newspaper" />
+                </svg>
+            </a>
+            <span class="mt-2">Our Blog</span>
+        </div>
+    </div>
+
+    <div class="p-md-5 p-1 mt-5 d-md-flex">
+
+        @* Recipe Start *@
+        <div class="col-md-6">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="h2 mb-0">Featured Cooking Recipe</h2>
+                <div>
+                    <button class="recipePrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                        </svg>
+                    </button>
+                    <button class="recipeNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <hr />
+            <div class="owl-carousel owl-carouselRecipe">
+                @* NYD Put on section and Loop and fill based on Model *@
+                @* Card Start *@
+                <div class="card m-md-3 m-1 border-0" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)">
+                    <div class="card-header" style="height:240px; background: url(lib/images/waffle.jpg) no-repeat center;background-size: cover;">
+                    </div>
+                    <div class="m-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-secondary">Breakfast | Lunch</small>
+                            <span>
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
+                                    </svg>
+                                    2
+                                </small>
+                            </span>
+                        </div>
+                        <p class="cardRecipe-title">Waffle with maple syrup </p>
+                        <p>lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.</p>
+                        <div class="mb-3 d-flex justify-content-md-start justify-content-between">
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Cook & Prep Time</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
+                                    </svg>
+                                    10 mins
+                                </small>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Servings</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
+                                    </svg>
+                                    2
+                                </small>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-danger text-white form-control">Go to Recipe</a>
+                    </div>
+                </div>
+                @* CardEnd *@
+
+                @* Card Start *@
+                <div class="card m-md-3 m-1 border-0" style="">
+                    <div class="card-header" style="height:240px; background: url(lib/images/waffle.jpg) no-repeat center;background-size: cover;">
+                    </div>
+                    <div class="m-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-secondary">Breakfast | Lunch</small>
+
+                            <span>
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
+                                    </svg>
+                                    2
+                                </small>
+                            </span>
+                        </div>
+                        <p class="cardRecipe-title">Waffle with maple syrup </p>
+                        <p>lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.</p>
+                        <div class="mb-3 d-flex justify-content-md-start justify-content-between">
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Cook & Prep Time</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
+                                    </svg>
+                                    10 mins
+                                </small>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Servings</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
+                                    </svg>
+                                    2
+                                </small>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger text-white form-control">Go to Recipe</button>
+                    </div>
+                </div>
+                @* CardEnd *@
+
+                @* Card Start *@
+                <div class="card m-md-3 m-1 border-0" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)">
+                    <div class="card-header" style="height:240px; background: url(lib/images/waffle2.jpg) no-repeat center;background-size: cover;">
+                    </div>
+                    <div class="m-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="text-secondary">Breakfast | Lunch</small>
+                            <span>
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
+                                    </svg>
+                                    2
+                                </small>
+                            </span>
+                        </div>
+                        <p class="cardRecipe-title">Waffle with maple syrup </p>
+                        <p>lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.</p>
+                        <div class="mb-3 d-flex justify-content-md-start justify-content-between">
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Cook & Prep Time</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
+                                    </svg>
+                                    10 mins
+                                </small>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="small fw-bold text-secondary">Servings</span><br />
+                                <small class="text-muted align-items-center">
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
+                                    </svg>
+                                    2
+                                </small>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger text-white form-control">Go to Recipe</button>
+                    </div>
+                </div>
+                @* CardEnd *@
+            </div>
+        </div>
+        @* Recipe End *@
+
+        @* Special product start *@
+        <div class="col-md-5 offset-md-1">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="h2 mb-0">Super Price Of The Week</h2>
+                <div>
+                    <button class="productPrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                        </svg>
+                    </button>
+                    <button class="productNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <hr />
+            <div class="owl-carousel owl-carouselOfferProduct">
+                @* product start *@
+                <div class="card" style="min-height:420px;">
+                    <div class="px-3 align-items-center d-flex" style="min-height:250px">
+                        <img src="~/lib/images/products/butter.png" asp-append-version="true" />
+                    </div>
+                    <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
+                    <div class="product-details pt-0">
+                        <a href="#" class="product-link">No one has ever produced such good quality butter</a>
+                        <div class="align-items-center">
+                            @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
+                            <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                            @* Price before discount *@
+                            <p>Was <span class="product-price-before-special">$125.00</span></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success rounded-0 product-bottom-left-btn">Details</button>
+                    <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
+                </div>
+                @* product end *@
+
+                @* product start *@
+                <div class="card" style="min-height:420px;">
+                    <div class="px-3 align-items-center d-flex" style="min-height:250px">
+                        <img src="~/lib/images/products/product1.jpg" asp-append-version="true" />
+                    </div>
+                    <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
+                    <div class="product-details pt-0">
+                        <a href="#" class="product-link">No one has ever produced such good quality butter</a>
+                        <div class="align-items-center">
+                            @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
+                            <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                            @* Price before discount *@
+                            <p>Was <span class="product-price-before-special">$125.00</span></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success rounded-0 product-bottom-left-btn">Details</button>
+                    <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
+                </div>
+                @* product end *@
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-light p-5 text-md-center text-justify">
+        <h1 >Home Square, Tedious shopping? <br/>Say no more</h1>
+        <div class="my-3 lead">
+            <p>With our latest addition, shopping couldn't be made easier by just a click of a button</p>
+            <p>That's because we value your time and the joy of our customer</p>
+            <p>Join our square for easier checkout, rewards and more...</p>
+        </div>
+        <button class="btn btn-dark rounded-pill">Sign Up Now</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="h2 mb-0">Latest Products</h2>
+            <div>
+                <button class="latestProductPrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                    <svg class="bi text-white" width="16" height="24">
+                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                    </svg>
+                </button>
+                <button class="latestProductNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                    <svg class="bi text-white" width="16" height="24">
+                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <hr />
+        <div class=" owl-carousel owl-carouselLatestProduct">
+            @* product start *@
+            <div class="card" style="min-height:420px;">
+                <div class="px-3 align-items-center d-flex" style="min-height:250px">
+                    <img src="~/lib/images/products/butter.png" asp-append-version="true" />
+                </div>
+                <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
+                <div class="product-details pt-0">
+                    <a href="#" class="product-link">No one has ever produced such good quality butter</a>
+                    <div class="align-items-center">
+                        @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
+                        <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                        @* Price before discount *@
+                        <p>Was <span class="product-price-before-special">$125.00</span></p>
+                    </div>
+                </div>
+                <button class="btn btn-success rounded-0 product-bottom-left-btn">Details</button>
+                <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
+            </div>
+            @* product end *@
+            @* product start *@
+            <div class="card" style="min-height:420px;">
+                <div class="px-3 align-items-center d-flex" style="min-height:250px">
+                    <img src="~/lib/images/products/butter.png" asp-append-version="true" />
+                </div>
+                <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
+                <div class="product-details pt-0">
+                    <a href="#" class="product-link">No one has ever produced such good quality butter</a>
+                    <div class="align-items-center">
+                        @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
+                        <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                        @* Price before discount *@
+                        <p>Was <span class="product-price-before-special">$125.00</span></p>
+                    </div>
+                </div>
+                <button class="btn btn-success rounded-0 product-bottom-left-btn">Details</button>
+                <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
+            </div>
+            @* product end *@
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        //Recipe Carousel
+        //--------------------------------------------------------
+        var owlRecipe = $('.owl-carouselRecipe');
+        //Initialization
+        owlRecipe.owlCarousel({
+            loop: true,
+            margin: 150,
+            items: 1,
+        }
+        );
+        // Go to the next item
+        $('.recipeNextBtn').click(function () {
+            owlRecipe.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.recipePrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlRecipe.trigger('prev.owl.carousel', [300]);
+        })
+
+        //Special Offer for Product Carousel
+        //--------------------------------------------------------
+        var owlOfferProduct = $('.owl-carouselOfferProduct');
+        //Initialization
+        owlOfferProduct.owlCarousel({
+            loop: true,
+            items: 2,
+            responsive: {
+                0: {
+                    margin: 20,
+                },
+                600: {
+                    margin: 50,
+                },
+            }
+        }
+        );
+        // Go to the next item
+        $('.productNextBtn').click(function () {
+            owlOfferProduct.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.productPrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlOfferProduct.trigger('prev.owl.carousel', [300]);
+        })
+
+        //Latest Product Carousel
+        //--------------------------------------------------------
+        var owlLatestProduct = $('.owl-carouselLatestProduct');
+        //Initialization
+        owlLatestProduct.owlCarousel({
+            loop: true,
+            margin: 20,
+            responsive: {
+                0: {
+                    items: 2,
+                },
+                600: {
+                    items: 3,
+                },
+                1000: {
+                    items: 5,
+                }
+            }
+        }
+        );
+        // Go to the next item
+        $('.latestProductNextBtn').click(function () {
+            owlLatestProduct.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.latestProductPrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlLatestProduct.trigger('prev.owl.carousel', [300]);
+        })
+    </script>
+}

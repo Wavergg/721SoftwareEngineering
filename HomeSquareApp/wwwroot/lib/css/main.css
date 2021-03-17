@@ -1,1 +1,25 @@
-﻿
+﻿h1,h2,h3,h4,h5,h6 {
+    font-family: Alef
+}
+
+.moveSlightlyY-animation {
+    transition: transform 500ms;
+    will-change: transform;
+}
+
+.moveSlightlyY-animation:hover {
+    transform: translateY(5px);
+}
+
+.btn:hover {
+    transform: scale(1.1)
+}
+
+.btn {
+    transition: ease-out 500ms
+}
+
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
