@@ -77,193 +77,209 @@
     </style>
 </head>
 <body>
-    @* Navigation bar start*@
-    <header>
+    @* Cover it in #app for VUE.JS *@
+    <div id="app">
+        @* Navigation bar start*@
+        <header>
 
-        @* Desktop navigation *@
-        <div class="sticky container-fluid px-0 d-none d-md-block">
-            <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
-                @* Home link for logo *@
-                <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
-                    <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" />
-                </a>
+            @* Desktop navigation *@
+            <div class="navigation sticky container-fluid px-0 d-none d-md-block">
+                <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
+                    @* Home link for logo *@
+                    <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
+                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" />
+                    </a>
 
-                <div class="col-md-4 col-12">
-                    @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
-                    <partial name="_SearchBarPartial" />
+                    <div class="col-md-4 col-12">
+                        @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
+                        <partial name="_SearchBarPartial" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="container">
+                            <div class="d-flex justify-content-md-end justify-content-between">
+                                @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
+                                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                                <button type="button" class="btn btn-outline-dark rounded-pill">
+                                    <svg class="bi" width="16" height="24" fill="currentColor">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                                    </svg>
+                                    <span>View Cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="box-shadow: 3px 3px 10px #000;z-index:9">
+                    <a class="nav-ribbon" href="#">Products</a>
+                    <a class="nav-ribbon" href="#">Recipes</a>
+                    <a class="nav-ribbon" href="#">Deals</a>
+                    <a class="nav-ribbon" href="#">Our Stores</a>
+                </nav>
+            </div>
+            @* Desktop Navbar end *@
+
+            @* Mobile Navbar start *@
+            <div id="mobileNav" class="navigation sticky d-md-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
+                <div id="mobileLogoBarNav" class="pb-3 container-fluid text-center d-flex flex-row justify-content-center">
+                    <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
+                        <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" />
+                    </a>
                 </div>
 
-                <div class="col-md-4">
+                <div id="mobileNavBar" class=" container-fluid px-0" style="background-color: #0F6B41">
+                    <div class="col-auto">
+                        <button type="button" class="btn rounded-0" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                            <svg class="bi text-white" width="36" height="54">
+                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#list" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col-9 d-flex flex-row justify-content-end">
+                        @* NYD NEED TO REPLACE THE NAME *@
+                        <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
+                            <svg class="bi" width="24" height="36" fill="currentColor">
+                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
+                            </svg>
+                            <span>Login</span>
+                        </button>
+                        @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
+                        <button type="button" class="btn btn-light rounded-pill me-2">
+                            <svg class="bi" width="24" height="36" fill="currentColor">
+                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                            </svg>
+                            <span>0</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <div class="container-fluid">
+                        @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
+                        <partial name="_SearchBarPartial" />
+
+                        @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
+                        <a href="#">
+                            <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
+                        </a>
+                        <a href="#">
+                            <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
+                        </a>
+                        <a href="#">
+                            <div class="d-flex p-2 py-3 bg-white ">Deals</div>
+                        </a>
+                        <a href="#">
+                            <div class="d-flex p-2 py-3 bg-white ">Our Stores</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @* mobile nav end *@
+        </header>
+        <main id="elementMain">
+            @RenderBody()
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="container-fluid px-0 text-dark bg-light">
+            <div class="container d-md-flex flex-row pt-5 pb-3">
+                <div class="col-md-4 footer-right-separator">
                     <div class="container">
-                        <div class="d-flex justify-content-md-end justify-content-between">
-                            @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
-                            <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
-                            <button type="button" class="btn btn-outline-dark rounded-pill">
-                                <svg class="bi" width="16" height="24" fill="currentColor">
-                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
-                                </svg>
-                                <span>View Cart</span>
-                            </button>
+                        <div class="mx-3">
+                            <span class="h6 fw-bold">Products</span>
+                            <hr />
+                            <ul class="px-0">
+                                <li class="text-decoration-none">
+                                    <a href="#">Special Offers</a>
+                                </li>
+                                <li>
+                                    <a href="#">Shop</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 footer-right-separator">
+                    <div class="container">
+                        <div class="mx-3">
+                            <span class="h6 fw-bold">Quick Links</span>
+                            <hr />
+                            <ul class="px-0">
+                                <li class="text-decoration-none">
+                                    <a href="#">Recipes</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login / Sign up</a>
+                                </li>
+                            </ul>
+                            <hr />
+                            <div>
+                                <a href="#" class="btn btn-dark rounded-circle">
+                                    <svg class="bi" width="16" height="24" fill="currentColor">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#facebook" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="btn btn-dark rounded-circle">
+                                    <svg class="bi" width="16" height="24" fill="currentColor">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#twitter" />
+                                    </svg>
+                                </a>
+                                <button type="button" class="btn btn-dark rounded-circle">
+                                    <svg class="bi" width="16" height="24" fill="currentColor">
+                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#instagram" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col-md-3">
+                    <div class="container">
+                        <div class="mx-3">
+                            <span class="h6 fw-bold">Contact</span>
+                            <hr />
+                            <ul class="px-0">
+                                <li class="text-decoration-none">
+                                    <a href="#">Message Us</a>
+                                </li>
+                                <li>
+                                    <a href="#">Partnership</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="box-shadow: 3px 3px 10px #000;z-index:9">
-                <a class="nav-ribbon" href="#">Products</a>
-                <a class="nav-ribbon" href="#">Recipes</a>
-                <a class="nav-ribbon" href="#">Deals</a>
-                <a class="nav-ribbon" href="#">Our Stores</a>
-            </nav>
-        </div>
-        @* Desktop Navbar end *@
-
-        @* Mobile Navbar start *@
-        <div id="mobileNav" class="sticky d-md-none d-block navbar pb-0 shadow-sm bg-white">
-            <div id="mobileLogoBarNav" class="mb-3 container-fluid text-center d-flex flex-row justify-content-center">
-                <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
-                    <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" />
-                </a>
+            <div class="container">
+                <hr />
+                <div class="text-center"><img class="img-fluid col-md-2 col-4" src="~/lib/images/logo.svg" asp-append-version="true" /></div>
+                <hr />
             </div>
-
-            <div class=" container-fluid px-0" style="background-color: #0F6B41">
-                <div class="col-auto">
-                    <button type="button" class="btn rounded-0" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                        <svg class="bi text-white" width="36" height="54">
-                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#list" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="col-9 d-flex flex-row justify-content-end">
-                    @* NYD NEED TO REPLACE THE NAME *@
-                    <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
-                        <svg class="bi" width="24" height="36" fill="currentColor">
-                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
-                        </svg>
-                        <span>Login</span>
-                    </button>
-                    @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
-                    <button type="button" class="btn btn-light rounded-pill me-2">
-                        <svg class="bi" width="24" height="36" fill="currentColor">
-                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
-                        </svg>
-                        <span>0</span>
-                    </button>
-                </div>
+            <div class="container pb-3">
+                <small>Copyright &copy; 2021 Home Square. All right reserved.</small>
             </div>
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <div class="container-fluid">
-                    @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
-                    <partial name="_SearchBarPartial" />
-
-                    @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
-                    <a href="#">
-                        <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
-                    </a>
-                    <a href="#">
-                        <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
-                    </a>
-                    <a href="#">
-                        <div class="d-flex p-2 py-3 bg-white ">Deals</div>
-                    </a>
-                    <a href="#">
-                        <div class="d-flex p-2 py-3 bg-white ">Our Stores</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        @* mobile nav end *@
-    </header>
-    <main id="elementMain">
-        @RenderBody()
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="container-fluid px-0 text-dark bg-light">
-        <div class="container d-md-flex flex-row pt-5 pb-3">
-            <div class="col-md-4 footer-right-separator">
-                <div class="container">
-                    <div class="mx-3">
-                        <span class="h6 fw-bold">Products</span>
-                        <hr />
-                        <ul class="px-0">
-                            <li class="text-decoration-none">
-                                <a href="#">Special Offers</a>
-                            </li>
-                            <li>
-                                <a href="#">Shop</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5 footer-right-separator">
-                <div class="container">
-                    <div class="mx-3">
-                        <span class="h6 fw-bold">Quick Links</span>
-                        <hr />
-                        <ul class="px-0">
-                            <li class="text-decoration-none">
-                                <a href="#">Recipes</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Login" asp-action="Index">Login / Sign up</a>
-                            </li>
-                        </ul>
-                        <hr />
-                        <div>
-                            <a href="#" class="btn btn-dark rounded-circle">
-                                <svg class="bi" width="16" height="24" fill="currentColor">
-                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#facebook" />
-                                </svg>
-                            </a>
-                            <a href="#" class="btn btn-dark rounded-circle">
-                                <svg class="bi" width="16" height="24" fill="currentColor">
-                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#twitter" />
-                                </svg>
-                            </a>
-                            <button type="button" class="btn btn-dark rounded-circle">
-                                <svg class="bi" width="16" height="24" fill="currentColor">
-                                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#instagram" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="col-md-3">
-                <div class="container">
-                    <div class="mx-3">
-                        <span class="h6 fw-bold">Contact</span>
-                        <hr />
-                        <ul class="px-0">
-                            <li class="text-decoration-none">
-                                <a href="#">Message Us</a>
-                            </li>
-                            <li>
-                                <a href="#">Partnership</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <hr />
-            <div class="text-center"><img class="img-fluid col-md-2 col-4" src="~/lib/images/logo.svg" asp-append-version="true" /></div>
-            <hr />
-        </div>
-        <div class="container pb-3">
-            <small>Copyright &copy; 2021 Home Square. All right reserved.</small>
-        </div>
-    </footer>
-
+        </footer>
+    </div>
     <!-- Signup and Login Modal -->
     <partial name="_ModalLoginSignUpPartial" />
 
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/OwlCarousel2/owl.carousel.js"></script>
+    <script src="~/lib/js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                searchCategories: "All Products",
+            },
+            methods: {
+                updateSearchCategories: function (event) {
+                    this.searchCategories = event.target.value;
+                }
+            }
+        })
+    </script>
 
     @if (IsSectionDefined("Scripts"))
     {
@@ -272,31 +288,38 @@
 
     @* Script for sticky nav bar on mobile and desktop *@
     <script>
-        //This thing caused a bug on mobile when the view is changing from landscape to portrait
-        //Not major bug, changing portrait to landscape at the top of the page would solve the glitch
-        //Reason for bug, the hidden part is not accounted as height when calculating the value of margin / padding given to the top of main element tag
         window.addEventListener("scroll", function () {
             var mobileNav = document.getElementById("mobileNav");
             var mobileLogoBarNav = document.getElementById("mobileLogoBarNav");
+
             if (window.scrollY > mobileNav.offsetHeight) {
                 mobileNav.classList.add("pt-0");
                 mobileLogoBarNav.classList.add("d-none");
+                
             } else {
                 mobileLogoBarNav.classList.remove("d-none");
                 mobileNav.classList.remove("pt-0");
+                //add this to prevent bug when changing view on mobile from portrait to landscape and etc
+                var navBarDesktopHeight = document.getElementsByClassName("sticky")[0].offsetHeight;
+                var navBarMobileHeight = document.getElementById('mobileNavBar').offsetHeight;
+                document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight + mobileLogoBarNav.offsetHeight}px`;
             }
         })
         //**************************
         document.addEventListener("DOMContentLoaded", function (event) {
             var navBarDesktopHeight = document.getElementsByClassName("sticky")[0].offsetHeight;
-            var navBarMobileHeight = document.getElementsByClassName("sticky")[1].offsetHeight;
-            document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight}px`;
+            
+            var navBarMobileBrandHeight = document.getElementById('mobileLogoBarNav').offsetHeight;
+            var navBarMobileHeight = document.getElementById('mobileNavBar').offsetHeight;
+            document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight + navBarMobileBrandHeight}px`;
         });
 
         $(window).resize(function () {
             var navBarDesktopHeight = document.getElementsByClassName("sticky")[0].offsetHeight;
-            var navBarMobileHeight = document.getElementsByClassName("sticky")[1].offsetHeight;
-            document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight}px`;
+           
+            var navBarMobileBrandHeight = document.getElementById('mobileLogoBarNav').offsetHeight;
+            var navBarMobileHeight = document.getElementById('mobileNavBar').offsetHeight;
+            document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight + navBarMobileBrandHeight}px`;
         });
     </script>
 </body>

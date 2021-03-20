@@ -88,7 +88,7 @@ using HomeSquareApp.Models;
                         ");
             EndContext();
             BeginContext(339, 99, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "7f7041efd6ca45b895fc64ba8ca658c7", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "aeb6b6d1ea3845c1b5790d34fd524c29", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -117,12 +117,12 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper.AppendVersion = true;
             WriteLiteral("\r\n                    </div>\r\n                    <div class=\"col-md-7\">\r\n                        <div class=\"card-body\">\r\n                            <div class=\"brand-wrapper\">\r\n                                ");
             EndContext();
             BeginContext(650, 203, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6f605c6c8d804270873a980fa7357b2e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9b82e1ad515f417eaf291eff6f015b51", async() => {
                 BeginContext(694, 38, true);
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(732, 83, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "24739cbd127c44dd976020172d0cae2a", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "3445cebd4d3d4966adee7ef29efe905c", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -170,7 +170,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper.AppendVersion = true;
             WriteLiteral("\r\n                            </div>\r\n                            <p class=\"login-card-description\">Sign into your account</p>\r\n                            ");
             EndContext();
             BeginContext(1009, 833, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60c83f8dbd394fa995a5f20a6e93bb59", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "20fbcfb6517e477799817c2ae2274372", async() => {
                 BeginContext(1027, 808, true);
                 WriteLiteral(@"
                                 <div class=""form-group"">
@@ -203,7 +203,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper.AppendVersion = true;
             WriteLiteral("\r\n                            <a href=\"#!\" class=\"forgot-password-link\">Forgot password?</a>\r\n                            <p class=\"login-card-footer-text\">\r\n                                Don\'t have an account?\r\n                                ");
             EndContext();
             BeginContext(2088, 108, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7ad640e0454840f495cb433f8a4a5351", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5fda861704ce46c3ac4570072fef14f0", async() => {
                 BeginContext(2179, 13, true);
                 WriteLiteral("Register here");
                 EndContext();
