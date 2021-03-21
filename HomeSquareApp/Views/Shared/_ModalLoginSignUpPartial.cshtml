@@ -136,6 +136,14 @@
             checkEmptyValue(addressElement) && checkEmptyValue(phoneElement) )
         {
             //NYD Send data here, WITH AJAX
+
+            $.ajax({
+                url: "Login/SendEmail",
+                data: { email: emailElement.value}
+            }).done(function () {
+                
+            });
+
             document.getElementById('tab-1').click();
             document.getElementById('signupConfirmationPrompt').classList.remove('d-none');
         }
