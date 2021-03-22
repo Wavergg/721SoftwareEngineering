@@ -33,9 +33,10 @@
         margin-left: 0;
     }
 
+    /*-418px because of 20 REM + 6REM From bootstrap margin ( 1REM=16PX ) */
     #page-content-wrapper {
         min-width: 0;
-        width: 100%;
+        width: calc(100% - 418px);
     }
 
     #wrapper.toggled #sidebar-wrapper {

@@ -11,21 +11,97 @@
     <!-- Sidebar -->
     <div class="bg-white border-right shadow pt-5" id="sidebar-wrapper">
         <div class="container">
-            <h2 class="sidebar-heading text-center">All Products</h2>
-            <hr style="margin-bottom:0"/>
+            <h2 class="sidebar-heading text-center">Popular Products</h2>
+            <hr style="margin-bottom:0" />
         </div>
-        <div class="list-group">
-            <a href="#" class="p-3">Show All</a>
-            <a href="#" class="p-3">Fruits & Vegetable</a>
+        <div class="list-group" style="max-height:500px; overflow-y:scroll">
+            <a href="#" class="p-3">Popular Products</a>
+            <a href="#" class="p-3">Fresh Products</a>
             <a href="#" class="p-3">Home & Living</a>
+            <a href="#" class="p-3">Meats</a>
+            <a href="#" class="p-3">Snacks</a>
+            <a href="#" class="p-3">Popular Products</a>
+            <a href="#" class="p-3">Fresh Products</a>
+            <a href="#" class="p-3">Home & Living</a>
+            <a href="#" class="p-3">Meats</a>
+            <a href="#" class="p-3">Snacks</a>
+            <a href="#" class="p-3">Popular Products</a>
+            <a href="#" class="p-3">Fresh Products</a>
+            <a href="#" class="p-3">Home & Living</a>
+            <a href="#" class="p-3">Meats</a>
+            <a href="#" class="p-3">Snacks</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <div class="container">
+        <div class="d-flex mt-5"></div>
+        <div class="container m-md-5">
+            <div class="d-md-flex ">
+                <div class="">
+                    <h1>Popular Products This Week</h1>
+                </div>
+                <div class="ms-auto">
+                    <select class="form-select mb-2" aria-label="Default select example">
+                        <option selected>Sort by Newest</option>
+                        <option value="1">Sort by Lowest Price</option>
+                        <option value="2">Sort by Most Popular</option>
+                        <option value="3">Sort by Latest</option>
+                    </select>
+                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <svg class="bi" width="16" height="24" fill="currentColor">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#filter" />
+                        </svg>
+                        Filter
+                    </button>
+                </div>
+            </div>
+            <div class="collapse mt-2" id="collapseExample">
+                <div class="card card-body">
+                    
+                </div>
+            </div>
+            <div class="container mt-4">
+                <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                    <div class="col">
+                        <partial name="_ProductCardLongStripPartial" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    
     <!-- /#page-content-wrapper -->
 </div>
 <!-- /#wrapper -->
