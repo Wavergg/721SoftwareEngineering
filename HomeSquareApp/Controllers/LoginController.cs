@@ -9,9 +9,9 @@ namespace HomeSquareApp.Controllers
 {
     public class LoginController : Controller
     {
-        public JsonResult SendEmail(string email)
+        public void SendEmail(string email)
         {
-            MailMessage message = new MailMessage("homesquare322@gmail.com", "ultimateformj@gmail.com");
+            MailMessage message = new MailMessage("homesquare322@gmail.com", email);
             message.Subject = "This is email confirmation from localhost grocery store HomeSquare";
             message.Body = "Hi friend, you have registered into our store for good";
 
@@ -23,8 +23,6 @@ namespace HomeSquareApp.Controllers
             };
             client.EnableSsl = true;
             client.Send(message);
-
-            return JsonResult(true);
         }
     }
 }

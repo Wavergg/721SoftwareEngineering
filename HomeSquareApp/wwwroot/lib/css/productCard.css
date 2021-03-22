@@ -4,6 +4,7 @@
         bottom: 0;
         width: 50%;
         border-bottom-left-radius: 0.25rem;
+        padding: 7px;
     }
 
     .product-bottom-right-btn {
@@ -13,6 +14,7 @@
         width: 50%;
         border-top: 1px solid #e3e3e3;
         border-bottom-right-radius: 0.25rem;
+        padding: 7px;
     }
 }
 

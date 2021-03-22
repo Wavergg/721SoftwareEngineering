@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Products";
+    ViewBag.NavbarExtension = true;
+}
+
+@section sidebarCss{ 
+    <link rel="stylesheet" href="~/lib/css/sidebar.css" />
+}
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-white border-right shadow pt-5" id="sidebar-wrapper">
+        <div class="container">
+            <h2 class="sidebar-heading text-center">All Products</h2>
+            <hr style="margin-bottom:0"/>
+        </div>
+        <div class="list-group">
+            <a href="#" class="p-3">Show All</a>
+            <a href="#" class="p-3">Fruits & Vegetable</a>
+            <a href="#" class="p-3">Home & Living</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container">
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- /#wrapper -->
+
+@section Scripts{
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+}

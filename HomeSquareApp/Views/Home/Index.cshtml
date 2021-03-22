@@ -3,7 +3,7 @@
 }
 <div class="mb-5">
     @* Carousel For Promotional ADS/PRODUCTS *@
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselExampleCaptions" class="carousel slide mb-2" data-bs-ride="carousel">
 
         <div class="carousel-indicators d-md-flex d-none" style="bottom:15%">
             <button style="width:10px;height:10px;margin:0 8px 0 0px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -11,20 +11,16 @@
             <button style="width:10px;height:10px;margin:0 0px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            @* Replace with actual image banner *@
-            <div class="carousel-item active">
+             @*Replace with actual image banner*@ 
+            <div class="carousel-item active" style="position:relative;top:-1px;left:-1px">
                 <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Beef-Banner.png" class="d-block w-100" alt="...">
-                @*<div class="carousel-caption d-none d-md-block" style="bottom:25%;">
-                        <button class="btn btn-outline-danger rounded-pill border border-secondary">Shop Now</button>
-                    </div>*@
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item" style="position:relative;top:-1px;left:-1px">
                 <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Chicken-Banner1.png" class="d-block w-100" alt="...">
 
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item" style="position:relative;top:-1px;left:-1px">
                 <img asp-append-version="true" src="~/lib/images/Fairfield-Meat-Market-Lamb-Banner.png" class="d-block w-100" alt="...">
-
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -36,7 +32,6 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
 
     <div class=" container d-flex justify-content-center p-0">
         <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
@@ -87,7 +82,7 @@
             <hr />
             <div class="owl-carousel owl-carouselRecipe">
                 @* NYD fill based on Model with model/viewdata*@
-                @for(int i = 0; i < 2; i++)
+                @for (int i = 0; i < 2; i++)
                 {
                     <partial name="_RecipeCardLargePartial" />
                 }
@@ -124,7 +119,7 @@
     </div>
 
     <div class="bg-light p-5 text-md-center text-justify">
-        <h1 >Home Square, Tedious shopping? <br/>Say no more</h1>
+        <h1>Home Square, Tedious shopping? <br />Say no more</h1>
         <div class="my-3 lead">
             <p>With our latest addition, shopping couldn't be made easier by just a click of a button</p>
             <p>That's because we value your time and the joy of our customer</p>
@@ -152,7 +147,7 @@
         <hr />
         <div class=" owl-carousel owl-carouselLatestProduct">
             @* NYD Pass In the model here model/viewdata *@
-            @for(int i = 0; i < 2; i++)
+            @for (int i = 0; i < 2; i++)
             {
                 <partial name="_ProductCardLongStripPartial" />
             }
