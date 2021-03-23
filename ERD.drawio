@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-23T00:58:37.496Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="R6pMBDGlhOiJMSBXtJth" version="14.4.8" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2021-03-23T01:00:07.826Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="mYMMcgLPQzYY7L-RVyyd" version="14.4.8" type="github" pages="2">
   <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
     <mxGraphModel dx="4321" dy="5210" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
       <root>
@@ -106,10 +106,10 @@
         <mxCell id="Y3l876_MyaWvfwNwq6_S-1" value="CategoryID char(50) NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;" parent="Y3l876_MyaWvfwNwq6_S-3" vertex="1">
           <mxGeometry x="30" y="140" width="210" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Y3l876_MyaWvfwNwq6_S-2" value="SupplierID char(50) NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;" parent="Y3l876_MyaWvfwNwq6_S-3" vertex="1">
+        <mxCell id="Y3l876_MyaWvfwNwq6_S-2" value="Description char(256)  NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;" parent="Y3l876_MyaWvfwNwq6_S-3" vertex="1">
           <mxGeometry x="30" y="170" width="210" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="DaK-mkfkvlvoENrRP1Ed-36" value="FK3" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;" vertex="1" parent="Y3l876_MyaWvfwNwq6_S-3">
+        <mxCell id="DaK-mkfkvlvoENrRP1Ed-36" value="" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;" vertex="1" parent="Y3l876_MyaWvfwNwq6_S-3">
           <mxGeometry y="169.9961538461538" width="30" height="34.61538461538461" as="geometry" />
         </mxCell>
         <mxCell id="DaK-mkfkvlvoENrRP1Ed-37" value="FK2" style="shape=partialRectangle;overflow=hidden;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;" vertex="1" parent="Y3l876_MyaWvfwNwq6_S-3">
