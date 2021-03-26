@@ -35,7 +35,7 @@
 
     <div class=" container d-flex justify-content-center p-0">
         <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
-            <a href="#">
+            <a asp-controller="Contact" asp-action="Index">
                 <svg class="bi text-dark" width="36" height="36">
                     <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person-fill" />
                 </svg>
@@ -183,13 +183,16 @@
         //Initialization
         owlOfferProduct.owlCarousel({
             loop: true,
-            items: 2,
+            margin:20,
             responsive: {
                 0: {
-                    margin: 20,
+                    items: 2,
                 },
-                600: {
-                    margin: 50,
+                577: {
+                    items:1,
+                },
+                769: {
+                    items: 2,
                 },
             }
         }

@@ -1,12 +1,4 @@
-﻿.clearfix:after, .clearfix:before {
-    content: '';
-    display: table
-}
-
-.clearfix:after {
-    clear: both;
-    display: block
-}
+﻿
 
 a {
     color: inherit;
@@ -111,6 +103,11 @@ a {
 
         .login-form .group .button {
             background: #1161ee;
+        }
+
+        .login-form .text-label {
+            color: #aaa;
+            font-size: 14px;
         }
 
         .login-form .group label .icon {

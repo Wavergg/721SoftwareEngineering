@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="~/lib/css/productCard.css" />
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
     @RenderSection("sidebarCss", required: false)
-    
+    @RenderSection("contactCss", required: false)
     <style>
         /*NYD MOVE THIS TO CSS FILE have to find better font?*/
         nav a {
@@ -87,7 +87,7 @@
         <header>
 
             @* Desktop navigation *@
-            <div class="navigation sticky container-fluid px-0 d-none d-md-block">
+            <div class="navigation sticky container-fluid px-0 d-none d-lg-block">
                 <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
                     @* Home link for logo *@
                     <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
@@ -124,7 +124,7 @@
             @* Desktop Navbar end *@
 
             @* Mobile Navbar start *@
-            <div id="mobileNav" class="navigation sticky d-md-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
+            <div id="mobileNav" class="navigation sticky d-lg-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
                 <div id="mobileLogoBarNav" class="pb-3 container-fluid text-center d-flex flex-row justify-content-center">
                     <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
                         <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" />
@@ -256,7 +256,7 @@
                             <hr />
                             <ul class="px-0">
                                 <li class="text-decoration-none">
-                                    <a href="#">Message Us</a>
+                                    <a asp-controller="Contact" asp-action="Index">Message Us</a>
                                 </li>
                                 <li>
                                     <a href="#">Partnership</a>

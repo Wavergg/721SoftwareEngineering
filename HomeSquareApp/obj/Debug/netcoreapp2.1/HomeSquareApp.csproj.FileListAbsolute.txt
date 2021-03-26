@@ -36,3 +36,4 @@ C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Product\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Recipe\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_RecipeCardThumbnailPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Contact\Index.cshtml.g.cs
