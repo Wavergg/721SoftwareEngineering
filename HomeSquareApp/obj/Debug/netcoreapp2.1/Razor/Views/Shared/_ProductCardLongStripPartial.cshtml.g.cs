@@ -60,7 +60,7 @@ using HomeSquareApp.Models;
             WriteLiteral("<div class=\"card\" style=\"min-height:420px;\">\r\n    <div class=\"px-3 align-items-center d-flex\" style=\"min-height:200px;\">\r\n        ");
             EndContext();
             BeginContext(155, 114, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "4b24d9ad781948afac2d96e61d5a313c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "f994883b064944528d2152015eae5e1a", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
