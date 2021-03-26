@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Recipe";
+}
+
+<div class="mb-5">
+    <div class="bg-dark" style="position:relative">
+        <div class="card-header" style="height:360px;opacity:0.4; background: url(lib/images/diy-food-background-5.jpg) no-repeat center;background-size: cover;">
+        </div>
+        <div class="text-white lead" style="font-size:1.5rem;position:absolute;left:5%;top:27%">
+            <h1 class="text-center text-md-start">Our Recipe</h1>
+            <p class="d-none d-md-block">
+                From classic kiwi recipes to dishes from all around the world,<br /> That cater for all diet, budgets, and taste.
+            </p>
+            <div class="input-group my-3">
+                <input id="searchRecipeInput" type="text" placeholder="Search Recipe">
+                <button class="btn btn-success" style="" type="button">
+                    <svg class="bi text-white" width="16" height="24">
+                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="text-white" style="height:10px;">
+        </div>
+    </div>
+    <div class="container-fluid pt-5 bg-white">
+        <div class="d-md-flex justify-content-center gx-2">
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Meals and Courses</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Occasion</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">All Recipes</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Diet and Lifestyle</button>
+        </div>
+        <div class="d-md-flex justify-content-center mt-5">
+            <h1 class="fw-bold">Recipes</h1>
+        </div>
+
+        <div class="collapse mt-2" id="collapseFilter">
+            <div class="card card-body">
+
+            </div>
+        </div>
+        <hr />
+        
+        <div class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3 mt-3 ">
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="col d-flex justify-content-center">
+                    <partial name="_RecipeCardThumbnailPartial" />
+                </div>
+            }
+        </div>
+        <div class="text-center my-3">
+            <button class="btn btn-success rounded-pill">More Recipe</button>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        //Recipe Carousel
+        //--------------------------------------------------------
+        var owlRecipe = $('.owl-carouselRecipe');
+        //Initialization
+        owlRecipe.owlCarousel({
+            loop: true,
+            margin: 150,
+            items: 1,
+        }
+        );
+        // Go to the next item
+        $('.recipeNextBtn').click(function () {
+            owlRecipe.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.recipePrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlRecipe.trigger('prev.owl.carousel', [300]);
+        })
+    </script>
+}

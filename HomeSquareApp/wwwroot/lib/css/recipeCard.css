@@ -3,10 +3,31 @@
     font-size: 1.5rem;
 }
 
+.cardRecipe-description {
+    margin-top: 1rem;
+    font-size: 0.8em;
+}
+
 .btn:hover {
     transform: scale(1.03)
 }
 
 .btn {
+    transition: ease-out 500ms
+}
+
+small,.small{
+    font-size: 0.75em;
+}
+
+a:hover{
+    color: #000;
+}
+
+.link-card:hover {
+    transform: scale(1.01)
+}
+
+.link-card {
     transition: ease-out 500ms
 }

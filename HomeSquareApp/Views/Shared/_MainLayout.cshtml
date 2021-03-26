@@ -116,7 +116,7 @@
                 </div>
                 <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="z-index:9">
                     <a asp-controller="Product" asp-action="Index" class="nav-ribbon">Products</a>
-                    <a class="nav-ribbon" href="#">Recipes</a>
+                    <a class="nav-ribbon" asp-controller="Recipe" asp-action="Index">Recipes</a>
                     <a class="nav-ribbon" href="#">Deals</a>
                     <a class="nav-ribbon" href="#">Our Stores</a>
                 </nav>
@@ -165,7 +165,7 @@
                         <a asp-controller="Product" asp-action="Index">
                             <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
                         </a>
-                        <a href="#">
+                        <a asp-controller="Recipe" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
                         </a>
                         <a href="#">
@@ -221,7 +221,7 @@
                             <hr />
                             <ul class="px-0">
                                 <li class="text-decoration-none">
-                                    <a href="#">Recipes</a>
+                                    <a asp-controller="Recipe" asp-action="Index">Recipes</a>
                                 </li>
                                 <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login / Sign up</a>

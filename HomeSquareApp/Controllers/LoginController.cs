@@ -9,6 +9,8 @@ namespace HomeSquareApp.Controllers
 {
     public class LoginController : Controller
     {
+        //Move this to models later
+        //If error is occured, SIT wifi might be the one to blame
         public void SendEmail(string email)
         {
             MailMessage message = new MailMessage("homesquare322@gmail.com", email);
