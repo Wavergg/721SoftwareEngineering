@@ -3,7 +3,8 @@
     ViewBag.NavbarExtension = true;
 }
 
-@section sidebarCss{ 
+@section pageSpecificCss{ 
+    <link rel="stylesheet" href="~/lib/css/productCard.css" />
     <link rel="stylesheet" href="~/lib/css/sidebar.css" />
 }
 
@@ -68,7 +69,7 @@
             </div>
             <hr />
             <div class="container mt-4">
-                <div class="row row-cols-2 row-cols-xl-4 g-2 g-lg-3">
+                <div class="row row-cols-sm-2 row-cols-xl-4 g-2 g-lg-3">
                     <div class="col">
                         <partial name="_ProductCardLongStripPartial" />
                     </div>

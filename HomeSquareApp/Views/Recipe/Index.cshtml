@@ -2,24 +2,15 @@
     ViewData["Title"] = "Recipe";
 }
 
+@section pageSpecificCss{ 
+    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+}
+
 <div class="mb-5">
     <div class="bg-dark" style="position:relative">
         <div class="card-header" style="height:360px;opacity:0.4; background: url(lib/images/diy-food-background-5.jpg) no-repeat center;background-size: cover;">
         </div>
-        @*<div class="text-white lead" style="font-size:1.5rem;position:absolute;left:5%;top:27%">
-            <h1 class="">Our Recipe</h1>
-            <p class="d-none d-md-block">
-                From classic kiwi recipes to dishes from all around the world,<br /> That cater for all diet, budgets, and taste.
-            </p>
-            <div class="input-group my-3 text-center">
-                <input class="w-75" id="searchRecipeInput" type="text" placeholder="Search Recipe">
-                <button class="btn btn-success" style="" type="button">
-                    <svg class="bi text-white" width="16" height="24">
-                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
-                    </svg>
-                </button>
-            </div>
-        </div>*@
+        
         <div class="text-white w-100 h-100 d-flex align-items-center" style="font-size:1.5rem;position:absolute;top:0">
             <div class="container">
                 <div class="col-lg-7">

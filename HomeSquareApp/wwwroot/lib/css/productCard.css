@@ -3,6 +3,7 @@
         position: absolute;
         bottom: 0;
         width: 50%;
+        height:inherit;
         border-bottom-left-radius: 0.25rem;
         padding: 7px;
     }

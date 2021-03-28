@@ -2,7 +2,7 @@
 
 @* product start *@
 <div class="card" style="min-height:420px;">
-    <div class="px-3 align-items-center d-flex" style="min-height:200px;">
+    <div class="px-3 align-items-center d-flex justify-content-center" style="min-height:200px;">
         <img class="img-fluid" src="~/lib/images/products/butter.png" asp-append-version="true" style="object-fit:cover"/>
     </div>
     <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
@@ -19,9 +19,9 @@
                 @* Price per unit *@
                 <span class="fw-normal">$14.00 / Ea.</span>
             </div>
-        </div>
+        </div>  
     </div>
-    <button class="btn btn-success rounded-0 product-bottom-left-btn">Details</button>
+    <a asp-controller="Product" asp-action="Details" asp-route-id="1" class="btn btn-success rounded-0 product-bottom-left-btn">Details</a>
     <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
 </div>
 @* product end *@

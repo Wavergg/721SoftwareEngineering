@@ -18,11 +18,9 @@
 
     @* Custom Css *@
     <link rel="stylesheet" href="~/lib/css/main.css" />
-    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
-    <link rel="stylesheet" href="~/lib/css/productCard.css" />
+    
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
-    @RenderSection("sidebarCss", required: false)
-    @RenderSection("contactCss", required: false)
+    @RenderSection("pageSpecificCss", required: false)
     <style>
         /*NYD MOVE THIS TO CSS FILE have to find better font?*/
         nav a {
@@ -106,7 +104,7 @@
                                 <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
                                 <button type="button" class="btn btn-outline-dark rounded-pill">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
-                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                                     </svg>
                                     <span>View Cart</span>
                                 </button>
@@ -135,7 +133,7 @@
                     <div class="col-auto">
                         <button type="button" class="btn rounded-0" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                             <svg class="bi text-white" width="36" height="54">
-                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#list" />
+                                <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#list" />
                             </svg>
                         </button>
                     </div>
@@ -143,14 +141,14 @@
                         @* NYD NEED TO REPLACE THE NAME *@
                         <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">
-                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
+                                <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
                             </svg>
                             <span>Login</span>
                         </button>
                         @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
                         <button type="button" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">
-                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
+                                <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                             </svg>
                             <span>0</span>
                         </button>
@@ -162,6 +160,9 @@
                         <partial name="_SearchBarPartial" />
 
                         @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
+                        <a asp-controller="Home" asp-action="Index">
+                            <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Home</div>
+                        </a>
                         <a asp-controller="Product" asp-action="Index">
                             <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
                         </a>
@@ -182,7 +183,7 @@
                     {
                         <button class="btn btn-light bg-white border rounded-circle m-2" id="menu-toggle">
                             <svg class="bi" width="16" height="24" fill="currentColor">
-                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                                <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
                             </svg>
                         </button>
                     }
@@ -231,17 +232,17 @@
                             <div>
                                 <a href="#" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
-                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#facebook" />
+                                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#facebook" />
                                     </svg>
                                 </a>
                                 <a href="#" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
-                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#twitter" />
+                                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#twitter" />
                                     </svg>
                                 </a>
                                 <button type="button" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
-                                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#instagram" />
+                                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#instagram" />
                                     </svg>
                                 </button>
                             </div>
