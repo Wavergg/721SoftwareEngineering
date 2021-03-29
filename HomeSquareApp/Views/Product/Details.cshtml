@@ -6,6 +6,7 @@
     }
 
     @section pageSpecificCss{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/lib/Chart.js/Chart.css" />
     <link rel="stylesheet" href="~/lib/css/productDetails.css" />
     <link rel="stylesheet" href="~/lib/css/magnifier.css" />
@@ -46,14 +47,17 @@
     <div class="mt-5">
         <ul class="nav nav-tabs justify-content-center" id="productTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="productInfo-tab" data-bs-toggle="tab" data-bs-target="#productInfo" type="button" role="tab" aria-controls="productInfo" aria-selected="true">Product Information</button>
+                <button class="nav-link " id="productInfo-tab" data-bs-toggle="tab" data-bs-target="#productInfo" type="button" role="tab" aria-controls="productInfo" aria-selected="false">Product Information</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="statiscic-tab" data-bs-toggle="tab" data-bs-target="#statiscic" type="button" role="tab" aria-controls="statiscic" aria-selected="false">Statistic</button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="rating-tab" data-bs-toggle="tab" data-bs-target="#rating" type="button" role="tab" aria-controls="rating" aria-selected="true">Rating</button>
+            </li>
         </ul>
-        <div class="tab-content bg-light" id="productTabContent">
-            <div class="tab-pane fade show active" id="productInfo" role="tabpanel" aria-labelledby="productInfo-tab">
+        <div class="tab-content bg-light" id="productTabContent" style="min-height:450px;">
+            <div class="tab-pane fade" id="productInfo" role="tabpanel" aria-labelledby="productInfo-tab">
                 <div class="container py-5">
                     <dl class="row">
                         <dt class="col-sm-3">Description lists</dt>
@@ -84,8 +88,76 @@
             <div class="tab-pane fade" id="statiscic" role="tabpanel" aria-labelledby="statiscic-tab">
                 <div class="container py-5">
                     <div class="row justify-content-center">
-                        <div class="col-md-5">
-                            <canvas id="myChart" width="400" height="400"></canvas>
+                        <div class="col-md-6">
+                            <canvas width="580" height="400" id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="rating-tab">
+                <div class="container py-5">
+                    <span class="heading">User Rating</span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <p>4.1 average based on 254 reviews.</p>
+                    <div class="row">
+                        <div class="side">
+                            <div>5 star</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-5"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>150</div>
+                        </div>
+                        <div class="side">
+                            <div>4 star</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-4"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>63</div>
+                        </div>
+                        <div class="side">
+                            <div>3 star</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-3"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>15</div>
+                        </div>
+                        <div class="side">
+                            <div>2 star</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-2"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>6</div>
+                        </div>
+                        <div class="side">
+                            <div>1 star</div>
+                        </div>
+                        <div class="middle">
+                            <div class="bar-container">
+                                <div class="bar-1"></div>
+                            </div>
+                        </div>
+                        <div class="side right">
+                            <div>20</div>
                         </div>
                     </div>
                 </div>
@@ -94,12 +166,18 @@
     </div>
 
     <div class="container mt-5">
-        <a href="#" class="text-primary fw-bold">Log in</a> to post Review
+        <h2>Reviews</h2>
+        <a href="#" class="text-primary fw-bold">Log in</a> to post review
         <div class="text-muted">
-            
-            <hr class=""/>
+            <hr class="" />
+        </div>
+        <div class="bg-light">
+            @for(int i = 0; i < 3; i++) { 
+                <partial name="_reviewCardPartial" />
+            }
         </div>
     </div>
+    
 </div>
 
 @section Scripts {
@@ -133,10 +211,10 @@
             },
             options: {
                 responsive: true,
-                title: {
-                    display: true,
-                    text: 'Items bought per week'
-                },
+                //title: {
+                //    display: true,
+                //    text: 'Items bought per week'
+                //},
                 tooltips: {
                     mode: 'index',
                     intersect: false,
