@@ -1,0 +1,68 @@
+﻿@model int
+@*NYD Replace title later with strongly typed data*@
+@{
+    ViewData["Title"] = @Model + "Recipe Details";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+}
+
+<div class="bg-light pb-5">
+    <div class="container pt-5">
+        <div class="card d-flex flex-md-row">
+            <section class="order-md-0 order-1 col-md-6">
+                <div class="m-5">
+                    <small class="text-muted">Lunch | Dinner</small>
+                    <h1 class="fw-bold">Recipe title can be quite long for this one</h1>
+                    <div class="d-flex">
+
+                    </div>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </div>
+            </section>
+            <section class="img-sm-fixed-height order-md-1 order-0 col-md-6 bg-light d-flex align-items-stretch">
+                @* Play around with object-fit to get wanted result *@
+                @* either contain or cover would be good *@
+                <img class="w-100" src="~/lib/images/waffle.jpg" style="object-fit:contain;" />
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 d-md-flex">
+    <div class="card rounded-3 col-md-5 pt-5">
+        <h2 class="px-5">Ingredients</h2>
+        <div class="px-5">
+            @*NYD Loop This Ingredients *@
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="border-bottom border-muted py-3">
+                    100 tbs tea
+                </div>
+            }
+        </div>
+        <button class="btn btn-success mt-3 rounded-0 rounded-bottom">Get All Items</button>
+    </div>
+
+    <div class="container rounded-3 col-md-6 offset-md-1 mt-5 mt-md-0">
+        <h2>Steps</h2>
+        @*NYD Loop this steps *@
+        <div class="d-flex flex-column gap-2">
+            @for (int i = 0; i < 4; i++)
+            {
+                <div class="card pt-5 pb-4 px-4">
+                    <div class="position-absolute start-0 top-0 mx-4 mt-3">
+                        <small class="fw-bold">Step @(i+1)</small>
+                    </div>
+                    <div>
+                        Boil water on the pan
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

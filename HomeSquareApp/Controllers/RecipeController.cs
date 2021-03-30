@@ -12,5 +12,13 @@ namespace HomeSquareApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Details(int id)
+        {
+            //NYD Do DB QUERY HERE
+
+            //NYD Replace with Strongly typed model later
+            return View(id);
+        }
     }
 }

@@ -36,7 +36,8 @@
                 </small>
             </div>
         </div>
-        <a href="#" class="btn btn-danger text-white form-control">Go to Recipe</a>
+        @*NYD Change it with strongly typed ID later, Do it on Recipe Card Thumbnail Partial as well *@
+        <a asp-controller="Recipe" asp-action="Details" asp-route-id="1" class="btn btn-danger text-white form-control">Go to Recipe</a>
     </div>
 </div>
 @* CardEnd *@

@@ -1,11 +1,13 @@
 ﻿@model int
 
-@{ 
-        ViewData["Title"] = "Product Name";
-        int[] objectTestData = new int[6] { 560,230,90,400,722,200};
-    }
+@* Replace later with STRONGLY TYPED VIEW DATA *@
+@{
+    ViewData["Title"] = Model;
+    int[] objectTestData = new int[6] { 560, 230, 90, 400, 722, 200 };
+    bool isLoggedIn = true;
+}
 
-    @section pageSpecificCss{
+@section pageSpecificCss{
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/lib/Chart.js/Chart.css" />
     <link rel="stylesheet" href="~/lib/css/productDetails.css" />
@@ -167,17 +169,50 @@
 
     <div class="container mt-5">
         <h2>Reviews</h2>
-        <a href="#" class="text-primary fw-bold">Log in</a> to post review
+        @* NYD Use user role here *@
+        @if (!isLoggedIn) {
+            <div>
+                <a href="#" class="text-primary fw-bold">Log in</a> to post review
+            </div>
+        } else { 
+            <div class="d-md-flex">
+                <div class="px-md-5 px-4 py-md-4 pt-2 align-items-center d-flex">
+                    <img src="~/lib/images/users/blank-profile.png" class="rounded-circle" style="height:50px;width:50px" />
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <form action="">
+                        <div class="stars">
+                            <input class="star star-5" id="star-5" type="radio" name="star" />
+                            <label class="star star-5" for="star-5"></label>
+                            <input class="star star-4" id="star-4" type="radio" name="star" />
+                            <label class="star star-4" for="star-4"></label>
+                            <input class="star star-3" id="star-3" type="radio" name="star" />
+                            <label class="star star-3" for="star-3"></label>
+                            <input class="star star-2" id="star-2" type="radio" name="star" />
+                            <label class="star star-2" for="star-2"></label>
+                            <input class="star star-1" id="star-1" type="radio" name="star" />
+                            <label class="star star-1" for="star-1"></label>
+                        </div>
+                        <div class="form-floating">
+                            <textarea onkeyup="textAreaAdjust(this)" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2" class="text-muted">Enter Your Review</label>
+                        </div>
+                        <button class="btn btn-success mt-2">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        }
         <div class="text-muted">
             <hr class="" />
         </div>
         <div class="bg-light">
-            @for(int i = 0; i < 3; i++) { 
+            @for (int i = 0; i < 3; i++)
+            {
                 <partial name="_reviewCardPartial" />
             }
         </div>
     </div>
-    
+
 </div>
 
 @section Scripts {
@@ -190,23 +225,23 @@
                 labels: ['21 Feb', '28 Feb', '7 Mar', '14 Mar', '21 Mar', '28 Mar'],
                 datasets:
                     [{
-                    lineTension: 0.1,
-                    label: '# of purchase',
-                    fill: true,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
-                    data: [
-                        '12',
-                        13,
-                        65,
-                        59,
-                        20,
-                        21
-                    ],
+                        lineTension: 0.1,
+                        label: '# of purchase',
+                        fill: true,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                        ],
+                        data: [
+                            '12',
+                            13,
+                            65,
+                            59,
+                            20,
+                            21
+                        ],
                     }],
             },
             options: {
@@ -247,9 +282,9 @@
             window.myLine = new Chart(ctx, config);
         };
     </script>
-    
-    @* Script For magnifier on product, 
-       commented the zommable: true because it could be a bad HCI *@
+
+    @* Script For magnifier on product,
+        commented the zommable: true because it could be a bad HCI *@
     <script src="~/lib/js/event.js"></script>
     <script src="~/lib/js/magnifier.js"></script>
     <script>
@@ -267,5 +302,11 @@
             onthumbleave: function () {
             },
         });
+    </script>
+    <script>
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25 + element.scrollHeight) + "px";
+        }
     </script>
 }

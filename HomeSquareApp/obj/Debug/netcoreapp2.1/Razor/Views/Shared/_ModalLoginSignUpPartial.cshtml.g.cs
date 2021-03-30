@@ -72,7 +72,7 @@ using HomeSquareApp.Models;
             WriteLiteral("                            ");
             EndContext();
             BeginContext(1026, 1916, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "98438b6e03b04c9d9993fb622764ba85", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b87bf0c0564f4e0780f8bb735c627856", async() => {
                 BeginContext(1032, 308, true);
                 WriteLiteral(@"
                                 <div style=""background-color: #ffcccb"">
@@ -131,7 +131,7 @@ using HomeSquareApp.Models;
                             ");
             EndContext();
             BeginContext(3716, 4626, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e8d48957aff740f5adb16edaba0f54db", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "44003b1156bc46d8a6b9f9e532499a66", async() => {
                 BeginContext(3722, 4613, true);
                 WriteLiteral(@"
                                 <div id=""signUpGroup1"">
