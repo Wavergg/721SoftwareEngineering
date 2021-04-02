@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-30T01:12:00.688Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="Y4xwfYJopmViPE1w7oan" version="14.5.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-02T04:44:07.228Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36" etag="Xt_JAZKMpwezwtZo_KG7" version="14.5.4" type="github">
   <diagram id="EjAZyQlA9bi8Vssz96Cd" name="Page-1">
-    <mxGraphModel dx="2940" dy="655" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2444" dy="393" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -52,7 +52,7 @@
         <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="7hNnC6W6OJ4gPRdMk0Qo-12" target="7hNnC6W6OJ4gPRdMk0Qo-23" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-12" value="Recipe Details" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-12" value="Recipe Details" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#ffffff;" parent="1" vertex="1">
           <mxGeometry x="-10" y="660" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="7hNnC6W6OJ4gPRdMk0Qo-13" target="7hNnC6W6OJ4gPRdMk0Qo-50" edge="1">
@@ -111,7 +111,7 @@
         <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="7hNnC6W6OJ4gPRdMk0Qo-37" target="7hNnC6W6OJ4gPRdMk0Qo-39" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-37" value="Forgot password Page" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-37" value="Forgot password Page" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#ffffff;" parent="1" vertex="1">
           <mxGeometry x="530" y="200" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="7hNnC6W6OJ4gPRdMk0Qo-39" value="Add function on forgot pass" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
