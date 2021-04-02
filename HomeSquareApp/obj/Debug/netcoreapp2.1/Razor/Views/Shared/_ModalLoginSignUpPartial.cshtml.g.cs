@@ -70,7 +70,7 @@ using HomeSquareApp.Models;
             WriteLiteral("                            ");
             EndContext();
             BeginContext(1012, 1916, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f21b211bd2444e5ead5b443421f3a472", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "99821d85a8d24925b62891ea339af4d5", async() => {
                 BeginContext(1018, 308, true);
                 WriteLiteral(@"
                                 <div style=""background-color: #ffcccb"">
@@ -129,7 +129,7 @@ using HomeSquareApp.Models;
                             ");
             EndContext();
             BeginContext(3711, 4626, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b9a3d0ecc99a41c99f251000bb2aebab", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "27c6526bbf3548a4a62cb70f364bd7b2", async() => {
                 BeginContext(3717, 4613, true);
                 WriteLiteral(@"
                                 <div id=""signUpGroup1"">
@@ -210,7 +210,7 @@ using HomeSquareApp.Models;
             WriteLiteral("\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"login-html animationToggleVisible\" id=\"passwordPanel\" hidden>\r\n                    <div class=\"login-form\">\r\n                        ");
             EndContext();
             BeginContext(8584, 1184, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "754338a27b3643a0ac849ff9cc0a9c50", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d180a9be931c4ff6a909da26f0aa9fe4", async() => {
                 BeginContext(8590, 310, true);
                 WriteLiteral(@"
                             <h3 class=""fw-bold "">Password Reset</h3>

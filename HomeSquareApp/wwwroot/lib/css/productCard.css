@@ -1,4 +1,4 @@
-﻿@media only screen and (min-width: 768px) {
+﻿@media only screen and (min-width: 1200px) {
     .product-bottom-left-btn {
         position: absolute;
         bottom: 0;
@@ -19,7 +19,7 @@
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1199.98px) {
     .product-bottom-left-btn {
         border-radius: 0 0 0 0;
     }

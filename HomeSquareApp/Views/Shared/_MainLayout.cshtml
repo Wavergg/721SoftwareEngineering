@@ -100,7 +100,7 @@
                             <div class="d-flex justify-content-md-end justify-content-between">
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
                                 <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
-                                <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-dark rounded-pill">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-outline-dark rounded-pill">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                                     </svg>
@@ -127,7 +127,7 @@
                     </a>
                 </div>
 
-                <div id="mobileNavBar" class=" container-fluid px-0" style="background-color: #0F6B41">
+                <div id="mobileNavBar" class="container-fluid px-0" style="background-color: #0F6B41">
                     <div class="col-auto">
                         <button type="button" class="btn rounded-0" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                             <svg class="bi text-white" width="36" height="54">
@@ -144,7 +144,7 @@
                             <span>Login</span>
                         </button>
                         @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
-                        <a asp-controller="Cart" asp-action="Index" class="btn btn-light rounded-pill me-2">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">
                                 <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                             </svg>
@@ -152,7 +152,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <div class="mt-3 collapse navbar-collapse" id="navbarsExampleDefault">
                     <div class="container-fluid">
                         @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
                         <partial name="_SearchBarPartial" />
@@ -189,7 +189,7 @@
             </div>
             @* mobile nav end *@
         </header>
-        
+
         <main id="elementMain">
             @RenderBody()
         </main>
@@ -274,9 +274,12 @@
                 <small>Copyright &copy; 2021 Home Square. All right reserved.</small>
             </div>
         </footer>
+
     </div>
+
     <!-- Signup and Login Modal -->
     <partial name="_ModalLoginSignUpPartial" />
+    <partial name="_ModalCartPartial" />
 
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
@@ -313,7 +316,7 @@
             if (window.scrollY > mobileNav.offsetHeight) {
                 mobileNav.classList.add("pt-0");
                 mobileLogoBarNav.classList.add("d-none");
-                
+
             } else {
                 mobileLogoBarNav.classList.remove("d-none");
                 mobileNav.classList.remove("pt-0");
@@ -326,7 +329,7 @@
         //**************************
         document.addEventListener("DOMContentLoaded", function (event) {
             var navBarDesktopHeight = document.getElementsByClassName("sticky")[0].offsetHeight;
-            
+
             var navBarMobileBrandHeight = document.getElementById('mobileLogoBarNav').offsetHeight;
             var navBarMobileHeight = document.getElementById('mobileNavBar').offsetHeight;
             var mobileNavBarExtension = document.getElementById("mobileNavBarExtension");
@@ -335,7 +338,7 @@
 
         $(window).resize(function () {
             var navBarDesktopHeight = document.getElementsByClassName("sticky")[0].offsetHeight;
-           
+
             var navBarMobileBrandHeight = document.getElementById('mobileLogoBarNav').offsetHeight;
             var navBarMobileHeight = document.getElementById('mobileNavBar').offsetHeight;
             var mobileNavBarExtension = document.getElementById("mobileNavBarExtension");

@@ -40,4 +40,4 @@ C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Product\details.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ReviewCardPartial.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Recipe\Details.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Cart\Index.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ModalCartPartial.cshtml.g.cs

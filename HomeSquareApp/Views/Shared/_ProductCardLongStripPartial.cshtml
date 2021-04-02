@@ -15,7 +15,7 @@
     <div class="badge rounded-0 rounded-end" style="position:absolute;left:-1px;top:0;">Special</div>
     <div class="product-details pt-1">
         <a href="#" class="product-link">No one has ever produced such good quality butter</a>
-        <div class="d-flex align-items-center mt-3">
+        <div class="d-flex align-items-center mt-3 mt-md-0 mt-lg-3">
             <div>
                 @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
                 <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
@@ -29,6 +29,6 @@
         </div>  
     </div>
     <a asp-controller="Product" asp-action="Details" asp-route-id="1" class="btn btn-success rounded-0 product-bottom-left-btn">Details</a>
-    <button class="btn btn-outline-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
+    <button class="btn btn-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
 </div>
 @* product end *@

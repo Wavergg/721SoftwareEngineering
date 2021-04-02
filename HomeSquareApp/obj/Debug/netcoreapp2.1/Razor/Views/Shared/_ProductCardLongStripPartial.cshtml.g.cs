@@ -65,7 +65,7 @@ using HomeSquareApp.Models;
             WriteLiteral("<div class=\"card\" style=\"min-height:420px;\">\r\n    <div class=\"px-3 align-items-center d-flex justify-content-center position-relative\" style=\"min-height:200px;\">\r\n        ");
             EndContext();
             BeginContext(196, 114, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "1981ff6e646d4d6f944b9503317e0bae", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "2c82c0821ea0438ba44cc527ab614639", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -117,7 +117,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper.AppendVersion = true;
             WriteLiteral("                <span class=\"fw-normal\">$14.00 / Ea.</span>\r\n            </div>\r\n        </div>  \r\n    </div>\r\n    ");
             EndContext();
             BeginContext(1716, 135, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "be1d0cceda614092983443937b8612a6", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cfa44308bde34195af28b26c62c46980", async() => {
                 BeginContext(1840, 7, true);
                 WriteLiteral("Details");
                 EndContext();

@@ -73,7 +73,7 @@
         <div class="col-md-6">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="h2 mb-0">Featured Cooking Recipe</h2>
-                <div>
+                <div class="d-flex gap-1">
                     <button class="recipePrevBtn bg-success btn btn-sm rounded" style="height:32px">
                         <svg class="bi text-white" width="16" height="24">
                             <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
@@ -98,10 +98,10 @@
         @* Recipe End *@
 
         @* Special product start *@
-        <div class="col-md-5 offset-md-1">
+        <div class="col-md-5 offset-md-1 g-2">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="h2 mb-0">Super Price Of The Week</h2>
-                <div>
+                <div class="d-flex gap-1">
                     <button class="productPrevBtn bg-success btn btn-sm rounded" style="height:32px">
                         <svg class="bi text-white" width="16" height="24">
                             <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
@@ -190,13 +190,13 @@
         //Initialization
         owlOfferProduct.owlCarousel({
             loop: true,
-            margin: 20,
+            margin: 10,
             responsive: {
                 0: {
                     items: 2,
                 },
                 577: {
-                    items: 1,
+                    items: 2,
                 },
                 769: {
                     items: 2,
