@@ -100,12 +100,12 @@
                             <div class="d-flex justify-content-md-end justify-content-between">
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
                                 <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
-                                <button type="button" class="btn btn-outline-dark rounded-pill">
+                                <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-dark rounded-pill">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                                     </svg>
                                     <span>View Cart</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -144,12 +144,12 @@
                             <span>Login</span>
                         </button>
                         @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
-                        <button type="button" class="btn btn-light rounded-pill me-2">
+                        <a asp-controller="Cart" asp-action="Index" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">
                                 <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                             </svg>
                             <span>0</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">

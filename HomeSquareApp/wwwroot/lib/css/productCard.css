@@ -91,3 +91,7 @@
     .product-link:hover {
         color: #0F6B41;
     }
+
+.fa-star.checked{
+    color: orange;
+}

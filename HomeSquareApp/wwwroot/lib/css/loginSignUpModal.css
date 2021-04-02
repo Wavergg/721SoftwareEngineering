@@ -25,7 +25,7 @@ a {
 
 
     .login-html .sign-in-htm,
-    .login-html .sign-up-htm {
+    .login-html .sign-up-htm{
         top: 0;
         left: 0;
         right: 0;
@@ -166,6 +166,8 @@ a {
     transform: rotate(0);
 }
 
+
+
 .hr {
     height: 2px;
     margin: 60px 0 50px 0;
@@ -193,3 +195,14 @@ a {
         background: #fff;
     }
 }
+
+/*Enter animation*/
+.animationToggleVisible {
+    position:absolute;
+    transform: translateY(0);
+    transition: transform ease-out 0.3s;
+}
+
+    .animationToggleVisible.is-visible {
+        transform: translateY(100%);
+    }

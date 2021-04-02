@@ -4,11 +4,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                
             </div>
             <div class="login-wrap">
-                
-                <div class="login-html">
+                <div class="login-html" id="loginSignUpPanel">
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab" style="cursor:pointer">Sign In</label>
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="cursor:pointer">Sign Up</label>
                     <div class="login-form">
@@ -44,7 +42,7 @@
                             </form>
 
                             <div class="foot-lnk">
-                                <a href="#forgot">Forgot Password?</a>
+                                <a onclick="togglePanel()">Forgot Password?</a>
                             </div>
                         </div>
                         @* SignUp / Register AREA *@
@@ -113,6 +111,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="login-html animationToggleVisible" id="passwordPanel" hidden>
+                    <div class="login-form">
+                        <form>
+                            <h3 class="fw-bold ">Password Reset</h3>
+                            <div class="alert alert-warning d-none" id="resetPasswordConfirmationPrompt">
+                                Email to reset your password has been sent to <span id="userEmail">ultimateformj@gmail.com</span>
+                                @*Did not receive any email? <a href="#" class="text-decoration-underline">Resend link</a>*@
+                            </div>
+                            <div class="group mt-5">
+                                <label for="emailResetPassword" class="label">Your Email</label>
+                                <input id="emailResetPassword" type="email" class="input" required>
+                            </div>
+                            <div class="group">
+                                <button type="submit" class="btn btn-primary form-control rounded-pill">Reset Password</button>
+                                <button onclick="togglePanel()" type="button" class="mt-3 btn btn-light border-secondary form-control rounded-pill">Back To Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -125,7 +142,7 @@
         var emailElement = document.getElementById('emailSignup');
         var passwordElement = document.getElementById('passwordSignup')
         var confirmPasswordElement = document.getElementById('confirmPasswordSignup');
-        
+
         var firstNameElement = document.getElementById('firstNameSignup');
         var lastNameElement = document.getElementById('lastNameSignup');
         var addressElement = document.getElementById('addressSignup');
@@ -139,13 +156,12 @@
         }
 
         if (checkEmptyValue(firstNameElement) && checkEmptyValue(lastNameElement) &&
-            checkEmptyValue(addressElement) && checkEmptyValue(phoneElement) )
-        {
+            checkEmptyValue(addressElement) && checkEmptyValue(phoneElement)) {
             //NYD Send data here, WITH AJAX
 
             $.ajax({
                 url: "Login/SendEmail",
-                data: { email: emailElement.value}
+                data: { email: emailElement.value }
             }).done(function () {
                 document.getElementById('userEmail').innerHTML = email;
             });
@@ -155,7 +171,7 @@
         }
     }
 
-    
+
     function nextSignup() {
         var emailElement = document.getElementById('emailSignup');
         var passwordElement = document.getElementById('passwordSignup')
@@ -190,7 +206,7 @@
             element.classList.add('border');
             element.classList.add('border-danger');
             return false;
-        } 
+        }
         element.classList.remove('border');
         element.classList.remove('border-danger');
         return true;
@@ -248,5 +264,19 @@
 
     function openSignUp() {
         document.getElementById('tab-2').checked = true;
+    }
+
+    var count = 0;
+    function togglePanel() {
+        var loginPanel = document.getElementById('loginSignUpPanel')
+        var passwordPanel = document.getElementById('passwordPanel')
+        if (count % 2 == 0) {
+            passwordPanel.removeAttribute('hidden');
+            loginPanel.setAttribute('hidden',true);
+        } else {
+            loginPanel.removeAttribute('hidden');
+            passwordPanel.setAttribute('hidden',true);
+        }
+        count++;
     }
 </script>
