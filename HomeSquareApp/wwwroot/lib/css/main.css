@@ -2,6 +2,10 @@
     font-family: Alef
 }
 
+ul {
+    list-style-type: none;
+}
+
 .moveSlightlyY-animation {
     transition: transform 500ms;
     will-change: transform;
@@ -19,6 +23,29 @@
     transition: ease-out 500ms
 }
 
+
+
+/*Footer*/
+footer a {
+    text-decoration: none;
+    color: #212529;
+    font-size: 14px;
+}
+
+    footer a:hover {
+        color: gray;
+    }
+
+footer .btn:hover {
+    background-color: gray;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    .footer-right-separator {
+        border-right: 1px solid darkgray;
+    }
+}
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -46,6 +73,8 @@
         width: 46% !important;
     }
 }
+
+
 
 /*Input number*/
 input[type="number"] {

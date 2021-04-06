@@ -11,16 +11,14 @@
 
     @* bootstrap *@
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
-    @* owl carousel*@
-    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.carousel.css">
-    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.theme.default.css">
 
     @* Custom Css *@
     <link rel="stylesheet" href="~/lib/css/main.css" />
+    
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
+    
     @RenderSection("pageSpecificCss", required: false)
-    <style>
-        /*NYD MOVE THIS TO CSS FILE have to find better font?*/
+<style>
         nav a {
             text-decoration: none;
             color: #ffffff;
@@ -41,40 +39,13 @@
             font-weight: bold;
         }
 
-        ul {
-            list-style-type: none;
-        }
-
-        footer a {
-            text-decoration: none;
-            color: #212529;
-            font-size: 14px;
-        }
-
-            footer a:hover {
-                color: gray;
-            }
-
-        footer .btn:hover {
-            background-color: gray;
-            border: none;
-        }
-
-        @@media (min-width: 768px) {
-            .footer-right-separator {
-                border-right: 1px solid darkgray;
-            }
-        }
-
         .sticky {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 3;
         }
-
-        
-    </style>
+</style>
 </head>
 <body>
     @* Cover it in #app for VUE.JS *@
@@ -188,6 +159,8 @@
                 </nav>
             </div>
             @* mobile nav end *@
+
+
         </header>
 
         <main id="elementMain">
@@ -274,8 +247,8 @@
                 <small>Copyright &copy; 2021 Home Square. All right reserved.</small>
             </div>
         </footer>
-
     </div>
+
 
     <!-- Signup and Login Modal -->
     <partial name="_ModalLoginSignUpPartial" />
@@ -296,8 +269,8 @@
             methods: {
                 updateSearchCategories: function (event) {
                     this.searchCategories = event.target.value;
-                }
-            }
+                },
+            },
         })
     </script>
 

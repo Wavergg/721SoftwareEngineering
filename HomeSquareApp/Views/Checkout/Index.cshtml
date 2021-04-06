@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/css/checkOut.css" />
+}
+
+
+
+
+<div class="container py-5 text-dark" id="checkoutFormContainer">
+    <h1 style="font-size:22px">Checkout <span class="text-muted">(2 Items)</span></h1>
+    <div class="d-md-flex">
+        <div class="col-md-8">
+            <form name="checkoutForm" class="bg-white py-5 px-3 px-md-5 checkOut-Card" id="checkoutForm">
+                <span id="progressBarCheckoutPrompt">1/2</span>
+                <div class="progress mb-3" style="height: 1px;">
+                    <div id="progressCheckout" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+                @* Delivery Options Start *@
+                <div class="step step-1 active">
+
+                    <h2 class="fw-bold">Select Delivery Options</h2>
+                    <div class="d-md-flex gap-md-2 mt-5">
+                        <div class="radio-Card col-md-6">
+                            <input id="delivery" name="deliveryOptions" type="radio" checked>
+                            <label for="deliveryOptions" class=" h-100 d-flex flex-column ">
+                                <span class="mx-4 mt-4 radio-Card-Header">Delivery</span>
+                                <span class="mt-3 mx-4">We will deliver the items to your door</span>
+                            </label>
+                        </div>
+                        <div class="radio-Card col-md-6 mt-md-0 mt-2">
+                            <input id="pickup" name="deliveryOptions" type="radio">
+                            <label for="deliveryOptions" class=" h-100 d-flex flex-column ">
+                                <span class="mx-4 mt-4 radio-Card-Header">Pickup</span>
+                                <span class="mt-3 mx-4">Pick up your items on our store</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <h2 class="fw-bold mt-5">Your Details</h2>
+                    <div class="row g-2 mt-3">
+                        <div class="mb-3 col-6">
+                            <label for="inputFirstName" class="form-label">First Name</label>
+                            <input type="text" class="bg-light rounded-pill form-control" id="inputFirstName" aria-describedby="firstName">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label for="inputLastName" class="form-label">Last Name</label>
+                            <input type="text" class="bg-light rounded-pill form-control" id="inputLastName" aria-describedby="lastName">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" placeholder="cantoso@@hotmail.com" class="bg-light rounded-pill form-control" id="inputEmail" aria-describedby="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPhone" class="form-label">Phone Number</label>
+                        <input type="tel" placeholder="+6427272990" class="bg-light rounded-pill form-control" id="inputPhone" aria-describedby="phoneNumber">
+                    </div>
+
+                    @* Show this if "Delivery" is selected *@
+                    <div id="DeliveryInfo">
+                        <h2 class="fw-bold mt-5">Delivery Information</h2>
+                        <div class="mb-3">
+                            <label for="inputAddress" class="form-label">Delivery Address</label>
+                            <input type="text" class="bg-light rounded-pill form-control" id="inputAddress" aria-describedby="address">
+                        </div>
+                        <div class="row g-2 mt-3">
+                            <div class="mb-3 col-6">
+                                <label for="inputSuburb" class="form-label">Suburb</label>
+                                <input type="text" class="bg-light rounded-pill form-control" id="inputSuburb" aria-describedby="suburb">
+                            </div>
+                            <div class="mb-3 col-4">
+                                <label for="inputZipCode" class="form-label">ZipCode</label>
+                                <input type="number" placeholder="0000" class="bg-light rounded-pill form-control" id="inputZipCode" aria-describedby="zipCode">
+                            </div>
+                            <div class="mb-3 col-2">
+                                <label for="inputUnitNumber" class="form-label">Unit #</label>
+                                <input type="number" placeholder="000" class="bg-light rounded-pill form-control" id="inputUnitNumber" aria-describedby="unitNumber">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-success float-end w-25 next-btn">Next</button>
+                    </div>
+                </div>
+                @* Delivery Options End *@
+
+                @* Card Information Start *@
+                <div class="step step-2">
+                    <h2 class="fw-bold">Payment</h2>
+                    <label for="fname">Accepted Cards</label>
+                    <div class="icon-container">
+                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                    </div>
+
+                    <div class="mt-4 mb-3">
+                        <label for="inputCardName" class="form-label">Name on Card</label>
+                        <input type="text" name="cardName" class="bg-light rounded-pill form-control" id="inputCardName" aria-describedby="cardName">
+                    </div>
+                    <div class="mb-3    ">
+                        <label for="inputCreditCardNumber" class="form-label">Credit card number</label>
+                        <input type="text" name="creditCardNumber" placeholder="1111-2222-3333-4444" class="bg-light rounded-pill form-control" id="inputCreditCardNumber" aria-describedby="creditCardNumber">
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex">
+                            <div class="flex-fill">
+                                <label for="inputExpiryDate" class="form-label">Expiry Date</label>
+
+                                <div class="d-flex gap-2">
+                                    <input type="text" style="width:60px" name="expiryMonth" placeholder="MM" class="bg-light rounded-3 form-control" id="inputExpiryDate" aria-describedby="expiryMonth">
+                                    <span style="font-size:22px">/</span>
+                                    <input type="text" style="width:60px" name="expiryYear" placeholder="YY" class="bg-light rounded-3 form-control" id="inputExpiryYear" aria-describedby="expiryYear">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputCVV" class="form-label">CVV</label>
+                                <input type="text" style="width:60px" name="CVV" placeholder="000" class="bg-light rounded-3 form-control" id="inputCVV" aria-describedby="CVV">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-light float-start w-25 prev-btn">Prev</button>
+                        <button type="submit" class="btn btn-dark float-end">Submit Order</button>
+                    </div>
+                </div>
+                @* Card Information End *@
+            </form>
+        </div>
+        <div class="col-md-4 bg-light px-md-5 px-3 py-4 ms-md-3 mt-4 mt-md-0">
+            <h2>Order Summary</h2>
+            <hr />
+            <div class="d-flex">
+                <table class="table table-borderless table-responsive">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-muted">Qty</th>
+                            <th scope="col" class="text-muted">Product</th>
+                            <th scope="col" class="text-muted">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-muted text-nowrap">100 X</td>
+                            <td>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</td>
+                            <td class="text-nowrap"><small>$</small> 1000 <small>00</small></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted text-nowrap">100 X</td>
+                            <td>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</td>
+                            <td class="text-nowrap"><small>$</small> 1000 <small>00</small></td>
+                        <tr>
+                            <td class="text-muted text-nowrap">100 X</td>
+                            <td>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</td>
+                            <td class="text-nowrap"><small>$</small> 1000 <small>00</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/js/checkout.js"></script>
+}

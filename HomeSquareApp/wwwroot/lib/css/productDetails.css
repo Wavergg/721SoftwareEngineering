@@ -41,21 +41,6 @@
     border-bottom-color: #f8f9fa !important;
 }
 
-li {
-    float: left;
-}
-
-    li a {
-        display: block;
-        color: #000;
-        text-align: center;
-        padding: 16px;
-        text-decoration: none;
-    }
-
-        li a:hover {
-            background-color: #fbb72c;
-        }
 
 /*Rating Tab -----------------------*/
 .heading {
