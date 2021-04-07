@@ -83,8 +83,8 @@
                 </div>
                 <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="z-index:9">
                     <a asp-controller="Product" asp-action="Index" class="nav-ribbon">Products</a>
-                    <a class="nav-ribbon" asp-controller="Recipe" asp-action="Index">Recipes</a>
-                    <a class="nav-ribbon" href="#">Deals</a>
+                    <a asp-controller="Recipe" asp-action="Index" class="nav-ribbon">Recipes</a>
+                    <a asp-controller="Deals" asp-action="Index" class="nav-ribbon">Deals</a>
                     <a class="nav-ribbon" href="#">Our Stores</a>
                 </nav>
             </div>
@@ -138,7 +138,7 @@
                         <a asp-controller="Recipe" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
                         </a>
-                        <a href="#">
+                        <a asp-controller="Deals" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white ">Deals</div>
                         </a>
                         <a href="#">
@@ -177,7 +177,7 @@
                             <hr />
                             <ul class="px-0">
                                 <li class="text-decoration-none">
-                                    <a href="#">Special Offers</a>
+                                    <a asp-controller="Deals" asp-action="Index">Special Offers</a>
                                 </li>
                                 <li>
                                     <a asp-controller="Product" asp-action="Index">Shop</a>

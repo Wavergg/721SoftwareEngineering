@@ -1,7 +1,46 @@
 ﻿
 
+    <div class="card p-3">
+        <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="1">
+            <div class="p-3 align-items-center d-flex justify-content-center position-relative">
+                <img src="/lib/images/products/butter.png" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
+                <div class="position-absolute bottom-0 start-0 ms-2">
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star" style="font-size: 12px;"></span>
+                </div>
+            </div>
+            <div class="alert alert-success p-0 px-2 rounded-0" style="position: absolute; left: -1px; top: 0px;">
+                <small class="alert-link">10% OFF</small>
+            </div>
+        </a>
+            <div class="text-center text-md-start product-details pt-1">
+                <a asp-controller="Product" asp-action="Details" asp-route-id="1" style="font-size:16px" class="text-success product-link">Product name can get quite long especially with more</a>
+                <div class="d-flex align-items-center mt-3 mt-md-0 mt-lg-3">
+                    <div>
+                        <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                        <p>
+                            Was <span class="product-price-before-special">$125.00</span>
+                        </p>
+                    </div>
+                    <div class="ms-auto">
+                        <span class="fw-normal">$14.00 / Ea.</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="mt-3 d-flex align-items-center">
+                <label class="text-muted" style="font-size:14px;">QTY</label>
+                <input placeholder="1" min="1" type="number" class="browser-default-number mx-2 rounded-3 w-25" />
+                <button type="submit" class="ms-auto btn btn-success rounded-pill float-end">Add To Cart</button>
+            </div>
+    </div>
+
+
 @* product start *@
-<div class="card" style="min-height:420px;">
+<!--<div class="card" style="min-height:420px;">
     <div class="px-3 align-items-center d-flex justify-content-center position-relative" style="min-height:200px;">
         <img class="img-fluid" src="~/lib/images/products/butter.png" asp-append-version="true" style="object-fit:cover"/>
         <div class="position-absolute bottom-0 start-0 ms-2">
@@ -16,19 +55,19 @@
     <div class="product-details pt-1">
         <a href="#" class="product-link">No one has ever produced such good quality butter</a>
         <div class="d-flex align-items-center mt-3 mt-md-0 mt-lg-3">
-            <div>
-                @* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
-                <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
-                @* Price before discount *@
-                <p>Was <span class="product-price-before-special">$125.00</span></p>
+            <div>-->
+@* Do price after discount, Split price and store it in different variable and do a razor field for whole number and decimal *@
+<!--<span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>-->
+@* Price before discount *@
+<!--<p>Was <span class="product-price-before-special">$125.00</span></p>
+</div>
+<div class="ms-auto">-->
+@* Price per unit *@
+<!--<span class="fw-normal">$14.00 / Ea.</span>
             </div>
-            <div class="ms-auto">
-                @* Price per unit *@
-                <span class="fw-normal">$14.00 / Ea.</span>
-            </div>
-        </div>  
+        </div>
     </div>
     <a asp-controller="Product" asp-action="Details" asp-route-id="1" class="btn btn-success rounded-0 product-bottom-left-btn">Details</a>
     <button class="btn btn-light text-dark rounded-0 product-bottom-right-btn">Add To Cart</button>
-</div>
+</div>-->
 @* product end *@

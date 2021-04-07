@@ -76,7 +76,7 @@ using HomeSquareApp.Models;
             WriteLiteral("                    ");
             EndContext();
             BeginContext(724, 35, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "6fa7e9fc700349b284e91db56d7cb1d7", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "38f5dd1d9bce4bafa413f00f9ad559e8", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -112,7 +112,7 @@ using HomeSquareApp.Models;
                     ");
             EndContext();
             BeginContext(1359, 116, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a0ffca93468f4d5890a99033e38525dc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3a2bab40f3ba4cc5aa3c22cfdcb811b0", async() => {
                 BeginContext(1462, 9, true);
                 WriteLiteral("Check Out");
                 EndContext();
