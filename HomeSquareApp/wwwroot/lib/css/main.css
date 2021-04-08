@@ -1,4 +1,4 @@
-﻿h1,h2,h3,h4,h5,h6 {
+﻿h1, h2, h3, h4, h5, h6 {
     font-family: Alef
 }
 
@@ -6,14 +6,16 @@ ul {
     list-style-type: none;
 }
 
+
+
 .moveSlightlyY-animation {
     transition: transform 500ms;
     will-change: transform;
 }
 
-.moveSlightlyY-animation:hover {
-    transform: translateY(5px);
-}
+    .moveSlightlyY-animation:hover {
+        transform: translateY(5px);
+    }
 
 .btn:hover {
     transform: scale(1.03)
@@ -68,7 +70,7 @@ footer .btn:hover {
     }
 }
 
-@media (min-width:768px){
+@media (min-width:768px) {
     .w-md-50 {
         width: 46% !important;
     }
@@ -76,41 +78,27 @@ footer .btn:hover {
 
 
 
-/*Input number*/
-input[type="number"] {
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    
-}
+/*Input number up / bottom arrow*/
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
-
-.number-input {
-    display: inline-flex;
-}
-
-    .number-input,
-    .number-input * {
-        box-sizing: border-box;
+@media (min-width:768px) {
+    input[type=number].custom-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        cursor: pointer;
+        display: block;
+        width: 8px;
+        color: #333;
+        text-align: center;
+        position: relative;
     }
 
-        
-        .number-input input[type=number] {
-            font-family: sans-serif;
-            max-width: 3rem;
-            padding: .5rem;
-            border: solid #ddd;
-            border-width: 2px;
-            font-size: 1rem;
-            height: 2rem;
-            font-weight: bold;
-            text-align: center;
-        }
-
-.link-dark:hover{
-    color: #000;
+    input[type=number].custom-spinner:hover::-webkit-inner-spin-button {
+        background: #eee url('http://i.stack.imgur.com/YYySO.png') no-repeat 50% 50%;
+        width: 14px;
+        height: 14px;
+        padding: 4px;
+        position: relative;
+        right: 4px;
+        border-radius: 28px;
+    }
 }
 

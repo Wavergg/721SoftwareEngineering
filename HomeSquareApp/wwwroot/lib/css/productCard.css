@@ -19,6 +19,8 @@
     }
 }
 
+
+
 @media only screen and (max-width: 1199.98px) {
     .product-bottom-left-btn {
         border-radius: 0 0 0 0;
@@ -44,9 +46,9 @@
 }
 
 .product-details {
-    padding: 15px;
+    padding: 5px;
     font-family: Bahnschrift;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .product-category {
@@ -95,3 +97,4 @@
 .fa-star.checked{
     color: orange;
 }
+

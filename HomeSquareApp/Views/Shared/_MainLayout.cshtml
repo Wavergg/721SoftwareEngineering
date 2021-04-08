@@ -17,6 +17,7 @@
     
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
     
+    
     @RenderSection("pageSpecificCss", required: false)
 <style>
         nav a {
@@ -45,6 +46,22 @@
             width: 100%;
             z-index: 3;
         }
+
+        .owl-stage {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+    .owl-item {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        height: auto !important;
+    }
 </style>
 </head>
 <body>
@@ -54,7 +71,7 @@
         <header>
 
             @* Desktop navigation *@
-            <div class="navigation sticky container-fluid px-0 d-none d-lg-block">
+            <div style="z-index:2" class="navigation sticky container-fluid px-0 d-none d-lg-block">
                 <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
                     @* Home link for logo *@
                     <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
