@@ -12566,25 +12566,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Waver\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\dana8\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj",
+      "projectUniqueName": "D:\\2021IT\\721\\HomeSquare\\HomeSquareApp\\HomeSquareApp.csproj",
       "projectName": "HomeSquareApp",
-      "projectPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj",
-      "packagesPath": "C:\\Users\\Waver\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\obj\\",
+      "projectPath": "D:\\2021IT\\721\\HomeSquare\\HomeSquareApp\\HomeSquareApp.csproj",
+      "packagesPath": "C:\\Users\\dana8\\.nuget\\packages\\",
+      "outputPath": "D:\\2021IT\\721\\HomeSquare\\HomeSquareApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Waver\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dana8\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -12677,7 +12675,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
