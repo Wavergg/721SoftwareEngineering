@@ -14,7 +14,6 @@
 
     @* Custom Css *@
     <link rel="stylesheet" href="~/lib/css/main.css" />
-    
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
     
     
@@ -56,12 +55,12 @@
             flex-wrap: wrap;
         }
 
-    .owl-item {
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        height: auto !important;
-    }
+        .owl-item {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            height: auto !important;
+        }
 </style>
 </head>
 <body>
@@ -71,11 +70,11 @@
         <header>
 
             @* Desktop navigation *@
-            <div style="z-index:2" class="navigation sticky container-fluid px-0 d-none d-lg-block">
+            <div style="z-index:10" class="navigation sticky container-fluid px-0 d-none d-lg-block">
                 <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
                     @* Home link for logo *@
                     <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
-                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" />
+                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo"/>
                     </a>
 
                     <div class="col-md-4 col-12">
@@ -87,7 +86,9 @@
                         <div class="container">
                             <div class="d-flex justify-content-md-end justify-content-between">
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
+                                @* NYD change Login button into user name *@
                                 <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                                @* NYD change cart to items count *@
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-outline-dark rounded-pill">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
@@ -111,7 +112,7 @@
             <div id="mobileNav" class="navigation sticky d-lg-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
                 <div id="mobileLogoBarNav" class="pb-3 container-fluid text-center d-flex flex-row justify-content-center">
                     <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
-                        <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" />
+                        <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo"/>
                     </a>
                 </div>
 
@@ -218,21 +219,21 @@
                             </ul>
                             <hr />
                             <div>
-                                <a href="#" class="btn btn-dark rounded-circle">
+                                <a href="https://www.facebook.com/" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#facebook" />
                                     </svg>
                                 </a>
-                                <a href="#" class="btn btn-dark rounded-circle">
+                                <a href="https://twitter.com/" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#twitter" />
                                     </svg>
                                 </a>
-                                <button type="button" class="btn btn-dark rounded-circle">
+                                <a href="https://www.instagram.com/" class="btn btn-dark rounded-circle">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#instagram" />
                                     </svg>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -257,7 +258,7 @@
             </div>
             <div class="container">
                 <hr />
-                <div class="text-center"><img class="img-fluid col-md-2 col-4" src="~/lib/images/logo.svg" asp-append-version="true" /></div>
+                <div class="text-center"><img class="img-fluid col-md-2 col-4" src="~/lib/images/appLogo.svg" asp-append-version="true" /></div>
                 <hr />
             </div>
             <div class="container pb-3">

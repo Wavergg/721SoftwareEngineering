@@ -1,18 +1,22 @@
 ﻿<div class="card shadow-none rounded-0 rounded-start m-2">
     <div class="d-flex g-0">
+        @* NYD DELETE ITEM FROM CART SEND DATA TO CONTROLLER AJAX METHOD *@
         <button class="btn col-1 btn-danger rounded-0 rounded-start">
             X
         </button>
         <div class="d-flex flex-column">
             <div class="d-flex">
                 <div class="px-3 col-3 d-flex align-items-center">
+                    @* NYD Fill the Alt Attributes *@
                     <img class="img-fluid" src="~/lib/images/products/Shampoo-PNG-Clipart.png" asp-append-version="true" />
                 </div>
                 <div class="pt-3 col-9">
                     <div class="me-3">
+                        @* NYD Fill the information *@
                         <small class="fw-bold text-muted" style="font-size:0.9em">The name of the item can get quite long</small>
                         <div class="d-flex align-items-center justify-content-between pt-2 pb-1 my-md-0 ">
                             <small class="text-muted">$ 24 00 / Ea.</small>
+                            @* assign onchange function that sent data to controller with ajax *@
                             <div class=""><small class="text-muted me-2">Qty </small><input type="number" min="1" max="100" value="1"/></div>
                         </div>
                     </div>

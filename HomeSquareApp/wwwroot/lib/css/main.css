@@ -64,11 +64,11 @@ footer .btn:hover {
     }
 }
 
-@media (min-width: 577px) and (max-width: 768px) {
+/*@media (min-width: 577px) and (max-width: 768px) {
     .center-vh {
         height: 60vh !important;
     }
-}
+}*/
 
 @media (min-width:768px) {
     .w-md-50 {
