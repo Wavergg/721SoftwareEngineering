@@ -15,10 +15,10 @@
     @* Custom Css *@
     <link rel="stylesheet" href="~/lib/css/main.css" />
     <link rel="stylesheet" href="~/lib/css/loginSignUpModal.css" />
-    
-    
+
+
     @RenderSection("pageSpecificCss", required: false)
-<style>
+    <style>
         nav a {
             text-decoration: none;
             color: #ffffff;
@@ -61,7 +61,7 @@
             display: flex;
             height: auto !important;
         }
-</style>
+    </style>
 </head>
 <body>
     @* Cover it in #app for VUE.JS *@
@@ -74,7 +74,7 @@
                 <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
                     @* Home link for logo *@
                     <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
-                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo"/>
+                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo" />
                     </a>
 
                     <div class="col-md-4 col-12">
@@ -112,7 +112,7 @@
             <div id="mobileNav" class="navigation sticky d-lg-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
                 <div id="mobileLogoBarNav" class="pb-3 container-fluid text-center d-flex flex-row justify-content-center">
                     <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
-                        <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo"/>
+                        <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo" />
                     </a>
                 </div>
 
@@ -273,8 +273,9 @@
     <partial name="_ModalCartPartial" />
 
     <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/OwlCarousel2/owl.carousel.js"></script>
     <script src="~/lib/js/vue.js"></script>
@@ -299,6 +300,8 @@
 
     @* Script for sticky nav bar on mobile and desktop *@
     <script>
+        
+
         window.addEventListener("scroll", function () {
             var mobileNav = document.getElementById("mobileNav");
             var mobileLogoBarNav = document.getElementById("mobileLogoBarNav");

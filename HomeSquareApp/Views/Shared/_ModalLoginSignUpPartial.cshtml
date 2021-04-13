@@ -1,11 +1,13 @@
 ﻿
-<div  class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+@model HomeSquareApp.ViewModels.RegisterViewModel
+ 
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="login-wrap">
+            <div class="login-wrap overflow-auto pb-5">
                 <div class="login-html" id="loginSignUpPanel">
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab" style="cursor:pointer">Sign In</label>
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="cursor:pointer">Sign Up</label>
@@ -49,68 +51,77 @@
                         </div>
                         @* SignUp / Register AREA *@
                         @* ---------------------------------------------- *@
-                        <div class="sign-up-htm">
-                            <span id="progressBarPrompt">1/2</span>
-                            <div class="progress mb-3" style="height: 1px;">
-                                <div id="progressBarLogin" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <form>
-                                <div id="signUpGroup1">
-                                    <div class="group">
-                                        <label for="emailSignup" class="label">Email Address</label>
-                                        <input onchange="validateEmail(this.value)" id="emailSignup" type="email" class="input" required>
-                                        <span id="emailSignupValidPrompt" class="form-text"></span>
-                                    </div>
-                                    <div class="group">
-                                        <label for="passwordSignup" class="label">Password</label>
-                                        <input onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input" data-type="password" required>
-                                        <div id="passwordSignupValidPrompt" class="form-text">Password should be at least 8 characters and contain atleast 1 numeric character</div>
-                                    </div>
-                                    <div class="group">
-                                        <label for="confirmPassSignup" class="label">Repeat Password</label>
-                                        <input onchange="validateRepeatPassword()" id="confirmPasswordSignup" type="password" class="input" data-type="password" required>
-                                        <span id="confirmPasswordSignupValidPrompt" class="text-danger form-text"></span>
-                                    </div>
-                                    <div class="group">
-                                        <button type="button" onclick="nextSignup()" class="btn btn-primary form-control rounded-pill">Next</button>
-                                    </div>
-                                </div>
-                                <div id="signUpGroup2" class="d-none">
-                                    <div class="group">
-                                        <label for="firstNameSignup" class="contact-form-label">First Name</label>
-                                        <input id="firstNameSignup" type="text" class="input" required>
-                                        <span class="text-danger form-text"></span>
-                                    </div>
-                                    <div class="group">
-                                        <label for="lastNameSignup" class="label">Last Name</label>
-                                        <input id="lastNameSignup" type="text" class="input" required>
-                                        <span class="text-danger form-text"></span>
-                                    </div>
-                                    <div class="group">
-                                        <label for="addressSignup" class="label">Address</label>
-                                        <input id="addressSignup" type="text" class="input" required>
-                                        <span class="text-danger form-text"></span>
-                                    </div>
-                                    <div class="group">
-                                        <label for="phoneSignup" class="label">Phone Number</label>
-                                        <input id="phoneSignup" type="text" class="input" required>
-                                        <span class="form-text"></span>
-                                    </div>
-                                    <div class="form-check">
-                                        <input onchange="confirmCheckBoxChange(this)" class="form-check-input" type="checkbox" id="confirmCheckChecked" required>
-                                        <label id="labelConfirmCheckChecked" class="form-check-label form-text" for="confirmCheckChecked">
-                                            I am ready to receive email to activate my account
-                                        </label>
-                                    </div>
-                                    <div class="group mt-2">
-                                        <button onclick="backSignup()" class="btn btn-light border border-dark form-control rounded-pill">Back</button>
-                                    </div>
-                                    <div class="group">
-                                        <input onclick="submitSignupForm()" class="btn btn-primary form-control rounded-pill" value="Sign Up" />
-                                    </div>
-                                </div>
-                            </form>
+                    <div class="sign-up-htm">
+                        <span id="progressBarPrompt">1/2</span>
+                        <div class="progress mb-3" style="height: 1px;">
+                            <div id="progressBarLogin" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+                        <div id="panel"></div>
+                        @*  asp-controller="Account" asp-action="Register"*@
+                    <form method="post" data-ajax="true" data-ajax-method="post" data-ajax-url="/Account/Register" id="signUpForm">
+                        <div id="signUpGroup1" class="">
+                            <span v-text="emailSignupValidPrompt"></span>
+                            <div class="group">
+                                <label asp-for="@Model.Email" class="label">Email Address</label>
+                                <input asp-for="@Model.Email" id="emailSignup" type="email" class="input " required>
+                                <span asp-validation-for="@Model.Email" id="emailSignupValidPrompt" class="text-danger form-text "></span>
+                            </div>
+                            <div class="group">
+                                <label asp-for="@Model.Password" for="passwordSignup" class="label ">Password</label>
+                                <input asp-for="@Model.Password" onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input " data-type="password" required>
+                                
+                                <span id="passwordSignupValidPrompt" class="form-text ">
+                                    Password should contain atleast 8 characters, 1 alphanumeric character and 1 symbol
+                                </span>
+                            </div>
+                            <div class="group">
+                                <label asp-for="@Model.ConfirmPassword" for="confirmPassSignup" class="label ">Repeat Password</label>
+                                <input asp-for="@Model.ConfirmPassword" id="confirmPasswordSignup" type="password" class="input " data-type="password" required>
+                                <span asp-validation-for="@Model.ConfirmPassword" id="confirmPasswordSignupValidPrompt" class="text-danger form-text "></span>
+                            </div>
+                            <div class="group">
+                                <button type="button" onclick="nextSignup()" class="btn btn-primary form-control rounded-pill">Next</button>
+                            </div>
+                        </div>
+                        <div id="signUpGroup2" class="d-none ">
+                            <div class="group">
+                                <label asp-for="@Model.FirstName" for="firstNameSignup" class="label ">First Name</label>
+                                <input asp-for="@Model.FirstName" id="firstNameSignup" type="text" class="input " required>
+                                <span asp-validation-for="@Model.FirstName" onchange="submitDisable(this)" class="text-danger form-text"></span>
+                            </div>
+                            <div class="group">
+                                <label asp-for="@Model.LastName" for="lastNameSignup" class="label ">Last Name</label>
+                                <input asp-for="@Model.LastName" id="lastNameSignup" type="text" class="input " required>
+                                <span asp-validation-for="@Model.LastName" onchange="submitDisable(this)" class="text-danger form-text "></span>
+                            </div>
+                            <div class="group">
+                                <label asp-for="@Model.Address" for="addressSignup" class="label ">Address</label>
+                                <input asp-for="@Model.Address" id="addressSignup" type="text" class="input " required>
+                                <span asp-validation-for="@Model.Address" onchange="submitDisable(this)" class="text-danger form-text "></span>
+                            </div>
+                            <div class="group">
+                                <label asp-for="@Model.PhoneNumber" for="phoneSignup" class="label ">Phone Number</label>
+                                <input asp-for="@Model.PhoneNumber" id="phoneSignup" type="text" class="input " required>
+                                <span asp-validation-for="@Model.PhoneNumber" onchange="submitDisable(this)" class="text-danger form-text "></span>
+                            </div>
+                            <div class="form-check">
+                                <input onchange="confirmCheckBoxChange(this)" class="form-check-input" type="checkbox" id="confirmCheckChecked" required>
+                                <label id="labelConfirmCheckChecked" class="form-check-label form-text" for="confirmCheckChecked">
+                                    I am ready to receive email to activate my account
+                                </label>
+                            </div>
+                            <div class="group mt-2">
+                                <button type="button" onclick="backSignup()" class="btn btn-light border border-dark form-control rounded-pill">Back</button>
+                            </div>
+                            <div class="group">
+                                <button type="button" onclick="submitSignupForm()" id="submitFormBtn" class="btn btn-primary form-control rounded-pill">
+                                    Sign Up
+                                </button>
+                            </div>
+                            <button type="submit" hidden id="formSubmitBtn">Submit Form</button>
+                        </div>
+                    </form>
+                    </div>
                     </div>
                 </div>
                 <div class="login-html animationToggleVisible" id="passwordPanel" hidden>
@@ -138,46 +149,49 @@
 </div>
 
 
+
 <script>
+
+    var emailElement = document.getElementById('emailSignup');
+    var passwordElement = document.getElementById('passwordSignup')
+    var confirmPasswordElement = document.getElementById('confirmPasswordSignup');
+
+    var firstNameElement = document.getElementById('firstNameSignup');
+    var lastNameElement = document.getElementById('lastNameSignup');
+    var addressElement = document.getElementById('addressSignup');
+    var phoneElement = document.getElementById('phoneSignup');
+    var confirmForm = document.getElementById('confirmCheckChecked');
+
+   
+
     function submitSignupForm() {
-
-        var emailElement = document.getElementById('emailSignup');
-        var passwordElement = document.getElementById('passwordSignup')
-        var confirmPasswordElement = document.getElementById('confirmPasswordSignup');
-
-        var firstNameElement = document.getElementById('firstNameSignup');
-        var lastNameElement = document.getElementById('lastNameSignup');
-        var addressElement = document.getElementById('addressSignup');
-        var phoneElement = document.getElementById('phoneSignup');
-        var confirmForm = document.getElementById('confirmCheckChecked');
-
         if (!confirmForm.checked) {
             labelConfirmCheckChecked.classList.add('text-danger');
             confirmForm.classList.add('border-danger');
             return;
         }
 
-        if (checkEmptyValue(firstNameElement) && checkEmptyValue(lastNameElement) &&
-            checkEmptyValue(addressElement) && checkEmptyValue(phoneElement)) {
-            //NYD Send data here, WITH AJAX
-
-            $.ajax({
-                url: "Login/SendEmail",
-                data: { email: emailElement.value }
-            }).done(function () {
-                document.getElementById('userEmail').innerHTML = email;
-            });
-
-            document.getElementById('tab-1').click();
-            document.getElementById('signupConfirmationPrompt').classList.remove('d-none');
+        if (checkLength(firstNameElement, 64) && checkLength(lastNameElement,64) &&
+            checkLength(addressElement, 128) && checkEmptyValue(phoneElement, 64) &&
+            validatePhone(phoneElement.value)) {
+            document.getElementById("formSubmitBtn").click();
         }
     }
 
+    function submitDisable(element) {
+        if (element.value.length > 0) {
+            document.getElementById("submitFormBtn").attributes("disabled","disabled")
+        }
+    }
+
+    function checkLength(element,maxLength) {
+        if (!checkEmptyValue(element) || element.value.length > maxLength) {
+            return false;
+        }
+        return true;
+    }
 
     function nextSignup() {
-        var emailElement = document.getElementById('emailSignup');
-        var passwordElement = document.getElementById('passwordSignup')
-        var confirmPasswordElement = document.getElementById('confirmPasswordSignup');
 
         if (checkEmptyValue(emailElement) && checkEmptyValue(passwordElement) && checkEmptyValue(confirmPasswordElement)) {
             //make the other group visible and the current group not visible
@@ -185,14 +199,15 @@
                 document.getElementById('progressBarPrompt').innerHTML = "2/2";
                 document.getElementById('progressBarLogin').style.width = "100%";
                 document.getElementById('signUpGroup1').classList.add('d-none');
+                //addIgnoreClass('#signUpGroup1')
                 document.getElementById('signUpGroup2').classList.remove('d-none');
+                //removeIgnoreClass('#signUpGroup2')
             }
         }
         return;
     }
 
     function confirmCheckBoxChange(checkboxElement) {
-        var confirmForm = document.getElementById('confirmCheckChecked');
         if (!checkboxElement.checked) {
             labelConfirmCheckChecked.classList.add('text-danger');
             confirmForm.classList.add('border-danger');
@@ -218,11 +233,13 @@
         document.getElementById('progressBarPrompt').innerHTML = "1/2";
         document.getElementById('progressBarLogin').style.width = "50%";
         document.getElementById('signUpGroup1').classList.remove('d-none');
+        //removeIgnoreClass('#signUpGroup1')
         document.getElementById('signUpGroup2').classList.add('d-none');
+        //addIgnoreClass('#signUpGroup1')
     }
 
     function validateEmail(email) {
-        const re = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const re = /^[a-zA-Z0-9\._\+\-]+@@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,4}$/;
         var result = re.test(String(email).toLowerCase());
         var el = document.getElementById('emailSignupValidPrompt');
 
@@ -236,8 +253,21 @@
         }
     }
 
+    function validatePhone(phone) {
+        const re = /^[\+]?\(?[\+]?[0-9]{1,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$/;
+        var result = re.test(String(phone).toLowerCase());
+
+        if (!result) {
+            //if bad
+            return false;
+        } else {
+            //if good
+            return true;
+        }
+    }
+
     function validatePassword(password) {
-        const re = /^(?=.*[0-9])(?=.{8,})/;
+        const re = /^(?=.*[0-9])(?=.*[!@@#$%^&*])[a-zA-Z0-9!@@#$%^&*]{8,}$/;
         var result = re.test(String(password));
         var el = document.getElementById('passwordSignupValidPrompt');
         if (!result) {
@@ -251,12 +281,11 @@
     }
 
     function validateRepeatPassword() {
-        var passwordEl = document.getElementById('passwordSignup');
-        var confirmPasswordEl = document.getElementById('confirmPasswordSignup');
+        var passwordElement = document.getElementById('passwordSignup');
+        var confirmPasswordElement = document.getElementById('confirmPasswordSignup');
 
-        console.log(passwordEl.value + " " + confirmPasswordEl.value)
 
-        if (passwordEl.value != confirmPasswordEl.value) {
+        if (passwordElement.value != confirmPasswordElement.value) {
             confirmPasswordSignupValidPrompt.innerHTML = "Password and the confirmation did not match";
             return false;
         }
