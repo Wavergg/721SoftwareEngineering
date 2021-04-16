@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="login-wrap overflow-auto pb-5">
                 <div id="modalLoader" class="spinner-border text-secondary position-fixed top-50 start-50" style="z-index:1;display:none" role="status">
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="group">
                                     <label for="pass" class="label">Password</label>
-                                    <input id="passLogIn" type="password" class="input" data-type="password" required>
+                                    <input id="passLogIn" type="password" class="input" data-type="password" autocomplete="new-password" required>
                                 </div>
                                 <div>
                                     <span class="text-label">Don't have an account? <a href="#" onclick="openSignUp()" class="fw-bold text-primary">Sign up</a></span>
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="group">
                                         <label asp-for="@Model.Password" for="passwordSignup" class="label ">Password</label>
-                                        <input asp-for="@Model.Password" onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input " data-type="password" required>
+                                        <input asp-for="@Model.Password" onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input " data-type="password" autocomplete="new-password" required>
 
                                         <span id="passwordSignupValidPrompt" class="form-text ">
                                             Password should contain atleast 8 characters, 1 alphanumeric character and 1 symbol
@@ -206,6 +206,7 @@
         }
         //reenable user clicking
         $("#loginModal").removeClass("overlay");
+        $("#closeModal").removeAttr("disabled");
     }
 
     //Submit Sign form event that are being called from formSubmitBtn click
@@ -224,6 +225,7 @@
             document.getElementById("formSubmitBtn").click();
             //prevent user from clicking anywhere else when the form is submitted
             $("#loginModal").addClass("overlay");
+            $("#closeModal").attr("disabled",true)
         }
     }
 

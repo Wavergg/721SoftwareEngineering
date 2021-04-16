@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> signInManager
+
+<!DOCTYPE html>
 @* DOCUMENT INFO: PAY EXTRA ATTENTION FOR NYD COMMENT *@
 <html>
 <head>
@@ -89,8 +91,16 @@
                         <div class="container">
                             <div class="d-flex justify-content-md-end justify-content-between">
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
-                                @* NYD change Login button into user name *@
-                                <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                                @if (signInManager.IsSignedIn(User))
+                                {
+                                    <button class="btn btn-outline-success rounded-pill me-2">
+                                        @User.Identity.Name
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
+                                }
                                 @* NYD change cart to items count *@
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-outline-dark rounded-pill">
                                     <svg class="bi" width="16" height="24" fill="currentColor">
@@ -128,13 +138,24 @@
                         </button>
                     </div>
                     <div class="col-9 d-flex flex-row justify-content-end">
-                        @* NYD NEED TO REPLACE THE NAME *@
+                        @if (signInManager.IsSignedIn(User)) { 
+                            <button class="btn btn-light rounded-pill me-2">
+                                <svg class="bi" width="24" height="36" fill="currentColor">
+                                    <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
+                                </svg>
+                                <span>
+                                    @User.Identity.Name
+                                </span>
+                            </button>
+                        } else 
+                        {
                         <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">
                                 <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
                             </svg>
                             <span>Login</span>
                         </button>
+                        }
                         @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-light rounded-pill me-2">
                             <svg class="bi" width="24" height="36" fill="currentColor">

@@ -36,7 +36,12 @@ namespace HomeSquareApp.Controllers
             return Json("Email is already in use");
         }
 
-       
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public async Task<JsonResult> Register(RegisterViewModel model)
