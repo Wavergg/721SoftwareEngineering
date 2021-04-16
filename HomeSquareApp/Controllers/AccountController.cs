@@ -3,6 +3,7 @@ using HomeSquareApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,9 @@ namespace HomeSquareApp.Controllers
         [HttpPost]
         public async Task<JsonResult> Register(RegisterViewModel model)
         {
+            ErrorMessage errorMsg = new ErrorMessage();
+            errorMsg.IsSuccess = false;
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
@@ -54,13 +58,37 @@ namespace HomeSquareApp.Controllers
                 var result = await _UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //REENABLE THIS LATER 
-                    EmailController.SendEmail(model.Email);
-                    return Json(true);
+                    
+                    try {
+                        //REENABLE THIS LATER 
+                        EmailController.SendEmail(model.Email);
+
+                        errorMsg.IsSuccess = true;
+                        errorMsg.Message.Add($"Email verification has been sent to {model.Email}");
+                    }
+                    catch 
+                    {
+                        await _UserManager.DeleteAsync(user);
+                        errorMsg.Message.Add($"Failure in sending Email confirmation, Please try again.");
+                    }
+                    return Json(errorMsg);
+                }
+
+               
+                foreach(var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateUserName") continue;
+                    errorMsg.Message.Add($"{error.Description}");
                 }
             }
 
-            return Json(false);
+            var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+
+            foreach(string error in allErrors)
+            {
+                errorMsg.Message.Add($"{error}");
+            }
+            return Json(errorMsg);
         }
     }
 }

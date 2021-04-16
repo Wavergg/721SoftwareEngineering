@@ -1,6 +1,6 @@
 ﻿
-@model HomeSquareApp.ViewModels.RegisterViewModel
- 
+@model RegisterViewModel
+
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,6 +8,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="login-wrap overflow-auto pb-5">
+                <div id="modalLoader" class="spinner-border text-secondary position-fixed top-50 start-50" style="z-index:1;display:none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
                 <div class="login-html" id="loginSignUpPanel">
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab" style="cursor:pointer">Sign In</label>
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="cursor:pointer">Sign Up</label>
@@ -19,7 +22,7 @@
                                 <div style="background-color: #ffcccb">
                                     <p id="signupConfirmationPrompt" class="p-3 form-text d-none">
                                         @* Change the email based on the user entered email *@
-                                        Email Validation has been sent to <span id="userEmail">ultimateformj@gmail.com</span><br />
+                                        
                                         @*Did not receive any email? <a href="#" class="text-decoration-underline">Resend link</a>*@
                                     </p>
                                 </div>
@@ -51,77 +54,79 @@
                         </div>
                         @* SignUp / Register AREA *@
                         @* ---------------------------------------------- *@
-                    <div class="sign-up-htm">
-                        <span id="progressBarPrompt">1/2</span>
-                        <div class="progress mb-3" style="height: 1px;">
-                            <div id="progressBarLogin" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="sign-up-htm">
+                            <span id="progressBarPrompt">1/2</span>
+                            <div class="progress mb-3" style="height: 1px;">
+                                <div id="progressBarLogin" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div id="panel"></div>
+                            @*  asp-controller="Account" asp-action="Register"*@
+                            <form asp-controller="Account" asp-action="Register" 
+                                  method="post" data-ajax="true" data-ajax-loading="#modalLoader" data-ajax-complete="registerReturned" data-ajax-method="post" data-ajax-url="/Account/Register" id="signUpForm">
+                                <div id="signUpGroup1" class="">
+                                    <small id="errorSignUpSummary" class="text-danger mb-3"></small>
+                                    <div class="group">
+                                        <label asp-for="@Model.Email" class="label">Email Address</label>
+                                        <input asp-for="@Model.Email" id="emailSignup" type="email" class="input " required>
+                                        <span asp-validation-for="@Model.Email" id="emailSignupValidPrompt" class="text-danger form-text "></span>
+                                    </div>
+                                    <div class="group">
+                                        <label asp-for="@Model.Password" for="passwordSignup" class="label ">Password</label>
+                                        <input asp-for="@Model.Password" onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input " data-type="password" required>
+
+                                        <span id="passwordSignupValidPrompt" class="form-text ">
+                                            Password should contain atleast 8 characters, 1 alphanumeric character and 1 symbol
+                                        </span>
+                                    </div>
+                                    <div class="group">
+                                        <label asp-for="@Model.ConfirmPassword" for="confirmPassSignup" class="label ">Repeat Password</label>
+                                        <input asp-for="@Model.ConfirmPassword" id="confirmPasswordSignup" type="password" class="input " data-type="password" required>
+                                        <span asp-validation-for="@Model.ConfirmPassword" id="confirmPasswordSignupValidPrompt" class="text-danger form-text "></span>
+                                    </div>
+                                    <div class="group">
+                                        <button type="button" onclick="nextSignup()" class="btn btn-primary form-control rounded-pill">Next</button>
+                                    </div>
+                                </div>
+                                <div id="signUpGroup2" class="d-none">
+                                    <div class="group">
+                                        <label asp-for="@Model.FirstName" for="firstNameSignup" class="label ">First Name</label>
+                                        <input asp-for="@Model.FirstName" id="firstNameSignup" type="text" class="input " required>
+                                        <span asp-validation-for="@Model.FirstName" class="text-danger form-text"></span>
+                                    </div>
+                                    <div class="group">
+                                        <label asp-for="@Model.LastName" for="lastNameSignup" class="label ">Last Name</label>
+                                        <input asp-for="@Model.LastName" id="lastNameSignup" type="text" class="input " required>
+                                        <span asp-validation-for="@Model.LastName" class="text-danger form-text "></span>
+                                    </div>
+                                    <div class="group">
+                                        <label asp-for="@Model.Address" for="addressSignup" class="label ">Address</label>
+                                        <input asp-for="@Model.Address" id="addressSignup" type="text" class="input " required>
+                                        <span asp-validation-for="@Model.Address" class="text-danger form-text "></span>
+                                    </div>
+                                    <div class="group">
+                                        <label asp-for="@Model.PhoneNumber" for="phoneSignup" class="label ">Phone Number</label>
+                                        <input asp-for="@Model.PhoneNumber" id="phoneSignup" type="text" class="input " required>
+                                        <span asp-validation-for="@Model.PhoneNumber" class="text-danger form-text "></span>
+                                    </div>
+                                    <div class="form-check">
+                                        <input onchange="confirmCheckBoxChange(this)" class="form-check-input" type="checkbox" id="confirmCheckChecked" required>
+                                        <label id="labelConfirmCheckChecked" class="form-check-label form-text" for="confirmCheckChecked">
+                                            I am ready to receive email to activate my account
+                                        </label>
+                                    </div>
+                                    <div class="group mt-2">
+                                        <button type="button" onclick="backSignup()" class="btn btn-light border border-dark form-control rounded-pill">Back</button>
+                                    </div>
+                                    <div class="group">
+                                        <button type="button" onclick="submitSignupForm()" id="submitFormBtn" class="btn btn-primary form-control rounded-pill">
+                                            Sign Up
+                                        </button>
+                                    </div>
+                                    @* The real submit form, hidden. The top one would run validation first then trigger the form. *@
+                                    <button type="submit" hidden id="formSubmitBtn">Submit Form</button>
+                                </div>
+                            </form>
                         </div>
-                        <div id="panel"></div>
-                        @*  asp-controller="Account" asp-action="Register"*@
-                    <form method="post" data-ajax="true" data-ajax-method="post" data-ajax-url="/Account/Register" id="signUpForm">
-                        <div id="signUpGroup1" class="">
-                            <span v-text="emailSignupValidPrompt"></span>
-                            <div class="group">
-                                <label asp-for="@Model.Email" class="label">Email Address</label>
-                                <input asp-for="@Model.Email" id="emailSignup" type="email" class="input " required>
-                                <span asp-validation-for="@Model.Email" id="emailSignupValidPrompt" class="text-danger form-text "></span>
-                            </div>
-                            <div class="group">
-                                <label asp-for="@Model.Password" for="passwordSignup" class="label ">Password</label>
-                                <input asp-for="@Model.Password" onchange="validatePassword(this.value)" id="passwordSignup" type="password" class="input " data-type="password" required>
-                                
-                                <span id="passwordSignupValidPrompt" class="form-text ">
-                                    Password should contain atleast 8 characters, 1 alphanumeric character and 1 symbol
-                                </span>
-                            </div>
-                            <div class="group">
-                                <label asp-for="@Model.ConfirmPassword" for="confirmPassSignup" class="label ">Repeat Password</label>
-                                <input asp-for="@Model.ConfirmPassword" id="confirmPasswordSignup" type="password" class="input " data-type="password" required>
-                                <span asp-validation-for="@Model.ConfirmPassword" id="confirmPasswordSignupValidPrompt" class="text-danger form-text "></span>
-                            </div>
-                            <div class="group">
-                                <button type="button" onclick="nextSignup()" class="btn btn-primary form-control rounded-pill">Next</button>
-                            </div>
-                        </div>
-                        <div id="signUpGroup2" class="d-none ">
-                            <div class="group">
-                                <label asp-for="@Model.FirstName" for="firstNameSignup" class="label ">First Name</label>
-                                <input asp-for="@Model.FirstName" id="firstNameSignup" type="text" class="input " required>
-                                <span asp-validation-for="@Model.FirstName" onchange="submitDisable(this)" class="text-danger form-text"></span>
-                            </div>
-                            <div class="group">
-                                <label asp-for="@Model.LastName" for="lastNameSignup" class="label ">Last Name</label>
-                                <input asp-for="@Model.LastName" id="lastNameSignup" type="text" class="input " required>
-                                <span asp-validation-for="@Model.LastName" onchange="submitDisable(this)" class="text-danger form-text "></span>
-                            </div>
-                            <div class="group">
-                                <label asp-for="@Model.Address" for="addressSignup" class="label ">Address</label>
-                                <input asp-for="@Model.Address" id="addressSignup" type="text" class="input " required>
-                                <span asp-validation-for="@Model.Address" onchange="submitDisable(this)" class="text-danger form-text "></span>
-                            </div>
-                            <div class="group">
-                                <label asp-for="@Model.PhoneNumber" for="phoneSignup" class="label ">Phone Number</label>
-                                <input asp-for="@Model.PhoneNumber" id="phoneSignup" type="text" class="input " required>
-                                <span asp-validation-for="@Model.PhoneNumber" onchange="submitDisable(this)" class="text-danger form-text "></span>
-                            </div>
-                            <div class="form-check">
-                                <input onchange="confirmCheckBoxChange(this)" class="form-check-input" type="checkbox" id="confirmCheckChecked" required>
-                                <label id="labelConfirmCheckChecked" class="form-check-label form-text" for="confirmCheckChecked">
-                                    I am ready to receive email to activate my account
-                                </label>
-                            </div>
-                            <div class="group mt-2">
-                                <button type="button" onclick="backSignup()" class="btn btn-light border border-dark form-control rounded-pill">Back</button>
-                            </div>
-                            <div class="group">
-                                <button type="button" onclick="submitSignupForm()" id="submitFormBtn" class="btn btn-primary form-control rounded-pill">
-                                    Sign Up
-                                </button>
-                            </div>
-                            <button type="submit" hidden id="formSubmitBtn">Submit Form</button>
-                        </div>
-                    </form>
-                    </div>
                     </div>
                 </div>
                 <div class="login-html animationToggleVisible" id="passwordPanel" hidden>
@@ -160,27 +165,65 @@
     var lastNameElement = document.getElementById('lastNameSignup');
     var addressElement = document.getElementById('addressSignup');
     var phoneElement = document.getElementById('phoneSignup');
-    var confirmForm = document.getElementById('confirmCheckChecked');
+    var signUpConfirmFormChecked = document.getElementById('confirmCheckChecked');
 
-   
+    //Stop bug from user being able to submit the signup form with double enter keypress and ignoring validation
+    document.getElementById("signUpForm").addEventListener("keypress", function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
 
+    //HANDLE SIGNUP AJAX JSON DATA THAT ARE RETURNED FROM CONTROLLER
+    function registerReturned(data) {
+        if (data.responseJSON.isSuccess) {
+            document.getElementById('tab-1').click();
+            var signUpConfirmationAlert = document.getElementById('signupConfirmationPrompt');
+            signUpConfirmationAlert.classList.remove('d-none');
+            signUpConfirmationAlert.innerHTML = data.responseJSON.message[0];
+            $('#signUpForm')[0].reset();
+        } else {
+            //Create UL ELEMENT AND POPULATE IT BASED ON ERROR RETURNED
+            var list = document.createElement('ul');
+            for (var i = 0; i < data.responseJSON.message.length; i++) {
+                // Create the list item:
+                var item = document.createElement('li');
+
+                // Set its contents:
+                item.appendChild(document.createTextNode(data.responseJSON.message[i]));
+
+                // Add it to the list:
+                list.appendChild(item);
+            }
+            //CLEAR PREVIOUS ERROR SUMMARY
+            document.getElementById("errorSignUpSummary").innerHTML = "";
+            //REPOPULATE THE SUMMARY With list above
+            document.getElementById("errorSignUpSummary").appendChild(list);
+            openSignUp();
+            backSignup();
+        }
+        //reenable user clicking
+        $("#loginModal").removeClass("overlay");
+    }
+
+    //Submit Sign form event that are being called from formSubmitBtn click
     function submitSignupForm() {
-        if (!confirmForm.checked) {
+        //Check if the user checked the checkmark or not
+        if (!signUpConfirmFormChecked.checked) {
             labelConfirmCheckChecked.classList.add('text-danger');
-            confirmForm.classList.add('border-danger');
+            signUpConfirmFormChecked.classList.add('border-danger');
             return;
         }
 
+        //validate input
         if (checkLength(firstNameElement, 64) && checkLength(lastNameElement,64) &&
             checkLength(addressElement, 128) && checkEmptyValue(phoneElement, 64) &&
             validatePhone(phoneElement.value)) {
             document.getElementById("formSubmitBtn").click();
-        }
-    }
-
-    function submitDisable(element) {
-        if (element.value.length > 0) {
-            document.getElementById("submitFormBtn").attributes("disabled","disabled")
+            //prevent user from clicking anywhere else when the form is submitted
+            $("#loginModal").addClass("overlay");
         }
     }
 
@@ -191,17 +234,16 @@
         return true;
     }
 
+    //go to the 2nd page of signup
     function nextSignup() {
-
-        if (checkEmptyValue(emailElement) && checkEmptyValue(passwordElement) && checkEmptyValue(confirmPasswordElement)) {
+        
+        if (emailSignupValidPrompt.innerHTML.length == 0 && checkEmptyValue(emailElement) && checkEmptyValue(passwordElement) && checkEmptyValue(confirmPasswordElement)) {
             //make the other group visible and the current group not visible
             if (validateEmail(emailElement.value) && validatePassword(passwordElement.value) && validateRepeatPassword()) {
                 document.getElementById('progressBarPrompt').innerHTML = "2/2";
                 document.getElementById('progressBarLogin').style.width = "100%";
                 document.getElementById('signUpGroup1').classList.add('d-none');
-                //addIgnoreClass('#signUpGroup1')
                 document.getElementById('signUpGroup2').classList.remove('d-none');
-                //removeIgnoreClass('#signUpGroup2')
             }
         }
         return;
@@ -210,10 +252,10 @@
     function confirmCheckBoxChange(checkboxElement) {
         if (!checkboxElement.checked) {
             labelConfirmCheckChecked.classList.add('text-danger');
-            confirmForm.classList.add('border-danger');
+            signUpConfirmFormChecked.classList.add('border-danger');
         } else {
             labelConfirmCheckChecked.classList.remove('text-danger');
-            confirmForm.classList.remove('border-danger');
+            signUpConfirmFormChecked.classList.remove('border-danger');
         }
     }
 
@@ -229,13 +271,12 @@
         return true;
     }
 
+    //back to prev page on signup
     function backSignup() {
         document.getElementById('progressBarPrompt').innerHTML = "1/2";
         document.getElementById('progressBarLogin').style.width = "50%";
         document.getElementById('signUpGroup1').classList.remove('d-none');
-        //removeIgnoreClass('#signUpGroup1')
         document.getElementById('signUpGroup2').classList.add('d-none');
-        //addIgnoreClass('#signUpGroup1')
     }
 
     function validateEmail(email) {
@@ -297,6 +338,7 @@
         document.getElementById('tab-2').checked = true;
     }
 
+    //toggle reset password page with login/signup page
     var count = 0;
     function togglePanel() {
         var loginPanel = document.getElementById('loginSignUpPanel')
