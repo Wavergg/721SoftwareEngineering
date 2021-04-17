@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace HomeSquareApp.Controllers
@@ -37,6 +38,145 @@ namespace HomeSquareApp.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword([Bind("Email,Password,ConfirmPassword,Token")] ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(model.Email);
+                if(user != null)
+                {
+                    var result = await _UserManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        ViewData["ResetMessage"] = "Succesfully resetting your account";
+                        return View();
+                    }
+                    foreach( var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View();
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (token == null || email == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword([Bind("Email")]ForgotPasswordViewModel model)
+        {
+            ErrorMessage errorMsg = new ErrorMessage();
+            errorMsg.IsSuccess = false;
+
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(model.Email);
+                
+                if(user != null )
+                {
+                    var token = await _UserManager.GeneratePasswordResetTokenAsync(user);
+
+                    var passwordResetLink = 
+                        Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+
+                    //SENDING EMAIL (REENABLE THIS LATER)
+                    MailMessage message = new MailMessage("homesquare322@gmail.com", model.Email);
+                    message.Subject = "Password Reset Link";
+                    message.Body = "Hi we got your back, Click here to reset your account: \n" + passwordResetLink;
+                    EmailController.SendEmail(message);
+                }
+
+                //i place it here so that people cant use this reset password for checking whether the email exist or not
+                //prevent bruteforcing
+                errorMsg.IsSuccess = true;
+                errorMsg.Message.Add($"Email to reset your password has been sent to {model.Email}");
+                return Json(errorMsg);
+            }
+
+            var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+
+            foreach (string error in allErrors)
+            {
+                errorMsg.Message.Add($"{error}");
+            }
+            return Json(errorMsg);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userID, string token)
+        {
+            if(userID == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var user = await _UserManager.FindByIdAsync(userID);
+            if(user != null)
+            {
+                var result = await _UserManager.ConfirmEmailAsync(user, token);
+
+                if (result.Succeeded)
+                {
+                    ViewBag.ConfirmResult = true;
+                    ViewBag.ConfirmMessage = "Thank you for confirming your email, Your account has been activated";
+                    return View();
+                }
+            }
+            ViewBag.ConfirmResult = false;
+            ViewBag.ConfirmMessage = "Unable to locate the user or token is invalid";
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("Email,Password,RememberMe")] LoginViewModel model)
+        {
+            ErrorMessage errorMsg = new ErrorMessage();
+            errorMsg.IsSuccess = false;
+
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(model.Email);
+
+                if(user != null && !user.EmailConfirmed && (await _UserManager.CheckPasswordAsync(user,model.Password)))
+                {
+                    errorMsg.Message.Add("Email not confirmed yet");
+                    return Json(errorMsg);
+                }
+
+                var result = await _SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,false);
+
+                if (result.Succeeded)
+                {
+                    errorMsg.IsSuccess = true;
+                    return Json(errorMsg);
+                }
+            }
+
+            errorMsg.Message.Add("Invalid Login Attempt");
+            return Json(errorMsg);
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _SignInManager.SignOutAsync();
@@ -44,7 +184,8 @@ namespace HomeSquareApp.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Register(RegisterViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> Register([Bind("Email,FirstName,LastName,Address,PhoneNumber,ConfirmPassword,Password")] RegisterViewModel model)
         {
             ErrorMessage errorMsg = new ErrorMessage();
             errorMsg.IsSuccess = false;
@@ -65,11 +206,20 @@ namespace HomeSquareApp.Controllers
                 {
                     
                     try {
-                        //REENABLE THIS LATER 
-                        EmailController.SendEmail(model.Email);
+                        //GENERATE EMAIL GENERATION TOKEN
+                        var token = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        var confirmationLink = 
+                            Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = token }, Request.Scheme);
+
+                        //SENDING EMAIL (REENABLE THIS LATER)
+                        MailMessage message = new MailMessage("homesquare322@gmail.com", model.Email);
+                        message.Subject = "Confirm your E-mail registration - HomeSquare";
+                        message.Body = "Thank you for registering with us, Click here to activate your account: \n" + confirmationLink;
+                        EmailController.SendEmail(message);
 
                         errorMsg.IsSuccess = true;
-                        errorMsg.Message.Add($"Email verification has been sent to {model.Email}");
+                        errorMsg.Message.Add($"Registration Successful - To activate your account, please visit on the link that has been sent to {model.Email}");
                     }
                     catch 
                     {

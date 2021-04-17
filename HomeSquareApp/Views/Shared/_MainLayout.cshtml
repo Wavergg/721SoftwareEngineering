@@ -93,9 +93,12 @@
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
                                 @if (signInManager.IsSignedIn(User))
                                 {
-                                    <button class="btn btn-outline-success rounded-pill me-2">
-                                        @User.Identity.Name
+                                //Replace This later with link to profile page
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-outline-success rounded-pill me-2">
+                                        My Account
                                     </button>
+                                </form>
                                 }
                                 else
                                 {
@@ -144,7 +147,7 @@
                                     <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
                                 </svg>
                                 <span>
-                                    @User.Identity.Name
+                                    My Account
                                 </span>
                             </button>
                         } else 

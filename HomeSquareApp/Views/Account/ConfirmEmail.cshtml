@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Email Confirmation";
+}
+
+
+<div class="container center-vh d-flex align-items-center justify-content-center">
+    @if(ViewBag.ConfirmResult)
+    {
+
+        <div class="card p-5 alert alert-success">
+            <h1>Email Confirmation Successfull</h1>
+            <p>@ViewBag.ConfirmMessage</p>
+            <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-success me-2">
+                <span>Click Here to Login</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="card p-5 alert alert-danger">
+            <h1>Email Confirmation Failed</h1>
+            <p>@ViewBag.ConfirmMessage</p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger me-2">
+                <span>Back to Home Page</span>
+            </a>
+        </div>
+    }
+</div>

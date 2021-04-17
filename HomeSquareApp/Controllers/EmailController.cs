@@ -11,11 +11,9 @@ namespace HomeSquareApp.Controllers
     {
         //Move this to models later
         //If error is occured, SIT wifi might be the one to blame
-        public static void SendEmail(string email)
+        public static void SendEmail(MailMessage message)
         {
-            MailMessage message = new MailMessage("homesquare322@gmail.com", email);
-            message.Subject = "This is email confirmation from localhost grocery store HomeSquare";
-            message.Body = "Hi friend, you have registered into our store for good";
+            
 
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()

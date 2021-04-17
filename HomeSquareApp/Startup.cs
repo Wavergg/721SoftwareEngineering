@@ -42,7 +42,9 @@ namespace HomeSquareApp
                 {
                     options.User.RequireUniqueEmail = true;
                     options.Password.RequiredLength = 8;
+                    options.SignIn.RequireConfirmedEmail = true;
                 })
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
 
 
