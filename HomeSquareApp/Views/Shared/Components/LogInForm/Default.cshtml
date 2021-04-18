@@ -1,8 +1,13 @@
 ﻿@model LogInViewModel
 
-<form asp-controller="Account" asp-action="Login"
+@{
+    var returnUrl = Context.Request.Path;
+}
+
+<form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@returnUrl"
       method="post" data-ajax="true" data-ajax-loading="#modalLoader" data-ajax-complete="loginReturned"
-      data-ajax-method="post" data-ajax-url="/Account/Login" id="loginForm">
+      data-ajax-method="post" data-ajax-url="/Account/Login?returnUrl=@returnUrl" id="loginForm">
+    
     @* Information of register being successful sent from the signup panel *@
     <div style="background-color: #ffcccb">
         <p id="signupConfirmationPrompt" class="p-3 form-text d-none">
@@ -52,9 +57,10 @@
         if (data.responseJSON.isSuccess) {
             if (location.pathname == "/Account/ConfirmEmail") {
                 window.location.href = "/";
-            } else {
-                window.location.reload();
             }
+            //console.log(data)
+            //alert(data.responseJSON.urlRedirect)
+            window.location.href = data.responseJSON.urlRedirect;
         } else {
             var list = document.createElement('span');
             for (var i = 0; i < data.responseJSON.message.length; i++) {

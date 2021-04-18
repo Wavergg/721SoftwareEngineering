@@ -16,9 +16,17 @@
 
 @if (TempData["ResetMessage"] != null)
 {
-    @*<script>
-        alert('@TempData["ResetMessage"]')
-    </script>*@
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="liveToast" class="toast hide" style="background-color:#c5e1a5" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="toast-header">
+            <strong class="me-auto">Notification</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["ResetMessage"]
+        </div>
+    </div>
+</div>
 }
 
 
@@ -273,5 +281,9 @@
             // Parameters has to be in square bracket '[]'
             owlLatestProduct.trigger('prev.owl.carousel', [300]);
         })
+
+        $(document).ready(function () {
+            $(".toast").toast('show');
+        });
     </script>
 }

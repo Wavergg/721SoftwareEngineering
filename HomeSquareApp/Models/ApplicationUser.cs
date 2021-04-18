@@ -19,5 +19,8 @@ namespace HomeSquareApp.Models
 
         [Required]
         [MaxLength(128)]
-        public string Address { get; set; }    }
+        public string Address { get; set; }
+
+       
+    }
 }

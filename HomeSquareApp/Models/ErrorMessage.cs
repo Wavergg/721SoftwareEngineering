@@ -10,6 +10,8 @@ namespace HomeSquareApp.Models
         public bool IsSuccess { get; set; }
         public List<string> Message { get; set; } = new List<string>();
 
+        public string UrlRedirect { get; set; }
+
         public ErrorMessage()
         {
 

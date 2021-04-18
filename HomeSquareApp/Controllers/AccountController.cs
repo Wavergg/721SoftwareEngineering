@@ -161,7 +161,7 @@ namespace HomeSquareApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Email,Password,RememberMe")] LogInViewModel model)
+        public async Task<IActionResult> Login([Bind("Email,Password,RememberMe")] LogInViewModel model,string returnUrl)
         {
             ErrorMessage errorMsg = new ErrorMessage();
             errorMsg.IsSuccess = false;
@@ -181,6 +181,21 @@ namespace HomeSquareApp.Controllers
                 if (result.Succeeded)
                 {
                     errorMsg.IsSuccess = true;
+                    //prevent openredirect atk by checking localurl
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        if (await _UserManager.IsInRoleAsync(user,"ADMIN")) { 
+                            //REDIRECT TO ADMIN PAGE
+                        } else
+                        {
+                            //Pass In URL into the json obj and let js handle the redirect
+                            errorMsg.UrlRedirect = returnUrl;
+                        }
+                    } else
+                    {
+                        //This will produce '/'
+                        errorMsg.UrlRedirect = Url.Action("Index", "Home");
+                    }
                     return Json(errorMsg);
                 }
             }
@@ -218,7 +233,6 @@ namespace HomeSquareApp.Controllers
                 var result = await _UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    
                     try {
                         //GENERATE EMAIL GENERATION TOKEN
                         var token = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -234,6 +248,8 @@ namespace HomeSquareApp.Controllers
 
                         errorMsg.IsSuccess = true;
                         errorMsg.Message.Add($"Registration Successful - To activate your account, please visit on the link that has been sent to {model.Email}");
+
+                        await _UserManager.AddToRoleAsync(user, "CUSTOMER");
                     }
                     catch 
                     {
