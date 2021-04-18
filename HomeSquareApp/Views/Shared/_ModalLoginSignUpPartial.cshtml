@@ -17,11 +17,8 @@
                         <div class="sign-in-htm">
                             @* SignIn AREA *@
                             @* ---------------------------------------------- *@
-                            <partial name="_UserFormLoginPartial" />
-
-                            <div class="foot-lnk">
-                                <a onclick="togglePanel()">Forgot Password?</a>
-                            </div>
+                            @*<partial name="_UserFormLoginPartial" />*@
+                            @await Component.InvokeAsync("LogInForm") 
                         </div>
                         @* SignUp / Register AREA *@
                         @* ---------------------------------------------- *@
@@ -32,13 +29,15 @@
                             </div>
                             <div id="panel"></div>
                             @*  asp-controller="Account" asp-action="Register"*@
-                            <partial name="_UserFormRegisterPartial" />
+                            @*<partial name="_UserFormRegisterPartial" />*@
+                            @await Component.InvokeAsync("RegisterForm") 
                         </div>
                     </div>
                 </div>
                 <div class="login-html animationToggleVisible" id="passwordPanel" hidden>
                     <div class="login-form">
-                        <partial name="_UserFormForgotPasswordPartial" />
+                        @*<partial name="_UserFormForgotPasswordPartial" />*@
+                        @await Component.InvokeAsync("ForgotPasswordForm") 
                     </div>
                 </div>
             </div>

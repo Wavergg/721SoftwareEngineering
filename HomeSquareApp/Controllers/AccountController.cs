@@ -48,28 +48,37 @@ namespace HomeSquareApp.Controllers
                 if(user != null)
                 {
                     var result = await _UserManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+                    //activate user account if email is not confirmed
+                    if (!await _UserManager.IsEmailConfirmedAsync(user))
+                    {
+                        var emailConfirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
+                        await _UserManager.ConfirmEmailAsync(user, emailConfirmationToken);
+                    }
+
                     if (result.Succeeded)
                     {
-                        ViewData["ResetMessage"] = "Succesfully resetting your account";
-                        return View();
+                        //sign the user in after reset
+                        await _SignInManager.SignInAsync(user, false);
+
+                        TempData["ResetMessage"] = "Succesfully resetting your password";
+                        return RedirectToAction("Index", "Home");
                     }
                     foreach( var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
-
-                    return View();
                 }
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string token, string email)
+        public IActionResult ResetPassword(string Token, string Email)
         {
-            if (token == null || email == null)
+            if (Token == null || Email == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -94,13 +103,18 @@ namespace HomeSquareApp.Controllers
                     var token = await _UserManager.GeneratePasswordResetTokenAsync(user);
 
                     var passwordResetLink = 
-                        Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+                        Url.Action("ResetPassword", "Account", new { Email = model.Email, Token = token }, Request.Scheme);
 
-                    //SENDING EMAIL (REENABLE THIS LATER)
-                    MailMessage message = new MailMessage("homesquare322@gmail.com", model.Email);
-                    message.Subject = "Password Reset Link";
-                    message.Body = "Hi we got your back, Click here to reset your account: \n" + passwordResetLink;
-                    EmailController.SendEmail(message);
+                    try { 
+                        //SENDING EMAIL (REENABLE THIS LATER)
+                        MailMessage message = new MailMessage("homesquare322@gmail.com", model.Email);
+                        message.Subject = "Password Reset Link";
+                        message.Body = "Hi we got your back, Click here to reset your account: \n" + passwordResetLink;
+                        EmailController.SendEmail(message);
+                    } catch
+                    {
+                        errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
+                    }
                 }
 
                 //i place it here so that people cant use this reset password for checking whether the email exist or not
@@ -147,7 +161,7 @@ namespace HomeSquareApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Email,Password,RememberMe")] LoginViewModel model)
+        public async Task<IActionResult> Login([Bind("Email,Password,RememberMe")] LogInViewModel model)
         {
             ErrorMessage errorMsg = new ErrorMessage();
             errorMsg.IsSuccess = false;
@@ -224,7 +238,7 @@ namespace HomeSquareApp.Controllers
                     catch 
                     {
                         await _UserManager.DeleteAsync(user);
-                        errorMsg.Message.Add($"Failure in sending Email confirmation, Please try again.");
+                        errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
                     }
                     return Json(errorMsg);
                 }

@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="~/lib/css/productCard.css" />
 }
 
+@if (TempData["ResetMessage"] != null)
+{
+    @*<script>
+        alert('@TempData["ResetMessage"]')
+    </script>*@
+}
+
+
+
 <div class="mb-5">
     @* Carousel For Promotional ADS/PRODUCTS *@
     <div id="carouselExampleCaptions" class="carousel slide mb-2" data-bs-ride="carousel">
@@ -161,7 +170,7 @@
             string test1 = "Banana";
             string test2 = "String can get quite long for this one";
         }
-       
+
         <div class=" owl-carousel owl-carouselLatestProduct row">
             @* NYD Pass In the model here model/viewdata *@
             @for (int i = 0; i < 2; i++)

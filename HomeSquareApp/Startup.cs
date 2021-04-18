@@ -42,6 +42,8 @@ namespace HomeSquareApp
                 {
                     options.User.RequireUniqueEmail = true;
                     options.Password.RequiredLength = 8;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
                     options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddDefaultTokenProviders()

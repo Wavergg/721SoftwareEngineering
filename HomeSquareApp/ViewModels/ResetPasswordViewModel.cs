@@ -19,7 +19,7 @@ namespace HomeSquareApp.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [MinLength(8)]
+        [MinLength(8,ErrorMessage = "Password should be atleast 8 characters in length")]
         [RegularExpression(
             pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$",
             ErrorMessage = "Password should contain atleast 8 characters, 1 alphanumeric character and 1 symbol")]

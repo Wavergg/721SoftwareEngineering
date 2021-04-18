@@ -1,0 +1,51 @@
+﻿@model ForgotPasswordViewModel
+
+<form asp-controller="Account" asp-action="ForgotPassword"
+      method="post" data-ajax="true" data-ajax-loading="#modalLoader" data-ajax-complete="forgotPasswordReturned"
+      data-ajax-method="post" data-ajax-begin="preventClickForgotForm" data-ajax-url="/Account/ForgotPassword" id="forgotPasswordForm">
+    <h3 class="fw-bold ">Password Reset</h3>
+    <div class="" id="resetPasswordConfirmationPrompt">
+
+        @*Did not receive any email? <a href="#" class="text-decoration-underline">Resend link</a>*@
+    </div>
+    <div class="group mt-5">
+        <label asp-for="Email" for="emailResetPassword" class="label">Your Email</label>
+        <input asp-for="Email" id="emailResetPassword" type="email" class="input" required>
+        <span asp-validation-for="Email" id="emailForgotPasswordPrompt" class="text-danger form-text"></span>
+    </div>
+    <div class="group">
+        <button type="submit" id="submitResetPasswordBtn" class="btn btn-primary form-control rounded-pill">Reset Password</button>
+        <button onclick="togglePanel()" id="backResetBtn" type="button" class="mt-3 btn btn-light border-secondary form-control rounded-pill">Back To Login</button>
+    </div>
+</form>
+
+<script>
+    function preventClickForgotForm() {
+        $("#loginModal").addClass("overlay");
+        $("#submitResetPasswordBtn").attr("disabled", true);
+        $("#closeModal").attr("disabled", true)
+        $("#backResetBtn").attr("disabled",true)
+    }
+
+    function forgotPasswordReturned(data) {
+        var resetPasswordSummaryElement = document.getElementById("resetPasswordConfirmationPrompt")
+        console.log(data)
+        var list = document.createElement('span');
+        for (var i = 0; i < data.responseJSON.message.length; i++) {
+            // Add it to the list:
+            list.appendChild(document.createTextNode(data.responseJSON.message[i]));
+        }
+        //REPOPULATE THE SUMMARY With list above
+        resetPasswordSummaryElement.innerHTML = "";
+        resetPasswordSummaryElement.classList.add("alert")
+        resetPasswordSummaryElement.classList.add("alert-warning")
+        $('#forgotPasswordForm')[0].reset();
+        
+        $("#loginModal").removeClass("overlay");
+        $("#closeModal").removeAttr("disabled");
+        $("#submitResetPasswordBtn").removeAttr("disabled")
+        $("#backResetBtn").removeAttr("disabled")
+        resetPasswordSummaryElement.appendChild(list);
+
+    }
+</script>

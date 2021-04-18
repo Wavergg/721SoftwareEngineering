@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.ViewModels
 {
-    public class LoginViewModel
+    public class LogInViewModel
     {
         [Required]
         [EmailAddress]

@@ -93,12 +93,12 @@
                                 @* The modal responsible for the login would be in partial view referenced on the bottom of page *@
                                 @if (signInManager.IsSignedIn(User))
                                 {
-                                //Replace This later with link to profile page
-                                <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="btn btn-outline-success rounded-pill me-2">
-                                        My Account
-                                    </button>
-                                </form>
+                                    //Replace This later with link to profile page
+                                    <form asp-controller="Account" asp-action="Logout" method="post">
+                                        <button type="submit" class="btn btn-outline-success rounded-pill me-2">
+                                            My Account
+                                        </button>
+                                    </form>
                                 }
                                 else
                                 {
@@ -141,7 +141,8 @@
                         </button>
                     </div>
                     <div class="col-9 d-flex flex-row justify-content-end">
-                        @if (signInManager.IsSignedIn(User)) { 
+                        @if (signInManager.IsSignedIn(User))
+                        {
                             <button class="btn btn-light rounded-pill me-2">
                                 <svg class="bi" width="24" height="36" fill="currentColor">
                                     <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
@@ -150,14 +151,15 @@
                                     My Account
                                 </span>
                             </button>
-                        } else 
+                        }
+                        else
                         {
-                        <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
-                            <svg class="bi" width="24" height="36" fill="currentColor">
-                                <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
-                            </svg>
-                            <span>Login</span>
-                        </button>
+                            <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-light rounded-pill me-2">
+                                <svg class="bi" width="24" height="36" fill="currentColor">
+                                    <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
+                                </svg>
+                                <span>Login</span>
+                            </button>
                         }
                         @* NYD NEED TO READ PASS DATA TO UPDATE ITEM COUNT *@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-light rounded-pill me-2">
@@ -211,7 +213,7 @@
         <main id="elementMain">
             @RenderBody()
         </main>
-        
+
 
         <!-- FOOTER -->
         <footer class="container-fluid px-0 text-dark bg-light">
@@ -300,10 +302,10 @@
     <partial name="_ModalLoginSignUpPartial" />
     <partial name="_ModalCartPartial" />
 
-    
+
     @* MODIFIED JQUERY VALIDATE START *@
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
-   
+
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -330,7 +332,7 @@
 
     @* Script for sticky nav bar on mobile and desktop *@
     <script>
-        
+
 
         window.addEventListener("scroll", function () {
             var mobileNav = document.getElementById("mobileNav");

@@ -35,9 +35,13 @@
         <button type="submit" onclick="clearSummary()" class="btn btn-primary form-control rounded-pill"> Sign In</button>
     </div>
 </form>
+<div class="foot-lnk">
+    <a onclick="togglePanel()" id="switchForgotPasswordBtn">Forgot Password?</a>
+</div>
 
 <script>
     var loginSummaryElement = document.getElementById("errorLogInSummary");
+
 
     function clearSummary() {
         //CLEAR PREVIOUS ERROR SUMMARY

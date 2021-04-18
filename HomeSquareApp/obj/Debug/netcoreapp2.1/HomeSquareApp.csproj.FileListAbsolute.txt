@@ -49,3 +49,6 @@ C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Account\ConfirmEmail.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Account\ResetPassword.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_UserFormForgotPasswordPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\LogInForm\Default.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\RegisterForm\Default.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\ForgotPasswordForm\Default.cshtml.g.cs
