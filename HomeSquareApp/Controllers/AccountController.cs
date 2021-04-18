@@ -205,7 +205,6 @@ namespace HomeSquareApp.Controllers
         }
 
 
-        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _SignInManager.SignOutAsync();

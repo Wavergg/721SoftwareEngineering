@@ -17,9 +17,11 @@ ul {
     pointer-events: none;
 }
 
+
+
 /*Validation styling*/
 .input-validation-error {
-    border: 1px solid #dc3545 !important; 
+    border: 1px solid #dc3545 !important;
 }
 
 .moveSlightlyY-animation {
@@ -90,12 +92,13 @@ footer .btn:hover {
     }
 }
 
-
-
+input[type=number] {
+    max-width:120px;
+    min-width:60px;
+}
 /*Input number up / bottom arrow*/
-
 @media (min-width:768px) {
-    input[type=number].custom-spinner::-webkit-inner-spin-button {
+    input [type=number].custom-spinner::-webkit-inner-spin-button {
         -webkit-appearance: none;
         cursor: pointer;
         display: block;

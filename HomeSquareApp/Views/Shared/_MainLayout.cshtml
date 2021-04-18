@@ -65,9 +65,23 @@
             display: flex;
             height: auto !important;
         }
+
+        .popover-body a.form-control{
+            border:0;
+            box-shadow: 0;
+        }
+            .popover-body a.form-control:hover {
+                background-color: #c5e1a5;
+            }
+
+            .popover{
+                z-index:10;
+                min-width:210px;
+            }
     </style>
 </head>
 <body>
+
     @* Cover it in #app for VUE.JS *@
     <div id="app">
 
@@ -94,11 +108,11 @@
                                 @if (signInManager.IsSignedIn(User))
                                 {
                                     //Replace This later with link to profile page
-                                    <form asp-controller="Account" asp-action="Logout" method="post">
-                                        <button type="submit" class="btn btn-outline-success rounded-pill me-2">
-                                            My Account
-                                        </button>
-                                    </form>
+                                    @*<form asp-controller="Account" asp-action="Logout" method="post"></form>*@
+                                    <button id="myAccountPopover" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" class="btn btn-outline-success rounded-pill me-2">
+                                        My Account
+                                    </button>
+
                                 }
                                 else
                                 {
@@ -143,7 +157,7 @@
                     <div class="col-9 d-flex flex-row justify-content-end">
                         @if (signInManager.IsSignedIn(User))
                         {
-                            <button class="btn btn-light rounded-pill me-2">
+                            <button data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" class="btn btn-light rounded-pill me-2">
                                 <svg class="bi" width="24" height="36" fill="currentColor">
                                     <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person" />
                                 </svg>
@@ -302,6 +316,15 @@
     <partial name="_ModalLoginSignUpPartial" />
     <partial name="_ModalCartPartial" />
 
+    @if (signInManager.IsSignedIn(User)) { 
+        <div id="popoverTemplate" class="hide" hidden>
+            <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
+            <a class="form-control border-0 rounded-0 text-success">My Details</a>
+            <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
+                Log Out
+            </a>
+        </div>
+    }
 
     @* MODIFIED JQUERY VALIDATE START *@
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
@@ -371,7 +394,25 @@
             document.getElementById("elementMain").style.marginTop = `${navBarDesktopHeight + navBarMobileHeight + navBarMobileBrandHeight + mobileNavBarExtension.offsetHeight}px`;
         });
 
-       
+        //Initialize Popover bootstrap
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        //console.log(popoverTriggerList)
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl, {
+                html: true,
+                content: function () {
+                    return $("#popoverTemplate").html();
+                }
+            })
+        })
+        //var myAccountEl = document.getElementById('myAccountPopover')
+        //var popover = new bootstrap.Popover(myAccountEl,
+        //    {
+        //    html: true,
+        //    content: function () {
+        //        return $("#popoverTemplate").html();
+        //    }
+        //})
     </script>
 </body>
 </html>
