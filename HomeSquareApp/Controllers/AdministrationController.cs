@@ -17,27 +17,28 @@ namespace HomeSquareApp.Controllers
             this._RoleManager = roleManager;
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> Index()
-        {
-            //List<IdentityRole> identityRoles = new List<IdentityRole>();
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Index()
+        //{
+        //    List<IdentityRole> identityRoles = new List<IdentityRole>();
 
-            //IdentityRole identityRoleAdmin = new IdentityRole()
-            //{
-            //    Name = "ADMIN",
-            //};
+        //    IdentityRole identityRoleAdmin = new IdentityRole()
+        //    {
+        //        Name = "ADMIN",
+        //    };
 
-            //IdentityRole identityRoleCustomer = new IdentityRole()
-            //{
-            //    Name = "CUSTOMER",
-            //};
-            //identityRoles.Add(identityRoleCustomer);
-            //identityRoles.Add(identityRoleAdmin);
+        //    IdentityRole identityRoleCustomer = new IdentityRole()
+        //    {
+        //        Name = "CUSTOMER",
+        //    };
+        //    identityRoles.Add(identityRoleCustomer);
+        //    identityRoles.Add(identityRoleAdmin);
 
-            //foreach(IdentityRole role in identityRoles) { 
-            //    await _RoleManager.CreateAsync(role);
-            //}
-            return Json(true);
-        }
+        //    foreach (IdentityRole role in identityRoles)
+        //    {
+        //        await _RoleManager.CreateAsync(role);
+        //    }
+        //    return Json(true);
+        //}
     }
 }

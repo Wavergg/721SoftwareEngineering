@@ -16,6 +16,11 @@
         background-color: #F6F6F6;
     }
 
+    #sidebar-wrapper a.active {
+        background-color: #F6F6F6;
+        color: blue;
+    }
+
     #sidebar-wrapper .container {
         width: 20rem;
     }

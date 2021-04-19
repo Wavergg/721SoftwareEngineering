@@ -1,0 +1,19 @@
+﻿@model UserProfileViewModel
+
+<div class="bg-white container p-5">
+    <h1>User Account Information</h1>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label asp-for="Email"></label>
+        </div>
+        <div class="col-auto">
+            <input asp-for="Email" class="bg-transparent border-0" disabled />
+        </div>
+    </div>
+    <form asp-controller="Account" asp-action="ChangePassword" id="changePasswordForm">
+    </form>
+
+    <form asp-controller="Account" asp-action="ChangePassword" id="changePasswordForm">
+    </form>
+</div>

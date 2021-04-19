@@ -49,3 +49,7 @@ C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\LogInForm\Default.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\RegisterForm\Default.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\ForgotPasswordForm\Default.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Manage\Index.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Manage\MyOrders.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ManageAccountInformationPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ManageMyOrdersPartial.cshtml.g.cs

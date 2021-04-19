@@ -133,6 +133,43 @@ namespace HomeSquareApp.Controllers
             return Json(errorMsg);
         }
 
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword([Bind("Email,CurrentPassword,NewPassword,ConfirmNewPassword")]ChangePasswordViewModel model)
+        {
+
+            ErrorMessage errorMsg = new ErrorMessage();
+            errorMsg.IsSuccess = false;
+
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(model.Email);
+
+                if (user != null)
+                {
+                    var result = await _UserManager.ChangePasswordAsync(user,model.CurrentPassword,model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        errorMsg.IsSuccess = true;
+                        errorMsg.Message.Add("Successfully Changing Your Password");
+                        return Json(errorMsg);
+                    }
+                }
+            }
+
+            var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+
+            foreach (string error in allErrors)
+            {
+                errorMsg.Message.Add($"{error}");
+            }
+            return Json(errorMsg);
+        }
+
+
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userID, string token)
@@ -157,6 +194,14 @@ namespace HomeSquareApp.Controllers
             ViewBag.ConfirmResult = false;
             ViewBag.ConfirmMessage = "Unable to locate the user or token is invalid";
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            TempData["OpenLogin"] = true;
+            
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

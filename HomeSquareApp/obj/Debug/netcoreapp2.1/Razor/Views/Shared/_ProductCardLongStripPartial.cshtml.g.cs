@@ -76,12 +76,12 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("<div class=\"card p-3 d-flex flex-column justify-content-between\">\r\n    ");
             EndContext();
             BeginContext(109, 1022, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d1163d973c1c44858a66099d1a17e40e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bc3aa43ec1474a52af0264b6640bc066", async() => {
                 BeginContext(193, 108, true);
                 WriteLiteral("\r\n        <div class=\"p-3 align-items-center d-flex justify-content-center position-relative\">\r\n            ");
                 EndContext();
                 BeginContext(301, 127, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "e1564b3a85f44082942bd0e4211bbd77", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "33bacffa7cb24fa38bd07bb94cc7823e", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ImageTagHelper>();
@@ -146,7 +146,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ImageTagHelper.AppendVersion = true;
             WriteLiteral("\r\n    <div class=\"text-start text-sm-center product-details pt-1\">\r\n        ");
             EndContext();
             BeginContext(1207, 133, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "984c38c32c38418a858761d0425c334b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cc5fe571c6344d93a5ae57668786847b", async() => {
                 BeginContext(1331, 5, false);
 #line 21 "C:\Users\Waver\source\repos\HomeSquareApp\HomeSquareApp\Views\Shared\_ProductCardLongStripPartial.cshtml"
                                                                                                                               Write(Model);

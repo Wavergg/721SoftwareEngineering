@@ -311,19 +311,39 @@
         </footer>
     </div>
 
-
     <!-- Signup and Login Modal -->
     <partial name="_ModalLoginSignUpPartial" />
     <partial name="_ModalCartPartial" />
 
-    @if (signInManager.IsSignedIn(User)) { 
-        <div id="popoverTemplate" class="hide" hidden>
-            <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
-            <a class="form-control border-0 rounded-0 text-success">My Details</a>
-            <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
-                Log Out
-            </a>
-        </div>
+    @if (TempData["OpenLogin"] != null)
+    {
+        <script>
+            
+            $(document).ready(function () {
+                $('#loginModal').modal('show')
+            });
+        </script>
+    }
+
+    @if (signInManager.IsSignedIn(User))
+    {
+<div id="popoverTemplate" class="hide" hidden>
+    <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
+    <div>
+        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">My Details</a>
+    </div>
+    @* Found a bug here, if there is no separator link it wont work for the next link *@
+    <a asp-action="Index" asp-controller="Home"></a>
+    <div>
+        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
+    </div>
+    <a asp-action="Index" asp-controller="Home"></a>
+    <div>
+        <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
+            Log Out
+        </a>
+    </div>
+</div>
     }
 
     @* MODIFIED JQUERY VALIDATE START *@
@@ -353,7 +373,7 @@
         @RenderSection("Scripts", required: false)
     }
 
-    @* Script for sticky nav bar on mobile and desktop *@
+    @* Script for sticky nav bar on mobile and desktop, initialize sticky *@
     <script>
 
 
@@ -405,14 +425,14 @@
                 }
             })
         })
-        //var myAccountEl = document.getElementById('myAccountPopover')
-        //var popover = new bootstrap.Popover(myAccountEl,
-        //    {
-        //    html: true,
-        //    content: function () {
-        //        return $("#popoverTemplate").html();
-        //    }
-        //})
+            //var myAccountEl = document.getElementById('myAccountPopover')
+            //var popover = new bootstrap.Popover(myAccountEl,
+            //    {
+            //    html: true,
+            //    content: function () {
+            //        return $("#popoverTemplate").html();
+            //    }
+            //})
     </script>
 </body>
 </html>
