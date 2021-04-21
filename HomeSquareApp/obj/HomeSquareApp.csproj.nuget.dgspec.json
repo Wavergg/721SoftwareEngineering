@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj": {}
+    "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\HomeSquareApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj": {
+    "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\HomeSquareApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj",
+        "projectUniqueName": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\HomeSquareApp.csproj",
         "projectName": "HomeSquareApp",
-        "projectPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj",
+        "projectPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\HomeSquareApp.csproj",
         "packagesPath": "C:\\Users\\Waver\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\obj\\",
+        "outputPath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

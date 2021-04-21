@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "th/yfEkYR/DP1X0aDKRpheksXy4ObNTsP6kvFZZFYzKiEvAkXStLtKX5oq2UGSaY5Ztcox6Q/vHZDlCCpnZnXw==",
+  "dgSpecHash": "+tXDtLPFfGRxzMbu1ECQlbvwEC0Mye6ZrYtpRpBrUG7HrWNXGt36OX/Si2MeytZe0oKQLOBL8zozTWrCZrbxWg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\HomeSquareApp\\HomeSquareApp.csproj",
+  "projectFilePath": "C:\\Users\\Waver\\source\\repos\\HomeSquareApp\\721SoftwareEngineering\\HomeSquareApp\\HomeSquareApp.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Users\\Waver\\.nuget\\packages\\microsoft.aspnetcore\\2.1.7\\microsoft.aspnetcore.2.1.7.nupkg.sha512",
