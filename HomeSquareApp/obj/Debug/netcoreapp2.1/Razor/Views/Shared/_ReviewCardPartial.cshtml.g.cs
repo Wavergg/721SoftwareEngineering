@@ -66,7 +66,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("<div class=\"card w-100 shadow-none rounded-0\">\r\n    <div class=\"d-md-flex\">\r\n        <div class=\"px-md-5 px-4 py-md-0 py-4 align-items-center d-flex\">\r\n            ");
             EndContext();
             BeginContext(164, 104, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3ddd03544b824d8fb814783cbccea555", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "ca85f67c227b4621b13f26f9c5fe70d5", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

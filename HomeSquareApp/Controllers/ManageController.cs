@@ -30,6 +30,9 @@ namespace HomeSquareApp.Controllers
             else if(pageName == "MyOrders")
             {
                 ViewData["Active"] = "MyOrdersLink";
+            } else if(pageName == "MyRewards")
+            {
+                ViewData["Active"] = "MyRewardsLink";
             }
             return View();
         }

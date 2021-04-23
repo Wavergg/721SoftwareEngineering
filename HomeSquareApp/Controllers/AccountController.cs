@@ -229,8 +229,9 @@ namespace HomeSquareApp.Controllers
                     //prevent openredirect atk by checking localurl
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        if (await _UserManager.IsInRoleAsync(user,"ADMIN")) { 
+                        if (await _UserManager.IsInRoleAsync(user,"ADMIN")) {
                             //REDIRECT TO ADMIN PAGE
+                            errorMsg.UrlRedirect = Url.Action("Index", "Admin");
                         } else
                         {
                             //Pass In URL into the json obj and let js handle the redirect

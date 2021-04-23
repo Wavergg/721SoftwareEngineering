@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.Controllers
 {
-    public class AdministrationController : Controller
+    [Authorize(Roles = "ADMIN")]
+    public class AdminController : Controller
     {
         private readonly RoleManager<IdentityRole> _RoleManager;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager)
+        public AdminController(RoleManager<IdentityRole> roleManager)
         {
             this._RoleManager = roleManager;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         //[AllowAnonymous]

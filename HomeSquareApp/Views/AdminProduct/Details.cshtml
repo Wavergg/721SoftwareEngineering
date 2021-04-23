@@ -1,0 +1,151 @@
+﻿@model HomeSquareApp.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_AdminLayout";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductStock)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductStock)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductDiscount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductDiscount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewFiveStarsCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReviewFiveStarsCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewFourStarsCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReviewFourStarsCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewThreeStarsCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReviewThreeStarsCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewTwoStarsCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReviewTwoStarsCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewOneStarsCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReviewOneStarsCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Week5PurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Week5PurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Week4PurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Week4PurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Week3PurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Week3PurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Week2PurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Week2PurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Week1PurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Week1PurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentWeekPurchaseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentWeekPurchaseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductInformation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductInformation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductServingContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductServingContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServingType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServingType.ServingType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductStatus.ProductStatusName)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Category)*@
+        </dt>
+        <dd>
+            @*@Html.DisplayFor(model => model.Category.CategoryName)*@
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RewardPool)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RewardPool.RewardPoolID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProductID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,48 +15,60 @@ namespace HomeSquareApp.Models
 
         [DataType(DataType.Currency)]
         [Display(Name = "Price")]
-        [Required]
+        [Required(ErrorMessage="Field Cannot Be Empty")]
         public double ProductPrice { get; set; }
 
         [Display(Name = "Stock")]
-        public int ProductStock { get; set; } = 0;
+        public int? ProductStock { get; set; } = 0;
 
         [MaxLength(128)]
         [Display(Name = "Product Name")]
-        [Required]
+        [Required(ErrorMessage = "Field Cannot Be Empty")]
+        //[Remote(action: "IsProductExist", controller: "AdminProduct")]
         public string ProductName { get; set; }
 
+        [Required]
+        public DateTime ProductAddedDate { get; set; }
+
         [Display(Name = "Discount")]
-        public float ProductDiscount { get; set; } = 0;
+        public float? ProductDiscount { get; set; } = 0;
+
+        [Required]
+        public string ImageUrl { get; set; }
 
 
-        public int ReviewFiveStars { get; set; } = 0;
-        public int ReviewFourStars { get; set; } = 0;
-        public int ReviewThreeStars { get; set; } = 0;
-        public int ReviewTwoStars { get; set; } = 0;
-        public int ReviewOneStars { get; set; } = 0;
+        public int ReviewFiveStarsCount { get; set; } = 0;
+        public int ReviewFourStarsCount { get; set; } = 0;
+        public int ReviewThreeStarsCount { get; set; } = 0;
+        public int ReviewTwoStarsCount { get; set; } = 0;
+        public int ReviewOneStarsCount { get; set; } = 0;
 
-        public int Week5Purchase { get; set; } = 0;
-        public int Week4Purchase { get; set; } = 0;
-        public int Week3Purchase { get; set; } = 0;
-        public int Week2Purchase { get; set; } = 0;
-        public int Week1Purchase { get; set; } = 0;
-        public int CurrentWeekPurchase { get; set; } = 0;
+        public int Week5PurchaseCount { get; set; } = 0;
+        public int Week4PurchaseCount { get; set; } = 0;
+        public int Week3PurchaseCount { get; set; } = 0;
+        public int Week2PurchaseCount { get; set; } = 0;
+        public int Week1PurchaseCount { get; set; } = 0;
+        [Display(Name ="Current Week Purchase")]
+        public int CurrentWeekPurchaseCount { get; set; } = 0;
 
         [MaxLength(256)]
+        [Display(Name = "Product Information")]
         public string ProductInformation { get; set; }
 
         [MaxLength(512)]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Field Cannot Be Empty")]
+        [Display(Name = "Serving Content")]
         public float ProductServingContent { get; set; }
         public int ProductServingTypeID { get; set; }
         public ProductServingType ServingType { get; set; }
 
+        [Display(Name = "Product Status")]
         public int ProductStatusID { get; set; }
         public ProductStatus ProductStatus { get; set; }
 
+        [Display(Name = "Product Category")]
         public int CategoryID { get; set; }
         public Category Category { get; set; }
 
@@ -68,7 +81,5 @@ namespace HomeSquareApp.Models
         public IEnumerable<Ingredient> Ingredients { get; set; }
 
         public IEnumerable<OrderDetails> OrderDetails { get; set; }
-
-       
     }
 }

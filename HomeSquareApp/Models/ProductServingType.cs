@@ -14,6 +14,7 @@ namespace HomeSquareApp.Models
         [MaxLength(10)]
         [Column(TypeName ="varchar(16)")]
         [Required]
+        [Display(Name = "Product Serving Type")]
         public string ServingType { get; set; }
     }
 }

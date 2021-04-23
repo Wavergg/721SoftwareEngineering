@@ -1,0 +1,48 @@
+﻿@model HomeSquareApp.Models.Category
+
+@{
+    ViewData["Title"] = "Create Product Categories";
+    ViewData["NavData"] = "ProductCategories";
+    Layout = "_AdminLayout";
+}
+
+<h2>Add New Category</h2>
+<hr />
+<div class="pb-5">
+    <div class="col-md-5">
+        <form asp-action="Create" class="gap-2 row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="d-flex">
+                <label asp-for="CategoryName" class="col-md-5"></label>
+                <input asp-for="CategoryName" class="col-md-7 form-control flex-fill" />
+            </div>
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+            <div class="d-flex">
+                <label asp-for="Description" class="col-md-5"></label>
+                <input asp-for="Description" class="col-md-7 form-control flex-fill" />
+            </div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="d-flex">
+                <input id="submitFormBtn" type="submit" value="Create" hidden />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="border-top pt-2">
+    <div class="d-flex align-items-center col-md-5">
+        <a asp-action="Index" class="me-auto text-decoration-none">
+            Back to Product Categories List
+        </a>
+        <input type="button" onclick="submitForm()" value="Create" class="rounded-0 btn btn-outline-dark border-secondary" />
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function submitForm() {
+            document.getElementById("submitFormBtn").click();
+        }
+    </script>
+} 

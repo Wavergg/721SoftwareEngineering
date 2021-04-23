@@ -191,10 +191,15 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("CategoryID");
 
-                    b.Property<int>("CurrentWeekPurchase");
+                    b.Property<int>("CurrentWeekPurchaseCount");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired();
+
+                    b.Property<DateTime>("ProductAddedDate");
 
                     b.Property<float>("ProductDiscount");
 
@@ -215,27 +220,27 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("ProductStock");
 
-                    b.Property<int>("ReviewFiveStars");
+                    b.Property<int>("ReviewFiveStarsCount");
 
-                    b.Property<int>("ReviewFourStars");
+                    b.Property<int>("ReviewFourStarsCount");
 
-                    b.Property<int>("ReviewOneStars");
+                    b.Property<int>("ReviewOneStarsCount");
 
-                    b.Property<int>("ReviewThreeStars");
+                    b.Property<int>("ReviewThreeStarsCount");
 
-                    b.Property<int>("ReviewTwoStars");
+                    b.Property<int>("ReviewTwoStarsCount");
 
                     b.Property<int?>("RewardPoolID");
 
-                    b.Property<int>("Week1Purchase");
+                    b.Property<int>("Week1PurchaseCount");
 
-                    b.Property<int>("Week2Purchase");
+                    b.Property<int>("Week2PurchaseCount");
 
-                    b.Property<int>("Week3Purchase");
+                    b.Property<int>("Week3PurchaseCount");
 
-                    b.Property<int>("Week4Purchase");
+                    b.Property<int>("Week4PurchaseCount");
 
-                    b.Property<int>("Week5Purchase");
+                    b.Property<int>("Week5PurchaseCount");
 
                     b.HasKey("ProductID");
 

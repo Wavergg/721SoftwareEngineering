@@ -1,0 +1,137 @@
+﻿@model HomeSquareApp.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
+}
+
+<h2>Edit</h2>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductID" />
+            <div class="form-group">
+                <label asp-for="ProductPrice" class="control-label"></label>
+                <input asp-for="ProductPrice" class="form-control" />
+                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductStock" class="control-label"></label>
+                <input asp-for="ProductStock" class="form-control" />
+                <span asp-validation-for="ProductStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductDiscount" class="control-label"></label>
+                <input asp-for="ProductDiscount" class="form-control" />
+                <span asp-validation-for="ProductDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewFiveStarsCount" class="control-label"></label>
+                <input asp-for="ReviewFiveStarsCount" class="form-control" />
+                <span asp-validation-for="ReviewFiveStarsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewFourStarsCount" class="control-label"></label>
+                <input asp-for="ReviewFourStarsCount" class="form-control" />
+                <span asp-validation-for="ReviewFourStarsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewThreeStarsCount" class="control-label"></label>
+                <input asp-for="ReviewThreeStarsCount" class="form-control" />
+                <span asp-validation-for="ReviewThreeStarsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewTwoStarsCount" class="control-label"></label>
+                <input asp-for="ReviewTwoStarsCount" class="form-control" />
+                <span asp-validation-for="ReviewTwoStarsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewOneStarsCount" class="control-label"></label>
+                <input asp-for="ReviewOneStarsCount" class="form-control" />
+                <span asp-validation-for="ReviewOneStarsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week5PurchaseCount" class="control-label"></label>
+                <input asp-for="Week5PurchaseCount" class="form-control" />
+                <span asp-validation-for="Week5PurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week4PurchaseCount" class="control-label"></label>
+                <input asp-for="Week4PurchaseCount" class="form-control" />
+                <span asp-validation-for="Week4PurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week3PurchaseCount" class="control-label"></label>
+                <input asp-for="Week3PurchaseCount" class="form-control" />
+                <span asp-validation-for="Week3PurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week2PurchaseCount" class="control-label"></label>
+                <input asp-for="Week2PurchaseCount" class="form-control" />
+                <span asp-validation-for="Week2PurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week1PurchaseCount" class="control-label"></label>
+                <input asp-for="Week1PurchaseCount" class="form-control" />
+                <span asp-validation-for="Week1PurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentWeekPurchaseCount" class="control-label"></label>
+                <input asp-for="CurrentWeekPurchaseCount" class="form-control" />
+                <span asp-validation-for="CurrentWeekPurchaseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductInformation" class="control-label"></label>
+                <input asp-for="ProductInformation" class="form-control" />
+                <span asp-validation-for="ProductInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductServingContent" class="control-label"></label>
+                <input asp-for="ProductServingContent" class="form-control" />
+                <span asp-validation-for="ProductServingContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductServingTypeID" class="control-label"></label>
+                <select asp-for="ProductServingTypeID" class="form-control" asp-items="ViewBag.ProductServingTypeID"></select>
+                <span asp-validation-for="ProductServingTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductStatusID" class="control-label"></label>
+                <select asp-for="ProductStatusID" class="form-control" asp-items="ViewBag.ProductStatusID"></select>
+                <span asp-validation-for="ProductStatusID" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="RewardPoolID" class="control-label"></label>
+                <select asp-for="RewardPoolID" class="form-control" asp-items="ViewBag.RewardPoolID"></select>
+                <span asp-validation-for="RewardPoolID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

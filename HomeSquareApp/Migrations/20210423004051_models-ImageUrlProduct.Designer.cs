@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210421023559_models")]
-    partial class models
+    [Migration("20210423004051_models-ImageUrlProduct")]
+    partial class modelsImageUrlProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,6 +100,25 @@ namespace HomeSquareApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HomeSquareApp.Models.CategoriesProduct", b =>
+                {
+                    b.Property<int>("CategoriesProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryID");
+
+                    b.Property<int>("ProductID");
+
+                    b.HasKey("CategoriesProductID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("CategoriesProduct");
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Category", b =>
@@ -191,12 +210,15 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryID");
-
-                    b.Property<int>("CurrentWeekPurchase");
+                    b.Property<int>("CurrentWeekPurchaseCount");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired();
+
+                    b.Property<DateTime>("ProductAddedDate");
 
                     b.Property<float>("ProductDiscount");
 
@@ -217,31 +239,29 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("ProductStock");
 
-                    b.Property<int>("ReviewFiveStars");
+                    b.Property<int>("ReviewFiveStarsCount");
 
-                    b.Property<int>("ReviewFourStars");
+                    b.Property<int>("ReviewFourStarsCount");
 
-                    b.Property<int>("ReviewOneStars");
+                    b.Property<int>("ReviewOneStarsCount");
 
-                    b.Property<int>("ReviewThreeStars");
+                    b.Property<int>("ReviewThreeStarsCount");
 
-                    b.Property<int>("ReviewTwoStars");
+                    b.Property<int>("ReviewTwoStarsCount");
 
                     b.Property<int?>("RewardPoolID");
 
-                    b.Property<int>("Week1Purchase");
+                    b.Property<int>("Week1PurchaseCount");
 
-                    b.Property<int>("Week2Purchase");
+                    b.Property<int>("Week2PurchaseCount");
 
-                    b.Property<int>("Week3Purchase");
+                    b.Property<int>("Week3PurchaseCount");
 
-                    b.Property<int>("Week4Purchase");
+                    b.Property<int>("Week4PurchaseCount");
 
-                    b.Property<int>("Week5Purchase");
+                    b.Property<int>("Week5PurchaseCount");
 
                     b.HasKey("ProductID");
-
-                    b.HasIndex("CategoryID");
 
                     b.HasIndex("ProductServingTypeID");
 
@@ -527,6 +547,19 @@ namespace HomeSquareApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HomeSquareApp.Models.CategoriesProduct", b =>
+                {
+                    b.HasOne("HomeSquareApp.Models.Category", "Category")
+                        .WithMany("CategoriesProduct")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HomeSquareApp.Models.Product", "Product")
+                        .WithMany("CategoriesProduct")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HomeSquareApp.Models.Ingredient", b =>
                 {
                     b.HasOne("HomeSquareApp.Models.Product", "Product")
@@ -562,11 +595,6 @@ namespace HomeSquareApp.Migrations
 
             modelBuilder.Entity("HomeSquareApp.Models.Product", b =>
                 {
-                    b.HasOne("HomeSquareApp.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("HomeSquareApp.Models.ProductServingType", "ServingType")
                         .WithMany()
                         .HasForeignKey("ProductServingTypeID")

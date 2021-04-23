@@ -14,6 +14,7 @@ namespace HomeSquareApp.Models
 
         [Column(TypeName="varchar(16)")]
         [Required]
+        [Display(Name ="Product Status Name")]
         public string ProductStatusName { get; set; }
     }
 }

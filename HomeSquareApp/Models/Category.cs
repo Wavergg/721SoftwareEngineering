@@ -14,6 +14,7 @@ namespace HomeSquareApp.Models
 
         [MaxLength(64)]
         [Required]
+        [Display(Name ="Category Name")]
         public string CategoryName { get; set; }
 
         [MaxLength(512)]
