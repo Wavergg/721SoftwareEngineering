@@ -1,137 +1,166 @@
-﻿@model HomeSquareApp.Models.Product
+﻿@model HomeSquareApp.ViewModels.AdminProductEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
+    ViewData["NavData"] = "Product";
     Layout = "_AdminLayout";
 }
 
-<h2>Edit</h2>
-
-<h4>Product</h4>
+<h2>Edit New Product</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="pb-5">
+    <div class="col-md-5">
+        <form enctype="multipart/form-data" asp-action="Edit" class="row gap-2 pb-5" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductID" />
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            <input type="hidden" asp-for="ImageUrl" />
+            <div class="d-md-flex">
+                <label asp-for="ProductName" class="col-md-5"></label>
+                <input asp-for="ProductName" class="col-md-7 form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ProductStock" class="control-label"></label>
-                <input asp-for="ProductStock" class="form-control" />
-                <span asp-validation-for="ProductStock" class="text-danger"></span>
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+            <div class="d-flex justify-content-end">
+                <div class="card col-md-6 p-3">
+                    <img id="imagePhotoPreview" src="~/lib/images/products/@Model.ImageUrl" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="Image" class="col-md-5"></label>
+                <div class="custom-file">
+                    <input id="imageInput" asp-for="Image" class="col-md-7 form-control custom-file-input" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductDiscount" class="control-label"></label>
-                <input asp-for="ProductDiscount" class="form-control" />
-                <span asp-validation-for="ProductDiscount" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductPrice" class="col-md-5"></label>
+                <input asp-for="ProductPrice" class="col-md-7 form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ReviewFiveStarsCount" class="control-label"></label>
-                <input asp-for="ReviewFiveStarsCount" class="form-control" />
-                <span asp-validation-for="ReviewFiveStarsCount" class="text-danger"></span>
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductStock" class="col-md-5"></label>
+                <input disabled asp-for="ProductStock" class="col-md-7 form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ReviewFourStarsCount" class="control-label"></label>
-                <input asp-for="ReviewFourStarsCount" class="form-control" />
-                <span asp-validation-for="ReviewFourStarsCount" class="text-danger"></span>
+            <span asp-validation-for="ProductStock" class="text-danger"></span>
+            <div class="d-md-flex">
+                <label asp-for="ProductIncrement" class="col-md-5"></label>
+                <input asp-for="ProductIncrement" class="col-md-7 form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ReviewThreeStarsCount" class="control-label"></label>
-                <input asp-for="ReviewThreeStarsCount" class="form-control" />
-                <span asp-validation-for="ReviewThreeStarsCount" class="text-danger"></span>
+            <span asp-validation-for="ProductStock" class="text-danger"></span>
+            <div class="d-md-flex">
+                <label asp-for="ProductDiscount" class="col-md-5"></label>
+                <input asp-for="ProductDiscount" class="col-md-7 form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ReviewTwoStarsCount" class="control-label"></label>
-                <input asp-for="ReviewTwoStarsCount" class="form-control" />
-                <span asp-validation-for="ReviewTwoStarsCount" class="text-danger"></span>
+            <span asp-validation-for="ProductDiscount" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="Description" class="col-md-5"></label>
+                <textarea asp-for="Description" onkeyup="textAreaAdjust(this)" class="col-md-7 form-control"
+                          placeholder="Brief description of the product" style="height: 100px"></textarea>
             </div>
-            <div class="form-group">
-                <label asp-for="ReviewOneStarsCount" class="control-label"></label>
-                <input asp-for="ReviewOneStarsCount" class="form-control" />
-                <span asp-validation-for="ReviewOneStarsCount" class="text-danger"></span>
+            <span asp-validation-for="Description" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductInformation" class="col-md-5"></label>
+                <textarea asp-for="ProductInformation" onkeyup="textAreaAdjust(this)" class="col-md-7 form-control"
+                          placeholder="E.g Contains gluten, Ingredients: sunflower oil, potatoes" style="height: 100px"></textarea>
             </div>
-            <div class="form-group">
-                <label asp-for="Week5PurchaseCount" class="control-label"></label>
-                <input asp-for="Week5PurchaseCount" class="form-control" />
-                <span asp-validation-for="Week5PurchaseCount" class="text-danger"></span>
+            <span asp-validation-for="ProductInformation" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="ProductServingContent"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <input asp-for="ProductServingContent" class="form-control" />
+                    <select id="ProductServingTypeDropdown" asp-for="ProductServingTypeID" class="form-control flex-fill" asp-items="ViewBag.ProductServingTypeID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductServingTypeDropdown()">
+                        <i id="syncIconProductServingType" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Week4PurchaseCount" class="control-label"></label>
-                <input asp-for="Week4PurchaseCount" class="form-control" />
-                <span asp-validation-for="Week4PurchaseCount" class="text-danger"></span>
+            <div class="d-flex flex-fill justify-content-end me-4">
+                <a asp-action="Create" asp-controller="AdminProductServingTypes" target="_blank" class="text-primary small text-end">
+                    Create New Serving Type
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="Week3PurchaseCount" class="control-label"></label>
-                <input asp-for="Week3PurchaseCount" class="form-control" />
-                <span asp-validation-for="Week3PurchaseCount" class="text-danger"></span>
+            <span asp-validation-for="ProductServingContent" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="ProductStatusID"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <select id="ProductStatusDropdown" asp-for="ProductStatusID" class="form-control flex-fill" asp-items="ViewBag.ProductStatusID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductStatusDropdown()">
+                        <i id="syncIconProductStatus" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Week2PurchaseCount" class="control-label"></label>
-                <input asp-for="Week2PurchaseCount" class="form-control" />
-                <span asp-validation-for="Week2PurchaseCount" class="text-danger"></span>
+            <div class="d-flex flex-fill justify-content-end me-4">
+                <a asp-action="Create" asp-controller="AdminProductStatus" target="_blank" class="text-primary small">
+                    Create New Product Status
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="Week1PurchaseCount" class="control-label"></label>
-                <input asp-for="Week1PurchaseCount" class="form-control" />
-                <span asp-validation-for="Week1PurchaseCount" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="CategoryID"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <select id="ProductCategoryDropdown" asp-for="CategoryID" class="form-control flex-fill" asp-items="ViewBag.CategoryID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductCategoryDropdown()">
+                        <i id="syncIconProductCategory" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CurrentWeekPurchaseCount" class="control-label"></label>
-                <input asp-for="CurrentWeekPurchaseCount" class="form-control" />
-                <span asp-validation-for="CurrentWeekPurchaseCount" class="text-danger"></span>
+            <div class="d-flex flex-fill justify-content-end me-4">
+                <a asp-action="Create" asp-controller="AdminProductCategories" target="_blank" class="text-primary small">
+                    Create New Category
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductInformation" class="control-label"></label>
-                <input asp-for="ProductInformation" class="form-control" />
-                <span asp-validation-for="ProductInformation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductServingContent" class="control-label"></label>
-                <input asp-for="ProductServingContent" class="form-control" />
-                <span asp-validation-for="ProductServingContent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductServingTypeID" class="control-label"></label>
-                <select asp-for="ProductServingTypeID" class="form-control" asp-items="ViewBag.ProductServingTypeID"></select>
-                <span asp-validation-for="ProductServingTypeID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductStatusID" class="control-label"></label>
-                <select asp-for="ProductStatusID" class="form-control" asp-items="ViewBag.ProductStatusID"></select>
-                <span asp-validation-for="ProductStatusID" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
-                <span asp-validation-for="CategoryID" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="RewardPoolID" class="control-label"></label>
-                <select asp-for="RewardPoolID" class="form-control" asp-items="ViewBag.RewardPoolID"></select>
-                <span asp-validation-for="RewardPoolID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+
+            <input id="submitFormBtn" type="submit" value="Submit Form" hidden />
         </form>
+    </div>
+
+    <div class="border-top pt-2">
+        <div class="d-flex align-items-center col-md-5">
+            <a asp-action="Index" class="me-auto text-decoration-none">
+                Back to Products List
+            </a>
+            <input type="button" onclick="submitForm()" value="Edit" class="rounded-0 btn btn-outline-dark border-secondary" />
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+@section Scripts {
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imagePhotoPreview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imageInput").change(function () {
+            readURL(this);
+        });
+
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25 + element.scrollHeight) + "px";
+        }
+
+        function submitForm() {
+            document.getElementById("submitFormBtn").click();
+        }
+    </script>
+}

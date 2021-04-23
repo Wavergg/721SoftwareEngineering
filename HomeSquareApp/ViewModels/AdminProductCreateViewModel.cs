@@ -29,7 +29,7 @@ namespace HomeSquareApp.ViewModels
         public float? ProductDiscount { get; set; } = 0;
 
         [Required(ErrorMessage = "Please Provide Image For The Product")]
-        public IFormFile Image { get; set; }
+        public virtual IFormFile Image { get; set; }
 
         [MaxLength(256)]
         [Display(Name = "Product Information")]

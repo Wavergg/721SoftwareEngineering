@@ -10,6 +10,7 @@ using HomeSquareApp.Models;
 using HomeSquareApp.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace HomeSquareApp.Controllers
 {
@@ -106,18 +107,14 @@ namespace HomeSquareApp.Controllers
             
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
+                string uniqueFileName = ProcessUploadedFile(model.Image);
 
-                string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath,"lib" ,"images", "products");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                model.Image.CopyTo(new FileStream(filePath, FileMode.Create));
-
-                Product product = new Product() {
+                Product product = new Product()
+                {
                     ProductName = model.ProductName,
                     ProductPrice = model.ProductPrice,
                     ProductStock = model.ProductStock,
-                    ProductAddedDate = DateTime.Now,
+                    ProductUpdateDate = DateTime.Now,
                     ProductDiscount = model.ProductDiscount,
                     ImageUrl = uniqueFileName,
                     ProductInformation = model.ProductInformation,
@@ -132,7 +129,7 @@ namespace HomeSquareApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
             ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName", model.CategoryID);
             ViewData["ProductStatusID"] = new SelectList(_context.Set<ProductStatus>(), "ProductStatusID", "ProductStatusName", model.ProductStatusID);
             
@@ -140,6 +137,20 @@ namespace HomeSquareApp.Controllers
             ViewData["ProductServingTypeID"] = new SelectList(_context.Set<ProductServingType>(), "ProductServingTypeID", "ServingType", model.ProductServingTypeID);
             
             return View(model);
+        }
+
+        private string ProcessUploadedFile(IFormFile Image)
+        {
+            string uniqueFileName = "";
+
+            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using(var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                Image.CopyTo(fileStream);
+            }
+            return uniqueFileName;
         }
 
         // GET: AdminProduct/Edit/5
@@ -155,11 +166,25 @@ namespace HomeSquareApp.Controllers
             {
                 return NotFound();
             }
+
+            AdminProductEditViewModel model = new AdminProductEditViewModel()
+            {
+                ProductID = product.ProductID,
+                ProductName = product.ProductName,
+                ImageUrl = product.ImageUrl,
+                ProductStock = product.ProductStock,
+                ProductPrice = product.ProductPrice,
+                ProductDiscount = product.ProductDiscount,
+                ProductInformation = product.ProductInformation,
+                Description = product.Description,
+                ProductServingContent = product.ProductServingContent
+            };
+
             ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName", product.CategoryID);
             ViewData["ProductStatusID"] = new SelectList(_context.Set<ProductStatus>(), "ProductStatusID", "ProductStatusName", product.ProductStatusID);
             //ViewData["RewardPoolID"] = new SelectList(_context.Set<RewardPool>(), "RewardPoolID", "RewardPoolID", product.RewardPoolID);
             ViewData["ProductServingTypeID"] = new SelectList(_context.Set<ProductServingType>(), "ProductServingTypeID", "ServingType", product.ProductServingTypeID);
-            return View(product);
+            return View(model);
         }
 
         // POST: AdminProduct/Edit/5
@@ -167,15 +192,36 @@ namespace HomeSquareApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductPrice,ProductStock,ProductName,ProductDiscount,ReviewFiveStarsCount,ReviewFourStarsCount,ReviewThreeStarsCount,ReviewTwoStarsCount,ReviewOneStarsCount,Week5PurchaseCount,Week4PurchaseCount,Week3PurchaseCount,Week2PurchaseCount,Week1PurchaseCount,CurrentWeekPurchaseCount,ProductInformation,Description,ProductServingContent,ProductServingTypeID,ProductStatusID,CategoryID,RewardPoolID")] Product product)
+        public async Task<IActionResult> Edit(int id, 
+            [Bind("ProductID,ProductPrice,ProductStock,ProductName,ProductDiscount," +
+            "ProductInformation,Description,ProductServingContent,ProductServingTypeID," +
+            "ProductStatusID,CategoryID,ProductIncrement,Image,ImageUrl")] AdminProductEditViewModel model)
         {
-            if (id != product.ProductID)
+            if (id != model.ProductID)
             {
                 return NotFound();
             }
 
+            Product product = _context.Product.Where(p => p.ProductID == model.ProductID).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
+
+                product.ProductName = model.ProductName;
+                product.ProductStock += model.ProductIncrement == null ? 0 : model.ProductIncrement;
+                product.ProductPrice = model.ProductPrice;
+                product.ProductDiscount = model.ProductDiscount;
+                product.ProductInformation = model.ProductInformation;
+                product.Description = model.Description;
+                product.ProductServingContent = model.ProductServingContent;
+                product.ProductUpdateDate = DateTime.Now;
+                
+                if (model.Image != null) {
+                    string filePath = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products",product.ImageUrl);
+                    System.IO.File.Delete(filePath);
+                    product.ImageUrl = ProcessUploadedFile(model.Image);
+                }
+
                 try
                 {
                     _context.Update(product);
@@ -194,11 +240,12 @@ namespace HomeSquareApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName", product.CategoryID);
-            ViewData["ProductStatusID"] = new SelectList(_context.Set<ProductStatus>(), "ProductStatusID", "ProductStatusName", product.ProductStatusID);
+
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName", model.CategoryID);
+            ViewData["ProductStatusID"] = new SelectList(_context.Set<ProductStatus>(), "ProductStatusID", "ProductStatusName", model.ProductStatusID);
             //ViewData["RewardPoolID"] = new SelectList(_context.Set<RewardPool>(), "RewardPoolID", "RewardPoolID", product.RewardPoolID);
-            ViewData["ProductServingTypeID"] = new SelectList(_context.Set<ProductServingType>(), "ProductServingTypeID", "ServingType", product.ProductServingTypeID);
-            return View(product);
+            ViewData["ProductServingTypeID"] = new SelectList(_context.Set<ProductServingType>(), "ProductServingTypeID", "ServingType", model.ProductServingTypeID);
+            return View(model);
         }
 
         // GET: AdminProduct/Delete/5
