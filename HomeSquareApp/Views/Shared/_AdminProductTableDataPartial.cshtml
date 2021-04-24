@@ -1,0 +1,30 @@
+﻿@model List<HomeSquareApp.Models.Product>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductStock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductDiscount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentWeekPurchaseCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductStatus.ProductStatusName)
+        </td>
+        <td class="text-nowrap">
+            <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+        </td>
+    </tr>
+}

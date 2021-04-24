@@ -17,6 +17,10 @@ namespace HomeSquareApp.Controllers
     public class AdminProductController : Controller
     {
         private readonly AppDbContext _context;
+        private static List<Product> _productsContext;
+
+        private const int ITEMS_PER_PAGE = 13;
+        private static int _currentRange = 0;
 
         public IHostingEnvironment _HostingEnvironment { get; }
 
@@ -62,9 +66,72 @@ namespace HomeSquareApp.Controllers
         // GET: AdminProduct
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Product.Include(p => p.ProductStatus);
-            return View(await appDbContext.ToListAsync());
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+            if(_productsContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_productsContext.Count() - 1) / ITEMS_PER_PAGE)+1;
+            }
+            _currentRange = 0;
+            
+            return View(_productsContext.OrderByDescending(p => p.ProductUpdateDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductSortTableData(string sortOrder)
+        {
+            if(_productsContext == null)
+            {
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    _productsContext = _productsContext.OrderByDescending(p => p.ProductName).ToList();
+                    break;
+                case "name_asc":
+                    _productsContext = _productsContext.OrderBy(p => p.ProductName).ToList();
+                    break;
+                case "stock_asc":
+                    _productsContext = _productsContext.OrderBy(p => p.ProductStock).ToList();
+                    break;
+                case "stock_desc":
+                    _productsContext = _productsContext.OrderByDescending(p => p.ProductStock).ToList();
+                    break;
+                case "discount_desc":
+                    _productsContext = _productsContext.OrderByDescending(p => p.ProductDiscount).ToList();
+                    break;
+                case "discount_asc":
+                    _productsContext = _productsContext.OrderBy(p => p.ProductDiscount).ToList();
+                    break;
+                case "purchaseCount_desc":
+                    _productsContext = _productsContext.OrderByDescending(p => p.CurrentWeekPurchaseCount).ToList();
+                    break;
+                case "purchaseCount_asc":
+                    _productsContext = _productsContext.OrderBy(p => p.CurrentWeekPurchaseCount).ToList();
+                    break;
+                default:
+                    _productsContext = _productsContext.OrderByDescending(p => p.ProductUpdateDate).ToList();
+                    break;
+            }
+            
+            return PartialView("_AdminProductTableDataPartial", _productsContext.Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductNextTableData(int pageNumber)
+        {
+            if (_productsContext == null)
+            {
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+            }
+
+            _currentRange = pageNumber * ITEMS_PER_PAGE;
+            
+            return PartialView("_AdminProductTableDataPartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        
 
         // GET: AdminProduct/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -306,6 +373,10 @@ namespace HomeSquareApp.Controllers
             var product = await _context.Product.FindAsync(id);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
+
+            string filePath = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products", product.ImageUrl);
+            System.IO.File.Delete(filePath);
+
             return RedirectToAction(nameof(Index));
         }
 
