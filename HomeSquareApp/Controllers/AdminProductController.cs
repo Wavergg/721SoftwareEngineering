@@ -27,9 +27,13 @@ namespace HomeSquareApp.Controllers
         }
 
         [AcceptVerbs("Get", "Post")]
-        public IActionResult IsProductExist(string productName)
+        public IActionResult IsProductExist(string productName,string productOldName = null)
         {
-            var product = _context.Product.Where(p => p.ProductName == productName).FirstOrDefault();
+            if(productOldName != null && productOldName.ToLower() == productName.ToLower())
+            {
+                return Json(true);
+            }
+            var product = _context.Product.Where(p => p.ProductName.ToLower() == productName.ToLower()).FirstOrDefault();
             if (product == null)
             {
                 return Json(true);
@@ -104,7 +108,17 @@ namespace HomeSquareApp.Controllers
             "ProductInformation,Description,ProductServingContent,ProductServingTypeID," +
             "ProductStatusID,CategoryID,Image")] AdminProductCreateViewModel model)
         {
-            
+
+            if(model != null && model.ProductName != null) {
+                bool parseResult;
+                bool.TryParse(((JsonResult)IsProductExist(model.ProductName)).Value.ToString(), out parseResult);
+
+                if (parseResult != true)
+                {
+                    ModelState.AddModelError(string.Empty, "Product Name Is Not Unique");
+                }
+            }
+           
             if (ModelState.IsValid)
             {
                 string uniqueFileName = ProcessUploadedFile(model.Image);
@@ -171,6 +185,7 @@ namespace HomeSquareApp.Controllers
             {
                 ProductID = product.ProductID,
                 ProductName = product.ProductName,
+                ProductOldName = product.ProductName,
                 ImageUrl = product.ImageUrl,
                 ProductStock = product.ProductStock,
                 ProductPrice = product.ProductPrice,
@@ -202,7 +217,20 @@ namespace HomeSquareApp.Controllers
                 return NotFound();
             }
 
+           
+
             Product product = _context.Product.Where(p => p.ProductID == model.ProductID).FirstOrDefault();
+
+            if (model != null && model.ProductName != null && product.ProductName != model.ProductName)
+            {
+                bool parseResult;
+                bool.TryParse(((JsonResult)IsProductExist(model.ProductName)).Value.ToString(), out parseResult);
+
+                if (parseResult != true)
+                {
+                    ModelState.AddModelError(string.Empty, "Product Name Is Not Unique");
+                }
+            }
 
             if (ModelState.IsValid)
             {

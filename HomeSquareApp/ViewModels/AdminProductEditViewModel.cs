@@ -13,6 +13,14 @@ namespace HomeSquareApp.ViewModels
     {
         public int ProductID { get; set; }
 
+        [MaxLength(128)]
+        [Display(Name = "Product Name")]
+        [Required(ErrorMessage = "Field Cannot Be Empty")]
+        [Remote(action: "IsProductExist", controller: "AdminProduct",AdditionalFields = "ProductOldName")]
+        public new string ProductName { get; set; }
+
+        public string ProductOldName { get; set; }
+
         [Display(Name = "Product Stock Increment")]
         [Range(0, Int32.MaxValue, ErrorMessage = "Value should be greater than or equal to 1")]
         public int? ProductIncrement { get; set; } = 0;

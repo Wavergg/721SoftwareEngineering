@@ -23,7 +23,7 @@ namespace HomeSquareApp.ViewModels
         [Display(Name = "Product Name")]
         [Required(ErrorMessage = "Field Cannot Be Empty")]
         [Remote(action: "IsProductExist", controller: "AdminProduct")]
-        public string ProductName { get; set; }
+        public virtual string ProductName { get; set; }
 
         [Display(Name = "Discount")]
         public float? ProductDiscount { get; set; } = 0;

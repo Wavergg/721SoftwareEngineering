@@ -61,15 +61,19 @@ namespace HomeSquareApp.Models
         [Required(ErrorMessage="Field Cannot Be Empty")]
         [Display(Name = "Serving Content")]
         public float ProductServingContent { get; set; }
+       
         public int ProductServingTypeID { get; set; }
+        [Display(Name = "Serving Type")]
         public ProductServingType ServingType { get; set; }
 
-        [Display(Name = "Product Status")]
+        
         public int ProductStatusID { get; set; }
+        [Display(Name = "Product Status")]
         public ProductStatus ProductStatus { get; set; }
 
-        [Display(Name = "Product Category")]
+       
         public int CategoryID { get; set; }
+        [Display(Name = "Product Category")]
         public Category Category { get; set; }
 
         public int? RewardPoolID { get; set; }
