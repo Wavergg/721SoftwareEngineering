@@ -4,7 +4,8 @@
     ViewData["Title"] = "Details " + Model.ProductName;
     ViewData["NavData"] = "Product";
     Layout = "_AdminLayout";
-    var previous1WeekSunday = @DateTime.Now.AddDays(-(7 - (7 - (int)DateTime.Now.DayOfWeek)));
+    int dayOfWeek = ((int)DateTime.Now.DayOfWeek) == 0 ? 7 : (int)DateTime.Now.DayOfWeek;
+    var previous1WeekSunday = @DateTime.Now.AddDays(-(dayOfWeek));
     var previous2WeekSunday = previous1WeekSunday.AddDays(-7);
     var previous3WeekSunday = previous2WeekSunday.AddDays(-7);
     var previous4WeekSunday = previous3WeekSunday.AddDays(-7);
