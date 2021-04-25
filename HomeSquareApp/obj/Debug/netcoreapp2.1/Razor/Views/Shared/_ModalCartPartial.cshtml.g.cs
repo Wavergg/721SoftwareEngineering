@@ -86,7 +86,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("                    ");
             EndContext();
             BeginContext(783, 35, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "c5d0324658ec487399bf49d259f73881", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "c542e6a977f545838aa2f1643f40444f", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -125,7 +125,7 @@ using Microsoft.AspNetCore.Identity;
                     ");
             EndContext();
             BeginContext(1467, 116, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "671d8321a8954a08be06ac86768add77", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a16a4c793eb042eca9a5ae864ee9c789", async() => {
                 BeginContext(1570, 9, true);
                 WriteLiteral("Check Out");
                 EndContext();

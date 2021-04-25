@@ -122,17 +122,22 @@
         }
 
         function updatePaginationStyle(pageNumber) {
-
-            if (pageNumber != 0) {
-                document.getElementById("prevPageBtn").hidden = false;
-            } else {
-                document.getElementById("prevPageBtn").hidden = true;
+            var prevPageBtn = document.getElementById("prevPageBtn");
+            if (prevPageBtn != null) {
+                if ( pageNumber != 0) {
+                    prevPageBtn.hidden = false;
+                } else {
+                    prevPageBtn.hidden = true;
+                }
             }
 
-            if (pageNumber == paginationList.length - 1) {
-                document.getElementById('nextPageBtn').hidden = true;
-            } else {
-                document.getElementById('nextPageBtn').hidden = false;
+            var nextPageBtn = document.getElementById('nextPageBtn');
+            if (nextPageBtn != null) {
+                if (pageNumber == paginationList.length - 1) {
+                    nextPageBtn.hidden = true;
+                } else {
+                    nextPageBtn.hidden = false;
+                }
             }
 
             for (i = 0; i < paginationList.length; i++) {
@@ -285,10 +290,11 @@
                         {
                             type: "POST", //HTTP POST Method
                             url: "AdminProduct/ProductRemoveFilterTableData", // Controller/View
-                            contentType: 'application/json; charset=utf-8',
+                            contentType: 'application/json',
                             dataType: "json",
                             data: items,
                             success: function (data) {
+                                //can't get data back if passing partial view, have to do 2nd ajax call
                                 $.ajax(
                                     {
                                         type: "POST", //HTTP GET Method
