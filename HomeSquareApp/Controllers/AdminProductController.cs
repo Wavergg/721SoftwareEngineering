@@ -422,7 +422,6 @@ namespace HomeSquareApp.Controllers
             var product = await _context.Product
                 .Include(p => p.Category)
                 .Include(p => p.ProductStatus)
-                .Include(p => p.RewardPool)
                 .Include(p => p.ServingType)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
             if (product == null)
