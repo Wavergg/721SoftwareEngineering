@@ -63,10 +63,45 @@ namespace HomeSquareApp.Controllers
             return Json(data);
         }
 
+        public IActionResult UpdatePagination()
+        {
+            if (_productsContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_productsContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
+
+            return PartialView("_PaginationPartial");
+        }
+
+        [HttpPost]
+        public IActionResult RefreshProductTableIndex()
+        {
+            return PartialView("_AdminProductTableDataPartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        public void PerformProductFilter( string filters,string category)
+        {
+            switch (category)
+            {
+                case "Name":
+                    _productsContext = _productsContext.Where(p => p.ProductName.ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                case "Status":
+                    _productsContext = _productsContext.Where(p => p.ProductStatus.ProductStatusName.ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                case "Category":
+                    _productsContext = _productsContext.Where(p => p.Category.CategoryName.ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         // GET: AdminProduct
         public async Task<IActionResult> Index()
         {
-            _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.Category).ToListAsync();
             if(_productsContext.Count() > ITEMS_PER_PAGE)
             {
                 ViewData["PaginationCount"] = ((_productsContext.Count() - 1) / ITEMS_PER_PAGE)+1;
@@ -81,7 +116,7 @@ namespace HomeSquareApp.Controllers
         {
             if(_productsContext == null)
             {
-                _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.Category).ToListAsync();
             }
 
             switch (sortOrder)
@@ -123,7 +158,7 @@ namespace HomeSquareApp.Controllers
         {
             if (_productsContext == null)
             {
-                _productsContext = await _context.Product.Include(p => p.ProductStatus).ToListAsync();
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.Category).ToListAsync();
             }
 
             _currentRange = pageNumber * ITEMS_PER_PAGE;
@@ -131,7 +166,36 @@ namespace HomeSquareApp.Controllers
             return PartialView("_AdminProductTableDataPartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
 
-        
+        #region search bar Overloading
+        //Method used when the filter is added
+        [HttpPost]
+        public async Task<IActionResult> ProductFilterTableData(string filters, string category)
+        {
+            if (_productsContext == null)
+            {
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.Category).ToListAsync();
+            }
+
+            PerformProductFilter(filters, category);
+
+            _currentRange = 0;
+            return PartialView("_AdminProductTableDataPartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        //Method used when the filter is removed by click
+        [HttpPost]
+        public async Task<IActionResult> ProductRemoveFilterTableData([FromBody] List<ProductFilterModel> filters)
+        {
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.Category).ToListAsync();
+            foreach (ProductFilterModel filterItem in filters)
+            {
+                PerformProductFilter(filterItem.value, filterItem.category);
+            }
+            _currentRange = 0;
+            
+            return Json("success");
+        }
+        #endregion
 
         // GET: AdminProduct/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -194,9 +258,9 @@ namespace HomeSquareApp.Controllers
                 {
                     ProductName = model.ProductName,
                     ProductPrice = model.ProductPrice,
-                    ProductStock = model.ProductStock,
+                    ProductStock = model.ProductStock == null ? 0 : model.ProductStock,
                     ProductUpdateDate = DateTime.Now,
-                    ProductDiscount = model.ProductDiscount,
+                    ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount,
                     ImageUrl = uniqueFileName,
                     ProductInformation = model.ProductInformation,
                     Description = model.Description,
@@ -305,10 +369,14 @@ namespace HomeSquareApp.Controllers
                 product.ProductName = model.ProductName;
                 product.ProductStock += model.ProductIncrement == null ? 0 : model.ProductIncrement;
                 product.ProductPrice = model.ProductPrice;
-                product.ProductDiscount = model.ProductDiscount;
+                product.ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount;
                 product.ProductInformation = model.ProductInformation;
                 product.Description = model.Description;
-                product.ProductServingContent = model.ProductServingContent;
+                product.ProductServingContent = model.ProductServingContent == null ? 0 : model.ProductServingContent;
+                product.ProductServingTypeID = model.ProductServingTypeID;
+                product.ProductStatusID = model.ProductStatusID;
+                product.CategoryID = model.CategoryID;
+
                 product.ProductUpdateDate = DateTime.Now;
                 
                 if (model.Image != null) {
@@ -371,6 +439,12 @@ namespace HomeSquareApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
+            if(!(product.ProductStock <= 0))
+            {
+                TempData["DeleteMessage"] = "There are still some stock in inventory, Unable to delete item";
+                return RedirectToAction("Delete");
+            }
+
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
 

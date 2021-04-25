@@ -31,6 +31,11 @@
                 }
         }
 
+        .required::after{
+            content: "*";
+            color: #f00;
+        }
+
         @@media(max-width: 767.98px){
             .sticky-top-small-vp {
                 position: -webkit-sticky;
@@ -52,7 +57,8 @@
             }
         }
 
-      
+
+        
 
         .fa.fa-star.checked {
             color: #ffc107 !important;
@@ -114,7 +120,55 @@
             background-color: #f8f9fa !important
         }
 
-        
+        .badge-filter {
+            background-color:#212529 !important;
+            color: #fff;
+        }
+
+            .badge-filter:hover {
+                background-color: #dc3545 !important;
+                color: #fff;
+            }
+
+        /* Tooltip container */
+        .tooltip-badge {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+        }
+
+            /* Tooltip text */
+            .tooltip-badge .tooltip-badgetext {
+                visibility: hidden;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 5px 0;
+                border-radius: 6px;
+                position: absolute;
+                width:100px;
+                margin-left: -50px;
+                z-index: 10;
+                bottom: 100%;
+                left: 50%;
+            }
+
+
+            /* Show the tooltip-badge text when you mouse over the tooltip-badge container */
+            .tooltip-badge:hover .tooltip-badgetext {
+                visibility: visible;
+            }
+
+        .tooltip-badge .tooltip-badgetext::after {
+            content: " ";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
     </style>
 </head>
 
@@ -272,6 +326,8 @@
                 document.querySelector('.offcanvas-collapse').classList.toggle('open')
             })
         })()
+
+        
     </script>
 </body>
 </html>

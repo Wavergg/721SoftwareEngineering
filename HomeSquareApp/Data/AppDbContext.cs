@@ -17,10 +17,14 @@ namespace HomeSquareApp.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-        }
 
-       
+            base.OnModelCreating(builder);
+
+            foreach (var foreignKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        } 
 
         public DbSet<Category> Category { get; set; }
 

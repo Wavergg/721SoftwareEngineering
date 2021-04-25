@@ -13,20 +13,21 @@ namespace HomeSquareApp.ViewModels
     {
         [DataType(DataType.Currency)]
         [Display(Name = "Price")]
-        [Required(ErrorMessage = "Field Cannot Be Empty")]
-        public double ProductPrice { get; set; }
+        [Required(ErrorMessage = "Price Field Cannot Be Empty")]
+        [Range(0.001, Double.MaxValue, ErrorMessage = "The Price Must be Greater than 0")]
+        public double? ProductPrice { get; set; }
 
         [Display(Name = "Stock")]
         public int? ProductStock { get; set; } = 0;
 
         [MaxLength(128)]
         [Display(Name = "Product Name")]
-        [Required(ErrorMessage = "Field Cannot Be Empty")]
+        [Required(ErrorMessage = "Name Field Cannot Be Empty")]
         [Remote(action: "IsProductExist", controller: "AdminProduct")]
         public virtual string ProductName { get; set; }
 
         [Display(Name = "Discount")]
-        public float? ProductDiscount { get; set; } = 0;
+        public float? ProductDiscount { get; set; }
 
         [Required(ErrorMessage = "Please Provide Image For The Product")]
         public virtual IFormFile Image { get; set; }
@@ -38,18 +39,24 @@ namespace HomeSquareApp.ViewModels
         [MaxLength(512)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Field Cannot Be Empty")]
+        [Required(ErrorMessage = "Serving Content Field Cannot Be Empty")]
         [Display(Name = "Serving Content")]
-        public float ProductServingContent { get; set; }
-        public int ProductServingTypeID { get; set; }
-        public ProductServingType ServingType { get; set; }
+        [Range(0.001, float.MaxValue, ErrorMessage = "The Value Must be Greater than 0")]
+        public float? ProductServingContent { get; set; }
+
+        [Display(Name = "Serving Type")]
+        [Required]
+        public int? ProductServingTypeID { get; set; }
+        public virtual ProductServingType ServingType { get; set; }
 
         [Display(Name = "Product Status")]
-        public int ProductStatusID { get; set; }
-        public ProductStatus ProductStatus { get; set; }
+        [Required]
+        public int? ProductStatusID { get; set; }
+        public virtual ProductStatus ProductStatus { get; set; }
 
         [Display(Name = "Product Category")]
-        public int CategoryID { get; set; }
-        public Category Category { get; set; }
+        [Required]
+        public int? CategoryID { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

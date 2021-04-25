@@ -4,7 +4,7 @@
     ViewData["Title"] = "Products Index";
     Layout = "_AdminLayout";
     ViewData["NavData"] = "Product";
-    
+
 }
 
 @section pageSpecificCss{
@@ -12,13 +12,43 @@
     </style>
 }
 
+<div id="vueEl" class="mb-2">
+    <div class="d-md-flex justify-content-center">
+        <div class="col-md-4 col-9 mb-2">
+            <div class="input-group">
+
+                <input type="text" class="form-control" v-model="searchValue" :placeholder="[[ searchPlaceholder ]]">
+
+                @* NYD Update the Categories based on clicked option *@
+                <button v-text="categorySelected.name" class="btn btn-sm border-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li v-for="item in categoryItems">
+                        <button @@click="changeCategory(item.id)" class="dropdown-item">{{item.name}}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <span class="ms-md-2">
+            <button class="btn btn-outline-dark rounded-0" type="button" @@click="generateFilterResult()">
+                Filter Result
+            </button>
+        </span>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-cols-auto justify-content-md-center justify-content-start gap-2 py-4">
+            <div v-for="filterItem in filters" class="col">
+                <filter-badge @@delete-filter="deleteFilter" :filter="filterItem"></filter-badge>
+            </div>
+        </div>
+    </div>
+</div>
 <p>
     <a asp-action="Create">Add New Product</a>
 </p>
 
-<div>
+<div id="productTable">
     <div class="table-responsive" style="min-height:500px">
-        <table class="table" >
+        <table class="table">
             <thead>
                 <tr>
                     <th>
@@ -61,31 +91,15 @@
             </tbody>
         </table>
     </div>
-    <div class="d-flex">
-        @if (ViewData["PaginationCount"] != null)
-        {
-            var counter = 0;
-            <button id="prevPageBtn" style="width:34.97px" onclick="goToPage(currentPage - 1)" class="btn btn-default paginationLink rounded-0" hidden>
-                <i class="fas fa-chevron-left" style="font-size:12px;color:#212529"></i>
-            </button>
-            @for (int i = 0; i < (int)ViewData["PaginationCount"]; i++)
-            {
-                var activeClass = i == 0 ? "active" : "";
-                var hiddenAttr = (i >= -1 && i < 3) ? "" : "hidden";
-
-                <button onclick="goToPage(@i)" class="btn btn-default paginationElement paginationLink rounded-0 @activeClass" @hiddenAttr>
-                    @(1+i)
-                </button>
-                counter++;
-            }
-            <button id="nextPageBtn" style="width:34.97px;" onclick="goToPage(currentPage +1)" class="btn btn-default paginationLink rounded-0">
-                <i class="fas fa-chevron-right" style="font-size:12px;color:#212529"></i>
-            </button>
-        }
+    <div class="d-flex" id="pagination">
+        <partial name="_PaginationPartial" />
     </div>
 </div>
+
+
+
 @section Scripts{
-    //
+
     <script>
         var paginationList = document.getElementsByClassName("paginationElement")
         var currentPage = 0;
@@ -93,8 +107,8 @@
             //set style
             updatePaginationStyle(pageNumber)
             currentPage = pageNumber;
-            
-            
+
+
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
@@ -170,5 +184,143 @@
                     $("#tableData").html(data)
                 });
         }
+    </script>
+
+    <script src="~/lib/js/vue.js"></script>
+    <script>
+        Vue.component('filter-badge', {
+            props: {
+                filter: Object
+            },
+            template: `
+            <button v-on:click="onDelete()" class="btn badge badge-filter rounded-pill tooltip-badge">
+                {{filter.category}}_{{filter.value}} <i class="far fa-times-circle" style="font-size:11px"></i>
+                <span class="tooltip-badgetext">Remove Filter</span>
+            </button>`,
+            methods: {
+                onDelete() {
+                    this.$emit('delete-filter', this.filter.id);
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: '#vueEl',
+            data: {
+                searchPlaceholder: "Search",
+                searchValue: "",
+                filters: [],
+                categoryItems: [
+                    {
+                        id: 0,
+                        name: "Product Name",
+                        value: "Name",
+                    },
+                    {
+                        id: 1,
+                        name: "Product Status",
+                        value: "Status",
+                    },
+                    {
+                        id: 2,
+                        name: "Product Category",
+                        value: "Category",
+                    },
+                ],
+                categorySelected: {
+                    id: 0,
+                    name: "Product Name",
+                    value: "Name",
+                },
+            },
+            methods: {
+                deleteFilter: function (id) {
+                    for (i = 0; i < this.filters.length; i++) {
+                        if (this.filters[i].id == id) {
+                            this.filters.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    this.removeFilterResult();
+                },
+                changeCategory: function (id) {
+                    this.categorySelected = this.categoryItems[id];
+                },
+                generateFilterResult: function () {
+                    //prevent duplication and empty value
+                    if (this.searchValue == "" ||
+                        this.filters.some(
+                            filterX => (filterX.value.toLowerCase() == this.searchValue.toLowerCase()) && 
+                                filterX.category == this.categorySelected.value)
+                        )
+                        return;
+
+                    this.filters.push({
+                        id: this.filters.length,
+                        value: this.searchValue,
+                        category: this.categorySelected.value,
+                    })
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "AdminProduct/ProductFilterTableData", // Controller/View
+                            data: {
+                                filters: this.searchValue,
+                                category: this.categorySelected.value
+                            }
+                        }).done(function (data) {
+                            $("#tableData").html(data)
+                            app.updatePagination();
+                        });
+
+                    this.searchValue = "";
+                },
+                removeFilterResult:function() {
+                    var items = JSON.stringify(this.filters);
+                    //console.log(items)
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "AdminProduct/ProductRemoveFilterTableData", // Controller/View
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "json",
+                            data: items,
+                            success: function (data) {
+                                $.ajax(
+                                    {
+                                        type: "POST", //HTTP GET Method
+                                        url: "AdminProduct/RefreshProductTableIndex", // Controller/View
+                                        data: {
+                                        }
+                                    }).done(function (data) {
+                                        console.log(data)
+                                        $("#tableData").html(data)
+                                        app.updatePagination();
+                                    });
+                            }
+                        });
+
+                    
+                },
+                updatePagination() {
+                    //reset to first page
+                    //updatePaginationStyle(0)
+                    currentPage = 0;
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "AdminProduct/UpdatePagination", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            $("#pagination").html(data)
+                        });
+                }
+            },
+        })
     </script>
 }

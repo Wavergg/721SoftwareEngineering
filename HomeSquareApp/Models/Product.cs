@@ -16,10 +16,11 @@ namespace HomeSquareApp.Models
         [DataType(DataType.Currency)]
         [Display(Name = "Price")]
         [Required(ErrorMessage="Field Cannot Be Empty")]
-        public double ProductPrice { get; set; }
+        [Range(0.001, Double.MaxValue, ErrorMessage = "The Price Must be Greater than 0")]
+        public double? ProductPrice { get; set; }
 
         [Display(Name = "Stock")]
-        public int? ProductStock { get; set; } = 0;
+        public int? ProductStock { get; set; } 
 
         [MaxLength(128)]
         [Display(Name = "Product Name")]
@@ -31,7 +32,7 @@ namespace HomeSquareApp.Models
         public DateTime ProductUpdateDate { get; set; }
 
         [Display(Name = "Discount")]
-        public float? ProductDiscount { get; set; } = 0;
+        public float? ProductDiscount { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }
@@ -60,25 +61,27 @@ namespace HomeSquareApp.Models
 
         [Required(ErrorMessage="Field Cannot Be Empty")]
         [Display(Name = "Serving Content")]
-        public float ProductServingContent { get; set; }
+        [Range(0.001, float.MaxValue, ErrorMessage = "The Value Must be Greater than 0")]
+        public float? ProductServingContent { get; set; }
        
-        public int ProductServingTypeID { get; set; }
+        [Required]
+        public int? ProductServingTypeID { get; set; }
         [Display(Name = "Serving Type")]
-        public ProductServingType ServingType { get; set; }
+        public virtual ProductServingType ServingType { get; set; }
 
-        
-        public int ProductStatusID { get; set; }
+        [Required]
+        public int? ProductStatusID { get; set; }
         [Display(Name = "Product Status")]
-        public ProductStatus ProductStatus { get; set; }
+        public virtual ProductStatus ProductStatus { get; set; }
 
-       
-        public int CategoryID { get; set; }
+        [Required]
+        public int? CategoryID { get; set; }
         [Display(Name = "Product Category")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         public int? RewardPoolID { get; set; }
         [ForeignKey("RewardPoolID")]
-        public RewardPool RewardPool { get; set; }
+        public virtual RewardPool RewardPool { get; set; }
 
         public IEnumerable<Review> Review { get; set; }
 

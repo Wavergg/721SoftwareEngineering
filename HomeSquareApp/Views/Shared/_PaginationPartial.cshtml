@@ -1,0 +1,22 @@
+﻿
+
+@if (ViewData["PaginationCount"] != null)
+{
+    var counter = 0;
+    <button id="prevPageBtn" style="width:34.97px" onclick="goToPage(currentPage - 1)" class="btn btn-default paginationLink rounded-0" hidden>
+        <i class="fas fa-chevron-left" style="font-size:12px;color:#212529"></i>
+    </button>
+    @for (int i = 0; i < (int)ViewData["PaginationCount"]; i++)
+    {
+        var activeClass = i == 0 ? "active" : "";
+        var hiddenAttr = (i >= -1 && i < 3) ? "" : "hidden";
+
+        <button onclick="goToPage(@i)" class="btn btn-default paginationElement paginationLink rounded-0 @activeClass" @hiddenAttr>
+            @(1+i)
+        </button>
+        counter++;
+    }
+    <button id="nextPageBtn" style="width:34.97px;" onclick="goToPage(currentPage +1)" class="btn btn-default paginationLink rounded-0">
+        <i class="fas fa-chevron-right" style="font-size:12px;color:#212529"></i>
+    </button>
+}

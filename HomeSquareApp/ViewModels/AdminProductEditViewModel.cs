@@ -23,10 +23,9 @@ namespace HomeSquareApp.ViewModels
 
         [Display(Name = "Product Stock Increment")]
         [Range(0, Int32.MaxValue, ErrorMessage = "Value should be greater than or equal to 1")]
-        public int? ProductIncrement { get; set; } = 0;
+        public int? ProductIncrement { get; set; } 
 
         public string ImageUrl { get; set; }
-
         
         public new IFormFile Image { get; set; }
     }

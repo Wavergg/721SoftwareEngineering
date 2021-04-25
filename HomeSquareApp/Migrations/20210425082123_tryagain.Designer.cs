@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425082123_tryagain")]
+    partial class tryagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,14 +211,11 @@ namespace HomeSquareApp.Migrations
                         .IsRequired()
                         .HasMaxLength(128);
 
-                    b.Property<double?>("ProductPrice")
-                        .IsRequired();
+                    b.Property<double>("ProductPrice");
 
-                    b.Property<float?>("ProductServingContent")
-                        .IsRequired();
+                    b.Property<float>("ProductServingContent");
 
-                    b.Property<int?>("ProductServingTypeID")
-                        .IsRequired();
+                    b.Property<int?>("ProductServingTypeID");
 
                     b.Property<int?>("ProductStatusID")
                         .IsRequired();
@@ -540,12 +539,12 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Product", "Product")
                         .WithMany("Ingredients")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Order", b =>
@@ -553,7 +552,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.OrderDetails", b =>
@@ -561,12 +560,12 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Product", b =>
@@ -574,22 +573,22 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ProductServingType", "ServingType")
                         .WithMany()
                         .HasForeignKey("ProductServingTypeID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ProductStatus", "ProductStatus")
                         .WithMany()
                         .HasForeignKey("ProductStatusID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.RewardPool", "RewardPool")
                         .WithOne("Product")
                         .HasForeignKey("HomeSquareApp.Models.Product", "RewardPoolID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Recipe", b =>
@@ -597,12 +596,12 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.RecipeApprovalStatus", "RecipeApprovalStatus")
                         .WithMany()
                         .HasForeignKey("RecipeApprovalStatusID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.RecipeSteps", b =>
@@ -610,7 +609,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
                         .WithMany("RecipeSteps")
                         .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Review", b =>
@@ -618,12 +617,12 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Product", "Product")
                         .WithMany("Review")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Reward", b =>
@@ -631,17 +630,17 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Order", "Order")
                         .WithMany("Rewards")
                         .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.RewardPool")
                         .WithMany("Rewards")
                         .HasForeignKey("RewardPoolID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany("Rewards")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -649,7 +648,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -657,7 +656,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -665,7 +664,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -673,12 +672,12 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HomeSquareApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -686,7 +685,7 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }

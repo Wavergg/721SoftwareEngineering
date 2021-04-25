@@ -131,3 +131,9 @@ C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\o
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Edit.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminProductTableDataPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminRecipes\Create.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminRecipes\Delete.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminRecipes\Details.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminRecipes\Edit.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminRecipes\Index.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_PaginationPartial.cshtml.g.cs
