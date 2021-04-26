@@ -26,128 +26,128 @@ namespace HomeSquareApp.Controllers
         }
 
         // GET: AdminProductStatus/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productStatus = await _context.ProductStatus
-                .FirstOrDefaultAsync(m => m.ProductStatusID == id);
-            if (productStatus == null)
-            {
-                return NotFound();
-            }
+        //    var productStatus = await _context.ProductStatus
+        //        .FirstOrDefaultAsync(m => m.ProductStatusID == id);
+        //    if (productStatus == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(productStatus);
-        }
+        //    return View(productStatus);
+        //}
 
-        // GET: AdminProductStatus/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //// GET: AdminProductStatus/Create
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: AdminProductStatus/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductStatusID,ProductStatusName")] ProductStatus productStatus)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(productStatus);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(productStatus);
-        }
+        //// POST: AdminProductStatus/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("ProductStatusID,ProductStatusName")] ProductStatus productStatus)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(productStatus);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(productStatus);
+        //}
 
-        // GET: AdminProductStatus/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: AdminProductStatus/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productStatus = await _context.ProductStatus.FindAsync(id);
-            if (productStatus == null)
-            {
-                return NotFound();
-            }
-            return View(productStatus);
-        }
+        //    var productStatus = await _context.ProductStatus.FindAsync(id);
+        //    if (productStatus == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(productStatus);
+        //}
 
-        // POST: AdminProductStatus/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductStatusID,ProductStatusName")] ProductStatus productStatus)
-        {
-            if (id != productStatus.ProductStatusID)
-            {
-                return NotFound();
-            }
+        //// POST: AdminProductStatus/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("ProductStatusID,ProductStatusName")] ProductStatus productStatus)
+        //{
+        //    if (id != productStatus.ProductStatusID)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(productStatus);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductStatusExists(productStatus.ProductStatusID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(productStatus);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(productStatus);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ProductStatusExists(productStatus.ProductStatusID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(productStatus);
+        //}
 
-        // GET: AdminProductStatus/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: AdminProductStatus/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productStatus = await _context.ProductStatus
-                .FirstOrDefaultAsync(m => m.ProductStatusID == id);
-            if (productStatus == null)
-            {
-                return NotFound();
-            }
+        //    var productStatus = await _context.ProductStatus
+        //        .FirstOrDefaultAsync(m => m.ProductStatusID == id);
+        //    if (productStatus == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(productStatus);
-        }
+        //    return View(productStatus);
+        //}
 
-        // POST: AdminProductStatus/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var productStatus = await _context.ProductStatus.FindAsync(id);
-            _context.ProductStatus.Remove(productStatus);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: AdminProductStatus/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var productStatus = await _context.ProductStatus.FindAsync(id);
+        //    _context.ProductStatus.Remove(productStatus);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool ProductStatusExists(int id)
-        {
-            return _context.ProductStatus.Any(e => e.ProductStatusID == id);
-        }
+        //private bool ProductStatusExists(int id)
+        //{
+        //    return _context.ProductStatus.Any(e => e.ProductStatusID == id);
+        //}
     }
 }

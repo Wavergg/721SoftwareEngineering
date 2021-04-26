@@ -117,17 +117,10 @@ C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\o
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProduct\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductCategories\Create.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductCategories\Delete.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductCategories\Details.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductCategories\Edit.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductCategories\Index.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductStatus\Create.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductStatus\Delete.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductStatus\Details.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductStatus\Edit.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductStatus\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Create.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Delete.cshtml.g.cs
-C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Details.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Edit.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminProductServingTypes\Index.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminProductTableDataPartial.cshtml.g.cs

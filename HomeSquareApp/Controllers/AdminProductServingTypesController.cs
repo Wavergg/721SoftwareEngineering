@@ -26,22 +26,22 @@ namespace HomeSquareApp.Controllers
         }
 
         // GET: AdminProductServingTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productServingType = await _context.ProductServingType
-                .FirstOrDefaultAsync(m => m.ProductServingTypeID == id);
-            if (productServingType == null)
-            {
-                return NotFound();
-            }
+        //    var productServingType = await _context.ProductServingType
+        //        .FirstOrDefaultAsync(m => m.ProductServingTypeID == id);
+        //    if (productServingType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(productServingType);
-        }
+        //    return View(productServingType);
+        //}
 
         // GET: AdminProductServingTypes/Create
         public IActionResult Create()
@@ -117,33 +117,34 @@ namespace HomeSquareApp.Controllers
         }
 
         // GET: AdminProductServingTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productServingType = await _context.ProductServingType
-                .FirstOrDefaultAsync(m => m.ProductServingTypeID == id);
-            if (productServingType == null)
-            {
-                return NotFound();
-            }
+        //    var productServingType = await _context.ProductServingType
+        //        .FirstOrDefaultAsync(m => m.ProductServingTypeID == id);
+        //    if (productServingType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(productServingType);
-        }
+        //    return View(productServingType);
+        //}
 
         // POST: AdminProductServingTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var productServingType = await _context.ProductServingType.FindAsync(id);
-            _context.ProductServingType.Remove(productServingType);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+
+        //    var productServingType = await _context.ProductServingType.FindAsync(id);
+        //    _context.ProductServingType.Remove(productServingType);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool ProductServingTypeExists(int id)
         {

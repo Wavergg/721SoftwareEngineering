@@ -34,6 +34,9 @@ namespace HomeSquareApp.Models
         [Display(Name = "Discount")]
         public float? ProductDiscount { get; set; }
 
+        public DateTime SaleStartDateTime { get; set; }
+        public DateTime SaleEndDateTime { get; set; }
+
         [Required]
         public string ImageUrl { get; set; }
 

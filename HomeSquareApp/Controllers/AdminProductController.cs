@@ -226,6 +226,9 @@ namespace HomeSquareApp.Controllers
             //ViewData["RewardPoolID"] = new SelectList(_context.Set<RewardPool>(), "RewardPoolID", "RewardPoolID");
             ViewData["ProductServingTypeID"] = new SelectList(_context.Set<ProductServingType>(), "ProductServingTypeID", "ServingType");
             AdminProductCreateViewModel model = new AdminProductCreateViewModel();
+            var date = DateTime.Now;
+            model.SaleStartDateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute,0);
+            model.SaleEndDateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0);
             return View(model);
         }
 
@@ -237,9 +240,9 @@ namespace HomeSquareApp.Controllers
         public async Task<IActionResult> Create(
             [Bind("ProductID,ProductPrice,ProductStock,ProductName,ProductDiscount," +
             "ProductInformation,Description,ProductServingContent,ProductServingTypeID," +
-            "ProductStatusID,CategoryID,Image")] AdminProductCreateViewModel model)
+            "ProductStatusID,CategoryID,Image,SaleStartDateTime,SaleEndDateTime")] AdminProductCreateViewModel model)
         {
-
+            //Check if product with same name already existed on DB
             if(model != null && model.ProductName != null) {
                 bool parseResult;
                 bool.TryParse(((JsonResult)IsProductExist(model.ProductName)).Value.ToString(), out parseResult);
@@ -248,6 +251,11 @@ namespace HomeSquareApp.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "Product Name Is Not Unique");
                 }
+            }
+
+            if(model.SaleStartDateTime > model.SaleEndDateTime)
+            {
+                ModelState.AddModelError(string.Empty, "Sale Start Date Should be Before Than the End Date");
             }
            
             if (ModelState.IsValid)
@@ -261,6 +269,8 @@ namespace HomeSquareApp.Controllers
                     ProductStock = model.ProductStock == null ? 0 : model.ProductStock,
                     ProductUpdateDate = DateTime.Now,
                     ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount,
+                    SaleStartDateTime = model.SaleStartDateTime,
+                    SaleEndDateTime = model.SaleEndDateTime,
                     ImageUrl = uniqueFileName,
                     ProductInformation = model.ProductInformation,
                     Description = model.Description,
@@ -321,6 +331,8 @@ namespace HomeSquareApp.Controllers
                 ProductStock = product.ProductStock,
                 ProductPrice = product.ProductPrice,
                 ProductDiscount = product.ProductDiscount,
+                SaleStartDateTime = product.SaleStartDateTime,
+                SaleEndDateTime = product.SaleEndDateTime,
                 ProductInformation = product.ProductInformation,
                 Description = product.Description,
                 ProductServingContent = product.ProductServingContent
@@ -341,14 +353,12 @@ namespace HomeSquareApp.Controllers
         public async Task<IActionResult> Edit(int id, 
             [Bind("ProductID,ProductPrice,ProductStock,ProductName,ProductDiscount," +
             "ProductInformation,Description,ProductServingContent,ProductServingTypeID," +
-            "ProductStatusID,CategoryID,ProductIncrement,Image,ImageUrl")] AdminProductEditViewModel model)
+            "ProductStatusID,CategoryID,ProductIncrement,Image,ImageUrl,SaleStartDateTime,SaleEndDateTime")] AdminProductEditViewModel model)
         {
             if (id != model.ProductID)
             {
                 return NotFound();
             }
-
-           
 
             Product product = _context.Product.Where(p => p.ProductID == model.ProductID).FirstOrDefault();
 
@@ -363,6 +373,11 @@ namespace HomeSquareApp.Controllers
                 }
             }
 
+            if (model.SaleStartDateTime > model.SaleEndDateTime)
+            {
+                ModelState.AddModelError(string.Empty, "Sale Start Date Should be Before Than the End Date");
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -370,6 +385,8 @@ namespace HomeSquareApp.Controllers
                 product.ProductStock += model.ProductIncrement == null ? 0 : model.ProductIncrement;
                 product.ProductPrice = model.ProductPrice;
                 product.ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount;
+                product.SaleStartDateTime = model.SaleStartDateTime;
+                product.SaleEndDateTime = model.SaleEndDateTime;
                 product.ProductInformation = model.ProductInformation;
                 product.Description = model.Description;
                 product.ProductServingContent = model.ProductServingContent == null ? 0 : model.ProductServingContent;

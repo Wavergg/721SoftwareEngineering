@@ -241,8 +241,20 @@
                 @if ((ViewData["NavData"] as string) == "Product")
                 {
 
-                    <h2 class="mx-2 m-0">Product</h2>
-
+                <div class="d-flex">
+                    <h2 class="mx-2 m-0">Product <span class="text-muted">&ndash;</span></h2>
+                    <div class="dropdown">
+                        <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            @ViewData["CurrentPage"]
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a asp-action="Index" asp-controller="AdminProduct" class="dropdown-item">Main</a></li>
+                            <li><a asp-action="Index" asp-controller="AdminProductCategories" class="dropdown-item">Categories</a></li>
+                            <li><a asp-action="Index" asp-controller="AdminProductServingTypes" class="dropdown-item">Serving Types</a></li>
+                            <li><a asp-action="Index" asp-controller="AdminProductStatus" class="dropdown-item">Statuses</a></li>
+                        </ul>
+                    </div>
+                </div>
                 }
                 else if ((ViewData["NavData"] as string) == "Index")
                 {
@@ -250,38 +262,22 @@
                     <h2 class="mx-2 m-0">Dashboard</h2>
 
                 }
-                else if ((ViewData["NavData"] as string) == "ProductCategories")
-                {
-
-                    <h2 class="mx-2 m-0">Product Categories</h2>
-
-                }
-                else if ((ViewData["NavData"] as string) == "ProductStatus")
-                {
-
-                    <h2 class="mx-2 m-0">Product Status</h2>
-
-                }
-                else if ((ViewData["NavData"] as string) == "ProductServingType")
-                {
-
-                    <h2 class="mx-2 m-0">Product Serving Type</h2>
-
-                }
-
+                
                 <button class="btn btn-default me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
                     <i class="fas fa-bars d-flex align-items-center justify-content-center" style="font-size: 1em;width:1.5rem"></i>
                 </button>
             </div>
+            
             <div class="container pt-5">
                 <a href="#TopRibbon" class="d-none d-md-block btn position-fixed text-white" style="bottom:0px;left:0px;z-index:1000">
                     <i style="width:34.97px" class="fas fa-angle-double-up fa-2x"></i>
                 </a>
+                
                 @RenderBody()
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-md-none d-block" aria-label="Main navigation">
+    <nav style="z-index:2" class="navbar navbar-expand-lg navbar-dark bg-dark d-md-none d-block" aria-label="Main navigation">
         <div class="container-fluid">
             <div class="navbar-collapse mt-2 offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

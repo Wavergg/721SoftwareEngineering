@@ -29,6 +29,12 @@ namespace HomeSquareApp.ViewModels
         [Display(Name = "Discount")]
         public float? ProductDiscount { get; set; }
 
+        [Display(Name = "Sale Start Date-Time")]
+        public DateTime SaleStartDateTime { get; set; }
+
+        [Display(Name = "Sale End Date-Time")]
+        public DateTime SaleEndDateTime { get; set; }
+
         [Required(ErrorMessage = "Please Provide Image For The Product")]
         public virtual IFormFile Image { get; set; }
 

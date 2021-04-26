@@ -2,14 +2,15 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Statuses";
     Layout = "_AdminLayout";
 }
 
-<h2>Index</h2>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -26,9 +27,7 @@
                 @Html.DisplayFor(modelItem => item.ProductStatusName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductStatusID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductStatusID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductStatusID">Delete</a>
+               
             </td>
         </tr>
 }

@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Create Product Categories";
-    ViewData["NavData"] = "ProductCategories";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Categories";
     Layout = "_AdminLayout";
 }
 
@@ -17,11 +18,7 @@
                 <input asp-for="CategoryName" class="col-md-7 form-control flex-fill" />
             </div>
             <span asp-validation-for="CategoryName" class="text-danger"></span>
-            <div class="d-flex">
-                <label asp-for="Description" class="col-md-5"></label>
-                <input asp-for="Description" class="col-md-7 form-control flex-fill" />
-            </div>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            
             <div class="d-flex">
                 <input id="submitFormBtn" type="submit" value="Create" hidden />
             </div>

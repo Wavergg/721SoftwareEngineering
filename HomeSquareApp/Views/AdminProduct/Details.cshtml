@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Details " + Model.ProductName;
     ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Main";
     Layout = "_AdminLayout";
     int dayOfWeek = ((int)DateTime.Now.DayOfWeek) == 0 ? 7 : (int)DateTime.Now.DayOfWeek;
     var previous1WeekSunday = @DateTime.Now.AddDays(-(dayOfWeek));

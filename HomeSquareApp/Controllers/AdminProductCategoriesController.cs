@@ -26,22 +26,22 @@ namespace HomeSquareApp.Controllers
         }
 
         // GET: AdminProductCategories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryID == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+        //    var category = await _context.Category
+        //        .FirstOrDefaultAsync(m => m.CategoryID == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(category);
-        }
+        //    return View(category);
+        //}
 
         // GET: AdminProductCategories/Create
         public IActionResult Create()
@@ -54,7 +54,7 @@ namespace HomeSquareApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace HomeSquareApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
         {
             if (id != category.CategoryID)
             {
@@ -139,7 +139,14 @@ namespace HomeSquareApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            Product product = _context.Product.Where(p => p.CategoryID == id).FirstOrDefault();
             var category = await _context.Category.FindAsync(id);
+            if (product != null)
+            {
+                TempData["DeleteMessage"] = "Unable to delete category, some products are tied to this category";
+                return RedirectToAction("Delete",id);
+            }
+            
             _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

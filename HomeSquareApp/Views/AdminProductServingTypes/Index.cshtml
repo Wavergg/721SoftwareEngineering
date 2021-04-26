@@ -2,10 +2,11 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Serving Types";
     Layout = "_AdminLayout";
 }
 
-<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -26,9 +27,7 @@
                 @Html.DisplayFor(modelItem => item.ServingType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductServingTypeID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductServingTypeID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductServingTypeID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ProductServingTypeID">Edit</a>
             </td>
         </tr>
 }

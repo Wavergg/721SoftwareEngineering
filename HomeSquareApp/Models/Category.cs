@@ -17,9 +17,6 @@ namespace HomeSquareApp.Models
         [Display(Name ="Category Name")]
         public string CategoryName { get; set; }
 
-        [MaxLength(512)]
-        public string Description { get; set; }
-
         public IEnumerable<Product> Products { get; set; }
     }
 }

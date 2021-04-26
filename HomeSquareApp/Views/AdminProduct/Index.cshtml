@@ -4,7 +4,7 @@
     ViewData["Title"] = "Products Index";
     Layout = "_AdminLayout";
     ViewData["NavData"] = "Product";
-
+    ViewData["CurrentPage"] = "Main";
 }
 
 @section pageSpecificCss{
@@ -21,7 +21,7 @@
 
                 @* NYD Update the Categories based on clicked option *@
                 <button v-text="categorySelected.name" class="btn btn-sm border-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul style="z-index:4" class="dropdown-menu dropdown-menu-end">
                     <li v-for="item in categoryItems">
                         <button @@click="changeCategory(item.id)" class="dropdown-item">{{item.name}}</button>
                     </li>
