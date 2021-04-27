@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeSquareApp.ViewModels.ProductViewModel
+
+@{
     ViewData["Title"] = "Products";
     ViewBag.NavbarExtension = true;
 }
@@ -20,21 +22,11 @@
             </h2>
         </div>
         <div class="list-group collapse active show" id="collapseCategories" style="">
-            <a href="#" class="p-3">Popular Products</a>
-            <a href="#" class="p-3">Fresh Products</a>
-            <a href="#" class="p-3">Home & Living</a>
-            <a href="#" class="p-3">Meats</a>
-            <a href="#" class="p-3">Snacks</a>
-            <a href="#" class="p-3">Popular Products</a>
-            <a href="#" class="p-3">Fresh Products</a>
-            <a href="#" class="p-3">Home & Living</a>
-            <a href="#" class="p-3">Meats</a>
-            <a href="#" class="p-3">Snacks</a>
-            <a href="#" class="p-3">Popular Products</a>
-            <a href="#" class="p-3">Fresh Products</a>
-            <a href="#" class="p-3">Home & Living</a>
-            <a href="#" class="p-3">Meats</a>
-            <a href="#" class="p-3">Snacks</a>
+            <a asp-action="Index" asp-controller="Product" asp-route-queryId="0" class="p-3">Popular Products</a>
+            @foreach (Category category in Model.Categories)
+            {
+                <a asp-action="Index" asp-controller="Product" asp-route-queryId="@category.CategoryID" class="p-3">@category.CategoryName</a>
+            }
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -71,39 +63,11 @@
             <hr />
             <div class="container mt-4">
                 <div class="row row-cols-sm-2 row-cols-xl-3 g-2 g-lg-3">
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
-                    <div class="col">
-                        <partial name="_ProductCardLongStripPartial" />
-                    </div>
+                    @foreach(Product product in Model.Products) { 
+                        <div class="col d-flex align-items-stretch">
+                            <partial name="_ProductCardLongStripPartial" model="product"/>
+                        </div>
+                    }
                 </div>
                 <nav class="mt-5" aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">

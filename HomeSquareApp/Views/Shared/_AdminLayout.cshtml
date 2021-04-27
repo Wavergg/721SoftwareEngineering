@@ -104,7 +104,7 @@
             overflow: hidden;
         }
 
-            table th {
+            table th,td {
                 white-space: nowrap;
             }
 
@@ -254,6 +254,7 @@
                             <li><a asp-action="Index" asp-controller="AdminProductStatus" class="dropdown-item">Statuses</a></li>
                         </ul>
                     </div>
+
                 </div>
                 }
                 else if ((ViewData["NavData"] as string) == "Index")

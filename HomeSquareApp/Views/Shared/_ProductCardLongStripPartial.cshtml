@@ -1,42 +1,73 @@
-﻿@model string
+﻿@model HomeSquareApp.Models.Product
+
+@{ 
+    string priceAfterDiscount = string.Format("{0:F2}",(Model.ProductPrice - (Model.ProductPrice * Model.ProductDiscount)));
+    string[] priceBase = priceAfterDiscount.Split('.');
+    
+    //TEMP CHANGE IT LATER, NOT EFFICIENT TO PERFORM CALCULATION FOR EVERYTHING
+    double TOTAL_REVIEW_COUNT = Model.ReviewFiveStarsCount + Model.ReviewFourStarsCount + Model.ReviewThreeStarsCount + Model.ReviewTwoStarsCount + Model.ReviewOneStarsCount;
+    double AVERAGE_REVIEW_SCORE = (Model.ReviewFiveStarsCount * 5 + Model.ReviewFourStarsCount * 4 + Model.ReviewThreeStarsCount * 3 + Model.ReviewTwoStarsCount * 2 + Model.ReviewOneStarsCount) / TOTAL_REVIEW_COUNT;
+    double SCORE_ROUNDED = Math.Round(AVERAGE_REVIEW_SCORE) - 1;
+}
 
 @* product start *@
-<div class="card p-3 d-flex flex-column justify-content-between">
-    <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="1">
+<div class="card p-3 d-flex flex-column justify-content-between ">
+    <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductID">
         <div class="p-3 align-items-center d-flex justify-content-center position-relative">
-            <img src="/lib/images/products/Shampoo-PNG-Clipart.png" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
+            <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: cover;max-height:190px;min-height:190px" asp-append-version="true">
             <div class="position-absolute bottom-0 start-0 ms-2">
+                @*<span class="fa fa-star checked" style="font-size: 12px;"></span>
                 <span class="fa fa-star checked" style="font-size: 12px;"></span>
                 <span class="fa fa-star checked" style="font-size: 12px;"></span>
                 <span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star" style="font-size: 12px;"></span>
+                <span class="fa fa-star" style="font-size: 12px;"></span>*@
+                @if(TOTAL_REVIEW_COUNT != 0) { 
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        string className = "fa fa-star ";
+                        if (i <= SCORE_ROUNDED)
+                        {
+                            className += "checked";
+                        }
+                        <span class="@className" style="font-size:12px;"></span>
+                    }
+                }
             </div>
         </div>
-        <div class="alert alert-success p-0 px-2 rounded-0" style="position: absolute; left: -1px; top: 0px;">
-            <small class="alert-link">10% OFF</small>
-        </div>
+        @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime <= DateTime.Now) {
+            <div class="alert alert-success p-0 px-2 rounded-0" style="position: absolute; left: -1px; top: 0px;">
+                <small class="alert-link">@(Model.ProductDiscount*100) % OFF</small>
+            </div>
+        }
     </a>
     <div class="text-start text-sm-center product-details pt-1">
-        <a asp-controller="Product" asp-action="Details" asp-route-id="1" style="font-size:16px" class="text-success product-link">@Model</a>
-        <div class="d-md-flex align-items-center mt-3 mt-md-0 mt-lg-3">
+        <a asp-controller="Product" asp-action="Details" asp-route-id="1" style="font-size:16px" class="text-success product-link">@Model.ProductName</a>
+        <div class="d-md-flex  mt-3 mt-md-0 mt-lg-3">
             <div>
-                <span class="product-price">$</span><span class="product-price">100</span><sup class="product-price-decimal">50</sup>
+                <span class="product-price">$</span><span class="product-price">@priceBase[0]</span><sup class="product-price-decimal">@priceBase[1]</sup>
+                @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime <= DateTime.Now) { 
                 <p>
-                    Was <span class="product-price-before-special">$125.00</span>
+                    Was <span class="product-price-before-special">$@String.Format("{0:F2}",Model.ProductPrice)</span>
                 </p>
+                } else
+                {
+                    //To offset the height
+                    <p class="py-2">
+                    </p>
+                }
             </div>
-            <div class="ms-auto d-none d-md-block">
-                <span class="fw-normal">$14.00 / Ea.</span>
+            <div class="ms-auto d-none d-md-block align-self-start">
+                <span class="fw-normal">@Model.ProductServingContent @Model.ServingType.ServingType</span>
             </div>
         </div>
     </div>
-
-    <div class="mt-md-3 d-md-flex align-items-center text-center ">
+    @*NYD DO AJAX To Order*@
+    <form class="mt-md-3 d-md-flex align-items-center text-center ">
+        <input type="hidden" value="@Model.ProductID" />
         <label class="text-muted" style="font-size:14px;">QTY</label>
         @*<input placeholder="1" min="1" max="100" type="number" class="custom-spinner mx-2 rounded-3 w-25" />*@
         <input type="number" placeholder="1" min="1" max="100" value="1" class="mx-2 w-25"/>
         <button type="submit" class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
-    </div>
+    </form>
 </div>
 @* product end *@

@@ -309,18 +309,23 @@ namespace HomeSquareApp.Controllers
         }
 
         // GET: AdminProduct/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = _context.Product.Include(p=>p.ProductStatus)
+                .Where(p=> p.ProductID == id).FirstOrDefault();
+
             if (product == null)
             {
                 return NotFound();
             }
+
+            var date = DateTime.Now;
+            DateTime saleStartDateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0);
 
             AdminProductEditViewModel model = new AdminProductEditViewModel()
             {
@@ -331,8 +336,8 @@ namespace HomeSquareApp.Controllers
                 ProductStock = product.ProductStock,
                 ProductPrice = product.ProductPrice,
                 ProductDiscount = product.ProductDiscount,
-                SaleStartDateTime = product.SaleStartDateTime,
-                SaleEndDateTime = product.SaleEndDateTime,
+                SaleStartDateTime = product.ProductStatus.ProductStatusName == "Sale" ? product.SaleStartDateTime : saleStartDateTime,
+                SaleEndDateTime = product.ProductStatus.ProductStatusName == "Sale" ? product.SaleEndDateTime : saleStartDateTime,
                 ProductInformation = product.ProductInformation,
                 Description = product.Description,
                 ProductServingContent = product.ProductServingContent

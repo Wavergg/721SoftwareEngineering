@@ -108,7 +108,7 @@
                     <label asp-for="ProductStatusID" class="required"></label>
                 </div>
                 <div class="d-flex flex-fill">
-                    <select id="ProductStatusDropdown" asp-for="ProductStatusID" class="form-control flex-fill" asp-items="ViewBag.ProductStatusID"></select>
+                    <select onchange="getContext(this)" id="ProductStatusDropdown" asp-for="ProductStatusID" class="form-control flex-fill" asp-items="ViewBag.ProductStatusID"></select>
                     <a class="refreshLink" style="cursor:pointer" onclick="refreshProductStatusDropdown()">
                         <i id="syncIconProductStatus" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
                     </a>

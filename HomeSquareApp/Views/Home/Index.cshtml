@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeSquareApp.ViewModels.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -139,9 +141,9 @@
             <hr />
             <div class="owl-carousel owl-carouselOfferProduct">
                 @* NYD Pass In the model here model/viewdata *@
-                @for (int i = 0; i < 2; i++)
+                @foreach(Product product in Model.FeaturedProducts)
                 {
-                    <partial name="_ProductCardLongStripPartial" />
+                    <partial name="_ProductCardLongStripPartial" model="product"/>
                 }
             </div>
         </div>
@@ -174,24 +176,11 @@
             </div>
         </div>
         <hr />
-        @{
-            string test1 = "Banana";
-            string test2 = "String can get quite long for this one";
-        }
-
         <div class=" owl-carousel owl-carouselLatestProduct row">
             @* NYD Pass In the model here model/viewdata *@
-            @for (int i = 0; i < 2; i++)
-            {
-                if (i % 2 == 1)
-                {
-
-                    <partial name="_ProductCardLongStripPartial" model="test1" />
-                }
-                else
-                {
-                    <partial name="_ProductCardLongStripPartial" model="test2" />
-                }
+            @foreach(Product product in Model.LatestProducts)
+            {                    
+                <partial name="_ProductCardLongStripPartial" model="product" />
             }
         </div>
     </div>

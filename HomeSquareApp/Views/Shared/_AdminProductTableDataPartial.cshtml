@@ -2,6 +2,10 @@
 
 @foreach (var item in Model)
 {
+
+    bool expired = false;
+    expired = item.ProductStatus.ProductStatusName == "Sale" && item.SaleEndDateTime <= DateTime.Now ? true : false;
+
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ProductPrice)
@@ -18,7 +22,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.CurrentWeekPurchaseCount)
         </td>
-        <td>
+        <td class="@(expired?"text-danger":"")">
             @Html.DisplayFor(modelItem => item.ProductStatus.ProductStatusName)
         </td>
         <td class="text-nowrap">
