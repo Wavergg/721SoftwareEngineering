@@ -66,18 +66,19 @@
             height: auto !important;
         }
 
-        .popover-body a.form-control{
-            border:0;
+        .popover-body a.form-control {
+            border: 0;
             box-shadow: 0;
         }
+
             .popover-body a.form-control:hover {
                 background-color: #c5e1a5;
             }
 
-            .popover{
-                z-index:10;
-                min-width:210px;
-            }
+        .popover {
+            z-index: 10;
+            min-width: 210px;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +99,7 @@
 
                     <div class="col-md-4 col-12">
                         @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
-                        <partial name="_SearchBarPartial" />
+                        <partial name="_SearchBarPartial"/>
                     </div>
 
                     <div class="col-md-4">
@@ -132,7 +133,7 @@
                 <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="z-index:9">
                     <a asp-controller="Home" asp-action="Index" class="nav-ribbon">Home</a>
                     <a asp-controller="Product" asp-action="Index" class="nav-ribbon">Products</a>
-                    
+
                     <a asp-controller="Recipe" asp-action="Index" class="nav-ribbon">Recipes</a>
                     <a class="nav-ribbon" href="#">Our Stores</a>
                 </nav>
@@ -188,7 +189,7 @@
                 <div class="mt-3 collapse navbar-collapse" id="navbarsExampleDefault">
                     <div class="container-fluid">
                         @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
-                        <partial name="_SearchBarPartial" />
+                        <partial name="_SearchBarPartial"/>
 
                         @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
                         <a asp-controller="Home" asp-action="Index">
@@ -197,7 +198,7 @@
                         <a asp-controller="Product" asp-action="Index">
                             <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
                         </a>
-                        
+
                         <a asp-controller="Recipe" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
                         </a>
@@ -228,6 +229,9 @@
         </main>
 
 
+        <div id="insertForm">
+
+        </div>
         <!-- FOOTER -->
         <footer class="container-fluid px-0 text-dark bg-light">
             <div class="container d-md-flex flex-row pt-5 pb-3">
@@ -237,7 +241,7 @@
                             <span class="h6 fw-bold">Products</span>
                             <hr />
                             <ul class="px-0">
-                                
+
                                 <li>
                                     <a asp-controller="Product" asp-action="Index">Shop</a>
                                 </li>
@@ -315,7 +319,7 @@
     @if (TempData["OpenLogin"] != null)
     {
         <script>
-            
+
             $(document).ready(function () {
                 $('#loginModal').modal('show')
             });
@@ -324,27 +328,27 @@
 
     @if (signInManager.IsSignedIn(User))
     {
-<div id="popoverTemplate" class="hide" hidden>
-    <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
-    <div>
-        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">My Details</a>
-    </div>
-    @* Found a bug here, if there is no separator link it wont work for the next link *@
-    <a asp-action="Index" asp-controller="Home"></a>
-    <div>
-        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
-    </div>
-    <a asp-action="Index" asp-controller="Home"></a>
-    <div>
-        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
-    </div>
-    <a asp-action="Index" asp-controller="Home"></a>
-    <div>
-        <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
-            Log Out
-        </a>
-    </div>
-</div>
+        <div id="popoverTemplate" class="hide" hidden>
+            <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
+            <div>
+                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">My Details</a>
+            </div>
+            @* Found a bug here, if there is no separator link it wont work for the next link *@
+            <a asp-action="Index" asp-controller="Home"></a>
+            <div>
+                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
+            </div>
+            <a asp-action="Index" asp-controller="Home"></a>
+            <div>
+                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
+            </div>
+            <a asp-action="Index" asp-controller="Home"></a>
+            <div>
+                <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
+                    Log Out
+                </a>
+            </div>
+        </div>
     }
 
     @* MODIFIED JQUERY VALIDATE START *@
@@ -354,17 +358,74 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/OwlCarousel2/owl.carousel.js"></script>
+    <script src="~/lib/js/jquery-ui.min.js"></script>
     <script src="~/lib/js/vue.js"></script>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
                 searchCategories: "Products",
+                searchString: "",
             },
             methods: {
                 updateSearchCategories: function (event) {
                     this.searchCategories = event.target.value;
                 },
+                triggerSearchQuery: function (el) {
+                    if (this.searchString.length < 2 || this.searchCategories == "") {
+                        return;
+                    }
+                    
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "Home/GetQuery", // Controller/View
+                            data: {
+                                searchString: app.searchString,
+                                searchCategories: app.searchCategories,
+                            }
+                        }).done(function (data) {
+                            var a, b, i, val = el.value;
+                            /*close any already open lists of autocompleted values*/
+                            app.closeAllLists();
+
+                            a = document.createElement("DIV");
+                            a.setAttribute("id", this.id + "autocomplete-list");
+                            a.setAttribute("class", "autocomplete-items");
+
+                            el.parentNode.appendChild(a);
+
+                            for (i = 0; i < data.length; i++) {
+                                b = document.createElement("DIV");
+                                b.innerHTML = data[i]
+                                b.innerHTML += "<input type='hidden' value='" + data[i] + "'>";
+                                b.addEventListener("click", function (e) {
+                                    /*insert the value for the autocomplete text field:*/
+                                    el.value = this.getElementsByTagName("input")[0].value;
+                                    app.searchString = el.value;
+                                    /*close the list of autocompleted values,
+                                    (or any other open lists of autocompleted values:*/
+                                    app.closeAllLists();
+                                });
+                                a.appendChild(b);
+                            }
+                        });
+                },
+                closeAllLists: function (elmnt) {
+                    /*close all autocomplete lists in the document,
+                    except the one passed as an argument:*/
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                        if (elmnt != x[i]) {
+                            x[i].parentNode.removeChild(x[i]);
+                        }
+                    }
+                },
+                submitSearchQuery: function () {
+                    $('#insertForm').html('<form action="Home/StartQuery" name="searchQuery" style="display:none;"><input type="text" name="searchString" value="' + this.searchString + '" /><input type="text" name="searchCategories" value="' + this.searchCategories + '" /></form>');
+
+                    document.forms['searchQuery'].submit();
+                }
             },
         })
     </script>
@@ -376,7 +437,7 @@
 
     @* Script for sticky nav bar on mobile and desktop, initialize sticky *@
     <script>
-
+        
 
         window.addEventListener("scroll", function () {
             var mobileNav = document.getElementById("mobileNav");
@@ -426,14 +487,14 @@
                 }
             })
         })
-            //var myAccountEl = document.getElementById('myAccountPopover')
-            //var popover = new bootstrap.Popover(myAccountEl,
-            //    {
-            //    html: true,
-            //    content: function () {
-            //        return $("#popoverTemplate").html();
-            //    }
-            //})
+                            //var myAccountEl = document.getElementById('myAccountPopover')
+                            //var popover = new bootstrap.Popover(myAccountEl,
+                            //    {
+                            //    html: true,
+                            //    content: function () {
+                            //        return $("#popoverTemplate").html();
+                            //    }
+                            //})
     </script>
 </body>
 </html>

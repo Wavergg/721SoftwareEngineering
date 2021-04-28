@@ -40,6 +40,41 @@ namespace HomeSquareApp.Controllers
             return View(model);
         }
 
+        public IActionResult GetQuery(string searchString, string searchCategories)
+        {
+            if (searchString.Length < 2) return Json(null);
+
+            if (searchCategories == "Products")
+            {
+                List<string> productsName = _context.Product.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower()))
+                                            .Take(5).Select(p => p.ProductName).ToList();
+
+                List<string> categoryName = _context.Category.Where(c => c.CategoryName.ToLower().Contains(searchString.ToLower()))
+                                            .Take(5).Select(c => c.CategoryName).ToList();
+
+                return Json(productsName.Concat(categoryName));
+            }
+            else if (searchCategories == "Recipes")
+            {
+                return Json(true);
+            }
+            return Json(null);
+        }
+
+        public IActionResult StartQuery(string searchString, string searchCategories)
+        {
+            if (searchCategories == "Products")
+            {
+                return RedirectToAction("Index", "Product", new { searchString = searchString });
+            }
+            else if (searchCategories == "Recipes")
+            {
+                return Json(true);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

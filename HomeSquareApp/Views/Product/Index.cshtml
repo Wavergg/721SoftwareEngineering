@@ -18,6 +18,10 @@
             background-color: #c5e1a5 !important;
             color: #fff !important;
         }
+
+        .paginationElement.active {
+            border-bottom: 2px solid #198754;
+        }
     </style>
 }
 
@@ -26,13 +30,19 @@
         <img src="~/lib/images/banner/banner3.jpg" style="min-height:215px;width:100%; object-fit:cover;object-position: 25% center" />
     </div>
     
-    <div class="container mt-0 pt-md-5">
+    <div class="container mt-3 pt-md-5">
         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             <svg class="bi" width="16" height="24" fill="currentColor">
                 <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#filter" />
             </svg>
             Filter
         </button>
+        @if (ViewData["IsFiltered"] != null)
+        {
+        <button onclick="clearFilter(this)" class="col-4 btn btn-dark">
+            Clear Filter
+        </button>
+        }
         <div class="collapse mt-2" id="collapseFilter">
             <div class="card card-body">
                 <div class="d-flex gap-2">
@@ -45,7 +55,7 @@
                     <div class="d-flex justify-content-between gap-1">
                         @foreach (Category category in Model.Categories)
                         {
-                        <a onclick="searchProductsByCategoryName(this)" class="flex-fill bg-light p-3 categoryList" value="@category.CategoryName">@category.CategoryName</a>
+                            <a onclick="searchProductsByCategoryName(this)" class="flex-fill bg-light p-3 categoryList" value="@category.CategoryName">@category.CategoryName</a>
                         }
                     </div>
                 </div>
@@ -62,6 +72,7 @@
                 <option value="0" selected>Newest Products to Oldest Products</option>
                 <option value="1">Lowest Price to Highest Price</option>
                 <option value="2">Most Popular to Least Popular</option>
+                <option value="3">Highest Deals</option>
             </select>
         </div>
         <div class="mt-4">
@@ -70,9 +81,10 @@
             </div>
         </div>
 
-        <nav class="my-5 text-end" id="pagination" aria-label="Page navigation example">
+        
+        <div class="d-flex my-5 justify-content-end" id="pagination">
             <partial name="_PaginationPartial" />
-        </nav>
+        </div>
     </div>
 </div>
 
@@ -194,7 +206,7 @@
             clearFilterBtn.hidden = false;
         }
 
-        function clearFilter(){
+        function clearFilter(el){
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
@@ -207,6 +219,7 @@
                     updatePagination();
                 });
             clearFilterBtn.hidden = true;
+            el.hidden = true;
             removeLinkActiveClass()
         }
 
@@ -230,5 +243,14 @@
 
                 });
         }
+
+        @if(ViewData["IsFiltered"] != null)
+            { 
+                <Text>
+                $(document).ready(function() {
+                    clearFilterBtn.hidden = false;
+                });
+                </Text>
+            }
     </script>
 }

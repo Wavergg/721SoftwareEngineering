@@ -34,6 +34,11 @@ namespace HomeSquareApp.Controllers
                 case 2:
                     productList = productList.OrderByDescending(p => p.CurrentWeekPurchaseCount).ToList();
                     break;
+                case 3:
+                    productList = productList.OrderBy(p => p.SaleEndDateTime >= DateTime.Now ? 0 : 1)
+                                    .ThenBy(p=>p.ProductStatus.ProductStatusName == "Sale" ? 0 : 1)
+                                    .ThenByDescending(p => p.ProductDiscount).ToList();
+                    break;
                 default:
                     productList = productList.OrderByDescending(p => p.ProductAddedDate).ToList();
                     break;
@@ -52,14 +57,25 @@ namespace HomeSquareApp.Controllers
             return PartialView("_PaginationPartial");
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            
-            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
-                                .Where(p => p.ProductStatus.ProductStatusName != "Hold")
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                _productsContext = await _context.Product.Include(p => p.ProductStatus)
+                        .Where(p => p.ProductStatus.ProductStatusName != "Hold")
+                        .Include(p => p.Category)
+                        .Where(p => p.Category.CategoryName.ToLower().Contains(searchString) || p.ProductName.Contains(searchString))
+                        .Include(p=>p.ServingType)
+                        .ToListAsync();
+
+                ViewData["IsFiltered"] = true;
+            } else { 
+            _productsContext = await _context.Product.Include(p => p.ProductStatus)
+                                .Where(p => p.ProductStatus.ProductStatusName != "Hold" )
+                                .Include(p => p.ServingType)
                                 .OrderByDescending(p => p.ProductAddedDate)
                                 .ToListAsync();
-
+            }
             List<Category> categories = await _context.Category.ToListAsync();
             
             ProductViewModel model = new ProductViewModel();
@@ -94,8 +110,9 @@ namespace HomeSquareApp.Controllers
 
         public async Task<IActionResult> GetAllProducts(int sortBy)
         {
-            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
+            _productsContext = await _context.Product.Include(p => p.ProductStatus)
                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold" )
+                                .Include(p => p.ServingType)
                                 .ToListAsync();
 
             _productsContext = SortProductList(_productsContext, sortBy);
@@ -110,9 +127,10 @@ namespace HomeSquareApp.Controllers
                 return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
             }
 
-            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
+            _productsContext = await _context.Product.Include(p => p.ProductStatus)
                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold" && 
                                     p.ProductName.ToLower().Contains(productName.ToLower()))
+                                .Include(p => p.ServingType)
                                 .ToListAsync();
 
             _productsContext = SortProductList(_productsContext, sortBy);
@@ -127,9 +145,11 @@ namespace HomeSquareApp.Controllers
                 return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
             }
 
-            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType).Include(p=>p.Category)
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.Category)
                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold" &&
-                                    p.Category.CategoryName.ToLower() == categoryName.ToLower())
+                                    p.Category.CategoryName.ToLower() == categoryName.ToLower()
+                                    )
+                                .Include(p => p.ServingType)
                                 .ToListAsync();
 
             _productsContext = SortProductList(_productsContext, sortBy);
@@ -149,7 +169,11 @@ namespace HomeSquareApp.Controllers
         {
             if (_productsContext == null)
             {
-                _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.Category).ToListAsync();
+                _productsContext = await _context.Product.Include(p => p.ProductStatus)
+                                        .Where(p => p.ProductStatus.ProductStatusName != "Hold")
+                                        .Include(p => p.Category)
+                                        .Include(p=> p.ServingType)
+                                        .ToListAsync();
             }
 
             _currentRange = pageNumber * ITEMS_PER_PAGE;

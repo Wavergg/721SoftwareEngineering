@@ -1,8 +1,9 @@
-﻿@* NYD NEED TO USE AJAX TO LOAD CATEGORIES INTO THE SEARCH BAR AS SUGGESTION *@
+﻿
+@* NYD NEED TO USE AJAX TO LOAD CATEGORIES INTO THE SEARCH BAR AS SUGGESTION *@
 <div>
     <div class="input-group my-3 my-md-0">
 
-        <input type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" :placeholder="'Search '+searchCategories" aria-label="Search" aria-describedby="basic-addon2">
+        <input onkeyup="app.triggerSearchQuery(this)" type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" v-model="searchString" :placeholder="'Search '+searchCategories">
 
         @* NYD Update the Categories based on clicked option *@
         <button class="btn btn-sm btn-outline-success dropdown-toggle w-25" type="button" data-bs-toggle="dropdown" aria-expanded="false" v-text="searchCategories"></button>
@@ -11,8 +12,8 @@
             <li><button class="dropdown-item" @@click="updateSearchCategories" value="Recipes">Recipes</button></li>
         </ul>
         @* NYD Pass data to controller then return view based on search into product table *@
-        <span class="" id="basic-addon2">
-            <button class="btn btn-success border-0" style="border-top-right-radius:12.5rem;border-bottom-right-radius:12.5rem" type="button">
+        <span>
+            <button @@click="submitSearchQuery()" class="btn btn-success border-0" style="border-top-right-radius:12.5rem;border-bottom-right-radius:12.5rem" >
                 <svg class="bi text-white" width="16" height="24">
                     <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
                 </svg>
