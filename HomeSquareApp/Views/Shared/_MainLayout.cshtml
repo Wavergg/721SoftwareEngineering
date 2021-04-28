@@ -130,9 +130,10 @@
                     </div>
                 </div>
                 <nav class="bg-success d-flex align-content-stretch align-items-center justify-content-around text-center" style="z-index:9">
+                    <a asp-controller="Home" asp-action="Index" class="nav-ribbon">Home</a>
                     <a asp-controller="Product" asp-action="Index" class="nav-ribbon">Products</a>
+                    
                     <a asp-controller="Recipe" asp-action="Index" class="nav-ribbon">Recipes</a>
-                    <a asp-controller="Deals" asp-action="Index" class="nav-ribbon">Deals</a>
                     <a class="nav-ribbon" href="#">Our Stores</a>
                 </nav>
             </div>
@@ -196,11 +197,9 @@
                         <a asp-controller="Product" asp-action="Index">
                             <div class="d-flex p-2 pb-3 bg-white border-bottom border-secondary">Products</div>
                         </a>
+                        
                         <a asp-controller="Recipe" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
-                        </a>
-                        <a asp-controller="Deals" asp-action="Index">
-                            <div class="d-flex p-2 py-3 bg-white ">Deals</div>
                         </a>
                         <a href="#">
                             <div class="d-flex p-2 py-3 bg-white ">Our Stores</div>
@@ -238,9 +237,7 @@
                             <span class="h6 fw-bold">Products</span>
                             <hr />
                             <ul class="px-0">
-                                <li class="text-decoration-none">
-                                    <a asp-controller="Deals" asp-action="Index">Special Offers</a>
-                                </li>
+                                
                                 <li>
                                     <a asp-controller="Product" asp-action="Index">Shop</a>
                                 </li>
@@ -362,7 +359,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                searchCategories: "All Products",
+                searchCategories: "Products",
             },
             methods: {
                 updateSearchCategories: function (event) {

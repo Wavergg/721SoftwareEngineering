@@ -30,7 +30,7 @@ namespace HomeSquareApp.Controllers
 
             List<Product> latestProduct = await _context.Product.Include(p => p.ProductStatus).Include(p=>p.ServingType)
                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold")
-                                .OrderByDescending(p => p.ProductUpdateDate)
+                                .OrderByDescending(p => p.ProductAddedDate)
                                 .Take(20)
                                 .ToListAsync();
 

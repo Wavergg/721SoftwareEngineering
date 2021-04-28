@@ -5,12 +5,10 @@
         <input type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" :placeholder="'Search '+searchCategories" aria-label="Search" aria-describedby="basic-addon2">
 
         @* NYD Update the Categories based on clicked option *@
-        <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" v-text="searchCategories"></button>
+        <button class="btn btn-sm btn-outline-success dropdown-toggle w-25" type="button" data-bs-toggle="dropdown" aria-expanded="false" v-text="searchCategories"></button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><button class="dropdown-item" @@click="updateSearchCategories" value="All Products">All Products</button></li>
+            <li><button class="dropdown-item" @@click="updateSearchCategories" value="Products">Products</button></li>
             <li><button class="dropdown-item" @@click="updateSearchCategories" value="Recipes">Recipes</button></li>
-            <li><button class="dropdown-item" @@click="updateSearchCategories" value="Foods">Foods</button></li>
-            <li><button class="dropdown-item" @@click="updateSearchCategories" value="Home & Living">Home & Living</button></li>
         </ul>
         @* NYD Pass data to controller then return view based on search into product table *@
         <span class="" id="basic-addon2">

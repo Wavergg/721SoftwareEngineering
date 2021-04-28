@@ -2,102 +2,233 @@
 
 @{
     ViewData["Title"] = "Products";
-    ViewBag.NavbarExtension = true;
 }
 
-@section pageSpecificCss{ 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@section pageSpecificCss{
+    <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/lib/css/productCard.css" />
-    <link rel="stylesheet" href="~/lib/css/sidebar.css" />
+    
+    <style>
+        .categoryList:hover {
+            background-color: #c5e1a5 !important;
+            color: #fff !important;
+        }
+
+        .categoryList.linkActive {
+            background-color: #c5e1a5 !important;
+            color: #fff !important;
+        }
+    </style>
 }
 
-<div class="d-flex bg-light" id="wrapper">
-    <!-- Sidebar -->
-    <div class="bg-white border-right shadow pt-5" id="sidebar-wrapper">
-        <div class="container" data-bs-toggle="collapse" href="#collapseCategories" role="button" aria-expanded="true" aria-controls="collapseCategories">
-            <h2 class="sidebar-heading text-center p-3">Categories
-                <svg class="bi" width="16" height="24" fill="currentColor">
-                    <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-down" />
-                </svg>
-            </h2>
-        </div>
-        <div class="list-group collapse active show" id="collapseCategories" style="">
-            <a asp-action="Index" asp-controller="Product" asp-route-queryId="0" class="p-3">Popular Products</a>
-            @foreach (Category category in Model.Categories)
-            {
-                <a asp-action="Index" asp-controller="Product" asp-route-queryId="@category.CategoryID" class="p-3">@category.CategoryName</a>
-            }
-        </div>
+<div>
+    <div style="position:relative">
+        <img src="~/lib/images/banner/banner3.jpg" style="min-height:215px;width:100%; object-fit:cover;object-position: 25% center" />
     </div>
-    <!-- /#sidebar-wrapper -->
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-        <div class="d-flex mt-5 row">
-            <img class="ms-lg-5" src="~/lib/images/banner/Fairfield-Meat-Market-Beef-Banner.png" asp-append-version="true"/>
-        </div>
-        <div class="container m-md-5 mt-0">
-            <div class="d-lg-flex ">
-                <div class="">
-                    <h1>Popular Products This Week</h1>
+    
+    <div class="container mt-0 pt-md-5">
+        <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            <svg class="bi" width="16" height="24" fill="currentColor">
+                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#filter" />
+            </svg>
+            Filter
+        </button>
+        <div class="collapse mt-2" id="collapseFilter">
+            <div class="card card-body">
+                <div class="d-flex gap-2">
+                    <input id="productNameInput" type="text" class="form-control" placeholder="Search Product by Name" />
+                    <button onclick="searchProductsByName()" class="btn btn-success" style="min-width:25%">Search</button>
                 </div>
-                <div class="ms-auto">
-                    <select class="form-select mb-2" aria-label="Default select example">
-                        <option selected>Sort by Newest</option>
-                        <option value="1">Sort by Lowest Price</option>
-                        <option value="2">Sort by Most Popular</option>
-                        <option value="3">Sort by Latest</option>
-                    </select>
-                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        <svg class="bi" width="16" height="24" fill="currentColor">
-                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#filter" />
-                        </svg>
-                        Filter
+                <div class="mt-4">
+                    <h4>Categories</h4>
+                    <hr />
+                    <div class="d-flex justify-content-between gap-1">
+                        @foreach (Category category in Model.Categories)
+                        {
+                        <a onclick="searchProductsByCategoryName(this)" class="flex-fill bg-light p-3 categoryList" value="@category.CategoryName">@category.CategoryName</a>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex my-2 justify-content-center">
+                    <button id="clearFilterBtn" onclick="clearFilter()" class="col-4 btn btn-dark" hidden>
+                        Clear Filter
                     </button>
                 </div>
             </div>
-            <div class="collapse mt-2" id="collapseFilter">
-                <div class="card card-body">
-                    
-                </div>
-            </div>
-            <hr />
-            <div class="container mt-4">
-                <div class="row row-cols-sm-2 row-cols-xl-3 g-2 g-lg-3">
-                    @foreach(Product product in Model.Products) { 
-                        <div class="col d-flex align-items-stretch">
-                            <partial name="_ProductCardLongStripPartial" model="product"/>
-                        </div>
-                    }
-                </div>
-                <nav class="mt-5" aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item disabled">
-                            <a class="page-link bg-transparent border-0" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link text-success fw-bold bg-transparent border-0 text-decoration-underline" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link bg-transparent border-0 text-success" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link bg-transparent border-0 text-success" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link bg-transparent border-0 text-success" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+        </div>
+        <div class="ms-md-2 mt-2 py-2 d-flex">
+            <span class="text-success me-2">Sort By</span>
+            <select id="sortBySelect" onchange="sortProductBy(this)" style="border:0;border-bottom: 1px solid">
+                <option value="0" selected>Newest Products to Oldest Products</option>
+                <option value="1">Lowest Price to Highest Price</option>
+                <option value="2">Most Popular to Least Popular</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <div id="productsList" class="row row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 g-lg-3">
+                <partial name="_ProductShowCasePartial" model="Model.Products" />
             </div>
         </div>
-    </div>
 
-    
-    <!-- /#page-content-wrapper -->
+        <nav class="my-5 text-end" id="pagination" aria-label="Page navigation example">
+            <partial name="_PaginationPartial" />
+        </nav>
+    </div>
 </div>
-<!-- /#wrapper -->
+
 
 @section Scripts{
 
-    <!-- Menu Toggle Script -->
     <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
+        var productNameInput = document.getElementById('productNameInput'); 
+        var sortBySelect = document.getElementById('sortBySelect');
+        var clearFilterBtn = document.getElementById('clearFilterBtn');
+
+        var paginationList = document.getElementsByClassName("paginationElement")
+        var currentPage = 0;
+
+        function goToPage(pageNumber) {
+            //set style
+            updatePaginationStyle(pageNumber)
+            currentPage = pageNumber;
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Product/ProductNextData", // Controller/View
+                    data: {
+                        pageNumber: pageNumber
+                    }
+                }).done(function (data) {
+                    $("#productsList").html(data)
+                });
+        }
+
+        function updatePaginationStyle(pageNumber) {
+            var prevPageBtn = document.getElementById("prevPageBtn");
+            if (prevPageBtn != null) {
+                if (pageNumber != 0) {
+                    prevPageBtn.hidden = false;
+                } else {
+                    prevPageBtn.hidden = true;
+                }
+            }
+
+            var nextPageBtn = document.getElementById('nextPageBtn');
+            if (nextPageBtn != null) {
+                if (pageNumber == paginationList.length - 1) {
+                    nextPageBtn.hidden = true;
+                } else {
+                    nextPageBtn.hidden = false;
+                }
+            }
+
+            for (i = 0; i < paginationList.length; i++) {
+                paginationList[i].classList.remove("active");
+                if (i == pageNumber) {
+                    paginationList[i].classList.add("active");
+                }
+                //hide button that are not in range of this
+                if (i >= pageNumber - 1 && i < pageNumber + 3) {
+                    paginationList[i].hidden = false
+
+                } else {
+                    paginationList[i].hidden = true
+                }
+            }
+        }
+
+        function updatePagination() {
+            //reset to first page
+            updatePaginationStyle(0)
+            currentPage = 0;
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Product/UpdatePagination", // Controller/View
+                    data: {
+                    }
+                }).done(function (data) {
+                    $("#pagination").html(data)
+                });
+        }
+
+        function searchProductsByName() {
+            if (!productNameInput.value) {
+                return
+            }
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Product/GetProductsByName", // Controller/View
+                    data: {
+                        productName: productNameInput.value,
+                        sortBy: sortBySelect.value,
+                    }
+                }).done(function (data) {
+                    $("#productsList").html(data)
+                    updatePagination();
+                });
+
+            clearFilterBtn.hidden = false;
+        }
+
+        function searchProductsByCategoryName(el) {
+            removeLinkActiveClass()
+            el.classList.add("linkActive");
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Product/GetProductsByCategoryName", // Controller/View
+                    data: {
+                        categoryName: el.getAttribute('value'),
+                        sortBy: sortBySelect.value,
+                    }
+                }).done(function (data) {
+                    $("#productsList").html(data)
+                    updatePagination();
+                });
+
+            clearFilterBtn.hidden = false;
+        }
+
+        function clearFilter(){
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Product/GetAllProducts", // Controller/View
+                    data: {
+                        sortBy: sortBySelect.value,
+                    }
+                }).done(function (data) {
+                    $("#productsList").html(data)
+                    updatePagination();
+                });
+            clearFilterBtn.hidden = true;
+            removeLinkActiveClass()
+        }
+
+        function removeLinkActiveClass() {
+            var categoryList = document.getElementsByClassName("linkActive")
+            for (i = 0; i < categoryList.length; i++) {
+                categoryList[i].classList.remove("linkActive");
+            }
+        }
+
+        function sortProductBy(el) {
+             $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                     url: "Product/SortProducts", // Controller/View
+                    data: {
+                        sortBy: el.value,
+                    }
+                }).done(function (data) {
+                    $("#productsList").html(data)
+
+                });
+        }
     </script>
 }

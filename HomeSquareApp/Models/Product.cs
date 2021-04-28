@@ -29,6 +29,9 @@ namespace HomeSquareApp.Models
         public string ProductName { get; set; }
 
         [Required]
+        public DateTime ProductAddedDate { get; set; }
+
+        [Required]
         public DateTime ProductUpdateDate { get; set; }
 
         [Display(Name = "Discount")]

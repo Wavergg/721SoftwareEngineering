@@ -11,9 +11,11 @@ using HomeSquareApp.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeSquareApp.Controllers
 {
+    [Authorize(Roles = "ADMIN")]
     public class AdminProductController : Controller
     {
         private readonly AppDbContext _context;
@@ -267,6 +269,7 @@ namespace HomeSquareApp.Controllers
                     ProductName = model.ProductName,
                     ProductPrice = model.ProductPrice,
                     ProductStock = model.ProductStock == null ? 0 : model.ProductStock,
+                    ProductAddedDate = DateTime.Now,
                     ProductUpdateDate = DateTime.Now,
                     ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount,
                     SaleStartDateTime = model.SaleStartDateTime,

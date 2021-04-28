@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeSquareApp.Data;
 using HomeSquareApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeSquareApp.Controllers
 {
+    [Authorize(Roles = "ADMIN")]
     public class AdminProductServingTypesController : Controller
     {
         private readonly AppDbContext _context;

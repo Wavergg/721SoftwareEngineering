@@ -2,6 +2,7 @@
 using HomeSquareApp.Models;
 using HomeSquareApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,28 +14,64 @@ namespace HomeSquareApp.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
+        
+        private static List<Product> _productsContext;
+        private const int ITEMS_PER_PAGE = 20;
+        private static int _currentRange = 0;
 
         public ProductController(AppDbContext context)
         {
             this._context = context;
         }
 
-        public async Task<IActionResult> Index(int queryId)
+        public List<Product> SortProductList(List<Product> productList,int sortBy)
         {
-            List<Product> products = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
-                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold")
-                                 .Where(p =>  queryId == 0 ? true : p.CategoryID == queryId)
-                                 .OrderByDescending(p => p.ProductUpdateDate)
-                                 .Take(20)
-                                 .ToListAsync();
+            switch (sortBy)
+            {
+                case 1:
+                    productList = productList.OrderBy(p => p.ProductPrice).ToList();
+                    break;
+                case 2:
+                    productList = productList.OrderByDescending(p => p.CurrentWeekPurchaseCount).ToList();
+                    break;
+                default:
+                    productList = productList.OrderByDescending(p => p.ProductAddedDate).ToList();
+                    break;
+            }
+            return productList;
+        }
+
+        public IActionResult UpdatePagination()
+        {
+            if (_productsContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_productsContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
+
+            return PartialView("_PaginationPartial");
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
+                                .Where(p => p.ProductStatus.ProductStatusName != "Hold")
+                                .OrderByDescending(p => p.ProductAddedDate)
+                                .ToListAsync();
 
             List<Category> categories = await _context.Category.ToListAsync();
-
+            
             ProductViewModel model = new ProductViewModel();
 
-            model.Products = products;
+            model.Products = _productsContext.Take(ITEMS_PER_PAGE).ToList();
             model.Categories = categories;
 
+            if (_productsContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_productsContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
             return View(model);
         }
 
@@ -54,29 +91,70 @@ namespace HomeSquareApp.Controllers
 
             return View(product);
         }
-        
-        public async Task<IActionResult> Category(int queryId)
+
+        public async Task<IActionResult> GetAllProducts(int sortBy)
         {
-            if(queryId == 0)
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
+                                .Where(p => p.ProductStatus.ProductStatusName != "Hold" )
+                                .ToListAsync();
+
+            _productsContext = SortProductList(_productsContext, sortBy);
+            _currentRange = 0;
+            return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        public async Task<IActionResult> GetProductsByName(string productName, int sortBy)
+        {
+            if(productName == null || productName == string.Empty)
             {
-                RedirectToAction("Index");
+                return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
             }
 
-            List<Product> products = await _context.Product.Include(p => p.ProductStatus)
-                                 .Include(p => p.ServingType)
-                                 .Where(p => p.ProductStatus.ProductStatusName != "Hold" && p.CategoryID == queryId)
-                                 .OrderByDescending(p => p.ProductUpdateDate)
-                                 .Take(20)
-                                 .ToListAsync();
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType)
+                                .Where(p => p.ProductStatus.ProductStatusName != "Hold" && 
+                                    p.ProductName.ToLower().Contains(productName.ToLower()))
+                                .ToListAsync();
 
-            List<Category> categories = await _context.Category.ToListAsync();
+            _productsContext = SortProductList(_productsContext, sortBy);
+            _currentRange = 0;
+            return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
 
-            ProductViewModel model = new ProductViewModel();
+        public async Task<IActionResult> GetProductsByCategoryName(string categoryName, int sortBy)
+        {
+            if (categoryName == null || categoryName == string.Empty)
+            {
+                return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+            }
 
-            model.Products = products;
-            model.Categories = categories;
+            _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.ServingType).Include(p=>p.Category)
+                                .Where(p => p.ProductStatus.ProductStatusName != "Hold" &&
+                                    p.Category.CategoryName.ToLower() == categoryName.ToLower())
+                                .ToListAsync();
 
-            return View(model);
+            _productsContext = SortProductList(_productsContext, sortBy);
+            _currentRange = 0;
+            return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        public IActionResult SortProducts(int sortBy)
+        {
+            _productsContext = SortProductList(_productsContext, sortBy);
+            _currentRange = 0;
+            return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductNextData(int pageNumber)
+        {
+            if (_productsContext == null)
+            {
+                _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.Category).ToListAsync();
+            }
+
+            _currentRange = pageNumber * ITEMS_PER_PAGE;
+
+            return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
     }
 }
