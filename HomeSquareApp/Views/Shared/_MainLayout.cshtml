@@ -328,27 +328,37 @@
 
     @if (signInManager.IsSignedIn(User))
     {
-        <div id="popoverTemplate" class="hide" hidden>
-            <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
-            <div>
-                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">My Details</a>
-            </div>
-            @* Found a bug here, if there is no separator link it wont work for the next link *@
-            <a asp-action="Index" asp-controller="Home"></a>
-            <div>
-                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
-            </div>
-            <a asp-action="Index" asp-controller="Home"></a>
-            <div>
-                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
-            </div>
-            <a asp-action="Index" asp-controller="Home"></a>
-            <div>
-                <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
-                    Log Out
-                </a>
-            </div>
+<div id="popoverTemplate" class="hide" hidden>
+    <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
+    <div>
+        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">Profile</a>
+    </div>
+    @* Found a bug here, if there is no separator link it wont work for the next link *@
+    @if (User.IsInRole("ADMIN"))
+    {
+        <a asp-action="Index" asp-controller="Home"></a>
+        <div>
+            <a asp-action="Index" asp-controller="Admin" class="form-control border-0 rounded-0 text-success">Admin Panel</a>
         </div>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="Home"></a>
+        <div>
+            <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
+        </div>
+        <a asp-action="Index" asp-controller="Home"></a>
+        <div>
+            <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
+        </div>
+    }
+    <a asp-action="Index" asp-controller="Home"></a>
+    <div>
+        <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
+            Log Out
+        </a>
+    </div>
+</div>
     }
 
     @* MODIFIED JQUERY VALIDATE START *@

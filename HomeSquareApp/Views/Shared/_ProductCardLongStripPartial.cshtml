@@ -81,8 +81,8 @@
         <input type="hidden" value="@Model.ProductID" />
         <label class="text-muted" style="font-size:14px;">QTY</label>
         @*<input placeholder="1" min="1" max="100" type="number" class="custom-spinner mx-2 rounded-3 w-25" />*@
-        <input type="number" placeholder="1" min="1" max="100" value="1" class="mx-2 w-25"/>
-        <button type="submit" class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
+        <input type="number" @(Model.ProductStock > 0?"":"disabled") placeholder="1" min="1" max="@Model.ProductStock" value="1" class="mx-2 w-25"/>
+        <button type="submit" @(Model.ProductStock > 0?"":"disabled") class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
     </form>
 </div>
 @* product end *@

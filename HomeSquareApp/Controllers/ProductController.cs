@@ -1,6 +1,7 @@
 ﻿using HomeSquareApp.Data;
 using HomeSquareApp.Models;
 using HomeSquareApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,19 +10,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace HomeSquareApp.Controllers
 {
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
-        
+        private UserManager<ApplicationUser> _userManager;
+
         private static List<Product> _productsContext;
         private const int ITEMS_PER_PAGE = 20;
         private static int _currentRange = 0;
 
-        public ProductController(AppDbContext context)
+        public ProductController(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
             this._context = context;
+            this._userManager = userManager;
         }
 
         public List<Product> SortProductList(List<Product> productList,int sortBy)
@@ -103,9 +107,18 @@ namespace HomeSquareApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            product.Review = _context.Review.Where(r => r.ProductID == product.ProductID).ToList();
+            product.Review = _context.Review.Where(r => r.ProductID == product.ProductID)
+                            .OrderByDescending(r=>r.ReviewDateTime)
+                            .Include(r => r.User).ToList();
 
-            return View(product);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            ProductDetailsViewModel model = new ProductDetailsViewModel();
+            model.Product = product;
+            model.User = user;
+           
+
+            return View(model);
         }
 
         public async Task<IActionResult> GetAllProducts(int sortBy)
