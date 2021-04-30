@@ -17,6 +17,8 @@ namespace HomeSquareApp.Controllers
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly SignInManager<ApplicationUser> _SignInManager;
 
+        private int currentStockAvailable = 0;
+
         public OrderController(AppDbContext _context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
@@ -26,19 +28,77 @@ namespace HomeSquareApp.Controllers
             this._SignInManager = signInManager;
         }
 
+        private async Task<IdentityResult> InitializeUserCookie(string cookieID)
+        {
+            //Initialize Cookie
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddYears(1);
+            Response.Cookies.Append("homeSquareCookieID", cookieID, option);
+
+            //Create User Based On Cookie
+            var user = new ApplicationUser
+            {
+                Email = string.Format("{0}@HomeSquare.com", cookieID),
+                UserName = cookieID,
+                FirstName = "AnonymousUser",
+                LastName = "AnonymousUser",
+                Address = "homeSquareCookieID",
+                PhoneNumber = "000000",
+            };
+
+            var result = await _UserManager.CreateAsync(user, cookieID);
+
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetCurrentCartCount()
+        {
+            int cartCount = 0;
+
+            if (_SignInManager.IsSignedIn(User))
+            {
+                ApplicationUser user = await _UserManager.GetUserAsync(User);
+
+                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                if(order != null) { 
+                    cartCount = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Count();
+                }
+            }
+            else
+            {
+                string cookie = Request.Cookies["homeSquareCookieID"];
+                if (cookie != null)
+                {
+                    ApplicationUser user = await _UserManager.FindByNameAsync(cookie);
+                    Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+
+                    if (order != null)
+                    {
+                        cartCount = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Count();
+                    }
+                }
+            }
+
+            return Json(cartCount);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> HandleOrder(int productID, int quantity)
         {
             //check quantity < stock
             Product product = _context.Product.Where(p => p.ProductID == productID).FirstOrDefault();
+            List<string> message = new List<string>();
             if(product == null)
             {
-                return Json("Product Not Found");
+                message.Add("Product Not Found");
+                return Json(new ErrorMessage(false,message));
             } 
             else if (product.ProductStock < quantity)
             {
-                return Json("Not Enough Stock");
+                message.Add(string.Format("Not Enough Stock, {0} Lefts",product.ProductStock));
+                return Json(new ErrorMessage(false, message));
             }
 
             if (_SignInManager.IsSignedIn(User))
@@ -51,9 +111,15 @@ namespace HomeSquareApp.Controllers
                     order = CreateOrder(user.Id);
                 }
 
-                await AttachOrderDetails(productID, quantity, order.OrderID);
+                bool isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
 
-                return Json("Successfully Created Order");
+                if (!isAvailable)
+                {
+                    message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
+                    return Json(new ErrorMessage(false, message));
+                }
+                message.Add("Item Added");
+                return Json(new ErrorMessage(true, message));
             }
             else
             {
@@ -65,13 +131,15 @@ namespace HomeSquareApp.Controllers
                     IdentityResult result = await InitializeUserCookie(cookieID);
 
                     if (result.Succeeded) {
-                        var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == cookieID);
+                        var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == cookieID );
                         Order order = CreateOrder(userFromDb.Id);
                         await AttachOrderDetails(productID,quantity,order.OrderID);
 
-                        return Json("Successfully Created Order");
+                        message.Add("Item Added");
+                        return Json(new ErrorMessage(true, message));
                     }
-                    return Json("Unable to Create User");
+                    message.Add("Service Not Available at This Time");
+                    return Json(new ErrorMessage(true, message));
                 } else
                 {
                     ApplicationUser user = await _UserManager.FindByNameAsync(cookie);
@@ -84,10 +152,17 @@ namespace HomeSquareApp.Controllers
                             order = CreateOrder(user.Id);
                         }
 
-                        await AttachOrderDetails(productID, quantity, order.OrderID);
+                        bool isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
 
-                        return Json("Successfully Created Order");
-                    } else
+                        if (!isAvailable)
+                        {
+                            message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
+                            return Json(new ErrorMessage(false, message));
+                        }
+                        message.Add("Item Added");
+                        return Json(new ErrorMessage(true, message));
+                    }
+                    else
                     {
                         Response.Cookies.Delete("homeSquareCookieID");
                         var cookieID = Guid.NewGuid().ToString();
@@ -96,11 +171,14 @@ namespace HomeSquareApp.Controllers
                         {
                             var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == cookieID);
                             Order order = CreateOrder(userFromDb.Id);
-                            await AttachOrderDetails(productID, quantity, order.OrderID);
+                            bool isSuccess = await AttachOrderDetails(productID, quantity, order.OrderID);
 
-                            return Json("Successfully Created Order");
+                            message.Add("Item Added");
+                            return Json(new ErrorMessage(true, message));
+                            
                         }
-                        return Json("Something went wrong " + cookie);
+                        message.Add("Service Not Available at This Time");
+                        return Json(new ErrorMessage(false, message));
                     }
                 }
             }
@@ -120,7 +198,7 @@ namespace HomeSquareApp.Controllers
             return order;
         }
 
-        private async Task AttachOrderDetails(int productID, int quantity, string orderID)
+        private async Task<bool> AttachOrderDetails(int productID, int quantity, string orderID)
         {
             
             OrderDetails orderDetails = _context.OrderDetails.Where(od => od.OrderID == orderID && od.ProductID == productID).FirstOrDefault();
@@ -138,38 +216,20 @@ namespace HomeSquareApp.Controllers
                 _context.Add(orderDetails);
             } else
             {
-                orderDetails.Quantity += quantity;
-                orderDetails.TotalPrice += quantity * product.ProductPrice;
-                _context.Update(orderDetails);
+                var quantityAfterIncrease = orderDetails.Quantity + quantity;
+                if(quantityAfterIncrease <= product.ProductStock) { 
+                    orderDetails.Quantity = quantityAfterIncrease;
+                    orderDetails.TotalPrice += quantity * product.ProductPrice;
+                    _context.Update(orderDetails);
+                } else
+                {
+                    currentStockAvailable = product.ProductStock == null ? 0 : (int)product.ProductStock - orderDetails.Quantity;
+                    return false;
+                }
             }
-
-            product.ProductStock -= quantity;
-            _context.Update(product);
             
             await _context.SaveChangesAsync();
-        }
-
-        private async Task<IdentityResult> InitializeUserCookie(string cookieID)
-        {
-            //Initialize Cookie
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddYears(1);
-            Response.Cookies.Append("homeSquareCookieID", cookieID, option);
-
-            //Create User Based On Cookie
-            var user = new ApplicationUser
-            {
-                Email = string.Format("{0}@HomeSquare.com",cookieID),
-                UserName = cookieID,
-                FirstName = "AnonymousUser",
-                LastName = "AnonymousUser",
-                Address = "homeSquareCookieID",
-                PhoneNumber = "000000",
-            };
-
-            var result = await _UserManager.CreateAsync(user, cookieID);
-
-            return result;
+            return true;
         }
     }
 }

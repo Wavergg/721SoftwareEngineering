@@ -11,7 +11,7 @@
 }
 
 @* product start *@
-<div class="card p-3 d-flex flex-column justify-content-between @String.Format("CardProduct",Model.ProductID)">
+<div class="card pt-3 d-flex flex-column justify-content-between">
     <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductID">
         <div class="p-3 align-items-center d-flex justify-content-center position-relative">
             <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
@@ -42,7 +42,7 @@
             </div>
         }
     </a>
-    <div class="product-details pt-1 flex-fill">
+    <div class="product-details pt-1 flex-fill px-3">
         <div class="text-start text-md-center" style="min-height:55px;">
             <a asp-controller="Product" asp-action="Details" asp-route-id="1" style="font-size:16px" class="text-success product-link">
                 @Model.ProductName
@@ -70,18 +70,18 @@
             </div>
         </div>
     </div>
-    <form asp-controller="Order" asp-action="HandleOrder" method="post" 
-          data-ajax="true" data-ajax-method="post" data-ajax-complete="app.orderAdded" data-ajax-url="/Order/HandleOrder">
-        @*<small class="text-danger d-flex justify-content-md-start justify-content-center">Not enough stock</small>*@
-        <div class="mt-1 d-md-flex align-items-center text-center">
+    <form class="pb-3 position-relative" asp-controller="Order" asp-action="HandleOrder" method="post" 
+          data-ajax="true" data-ajax-method="post" data-ajax-begin="app.disableSubmit" data-ajax-complete="app.orderAdded" data-ajax-url="/Order/HandleOrder">
+        @*<small class="text-danger d-flex justify-content-md-start justify-content-center"></small>*@
+        <div class="px-3 my-2 d-md-flex align-items-center text-center">
 
             <input name="productID" type="hidden" value="@Model.ProductID" />
             <label class="text-muted" style="font-size:14px;">QTY</label>
             <input name="quantity" type="number" @(Model.ProductStock > 0 ? "" : "disabled") placeholder="1" min="1" value="1" class="mx-2 w-25" />
 
-            <button type="submit" @(Model.ProductStock > 0 ? "" : "disabled") class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
-
+            <button type="submit" onclick="app.formSubmitBtn(this)" @(Model.ProductStock > 0 ? "" : "disabled") class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
         </div>
+        <small class="w-100 position-absolute bottom-0 justify-content-center text-center text-white"></small>
     </form>
 </div>
 @* product end *@

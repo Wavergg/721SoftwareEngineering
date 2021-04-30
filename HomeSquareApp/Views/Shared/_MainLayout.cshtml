@@ -120,11 +120,13 @@
                                     <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-success rounded-pill me-2">Log in / Sign Up</button>
                                 }
                                 @* NYD change cart to items count *@
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-outline-dark rounded-pill">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#cartModal" class="btn btn-outline-dark rounded-pill position-relative">
+                                    @*<span class="badge bg-secondary position-absolute rounded-circle end-0" v-text="cartItemCount" style="width:22px;height:22px"></span>*@
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                                     </svg>
-                                    <span>View Cart</span>
+                                    
+                                    <span v-text="cartItemCount"></span>
                                 </a>
                             </div>
                         </div>
@@ -182,7 +184,7 @@
                             <svg class="bi" width="24" height="36" fill="currentColor">
                                 <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                             </svg>
-                            <span>0</span>
+                            <span v-text="cartItemCount"></span>
                         </a>
                     </div>
                 </div>
@@ -376,6 +378,8 @@
             data: {
                 searchCategories: "Products",
                 searchString: "",
+                productOrderSubmitBtn: null,
+                cartItemCount: 0,
             },
             methods: {
                 updateSearchCategories: function (event) {
@@ -385,7 +389,7 @@
                     if (this.searchString.length < 2 || this.searchCategories == "") {
                         return;
                     }
-                    
+
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
@@ -437,9 +441,52 @@
                     document.forms['searchQuery'].submit();
                 },
                 orderAdded: function (data) {
-                    console.log(data.responseJSON)
-                }
+                    //console.log(data.responseJSON)
+                    if (!data.responseJSON.isSuccess) {
+                        var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
+                        ribbonEl.classList.remove("bg-success")
+                        ribbonEl.classList.add("bg-danger")
+                        ribbonEl.innerHTML = data.responseJSON.message[0]
+                        this.productOrderSubmitBtn.disabled = false;
+                        this.productOrderSubmitBtn.innerHTML = "Add To Cart";
+                    } else {
+                        this.getCurrentCartCount()
+                        setTimeout(this.reenableSubmit, 2000)
+                        var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
+                        ribbonEl.classList.remove("bg-danger")
+                        ribbonEl.classList.add("bg-success")
+                        ribbonEl.innerHTML = data.responseJSON.message[0]
+                        setTimeout(() => { ribbonEl.innerHTML = "" },2000)
+                    }
+                },
+                formSubmitBtn: function (el) {
+                    this.productOrderSubmitBtn = el;
+                    console.log(el)
+                },
+                getCurrentCartCount: function () {
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "Order/GetCurrentCartCount", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            console.log(data)
+                            app.cartItemCount = data
+                        });
+                },
+                disableSubmit: function () {
+                    this.productOrderSubmitBtn.disabled = true;
+                    this.productOrderSubmitBtn.innerHTML = "Added";
+                },
+                reenableSubmit: function () {
+                    this.productOrderSubmitBtn.disabled = false;
+                    this.productOrderSubmitBtn.innerHTML = "Add To Cart";
+                },
             },
+            mounted: function(){
+                this.getCurrentCartCount()
+            }
         })
     </script>
 
