@@ -11,16 +11,16 @@
 }
 
 @* product start *@
-<div class="card p-3 d-flex flex-column justify-content-between " style="min-width:245px">
+<div class="card p-3 d-flex flex-column justify-content-between @String.Format("CardProduct",Model.ProductID)">
     <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductID">
         <div class="p-3 align-items-center d-flex justify-content-center position-relative">
-            <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: cover;min-height:220px;max-height:220px;max-width:220px;min-width:220px" asp-append-version="true">
+            <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
             <div class="position-absolute bottom-0 start-0 ms-2">
                 @*<span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star checked" style="font-size: 12px;"></span>
-                <span class="fa fa-star" style="font-size: 12px;"></span>*@
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star checked" style="font-size: 12px;"></span>
+                    <span class="fa fa-star" style="font-size: 12px;"></span>*@
                 @if (TOTAL_REVIEW_COUNT != 0)
                 {
                     @for (int i = 0; i < 5; i++)
@@ -41,12 +41,6 @@
                 <small class="alert-link">@(Model.ProductDiscount*100) % OFF</small>
             </div>
         }
-        @*else if (Model.ProductStatus.ProductStatusName == "Sale")
-        {
-            <div class="alert alert-warning p-0 px-2 rounded-0" style="position: absolute; left: -1px; top: 0px;">
-                <small class="alert-link">Sale Duration Ends</small>
-            </div>
-        }*@
     </a>
     <div class="product-details pt-1 flex-fill">
         <div class="text-start text-md-center" style="min-height:55px;">
@@ -76,13 +70,18 @@
             </div>
         </div>
     </div>
-    @*NYD DO AJAX To Order*@
-    <form class="mt-1 d-md-flex align-items-center text-center ">
-        <input type="hidden" value="@Model.ProductID" />
-        <label class="text-muted" style="font-size:14px;">QTY</label>
-        @*<input placeholder="1" min="1" max="100" type="number" class="custom-spinner mx-2 rounded-3 w-25" />*@
-        <input type="number" @(Model.ProductStock > 0?"":"disabled") placeholder="1" min="1" max="@Model.ProductStock" value="1" class="mx-2 w-25"/>
-        <button type="submit" @(Model.ProductStock > 0?"":"disabled") class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
+    <form asp-controller="Order" asp-action="HandleOrder" method="post" 
+          data-ajax="true" data-ajax-method="post" data-ajax-complete="app.orderAdded" data-ajax-url="/Order/HandleOrder">
+        @*<small class="text-danger d-flex justify-content-md-start justify-content-center">Not enough stock</small>*@
+        <div class="mt-1 d-md-flex align-items-center text-center">
+
+            <input name="productID" type="hidden" value="@Model.ProductID" />
+            <label class="text-muted" style="font-size:14px;">QTY</label>
+            <input name="quantity" type="number" @(Model.ProductStock > 0 ? "" : "disabled") placeholder="1" min="1" value="1" class="mx-2 w-25" />
+
+            <button type="submit" @(Model.ProductStock > 0 ? "" : "disabled") class="ms-auto my-3 my-md-0 btn btn-success rounded-pill float-md-end">Add To Cart</button>
+
+        </div>
     </form>
 </div>
 @* product end *@

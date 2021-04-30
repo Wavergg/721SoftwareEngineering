@@ -17,7 +17,7 @@ namespace HomeSquareApp.Models
         [Display(Name = "Price")]
         [Required(ErrorMessage="Field Cannot Be Empty")]
         [Range(0.001, Double.MaxValue, ErrorMessage = "The Price Must be Greater than 0")]
-        public double? ProductPrice { get; set; }
+        public double ProductPrice { get; set; }
 
         [Display(Name = "Stock")]
         public int? ProductStock { get; set; } 

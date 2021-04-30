@@ -19,7 +19,7 @@ namespace HomeSquareApp.Models
         [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
 
-        public int? OrderID { get; set; }
+        public string OrderID { get; set; }
 
         public Order Order { get; set; }
     }

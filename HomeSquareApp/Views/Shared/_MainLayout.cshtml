@@ -435,6 +435,9 @@
                     $('#insertForm').html('<form action="Home/StartQuery" name="searchQuery" style="display:none;"><input type="text" name="searchString" value="' + this.searchString + '" /><input type="text" name="searchCategories" value="' + this.searchCategories + '" /></form>');
 
                     document.forms['searchQuery'].submit();
+                },
+                orderAdded: function (data) {
+                    console.log(data.responseJSON)
                 }
             },
         })

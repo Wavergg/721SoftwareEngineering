@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeSquareApp.Migrations
 {
-    public partial class initial : Migration
+    public partial class restartInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,8 +62,7 @@ namespace HomeSquareApp.Migrations
                 {
                     CategoryID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryName = table.Column<string>(maxLength: 64, nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true)
+                    CategoryName = table.Column<string>(maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,11 +231,10 @@ namespace HomeSquareApp.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrderStatus = table.Column<string>(type: "varchar(9)", maxLength: 9, nullable: true),
+                    OrderID = table.Column<string>(maxLength: 36, nullable: false),
                     OrderDateTime = table.Column<DateTime>(nullable: false),
-                    UserID = table.Column<string>(nullable: true)
+                    UserID = table.Column<string>(nullable: true),
+                    OrderStatus = table.Column<string>(type: "varchar(9)", maxLength: 9, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -289,8 +287,11 @@ namespace HomeSquareApp.Migrations
                     ProductPrice = table.Column<double>(nullable: false),
                     ProductStock = table.Column<int>(nullable: true),
                     ProductName = table.Column<string>(maxLength: 128, nullable: false),
+                    ProductAddedDate = table.Column<DateTime>(nullable: false),
                     ProductUpdateDate = table.Column<DateTime>(nullable: false),
                     ProductDiscount = table.Column<float>(nullable: true),
+                    SaleStartDateTime = table.Column<DateTime>(nullable: false),
+                    SaleEndDateTime = table.Column<DateTime>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: false),
                     ReviewFiveStarsCount = table.Column<int>(nullable: false),
                     ReviewFourStarsCount = table.Column<int>(nullable: false),
@@ -348,7 +349,7 @@ namespace HomeSquareApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RewardStatus = table.Column<string>(type: "varchar(8)", nullable: true),
                     UserID = table.Column<string>(nullable: true),
-                    OrderID = table.Column<int>(nullable: true),
+                    OrderID = table.Column<string>(nullable: true),
                     RewardPoolID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -429,7 +430,7 @@ namespace HomeSquareApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TotalPrice = table.Column<double>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    OrderID = table.Column<int>(nullable: false),
+                    OrderID = table.Column<string>(nullable: true),
                     ProductID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -455,8 +456,9 @@ namespace HomeSquareApp.Migrations
                 {
                     ReviewID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ReviewContent = table.Column<string>(maxLength: 512, nullable: false),
+                    ReviewContent = table.Column<string>(maxLength: 1024, nullable: false),
                     ReviewStars = table.Column<int>(nullable: false),
+                    ReviewDateTime = table.Column<DateTime>(nullable: false),
                     UserID = table.Column<string>(nullable: true),
                     ProductID = table.Column<int>(nullable: false)
                 },

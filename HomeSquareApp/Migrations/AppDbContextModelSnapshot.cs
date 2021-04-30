@@ -138,9 +138,9 @@ namespace HomeSquareApp.Migrations
 
             modelBuilder.Entity("HomeSquareApp.Models.Order", b =>
                 {
-                    b.Property<int>("OrderID")
+                    b.Property<string>("OrderID")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasMaxLength(36);
 
                     b.Property<DateTime>("OrderDateTime");
 
@@ -163,7 +163,7 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OrderID");
+                    b.Property<string>("OrderID");
 
                     b.Property<int>("ProductID");
 
@@ -208,8 +208,7 @@ namespace HomeSquareApp.Migrations
                         .IsRequired()
                         .HasMaxLength(128);
 
-                    b.Property<double?>("ProductPrice")
-                        .IsRequired();
+                    b.Property<double>("ProductPrice");
 
                     b.Property<float?>("ProductServingContent")
                         .IsRequired();
@@ -374,7 +373,7 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<string>("ReviewContent")
                         .IsRequired()
-                        .HasMaxLength(512);
+                        .HasMaxLength(1024);
 
                     b.Property<DateTime>("ReviewDateTime");
 
@@ -397,7 +396,7 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("OrderID");
+                    b.Property<string>("OrderID");
 
                     b.Property<int?>("RewardPoolID");
 

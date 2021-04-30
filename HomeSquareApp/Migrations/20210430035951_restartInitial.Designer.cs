@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210426014921_removeDescription-categoryModels")]
-    partial class removeDescriptioncategoryModels
+    [Migration("20210430035951_restartInitial")]
+    partial class restartInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,9 +140,9 @@ namespace HomeSquareApp.Migrations
 
             modelBuilder.Entity("HomeSquareApp.Models.Order", b =>
                 {
-                    b.Property<int>("OrderID")
+                    b.Property<string>("OrderID")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasMaxLength(36);
 
                     b.Property<DateTime>("OrderDateTime");
 
@@ -165,7 +165,7 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OrderID");
+                    b.Property<string>("OrderID");
 
                     b.Property<int>("ProductID");
 
@@ -199,6 +199,8 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired();
 
+                    b.Property<DateTime>("ProductAddedDate");
+
                     b.Property<float?>("ProductDiscount");
 
                     b.Property<string>("ProductInformation")
@@ -208,8 +210,7 @@ namespace HomeSquareApp.Migrations
                         .IsRequired()
                         .HasMaxLength(128);
 
-                    b.Property<double?>("ProductPrice")
-                        .IsRequired();
+                    b.Property<double>("ProductPrice");
 
                     b.Property<float?>("ProductServingContent")
                         .IsRequired();
@@ -235,6 +236,10 @@ namespace HomeSquareApp.Migrations
                     b.Property<int>("ReviewTwoStarsCount");
 
                     b.Property<int?>("RewardPoolID");
+
+                    b.Property<DateTime>("SaleEndDateTime");
+
+                    b.Property<DateTime>("SaleStartDateTime");
 
                     b.Property<int>("Week1PurchaseCount");
 
@@ -370,7 +375,9 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<string>("ReviewContent")
                         .IsRequired()
-                        .HasMaxLength(512);
+                        .HasMaxLength(1024);
+
+                    b.Property<DateTime>("ReviewDateTime");
 
                     b.Property<int>("ReviewStars");
 
@@ -391,7 +398,7 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("OrderID");
+                    b.Property<string>("OrderID");
 
                     b.Property<int?>("RewardPoolID");
 

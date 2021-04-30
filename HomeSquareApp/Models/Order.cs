@@ -10,17 +10,18 @@ namespace HomeSquareApp.Models
     public class Order
     {
         [Key]
-        public int OrderID { get; set; }
-
-        [MaxLength(9)]
-        [Column(TypeName = "varchar(9)")]
-        public string OrderStatus { get; set; }
+        [MaxLength(36)]
+        public string OrderID { get; set; }
 
         public DateTime OrderDateTime { get; set; }
 
         public string UserID { get; set; }
         [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
+
+        [MaxLength(9)]
+        [Column(TypeName = "varchar(9)")]
+        public string OrderStatus { get; set; }
 
         public IEnumerable<OrderDetails> OrderDetails { get; set; }
 

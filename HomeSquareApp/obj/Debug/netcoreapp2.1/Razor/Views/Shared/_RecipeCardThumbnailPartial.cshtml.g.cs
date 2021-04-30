@@ -80,7 +80,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("\r\n<div class=\"card mb-3 link-card\" style=\"max-width: 510px;overflow:hidden\">\r\n    ");
             EndContext();
             BeginContext(758, 3065, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c443a8be88814f99aabb6be5c94c9677", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bf5759348fac4f109c015a7834000bc6", async() => {
                 BeginContext(823, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();
@@ -88,7 +88,7 @@ using Microsoft.AspNetCore.Identity;
                 WriteLiteral("        <div class=\"row g-0\" style=\"max-height:240px;\">\r\n            <div class=\"col-4\">\r\n                ");
                 EndContext();
                 BeginContext(1008, 128, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "ad471a661fb04115bf78113279202245", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "6a5a1ac1c6224861b7b6db306d1a7fea", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
