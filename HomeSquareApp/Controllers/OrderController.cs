@@ -98,7 +98,10 @@ namespace HomeSquareApp.Controllers
                 {
                     model.OrderDetails = _context.OrderDetails.Where(od => od.OrderID == order.OrderID)
                                         .Include(od => od.Product)
-                                        .ThenInclude(p=>p.ServingType).ToList();
+                                            .ThenInclude(p=>p.ServingType)
+                                        .Include(od=>od.Product)
+                                            .ThenInclude(p=>p.ProductStatus)
+                                        .ToList();
                     model.TotalInCart = model.OrderDetails.Sum(od => od.TotalPrice);
                 }
             }
@@ -148,7 +151,11 @@ namespace HomeSquareApp.Controllers
         {
             ApplicationUser user = await GetCurrentUser();
             ErrorMessage message = new ErrorMessage();
-
+            message.IsSuccess = false;
+            if (quantity < 1)
+            {
+                return Json(message);
+            }
 
             if (user != null)
             {
@@ -156,36 +163,47 @@ namespace HomeSquareApp.Controllers
                 if (order != null)
                 {
                     List<OrderDetails> orderDetailsList = _context.OrderDetails.Where(od => od.OrderID == order.OrderID)
-                                                .Include(od => od.Product)
+                                                .Include(od => od.Product).ThenInclude(p=>p.ProductStatus)
                                                 .ToList();
 
                     OrderDetails orderDetails = orderDetailsList.Where(od => od.OrderDetailsID == orderDetailsID).FirstOrDefault();
 
                     if (orderDetails != null)
                     {
+                        //set quantity to be max (the same as stock) if the user entered a value higher than the actual stock
                         if(orderDetails.Product.ProductStock >= quantity) { 
                             orderDetails.Quantity = quantity;
-                            orderDetails.TotalPrice = quantity * orderDetails.Product.ProductPrice;
-                            _context.Update(orderDetails);
-                            _context.SaveChanges();
-
                             message.IsSuccess = true;
-                            message.Message.Add(String.Format("{0:F2}", orderDetailsList.Sum(od => od.TotalPrice)));
-                            message.Message.Add(String.Format("{0:F2}", orderDetails.TotalPrice));
-                        } else
+                        }
+                        else
                         {
                             quantity = orderDetails.Product.ProductStock == null ? 0 : (int)orderDetails.Product.ProductStock;
                             orderDetails.Quantity = quantity;
-                            orderDetails.TotalPrice = quantity * orderDetails.Product.ProductPrice;
-                            _context.Update(orderDetails);
-                            _context.SaveChanges();
+                        }
 
-                            message.IsSuccess = false;
-                            message.Message.Add(String.Format("{0:F2}", orderDetailsList.Sum(od => od.TotalPrice)));
-                            message.Message.Add(String.Format("{0:F2}", orderDetails.TotalPrice));
+                        //perform check if the item on discount or not
+                        double priceAfterDiscount = orderDetails.Product.ProductPrice;
+                        if (orderDetails.Product.ProductStatus.ProductStatusName == "Sale" 
+                            && orderDetails.Product.SaleStartDateTime <= DateTime.Now 
+                            && orderDetails.Product.SaleEndDateTime >= DateTime.Now)
+                        {
+                            priceAfterDiscount = orderDetails.Product.ProductPrice - (orderDetails.Product.ProductPrice * (orderDetails.Product.ProductDiscount == null ? 0 : (double)orderDetails.Product.ProductDiscount));
+                        }
+
+                        //calculate value and update total price
+                        orderDetails.TotalPrice = quantity * priceAfterDiscount;
+                        message.Message.Add(String.Format("{0:F2}", orderDetailsList.Sum(od => od.TotalPrice)));
+                        message.Message.Add(String.Format("{0:F2}", orderDetails.TotalPrice));
+
+                        //give back extra prompt if the stock is less than value inserted 
+                        if (!message.IsSuccess)
+                        {
                             message.Message.Add(string.Format("Not Enough Stock, {0} Lefts", orderDetails.Product.ProductStock));
                             message.Message.Add($"{orderDetails.Product.ProductStock}");
                         }
+
+                        _context.Update(orderDetails);
+                        _context.SaveChanges();
                     }
                 }
             }
@@ -197,17 +215,18 @@ namespace HomeSquareApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> HandleOrder(int productID, int quantity)
         {
-            //check quantity < stock
+            
             Product product = _context.Product.Where(p => p.ProductID == productID).FirstOrDefault();
             List<string> message = new List<string>();
-            if(product == null)
+            //check valid
+            if (product == null)
             {
                 message.Add("Product Not Found");
                 return Json(new ErrorMessage(false,message));
             } 
-            else if(quantity == 0)
+            else if(quantity < 1)
             {
-                message.Add("Quantity Cannot be Empty");
+                message.Add("Quantity Cannot be Less than 1");
                 return Json(new ErrorMessage(false, message));
             }
 
@@ -283,7 +302,7 @@ namespace HomeSquareApp.Controllers
                 message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
                 return Json(new ErrorMessage(false, message));
             }
-            message.Add("Item Added");
+            message.Add(quantity + " Items Added");
             return Json(new ErrorMessage(true, message));
         }
 
@@ -305,16 +324,32 @@ namespace HomeSquareApp.Controllers
         {
             
             OrderDetails orderDetails = _context.OrderDetails.Where(od => od.OrderID == orderID && od.ProductID == productID).FirstOrDefault();
-            Product product = _context.Product.Where(p => p.ProductID == productID).FirstOrDefault();
+            Product product = _context.Product.Where(p => p.ProductID == productID).Include(p=>p.ProductStatus).FirstOrDefault();
+
+            double priceAfterDiscount = product.ProductPrice;
+            if (product.ProductStatus.ProductStatusName == "Sale" 
+                && product.SaleStartDateTime <= DateTime.Now 
+                && product.SaleEndDateTime >= DateTime.Now)
+            {
+                priceAfterDiscount = product.ProductPrice - (product.ProductPrice * (product.ProductDiscount == null ? 0 : (double)product.ProductDiscount));
+            }
+
             //check if order with same product alrdy exist, if not then create new orderdetails, if yes update quantity +total
+
             if (orderDetails == null)
             {
+                if(product.ProductStock < quantity)
+                {
+                    currentStockAvailable = product.ProductStock == null ? 0 : (int)product.ProductStock;
+                    return false;
+                }
+
                 orderDetails = new OrderDetails()
                 {
                     ProductID = product.ProductID,
                     OrderID = orderID,
                     Quantity = quantity,
-                    TotalPrice = product.ProductPrice * quantity,
+                    TotalPrice = priceAfterDiscount * quantity,
                 };
                 _context.Add(orderDetails);
             } else
@@ -322,7 +357,7 @@ namespace HomeSquareApp.Controllers
                 var quantityAfterIncrease = orderDetails.Quantity + quantity;
                 if(quantityAfterIncrease <= product.ProductStock) { 
                     orderDetails.Quantity = quantityAfterIncrease;
-                    orderDetails.TotalPrice += quantity * product.ProductPrice;
+                    orderDetails.TotalPrice += quantity * priceAfterDiscount;
                     _context.Update(orderDetails);
                 } else
                 {

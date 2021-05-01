@@ -557,8 +557,8 @@
                             document.getElementById("cartTotalPriceD").innerHTML = newCartTotalPrice[1]
 
                             var newProductTotalPrice = data.message[1].split('.')
-                            document.getElementById("productTotalPriceN").innerHTML = newProductTotalPrice[0]
-                            document.getElementById("productTotalPriceD").innerHTML = newProductTotalPrice[1]
+                            document.getElementById("productTotalPriceN" + orderDetailsID).innerHTML = newProductTotalPrice[0]
+                            document.getElementById("productTotalPriceD" + orderDetailsID).innerHTML = newProductTotalPrice[1]
                             if (!data.isSuccess) {
                                 var cartErrorElement = document.getElementById("cartItemError" + orderDetailsID)
                                 cartErrorElement.innerHTML = data.message[2]

@@ -1,14 +1,23 @@
 ﻿@model HomeSquareApp.Models.OrderDetails
 
 @{
-    string price = string.Format("{0:F2}", Model.Product.ProductPrice);
-    string[] priceBase = price.Split('.');
 
-    string totalIndividualPrice = string.Format("{0:F2}", Model.Product.ProductPrice * Model.Quantity);
+    //check is sale and sale period
+    double priceAfterDiscount = Model.Product.ProductPrice;
+    if (Model.Product.ProductStatus.ProductStatusName == "Sale"
+        && Model.Product.SaleStartDateTime <= DateTime.Now
+        && Model.Product.SaleEndDateTime >= DateTime.Now)
+    {
+        priceAfterDiscount = Model.Product.ProductPrice - (Model.Product.ProductPrice * (Model.Product.ProductDiscount == null ? 0 : (double)Model.Product.ProductDiscount));
+    }
+
+    string price = string.Format("{0:F2}", priceAfterDiscount);
+    string[] priceBase = price.Split('.');
+    string totalIndividualPrice = string.Format("{0:F2}", priceAfterDiscount * Model.Quantity);
     string[] totalIndividualBase = totalIndividualPrice.Split('.');
 }
 
-<div id="@String.Format("cartItem{0}",Model.OrderDetailsID)" class="card shadow-none rounded-0 rounded-start m-2">
+<div id="@String.Format("cartItem{0}",Model.OrderDetailsID)" class="card shadow-sm rounded-0 rounded-start m-2">
     <div class="d-flex g-0">
         @* NYD DELETE ITEM FROM CART SEND DATA TO CONTROLLER AJAX METHOD *@
         <button onclick="app.removeItem(@Model.OrderDetailsID)" class="btn col-1 btn-danger rounded-0 rounded-start">
@@ -38,7 +47,7 @@
             </div>
             <div class="mx-3 border-top border-muted d-flex align-items-center">
                 <small id="@String.Format("cartItemError{0}",Model.OrderDetailsID)" class="text-danger"></small>
-                <span class="text-muted ms-auto" style="font-family:Bahnschrift; font-size: 18px"><small>$</small> <span id="productTotalPriceN">@totalIndividualBase[0]</span> <small id="productTotalPriceD">@totalIndividualBase[1]</small></span>
+                <span class="text-muted ms-auto" style="font-family:Bahnschrift; font-size: 18px"><small>$</small> <span id="@String.Format("productTotalPriceN{0}",Model.OrderDetailsID)">@totalIndividualBase[0]</span> <small id="@String.Format("productTotalPriceD{0}",Model.OrderDetailsID)">@totalIndividualBase[1]</small></span>
             </div>
         </div>
     </div>

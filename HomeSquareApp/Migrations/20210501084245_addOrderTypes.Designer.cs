@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210501084245_addOrderTypes")]
+    partial class addOrderTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,15 +144,15 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36);
 
-                    b.Property<string>("DeliveryOptions")
-                        .HasColumnType("varchar(8)")
-                        .HasMaxLength(8);
-
                     b.Property<DateTime>("OrderDateTime");
 
                     b.Property<string>("OrderStatus")
                         .HasColumnType("varchar(9)")
                         .HasMaxLength(9);
+
+                    b.Property<string>("OrderType")
+                        .HasColumnType("varchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("UserID");
 

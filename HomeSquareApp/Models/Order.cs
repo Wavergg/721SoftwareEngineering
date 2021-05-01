@@ -23,6 +23,10 @@ namespace HomeSquareApp.Models
         [Column(TypeName = "varchar(9)")]
         public string OrderStatus { get; set; }
 
+        [MaxLength(8)]
+        [Column(TypeName = "varchar(8)")]
+        public string DeliveryOptions { get; set; }
+
         public IEnumerable<OrderDetails> OrderDetails { get; set; }
 
         public IEnumerable<Reward> Rewards { get; set; }
