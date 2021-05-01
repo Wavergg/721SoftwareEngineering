@@ -1,5 +1,6 @@
 ﻿using HomeSquareApp.Data;
 using HomeSquareApp.Models;
+using HomeSquareApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -51,36 +52,145 @@ namespace HomeSquareApp.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetCurrentCartCount()
+        private async Task<ApplicationUser> GetCurrentUser()
         {
-            int cartCount = 0;
-
+            ApplicationUser user = null;
             if (_SignInManager.IsSignedIn(User))
             {
-                ApplicationUser user = await _UserManager.GetUserAsync(User);
-
-                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
-                if(order != null) { 
-                    cartCount = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Count();
-                }
+                user = await _UserManager.GetUserAsync(User);
             }
             else
             {
                 string cookie = Request.Cookies["homeSquareCookieID"];
                 if (cookie != null)
                 {
-                    ApplicationUser user = await _UserManager.FindByNameAsync(cookie);
-                    Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                    user = await _UserManager.FindByNameAsync(cookie);
+                }
+            }
+            return user;
+        }
 
-                    if (order != null)
+        [HttpPost]
+        public async Task<IActionResult> GetCurrentCartCount()
+        {
+            int cartCount = 0;
+            ApplicationUser user = await GetCurrentUser();
+
+            if (user != null) { 
+                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                if (order != null)
+                {
+                    cartCount = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Count();
+                }
+            }
+            return Json(cartCount);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoadCart()
+        {
+            CartViewModel model = new CartViewModel();
+            ApplicationUser user = await GetCurrentUser();
+
+            if (user != null) { 
+                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                if (order != null)
+                {
+                    model.OrderDetails = _context.OrderDetails.Where(od => od.OrderID == order.OrderID)
+                                        .Include(od => od.Product)
+                                        .ThenInclude(p=>p.ServingType).ToList();
+                    model.TotalInCart = model.OrderDetails.Sum(od => od.TotalPrice);
+                }
+            }
+            return PartialView("_ModalCartPartial", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveItem(int orderDetailsID)
+        {
+            ApplicationUser user = await GetCurrentUser();
+            ErrorMessage message = new ErrorMessage();
+
+            
+            if(user != null)
+            {
+                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                if (order != null)
+                {
+                    List<OrderDetails> orderDetailsList = _context.OrderDetails.Where(od => od.OrderID == order.OrderID)
+                                                .Include(od => od.Product)
+                                                .ToList();
+
+                    OrderDetails orderDetails = orderDetailsList.Where(od => od.OrderDetailsID == orderDetailsID).FirstOrDefault();
+
+                    if (orderDetails != null)
                     {
-                        cartCount = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Count();
+                        _context.Remove(orderDetails);
+                        _context.SaveChanges();
+                        message.IsSuccess = true;
+
+                        orderDetailsList.Remove(orderDetails);
+                        message.Message.Add(String.Format("{0:F2}",orderDetailsList.Sum(od=>od.TotalPrice)));
+                        
+                    }
+                }
+            } else
+            {
+                message.IsSuccess = false;
+                message.Message.Add("Unable to locate user");
+            }
+
+            return Json(message);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateItemQuantity(int orderDetailsID,int quantity)
+        {
+            ApplicationUser user = await GetCurrentUser();
+            ErrorMessage message = new ErrorMessage();
+
+
+            if (user != null)
+            {
+                Order order = _context.Order.Where(o => o.UserID == user.Id && o.OrderStatus == "Ongoing").FirstOrDefault();
+                if (order != null)
+                {
+                    List<OrderDetails> orderDetailsList = _context.OrderDetails.Where(od => od.OrderID == order.OrderID)
+                                                .Include(od => od.Product)
+                                                .ToList();
+
+                    OrderDetails orderDetails = orderDetailsList.Where(od => od.OrderDetailsID == orderDetailsID).FirstOrDefault();
+
+                    if (orderDetails != null)
+                    {
+                        if(orderDetails.Product.ProductStock >= quantity) { 
+                            orderDetails.Quantity = quantity;
+                            orderDetails.TotalPrice = quantity * orderDetails.Product.ProductPrice;
+                            _context.Update(orderDetails);
+                            _context.SaveChanges();
+
+                            message.IsSuccess = true;
+                            message.Message.Add(String.Format("{0:F2}", orderDetailsList.Sum(od => od.TotalPrice)));
+                            message.Message.Add(String.Format("{0:F2}", orderDetails.TotalPrice));
+                        } else
+                        {
+                            quantity = orderDetails.Product.ProductStock == null ? 0 : (int)orderDetails.Product.ProductStock;
+                            orderDetails.Quantity = quantity;
+                            orderDetails.TotalPrice = quantity * orderDetails.Product.ProductPrice;
+                            _context.Update(orderDetails);
+                            _context.SaveChanges();
+
+                            message.IsSuccess = false;
+                            message.Message.Add(String.Format("{0:F2}", orderDetailsList.Sum(od => od.TotalPrice)));
+                            message.Message.Add(String.Format("{0:F2}", orderDetails.TotalPrice));
+                            message.Message.Add(string.Format("Not Enough Stock, {0} Lefts", orderDetails.Product.ProductStock));
+                            message.Message.Add($"{orderDetails.Product.ProductStock}");
+                        }
                     }
                 }
             }
-
-            return Json(cartCount);
+            
+            return Json(message);
         }
 
         [HttpPost]
@@ -95,11 +205,13 @@ namespace HomeSquareApp.Controllers
                 message.Add("Product Not Found");
                 return Json(new ErrorMessage(false,message));
             } 
-            else if (product.ProductStock < quantity)
+            else if(quantity == 0)
             {
-                message.Add(string.Format("Not Enough Stock, {0} Lefts",product.ProductStock));
+                message.Add("Quantity Cannot be Empty");
                 return Json(new ErrorMessage(false, message));
             }
+
+            bool isAvailable = false;
 
             if (_SignInManager.IsSignedIn(User))
             {
@@ -111,15 +223,7 @@ namespace HomeSquareApp.Controllers
                     order = CreateOrder(user.Id);
                 }
 
-                bool isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
-
-                if (!isAvailable)
-                {
-                    message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
-                    return Json(new ErrorMessage(false, message));
-                }
-                message.Add("Item Added");
-                return Json(new ErrorMessage(true, message));
+                isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
             }
             else
             {
@@ -133,14 +237,14 @@ namespace HomeSquareApp.Controllers
                     if (result.Succeeded) {
                         var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == cookieID );
                         Order order = CreateOrder(userFromDb.Id);
-                        await AttachOrderDetails(productID,quantity,order.OrderID);
-
-                        message.Add("Item Added");
+                        isAvailable = await AttachOrderDetails(productID,quantity,order.OrderID);
+                    } 
+                    else { 
+                        message.Add("Service Not Available at This Time");
                         return Json(new ErrorMessage(true, message));
                     }
-                    message.Add("Service Not Available at This Time");
-                    return Json(new ErrorMessage(true, message));
-                } else
+                } 
+                else
                 {
                     ApplicationUser user = await _UserManager.FindByNameAsync(cookie);
 
@@ -152,15 +256,7 @@ namespace HomeSquareApp.Controllers
                             order = CreateOrder(user.Id);
                         }
 
-                        bool isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
-
-                        if (!isAvailable)
-                        {
-                            message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
-                            return Json(new ErrorMessage(false, message));
-                        }
-                        message.Add("Item Added");
-                        return Json(new ErrorMessage(true, message));
+                        isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
                     }
                     else
                     {
@@ -171,17 +267,24 @@ namespace HomeSquareApp.Controllers
                         {
                             var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == cookieID);
                             Order order = CreateOrder(userFromDb.Id);
-                            bool isSuccess = await AttachOrderDetails(productID, quantity, order.OrderID);
-
-                            message.Add("Item Added");
-                            return Json(new ErrorMessage(true, message));
-                            
+                            isAvailable = await AttachOrderDetails(productID, quantity, order.OrderID);
+                        } 
+                        else
+                        {
+                            message.Add("Service Not Available at This Time");
+                            return Json(new ErrorMessage(false, message));
                         }
-                        message.Add("Service Not Available at This Time");
-                        return Json(new ErrorMessage(false, message));
                     }
                 }
             }
+
+            if (!isAvailable)
+            {
+                message.Add(string.Format("Not Enough Stock, {0} Lefts", currentStockAvailable));
+                return Json(new ErrorMessage(false, message));
+            }
+            message.Add("Item Added");
+            return Json(new ErrorMessage(true, message));
         }
 
         private Order CreateOrder(string userID)

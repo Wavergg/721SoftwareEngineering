@@ -61,11 +61,17 @@
                     <span class="fw-normal">@Model.Product.ProductServingContent @Model.Product.ServingType.ServingType</span>
                 </div>
             </div>
-            <div class="d-flex">
-                <input type="number" @(Model.Product.ProductStock > 0 ? "" : "disabled") placeholder="1" min="1" max="@Model.Product.ProductStock" value="1" class="rounded-0 rounded-start form-control w-25" />
-                <button type="submit" @(Model.Product.ProductStock > 0 ? "" : "disabled") class="btn btn-success rounded-0 rounded-end">Add To Cart</button>
-                <a asp-controller="Checkout" asp-action="Index" class="ms-auto btn btn-light border-secondary text-dark">Check Out</a>
-            </div>
+            <form class="position-relative" asp-controller="Order" asp-action="HandleOrder" method="post"
+                  data-ajax="true" data-ajax-method="post" data-ajax-begin="app.disableSubmit" data-ajax-complete="app.detailsOrderAdded" data-ajax-url="/Order/HandleOrder">
+
+                <div class="d-flex pb-5">
+                    <input name="productID" type="hidden" value="@Model.Product.ProductID" />
+                    <input name="quantity" type="number" @(Model.Product.ProductStock > 0 ? "" : "disabled") placeholder="1" min="1" value="1" class="rounded-0 rounded-start form-control w-25" />
+                    <button type="submit" onclick="app.orderFormSubmitBtn(this)" @(Model.Product.ProductStock > 0 ? "" : "disabled") class="btn btn-success rounded-0 rounded-end">Add To Cart</button>
+                    <a asp-controller="Checkout" asp-action="Index" class="ms-auto btn btn-light border-secondary text-dark">Check Out</a>
+                </div>
+                <small></small>
+            </form>
         </section>
         </div>
     </div>

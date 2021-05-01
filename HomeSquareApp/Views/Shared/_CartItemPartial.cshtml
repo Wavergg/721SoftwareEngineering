@@ -1,29 +1,44 @@
-﻿<div class="card shadow-none rounded-0 rounded-start m-2">
+﻿@model HomeSquareApp.Models.OrderDetails
+
+@{
+    string price = string.Format("{0:F2}", Model.Product.ProductPrice);
+    string[] priceBase = price.Split('.');
+
+    string totalIndividualPrice = string.Format("{0:F2}", Model.Product.ProductPrice * Model.Quantity);
+    string[] totalIndividualBase = totalIndividualPrice.Split('.');
+}
+
+<div id="@String.Format("cartItem{0}",Model.OrderDetailsID)" class="card shadow-none rounded-0 rounded-start m-2">
     <div class="d-flex g-0">
         @* NYD DELETE ITEM FROM CART SEND DATA TO CONTROLLER AJAX METHOD *@
-        <button class="btn col-1 btn-danger rounded-0 rounded-start">
+        <button onclick="app.removeItem(@Model.OrderDetailsID)" class="btn col-1 btn-danger rounded-0 rounded-start">
             X
         </button>
         <div class="d-flex flex-column">
             <div class="d-flex">
                 <div class="px-3 col-3 d-flex align-items-center">
                     @* NYD Fill the Alt Attributes *@
-                    <img class="img-fluid" src="~/lib/images/products/Shampoo-PNG-Clipart.png" asp-append-version="true" />
+                    <img class="img-fluid" src="~/lib/images/products/@Model.Product.ImageUrl" asp-append-version="true" />
                 </div>
                 <div class="pt-3 col-9">
                     <div class="me-3">
                         @* NYD Fill the information *@
-                        <small class="fw-bold text-muted" style="font-size:0.9em">The name of the item can get quite long</small>
+                        <small class="fw-bold text-muted" style="font-size:0.9em">@Model.Product.ProductName</small>
                         <div class="d-flex align-items-center justify-content-between pt-2 pb-1 my-md-0 ">
-                            <small class="text-muted">$ 24 00 / Ea.</small>
+                            <small class="text-muted">$ @String.Format("{0} {1} / {2}",priceBase[0],priceBase[1],Model.Product.ServingType.ServingType)</small>
                             @* assign onchange function that sent data to controller with ajax *@
-                            <div class=""><small class="text-muted me-2">Qty </small><input type="number" min="1" max="100" value="1"/></div>
+                            <div class="">
+                                <small class="text-muted me-2">Qty </small>
+                                <input type="number" min="1" onchange="app.updateItemQuantity(@Model.OrderDetailsID,this.value)" 
+                                       value="@Model.Quantity" id="@String.Format("cartItemQuantity{0}",Model.OrderDetailsID)"/>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mx-3 border-top border-muted text-end">
-                <span class="text-muted" style="font-family:Bahnschrift; font-size: 18px"><small>$</small> 24 <small>00</small></span>
+            <div class="mx-3 border-top border-muted d-flex align-items-center">
+                <small id="@String.Format("cartItemError{0}",Model.OrderDetailsID)" class="text-danger"></small>
+                <span class="text-muted ms-auto" style="font-family:Bahnschrift; font-size: 18px"><small>$</small> <span id="productTotalPriceN">@totalIndividualBase[0]</span> <small id="productTotalPriceD">@totalIndividualBase[1]</small></span>
             </div>
         </div>
     </div>

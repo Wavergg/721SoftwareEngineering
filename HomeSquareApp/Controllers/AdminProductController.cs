@@ -469,6 +469,12 @@ namespace HomeSquareApp.Controllers
                 return RedirectToAction("Delete");
             }
 
+            List<Review> reviews = _context.Review.Where(r => r.ProductID == product.ProductID).ToList();
+
+            foreach(Review review in reviews)
+            {
+                _context.Review.Remove(review);
+            }
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
 

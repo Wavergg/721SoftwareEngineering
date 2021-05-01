@@ -99,7 +99,7 @@
 
                     <div class="col-md-4 col-12">
                         @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
-                        <partial name="_SearchBarPartial"/>
+                        <partial name="_SearchBarPartial" />
                     </div>
 
                     <div class="col-md-4">
@@ -125,7 +125,7 @@
                                     <svg class="bi" width="16" height="24" fill="currentColor">
                                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#cart" />
                                     </svg>
-                                    
+
                                     <span v-text="cartItemCount"></span>
                                 </a>
                             </div>
@@ -191,7 +191,7 @@
                 <div class="mt-3 collapse navbar-collapse" id="navbarsExampleDefault">
                     <div class="container-fluid">
                         @*NYD SEARCH BOX NEED TO READ DATA FROM CONTROLLER AJAX FNC? *@
-                        <partial name="_SearchBarPartial"/>
+                        <partial name="_SearchBarPartial" />
 
                         @*NYD REPLACE WITH ACTUAL LINK TO VIEW *@
                         <a asp-controller="Home" asp-action="Index">
@@ -316,7 +316,11 @@
 
     <!-- Signup and Login Modal -->
     <partial name="_ModalLoginSignUpPartial" />
-    <partial name="_ModalCartPartial" />
+
+    <div class="modal fade m-0 rounded-0" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog m-0 modal-fullscreen-md-down gx-0 w-md-50" style="position:absolute;right:0;" id="cartModalContent">
+        </div>
+    </div>
 
     @if (TempData["OpenLogin"] != null)
     {
@@ -330,37 +334,37 @@
 
     @if (signInManager.IsSignedIn(User))
     {
-<div id="popoverTemplate" class="hide" hidden>
-    <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
-    <div>
-        <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">Profile</a>
-    </div>
-    @* Found a bug here, if there is no separator link it wont work for the next link *@
-    @if (User.IsInRole("ADMIN"))
-    {
-        <a asp-action="Index" asp-controller="Home"></a>
-        <div>
-            <a asp-action="Index" asp-controller="Admin" class="form-control border-0 rounded-0 text-success">Admin Panel</a>
+        <div id="popoverTemplate" class="hide" hidden>
+            <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
+            <div>
+                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">Profile</a>
+            </div>
+            @* Found a bug here, if there is no separator link it wont work for the next link *@
+            @if (User.IsInRole("ADMIN"))
+            {
+                <a asp-action="Index" asp-controller="Home"></a>
+                <div>
+                    <a asp-action="Index" asp-controller="Admin" class="form-control border-0 rounded-0 text-success">Admin Panel</a>
+                </div>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="Home"></a>
+                <div>
+                    <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
+                </div>
+                <a asp-action="Index" asp-controller="Home"></a>
+                <div>
+                    <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
+                </div>
+            }
+            <a asp-action="Index" asp-controller="Home"></a>
+            <div>
+                <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
+                    Log Out
+                </a>
+            </div>
         </div>
-    }
-    else
-    {
-        <a asp-action="Index" asp-controller="Home"></a>
-        <div>
-            <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
-        </div>
-        <a asp-action="Index" asp-controller="Home"></a>
-        <div>
-            <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRewards" class="form-control border-0 rounded-0 text-success">My Rewards</a>
-        </div>
-    }
-    <a asp-action="Index" asp-controller="Home"></a>
-    <div>
-        <a asp-action="Logout" asp-controller="Account" class="form-control border-0 rounded-0 text-success fw-bold">
-            Log Out
-        </a>
-    </div>
-</div>
     }
 
     @* MODIFIED JQUERY VALIDATE START *@
@@ -393,7 +397,7 @@
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
-                            url: "Home/GetQuery", // Controller/View
+                            url: "/Home/GetQuery", // Controller/View
                             data: {
                                 searchString: app.searchString,
                                 searchCategories: app.searchCategories,
@@ -440,10 +444,11 @@
 
                     document.forms['searchQuery'].submit();
                 },
-                orderAdded: function (data) {
+                cardOrderAdded: function (data) {
                     //console.log(data.responseJSON)
+
+                    var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
                     if (!data.responseJSON.isSuccess) {
-                        var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
                         ribbonEl.classList.remove("bg-success")
                         ribbonEl.classList.add("bg-danger")
                         ribbonEl.innerHTML = data.responseJSON.message[0]
@@ -452,14 +457,34 @@
                     } else {
                         this.getCurrentCartCount()
                         setTimeout(this.reenableSubmit, 2000)
-                        var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
                         ribbonEl.classList.remove("bg-danger")
                         ribbonEl.classList.add("bg-success")
                         ribbonEl.innerHTML = data.responseJSON.message[0]
-                        setTimeout(() => { ribbonEl.innerHTML = "" },2000)
+                        this.loadCart();
+                        setTimeout(() => { ribbonEl.innerHTML = "" }, 2000)
                     }
                 },
-                formSubmitBtn: function (el) {
+                detailsOrderAdded: function (data) {
+                    var ribbonEl = this.productOrderSubmitBtn.parentElement.parentElement.lastChild.previousElementSibling
+
+                    ribbonEl.classList.add("alert")
+                    if (!data.responseJSON.isSuccess) {
+                        ribbonEl.classList.remove("alert-success")
+                        ribbonEl.classList.add("alert-danger")
+                        ribbonEl.innerHTML = data.responseJSON.message[0]
+                        this.productOrderSubmitBtn.disabled = false;
+                        this.productOrderSubmitBtn.innerHTML = "Add To Cart";
+                    } else {
+                        this.getCurrentCartCount()
+                        setTimeout(this.reenableSubmit, 2000)
+                        ribbonEl.classList.remove("alert-danger")
+                        ribbonEl.classList.add("alert-success")
+                        ribbonEl.innerHTML = data.responseJSON.message[0]
+                        this.loadCart();
+                        setTimeout(() => { ribbonEl.innerHTML = ""; ribbonEl.classList.remove("alert") }, 2000)
+                    }
+                },
+                orderFormSubmitBtn: function (el) {
                     this.productOrderSubmitBtn = el;
                     console.log(el)
                 },
@@ -467,11 +492,10 @@
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
-                            url: "Order/GetCurrentCartCount", // Controller/View
+                            url: "/Order/GetCurrentCartCount", // Controller/View
                             data: {
                             }
                         }).done(function (data) {
-                            console.log(data)
                             app.cartItemCount = data
                         });
                 },
@@ -483,9 +507,70 @@
                     this.productOrderSubmitBtn.disabled = false;
                     this.productOrderSubmitBtn.innerHTML = "Add To Cart";
                 },
+                loadCart: function () {
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/Order/LoadCart", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            $("#cartModalContent").html(data)
+                        });
+                },
+                removeItem: function (orderDetailsID) {
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/Order/RemoveItem", // Controller/View
+                            data: {
+                                orderDetailsID: orderDetailsID
+                            }
+                        }).done(function (data) {
+                            console.log(data)
+                            if (data.isSuccess) {
+                                document.getElementById("cartItem" + orderDetailsID).remove();
+                                var newPrice = data.message[0].split('.')
+                                document.getElementById("cartTotalPriceN").innerHTML = newPrice[0]
+                                document.getElementById("cartTotalPriceD").innerHTML = newPrice[1]
+                                app.cartItemCount--;
+                            }
+                        });
+                },
+                updateItemQuantity: function (orderDetailsID, quantity) {
+                    if (quantity < 1) {
+                        quantity = 1;
+                        document.getElementById("cartItemQuantity" + orderDetailsID).value = 1;
+                    }
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/Order/UpdateItemQuantity", // Controller/View
+                            data: {
+                                orderDetailsID: orderDetailsID,
+                                quantity: quantity
+                            }
+                        }).done(function (data) {
+                            var newCartTotalPrice = data.message[0].split('.')
+                            document.getElementById("cartTotalPriceN").innerHTML = newCartTotalPrice[0]
+                            document.getElementById("cartTotalPriceD").innerHTML = newCartTotalPrice[1]
+
+                            var newProductTotalPrice = data.message[1].split('.')
+                            document.getElementById("productTotalPriceN").innerHTML = newProductTotalPrice[0]
+                            document.getElementById("productTotalPriceD").innerHTML = newProductTotalPrice[1]
+                            if (!data.isSuccess) {
+                                var cartErrorElement = document.getElementById("cartItemError" + orderDetailsID)
+                                cartErrorElement.innerHTML = data.message[2]
+                                document.getElementById("cartItemQuantity" + orderDetailsID).value = data.message[3]
+                                setTimeout(() => { cartErrorElement.innerHTML = "" }, 3000)
+                            }
+                        });
+                }
             },
-            mounted: function(){
+            mounted: function () {
                 this.getCurrentCartCount()
+                this.loadCart();
             }
         })
     </script>
@@ -497,7 +582,7 @@
 
     @* Script for sticky nav bar on mobile and desktop, initialize sticky *@
     <script>
-        
+
 
         window.addEventListener("scroll", function () {
             var mobileNav = document.getElementById("mobileNav");
@@ -547,14 +632,14 @@
                 }
             })
         })
-                            //var myAccountEl = document.getElementById('myAccountPopover')
-                            //var popover = new bootstrap.Popover(myAccountEl,
-                            //    {
-                            //    html: true,
-                            //    content: function () {
-                            //        return $("#popoverTemplate").html();
-                            //    }
-                            //})
+                                                //var myAccountEl = document.getElementById('myAccountPopover')
+                                                //var popover = new bootstrap.Popover(myAccountEl,
+                                                //    {
+                                                //    html: true,
+                                                //    content: function () {
+                                                //        return $("#popoverTemplate").html();
+                                                //    }
+                                                //})
     </script>
 </body>
 </html>
