@@ -1,0 +1,26 @@
+﻿@model List<HomeSquareApp.Models.Order>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeliveryOptions)
+        </td>
+        <td class="text-nowrap">
+            <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>
+        </td>
+    </tr>
+}

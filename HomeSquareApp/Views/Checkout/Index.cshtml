@@ -28,10 +28,14 @@
     <h1 style="font-size:22px">Checkout <span class="text-muted">(@Model.Order.OrderDetails.Count() Items)</span></h1>
     <div class="d-md-flex">
         <div class="col-md-8">
-            <partial name="_CheckoutFormPartial" model="Model.OrderViewModel"/>
+            <partial name="_CheckoutFormPartial" model="Model.OrderViewModel" />
         </div>
-        <div id="orderSummary" class="col-md-4 bg-light px-lg-5 px-3 py-4 ms-md-3 mt-4 mt-md-0">
-            <partial name="_OrderSummaryPartial" model="Model.Order.OrderDetails"/>
+        <div class="col-md-4 bg-light px-lg-5 px-3 py-4 ms-md-3 mt-4 mt-md-0">
+            <h2>Order Summary</h2>
+            <hr />
+            <div id="orderSummary">
+                <partial name="_OrderSummaryPartial" model="Model.Order.OrderDetails" />
+            </div>
         </div>
     </div>
 </div>

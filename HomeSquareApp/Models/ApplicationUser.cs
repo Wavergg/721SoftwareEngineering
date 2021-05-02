@@ -11,10 +11,12 @@ namespace HomeSquareApp.Models
     {
         [Required]
         [MaxLength(64)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [MaxLength(64)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]
@@ -22,9 +24,11 @@ namespace HomeSquareApp.Models
         public string Address { get; set; }
 
         [MaxLength(64)]
+        [Display(Name = "Email")]
         public string DeliveryEmail { get; set; }
 
         [MaxLength(128)]
+        [Display(Name = "Delivery Address")]
         public string DeliveryAddress { get; set; }
 
         [MaxLength(32)]

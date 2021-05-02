@@ -13,6 +13,7 @@ namespace HomeSquareApp.Models
         [MaxLength(36)]
         public string OrderID { get; set; }
 
+        [Display(Name = "Order Time")]
         public DateTime OrderDateTime { get; set; }
 
         public string UserID { get; set; }
@@ -21,10 +22,12 @@ namespace HomeSquareApp.Models
 
         [MaxLength(9)]
         [Column(TypeName = "varchar(9)")]
+        [Display(Name = "Status")]
         public string OrderStatus { get; set; }
 
         [MaxLength(8)]
         [Column(TypeName = "varchar(8)")]
+        [Display(Name = "Delivery Type")]
         public string DeliveryOptions { get; set; }
 
         public IEnumerable<OrderDetails> OrderDetails { get; set; }

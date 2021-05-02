@@ -133,3 +133,8 @@ C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\o
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ReviewsListPartial.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CheckoutFormPartial.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_OrderSummaryPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminOrder\Index.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminOrderTableDataPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\AdminOrder\Details.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Checkout\Success.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminEditOrderStatusPartial.cshtml.g.cs

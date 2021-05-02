@@ -1,0 +1,104 @@
+﻿@model HomeSquareApp.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details: " + Model.User.FirstName;
+    ViewData["NavData"] = "Order";
+    ViewData["CurrentPage"] = "Main";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-md-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+        <h2>Order Details </h2>
+    </div>
+</div>
+
+<div class="mb-5">
+    <hr />
+    <div class="container d-md-flex justify-content-between p-3">
+        <dl class="dl-horizontal">
+            <dt>
+                Purchaser
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName) @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDateTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OrderDateTime)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryOptions)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryOptions)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            @if (Model.DeliveryOptions == "Delivery")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.DeliveryAddress)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.DeliveryAddress)
+                </dd>
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.User.DeliveryEmail)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.DeliveryEmail)
+            </dd>
+            <dt>
+                Phone Number
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.PhoneNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </dt>
+            <dd id="displayOrderStatus">
+                @Html.DisplayFor(model => model.OrderStatus)
+            </dd>
+        </dl>
+
+    </div>
+    <partial name="_OrderSummaryPartial" model="Model.OrderDetails" />
+</div>
+
+<div class="border-top py-2 position-sticky bottom-0 bg-white">
+    <div class="d-flex align-items-center gap-2">
+        <a asp-action="Index" class="me-auto text-decoration-none">
+            Back to Order List
+        </a>
+        <section id="EditStatusSection">
+            <partial name="_AdminEditOrderStatusPartial" model="Model" />
+        </section>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function updateOrderStatus(orderID,status) {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminOrder/EditStatus", // Controller/View
+                    data: {
+                        orderID: orderID,
+                        status: status
+                    },
+                    success: function (data) {
+                        document.getElementById("displayOrderStatus").innerHTML = status
+                        $("#EditStatusSection").html(data)
+                    }
+                })
+        }
+    </script>
+}

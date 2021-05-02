@@ -18,17 +18,14 @@ namespace HomeSquareApp.Controllers
         private readonly AppDbContext _context;
         private readonly SignInManager<ApplicationUser> _SignInManager;
         private readonly UserManager<ApplicationUser> _UserManager;
-        private readonly IHostingEnvironment _HostingEnvironment;
 
         public CheckoutController(AppDbContext context,
                                     SignInManager<ApplicationUser> signInManager,
-                                     UserManager<ApplicationUser> userManager
-                                     , IHostingEnvironment hostingEnvironment)
+                                     UserManager<ApplicationUser> userManager)
         {
             this._context = context;
             this._SignInManager = signInManager;
             this._UserManager = userManager;
-            this._HostingEnvironment = hostingEnvironment;
         }
 
 
@@ -96,7 +93,7 @@ namespace HomeSquareApp.Controllers
                 return RedirectToAction("Index","Home");
             }
 
-            order.OrderDetails = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).ToList();
+            order.OrderDetails = _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Include(od=>od.Product).ToList();
 
             return View(order);
         }

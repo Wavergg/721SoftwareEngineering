@@ -186,7 +186,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a asp-action="Index" asp-controller="AdminOrder">
                         <i class="fas fa-clipboard-list fa-2x"></i>
                         <span class="nav-text">
                             Order
@@ -241,29 +241,31 @@
                 @if ((ViewData["NavData"] as string) == "Product")
                 {
 
-                <div class="d-flex">
-                    <h2 class="mx-2 m-0">Product <span class="text-muted">&ndash;</span></h2>
-                    <div class="dropdown">
-                        <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            @ViewData["CurrentPage"]
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a asp-action="Index" asp-controller="AdminProduct" class="dropdown-item">Main</a></li>
-                            <li><a asp-action="Index" asp-controller="AdminProductCategories" class="dropdown-item">Categories</a></li>
-                            <li><a asp-action="Index" asp-controller="AdminProductServingTypes" class="dropdown-item">Serving Types</a></li>
-                            <li><a asp-action="Index" asp-controller="AdminProductStatus" class="dropdown-item">Statuses</a></li>
-                        </ul>
-                    </div>
+                    <div class="d-flex">
+                        <h2 class="mx-2 m-0">Product <span class="text-muted">&ndash;</span></h2>
+                        <div class="dropdown">
+                            <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                @ViewData["CurrentPage"]
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a asp-action="Index" asp-controller="AdminProduct" class="dropdown-item">Main</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductCategories" class="dropdown-item">Categories</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductServingTypes" class="dropdown-item">Serving Types</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductStatus" class="dropdown-item">Statuses</a></li>
+                            </ul>
+                        </div>
 
-                </div>
+                    </div>
                 }
                 else if ((ViewData["NavData"] as string) == "Index")
                 {
-
                     <h2 class="mx-2 m-0">Dashboard</h2>
-
                 }
-                
+                else if ((ViewData["NavData"] as string) == "Order")
+                {
+                    <h2 class="mx-2 m-0">Order</h2>
+                }
+
                 <button class="btn btn-default me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
                     <i class="fas fa-bars d-flex align-items-center justify-content-center" style="font-size: 1em;width:1.5rem"></i>
                 </button>
@@ -283,10 +285,10 @@
             <div class="navbar-collapse mt-2 offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="#">Dashboard</a>
+                        <a class="nav-link text-white" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Order</a>
+                        <a class="nav-link text-white" asp-action="Index" asp-controller="AdminOrder">Order</a>
                     </li>
                     <li class="nav-item">
                         <a asp-controller="AdminProduct" asp-action="Index" class="nav-link text-white">Product</a>

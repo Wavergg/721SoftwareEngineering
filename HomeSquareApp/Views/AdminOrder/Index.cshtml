@@ -1,9 +1,9 @@
-﻿@model IEnumerable<HomeSquareApp.Models.Product>
+﻿@model IEnumerable<HomeSquareApp.Models.Order>
 
 @{
-    ViewData["Title"] = "Products List";
+    ViewData["Title"] = "Order List";
     Layout = "_AdminLayout";
-    ViewData["NavData"] = "Product";
+    ViewData["NavData"] = "Order";
     ViewData["CurrentPage"] = "Main";
 }
 
@@ -42,44 +42,42 @@
         </div>
     </div>
 </div>
-<p>
-    <a asp-action="Create">Add New Product</a>
-</p>
 
-<div id="productTable">
+
+<div id="orderTable">
     <div class="table-responsive" style="min-height:500px">
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductPrice)
-                    </th>
-                    <th onclick="sortData('stock')">
+                    <th onclick="sortData('orderDate')">
                         <a class="d-flex align-items-end tableSortLink">
                             <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
-                            @Html.DisplayNameFor(model => model.ProductStock)
+                            @Html.DisplayNameFor(model => model.OrderDateTime)
                         </a>
                     </th>
-                    <th onclick="sortData('name')">
+                    <th onclick="sortData('firstName')">
                         <a class="d-flex align-items-end tableSortLink">
                             <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
-                            @Html.DisplayNameFor(model => model.ProductName)
+                            @Html.DisplayNameFor(model => model.User.FirstName)
                         </a>
                     </th>
-                    <th onclick="sortData('discount')">
+                    <th onclick="sortData('lastName')">
                         <a class="d-flex align-items-end tableSortLink">
                             <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
-                            @Html.DisplayNameFor(model => model.ProductDiscount)
+                            @Html.DisplayNameFor(model => model.User.LastName)
                         </a>
                     </th>
-                    <th onclick="sortData('purchaseCount')">
+                    <th onclick="sortData('orderStatus')">
                         <a class="d-flex align-items-end tableSortLink">
                             <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
-                            @Html.DisplayNameFor(model => model.CurrentWeekPurchaseCount)
+                            @Html.DisplayNameFor(model => model.OrderStatus)
                         </a>
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductStatus)
+                    <th onclick="sortData('deliveryOption')">
+                        <a class="d-flex align-items-end tableSortLink">
+                            <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                            @Html.DisplayNameFor(model => model.DeliveryOptions)
+                        </a>
                     </th>
                     <th>
                         @*Actions*@
@@ -87,7 +85,7 @@
                 </tr>
             </thead>
             <tbody id="tableData">
-                <partial name="_AdminProductTableDataPartial" model="Model" />
+                <partial name="_AdminOrderTableDataPartial" model="Model" />
             </tbody>
         </table>
     </div>
@@ -112,7 +110,7 @@
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "/AdminProduct/ProductNextTableData", // Controller/View
+                    url: "/AdminOrder/OrderNextTableData", // Controller/View
                     data: {
                         pageNumber: pageNumber
                     }
@@ -156,31 +154,37 @@
         }
 
     @* Sorting Function *@
-        var discountToggle = true;
-        var nameToggle = true;
-        var purchaseCountToggle = true;
-        var stockToggle = false;
+        //set to true if desc comes first
+        var orderDateToggle = false;
+        var firstNameToggle = true;
+        var lastNameToggle = true;
+        var orderStatusToggle = false;
+        var deliveryOptionToggle = true;
 
         function sortData(sortOrder) {
-            if (sortOrder == "discount") {
-                sortOrder += discountToggle ? "_desc" : "_asc"
-                discountToggle = !discountToggle
-            } else if (sortOrder == "name") {
-                sortOrder += nameToggle ? "_desc" : "_asc"
-                nameToggle = !nameToggle
-            } else if (sortOrder == "purchaseCount") {
-                sortOrder += purchaseCountToggle ? "_desc" : "_asc"
-                purchaseCountToggle = !purchaseCountToggle
-            } else if (sortOrder == "stock") {
-                sortOrder += stockToggle ? "_desc" : "_asc"
-                stockToggle = !stockToggle
+            if (sortOrder == "orderDate") {
+                sortOrder += orderDateToggle ? "_desc" : "_asc"
+                orderDateToggle = !orderDateToggle
+            } else if (sortOrder == "firstName") {
+                sortOrder += firstNameToggle ? "_desc" : "_asc"
+                firstNameToggle = !firstNameToggle
+            } else if (sortOrder == "lastName") {
+                sortOrder += lastNameToggle ? "_desc" : "_asc"
+                lastNameToggle = !lastNameToggle
+            } else if (sortOrder == "orderStatus") {
+                sortOrder += orderStatusToggle ? "_desc" : "_asc"
+                orderStatusToggle = !orderStatusToggle
             }
-            
+            else if (sortOrder == "deliveryOption") {
+                sortOrder += deliveryOptionToggle ? "_desc" : "_asc"
+                deliveryOptionToggle = !deliveryOptionToggle
+            }
+
 
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "/AdminProduct/ProductSortTableData", // Controller/View
+                    url: "/AdminOrder/OrderSortTableData", // Controller/View
                     data: {
                         sortOrder: sortOrder
                     }
@@ -217,24 +221,29 @@
                 categoryItems: [
                     {
                         id: 0,
-                        name: "Product Name",
-                        value: "Name",
+                        name: "Email",
+                        value: "Email",
                     },
                     {
                         id: 1,
-                        name: "Product Status",
-                        value: "Status",
+                        name: "First Name",
+                        value: "FirstName",
                     },
                     {
                         id: 2,
-                        name: "Product Category",
-                        value: "Category",
+                        name: "Last Name",
+                        value: "LastName",
+                    },
+                    {
+                        id: 3,
+                        name: "Order Status",
+                        value: "Status",
                     },
                 ],
                 categorySelected: {
                     id: 0,
-                    name: "Product Name",
-                    value: "Name",
+                    name: "Email",
+                    value: "Email",
                 },
             },
             methods: {
@@ -255,7 +264,7 @@
                     //prevent duplication and empty value
                     if (this.searchValue == "" ||
                         this.filters.some(
-                            filterX => (filterX.value.toLowerCase() == this.searchValue.toLowerCase()) && 
+                            filterX => (filterX.value.toLowerCase() == this.searchValue.toLowerCase()) &&
                                 filterX.category == this.categorySelected.value)
                         )
                         return;
@@ -269,7 +278,7 @@
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
-                            url: "/AdminProduct/ProductFilterTableData", // Controller/View
+                            url: "/AdminOrder/OrderFilterTableData", // Controller/View
                             data: {
                                 filters: this.searchValue,
                                 category: this.categorySelected.value
@@ -288,7 +297,7 @@
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
-                            url: "/AdminProduct/ProductRemoveFilterTableData", // Controller/View
+                            url: "/AdminOrder/OrderRemoveFilterTableData", // Controller/View
                             contentType: 'application/json',
                             dataType: "json",
                             data: items,
@@ -297,7 +306,7 @@
                                 $.ajax(
                                     {
                                         type: "POST", //HTTP GET Method
-                                        url: "/AdminProduct/RefreshProductTableIndex", // Controller/View
+                                        url: "/AdminOrder/RefreshOrderTableIndex", // Controller/View
                                         data: {
                                         }
                                     }).done(function (data) {
@@ -308,7 +317,7 @@
                             }
                         });
 
-                    
+
                 },
                 updatePagination() {
                     //reset to first page
@@ -318,7 +327,7 @@
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
-                            url: "/AdminProduct/UpdatePagination", // Controller/View
+                            url: "/AdminOrder/UpdatePagination", // Controller/View
                             data: {
                             }
                         }).done(function (data) {

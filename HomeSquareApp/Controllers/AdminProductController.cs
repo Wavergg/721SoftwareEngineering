@@ -186,10 +186,10 @@ namespace HomeSquareApp.Controllers
 
         //Method used when the filter is removed by click
         [HttpPost]
-        public async Task<IActionResult> ProductRemoveFilterTableData([FromBody] List<ProductFilterModel> filters)
+        public async Task<IActionResult> ProductRemoveFilterTableData([FromBody] List<AdminFilterModel> filters)
         {
             _productsContext = await _context.Product.Include(p => p.ProductStatus).Include(p => p.Category).ToListAsync();
-            foreach (ProductFilterModel filterItem in filters)
+            foreach (AdminFilterModel filterItem in filters)
             {
                 PerformProductFilter(filterItem.value, filterItem.category);
             }

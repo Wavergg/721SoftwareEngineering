@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.Models
 {
-    public class ProductFilterModel
+    public class AdminFilterModel
     {
         public int id { get; set; }
         public string value { get; set; }
