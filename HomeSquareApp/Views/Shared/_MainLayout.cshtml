@@ -79,6 +79,11 @@
             z-index: 10;
             min-width: 210px;
         }
+
+        .required::after {
+            content: "*";
+            color: #f00;
+        }
     </style>
 </head>
 <body>
@@ -534,6 +539,11 @@
                                 document.getElementById("cartTotalPriceN").innerHTML = newPrice[0]
                                 document.getElementById("cartTotalPriceD").innerHTML = newPrice[1]
                                 app.cartItemCount--;
+
+                                var orderSummaryEl = document.getElementById("orderSummary")
+                                if (orderSummaryEl) {
+                                    app.updateOrderSummary();
+                                }
                             }
                         });
                 },
@@ -559,12 +569,30 @@
                             var newProductTotalPrice = data.message[1].split('.')
                             document.getElementById("productTotalPriceN" + orderDetailsID).innerHTML = newProductTotalPrice[0]
                             document.getElementById("productTotalPriceD" + orderDetailsID).innerHTML = newProductTotalPrice[1]
+
+                            var orderSummaryEl = document.getElementById("orderSummary")
+                            if (orderSummaryEl && data.isSuccess) {
+                                app.updateOrderSummary();
+                            }
+
                             if (!data.isSuccess) {
                                 var cartErrorElement = document.getElementById("cartItemError" + orderDetailsID)
                                 cartErrorElement.innerHTML = data.message[2]
                                 document.getElementById("cartItemQuantity" + orderDetailsID).value = data.message[3]
                                 setTimeout(() => { cartErrorElement.innerHTML = "" }, 3000)
                             }
+                        });
+                },
+                updateOrderSummary: function () {
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/Checkout/UpdateOrderSummary", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            console.log(data);
+                            $("#orderSummary").html(data)
                         });
                 }
             },

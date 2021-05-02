@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210501085812_deliveryEmailUser")]
+    partial class deliveryEmailUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Suburb")
-                        .HasMaxLength(32);
+                        .HasMaxLength(16);
 
                     b.Property<bool>("TwoFactorEnabled");
 

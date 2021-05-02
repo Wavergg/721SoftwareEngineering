@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="d-flex flex-fill justify-content-end">
-            <a asp-controller="Checkout" asp-action="Index" class="btn col-10 btn-success text-light rounded-pill">Check Out</a>
+            <a asp-controller="Checkout" asp-action="Index" class="@(Model.OrderDetails.Count()<1?"disabled": "") btn col-10 btn-success text-light rounded-pill">Check Out</a>
         </div>
     </div>
 </div>

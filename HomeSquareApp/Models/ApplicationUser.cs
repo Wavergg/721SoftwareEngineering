@@ -21,10 +21,13 @@ namespace HomeSquareApp.Models
         [MaxLength(128)]
         public string Address { get; set; }
 
+        [MaxLength(64)]
+        public string DeliveryEmail { get; set; }
+
         [MaxLength(128)]
         public string DeliveryAddress { get; set; }
 
-        [MaxLength(16)]
+        [MaxLength(32)]
         public string Suburb { get; set; }
 
         [MaxLength(8)]

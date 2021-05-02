@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeSquareApp.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace HomeSquareApp.ViewModels
 {
     public class CheckoutViewModel
     {
-        
+        public OrderViewModel OrderViewModel { get; set; }
+
+        public Order Order { get; set; }
     }
 }

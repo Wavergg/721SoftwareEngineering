@@ -18,20 +18,33 @@
 
 @if (TempData["ResetMessage"] != null)
 {
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-    <div id="liveToast" class="toast hide" style="background-color:#c5e1a5" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-        <div class="toast-header">
-            <strong class="me-auto">Notification</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            @TempData["ResetMessage"]
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast hide" style="background-color:#c5e1a5" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ResetMessage"]
+            </div>
         </div>
     </div>
-</div>
 }
 
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast hide" style="background-color:#F8C4B6" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ErrorMessage"]
+            </div>
+        </div>
+    </div>
+}
 
 <div class="mb-5">
     @* Carousel For Promotional ADS/PRODUCTS *@
@@ -141,9 +154,9 @@
             <hr />
             <div class="owl-carousel owl-carouselOfferProduct">
                 @* NYD Pass In the model here model/viewdata *@
-                @foreach(Product product in Model.FeaturedProducts)
+                @foreach (Product product in Model.FeaturedProducts)
                 {
-                    <partial name="_ProductCardLongStripPartial" model="product"/>
+                    <partial name="_ProductCardLongStripPartial" model="product" />
                 }
             </div>
         </div>
@@ -178,8 +191,8 @@
         <hr />
         <div class=" owl-carousel owl-carouselLatestProduct row">
             @* NYD Pass In the model here model/viewdata *@
-            @foreach(Product product in Model.LatestProducts)
-            {                    
+            @foreach (Product product in Model.LatestProducts)
+            {
                 <partial name="_ProductCardLongStripPartial" model="product" />
             }
         </div>
@@ -226,7 +239,7 @@
                     items: 1,
                 },
                 1296: {
-                    items:2
+                    items: 2
                 }
             }
         }

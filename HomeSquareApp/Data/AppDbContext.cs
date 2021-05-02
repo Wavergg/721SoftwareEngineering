@@ -26,6 +26,8 @@ namespace HomeSquareApp.Data
             }
         } 
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
         public DbSet<Category> Category { get; set; }
 
         public DbSet<Ingredient> Ingredient { get; set; }
