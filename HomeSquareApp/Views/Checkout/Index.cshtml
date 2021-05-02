@@ -24,8 +24,8 @@
 }
 
 <div class="container py-5 text-dark" id="checkoutFormContainer">
-    @* NYD GET ITEM COUNTS BASED ON MODEL *@
-    <h1 style="font-size:22px">Checkout <span class="text-muted">(@Model.Order.OrderDetails.Count() Items)</span></h1>
+    @* @Model.Order.OrderDetails.Count() *@
+    <h1 style="font-size:22px">Checkout <span class="text-muted">(<span v-text="cartItemCount"></span> Items)</span></h1>
     <div class="d-md-flex">
         <div class="col-md-8">
             <partial name="_CheckoutFormPartial" model="Model.OrderViewModel" />
