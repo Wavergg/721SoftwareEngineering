@@ -27,6 +27,7 @@ namespace HomeSquareApp.ViewModels
         public virtual string ProductName { get; set; }
 
         [Display(Name = "Discount")]
+        [Range(0,1,ErrorMessage = "Discount Range should be from 0 to 1")]
         public float? ProductDiscount { get; set; }
 
         [Display(Name = "Sale Start Date-Time")]

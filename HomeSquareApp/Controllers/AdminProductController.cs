@@ -469,6 +469,14 @@ namespace HomeSquareApp.Controllers
                 return RedirectToAction("Delete");
             }
 
+            OrderDetails orderDetails =_context.OrderDetails.Where(od => od.ProductID == product.ProductID).FirstOrDefault();
+
+            if(orderDetails != null)
+            {
+                TempData["DeleteMessage"] = "There is order that are associated with this product, Unable to delete item";
+                return RedirectToAction("Delete");
+            }
+
             List<Review> reviews = _context.Review.Where(r => r.ProductID == product.ProductID).ToList();
 
             foreach(Review review in reviews)
