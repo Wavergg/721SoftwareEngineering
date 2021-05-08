@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-05-08T09:46:08.329Z" agent="5.0 (Windows)" etag="T2PAEVUV6H7039fd30Qh" version="14.6.10" type="github">
+<mxfile host="app.diagrams.net" modified="2021-05-08T09:47:15.826Z" agent="5.0 (Windows)" etag="dNpEh0RJb_1SmcIl7rQ6" version="14.6.10" type="github">
   <diagram id="lDO1SkZu1mn5w61qTfaN" name="Page-1">
     <mxGraphModel dx="1422" dy="803" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -13,7 +13,7 @@
         <mxCell id="CjYXlneHUwc7KOXOLkdy-32" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=10;" edge="1" parent="1" source="CjYXlneHUwc7KOXOLkdy-1" target="CjYXlneHUwc7KOXOLkdy-31">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="CjYXlneHUwc7KOXOLkdy-1" value="Non-registered User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+        <mxCell id="CjYXlneHUwc7KOXOLkdy-1" value="Anonymous User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="50" y="90" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CjYXlneHUwc7KOXOLkdy-13" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="CjYXlneHUwc7KOXOLkdy-4" target="CjYXlneHUwc7KOXOLkdy-11">
