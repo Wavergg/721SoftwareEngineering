@@ -16,7 +16,7 @@ namespace HomeSquareApp.Controllers
         private readonly AppDbContext _context;
         private static List<Order> _ordersContext;
 
-        private const int ITEMS_PER_PAGE = 11;
+        private const int ITEMS_PER_PAGE = 4;
         private static int _currentRange = 0;
 
         public AdminOrderController(AppDbContext _context)
@@ -212,6 +212,26 @@ namespace HomeSquareApp.Controllers
             }
 
             return PartialView("_AdminEditOrderStatusPartial",order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(string orderID)
+        {
+            Order order = _context.Order.Where(o => o.OrderID == orderID).FirstOrDefault();
+            order.OrderStatus = "Deleted";
+            _context.Update(order);
+            _context.SaveChanges();
+
+            if (_ordersContext == null)
+            {
+                _ordersContext = await _context.Order.Include(u => u.User)
+                            .Where(o => o.OrderStatus != "Ongoing" && o.OrderStatus != "Deleted").ToListAsync();
+            } else
+            {
+                _ordersContext.RemoveAll(o => o.OrderID == orderID);
+            }
+
+            return PartialView("_AdminOrderTableDataPartial", _ordersContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
     }
 }

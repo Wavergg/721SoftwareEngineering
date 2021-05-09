@@ -20,7 +20,10 @@
         </td>
         <td class="text-nowrap">
             <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>
+            @*<a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>*@
+            <a href="#" onclick="openDeleteConfirmationModal('@item.OrderID')" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                Delete
+            </a>
         </td>
     </tr>
 }

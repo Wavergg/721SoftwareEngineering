@@ -110,6 +110,9 @@ namespace HomeSquareApp.Controllers
                             && orderDetail.Product.SaleEndDateTime >= DateTime.Now)
                         {
                             orderDetail.TotalPrice = orderDetail.Product.PriceAfterDiscount * orderDetail.Quantity;
+                        } else
+                        {
+                            orderDetail.TotalPrice = orderDetail.Product.ProductPrice * orderDetail.Quantity;
                         }
                     }
 

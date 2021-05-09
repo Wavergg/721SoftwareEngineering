@@ -75,6 +75,9 @@ namespace HomeSquareApp.Controllers
                             orderDetails.Product.SaleEndDateTime >= DateTime.Now)
                         {
                             orderDetails.TotalPrice = orderDetails.Product.PriceAfterDiscount * orderDetails.Quantity;
+                        } else
+                        {
+                            orderDetails.TotalPrice = orderDetails.Product.ProductPrice * orderDetails.Quantity;
                         }
                     }
 
@@ -177,19 +180,19 @@ namespace HomeSquareApp.Controllers
             if (ModelState.IsValid)
             {
                 //SENDING EMAIL(REENABLE THIS LATER)
-                try
-                {
-                    MailMessage message = new MailMessage("homesquare322@gmail.com", model.DeliveryEmail);
-                    message.Subject = "Order Confirmation";
-                    message.Body = "Thank you for your purchase, Here is your order URL: \n" + 
-                                    Url.Action("Success", "Checkout", new { orderID = model.OrderID },Request.Scheme);
-                    EmailController.SendEmail(message);
-                }
-                catch
-                {
-                    errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
-                    return Json(errorMsg);
-                }
+                //try
+                //{
+                //    MailMessage message = new MailMessage("homesquare322@gmail.com", model.DeliveryEmail);
+                //    message.Subject = "Order Confirmation";
+                //    message.Body = "Thank you for your purchase, Here is your order URL: \n" + 
+                //                    Url.Action("Success", "Checkout", new { orderID = model.OrderID },Request.Scheme);
+                //    EmailController.SendEmail(message);
+                //}
+                //catch
+                //{
+                //    errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
+                //    return Json(errorMsg);
+                //}
 
                 Order order;
                 try
