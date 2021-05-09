@@ -102,6 +102,17 @@ namespace HomeSquareApp.Controllers
                                         .Include(od=>od.Product)
                                             .ThenInclude(p=>p.ProductStatus)
                                         .ToList();
+                   
+                    foreach(OrderDetails orderDetail in model.OrderDetails)
+                    {
+                        if(orderDetail.Product.ProductStatus.ProductStatusName == "Sale" 
+                            && orderDetail.Product.SaleStartDateTime <= DateTime.Now 
+                            && orderDetail.Product.SaleEndDateTime >= DateTime.Now)
+                        {
+                            orderDetail.TotalPrice = orderDetail.Product.PriceAfterDiscount * orderDetail.Quantity;
+                        }
+                    }
+
                     model.TotalInCart = model.OrderDetails.Sum(od => od.TotalPrice);
                 }
             }

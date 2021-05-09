@@ -89,7 +89,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("            ");
             EndContext();
             BeginContext(674, 55, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "c43e66a877de4e72b764da8302ae6630", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "978eb8fd043b4a0a9560c566cf66450a", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -145,7 +145,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = orderDetails;
             WriteLiteral("</small>\r\n            </div>\r\n        </div>\r\n        <div class=\"d-flex flex-fill justify-content-end\">\r\n            ");
             EndContext();
             BeginContext(1358, 163, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "098401298fc64f5994f8b31e30312deb", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "44f4e32236ae4157bcb3f35c4f93f77c", async() => {
                 BeginContext(1508, 9, true);
                 WriteLiteral("Check Out");
                 EndContext();

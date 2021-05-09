@@ -209,5 +209,62 @@
         function submitForm() {
             document.getElementById("submitFormBtn").click();
         }
+
+        function refreshProductServingTypeDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductServingType",
+                dataType: "json",
+                beforeSend: function () {
+                    document.getElementById("syncIconProductServingType").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].productServingTypeID + '">' + data[i].servingType + '</option>';
+                    }
+                    $("#ProductServingTypeDropdown").html(s);
+                }
+            })
+        }
+
+        function refreshProductStatusDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductStatus",
+                dataType: "json",
+                beforeSend: function () {
+                    document.getElementById("syncIconProductStatus").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].productStatusID + '">' + data[i].productStatusName + '</option>';
+                    }
+                    $("#ProductStatusDropdown").html(s);
+                }
+            })
+        }
+
+        function refreshProductCategoryDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductCategory",
+                dataType: "json",
+                beforeSend: function () {
+
+                    document.getElementById("syncIconProductCategory").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].categoryID + '">' + data[i].categoryName + '</option>';
+                    }
+                    $("#ProductCategoryDropdown").html(s);
+                }
+            })
+        }
     </script>
 }

@@ -36,7 +36,8 @@ namespace HomeSquareApp.Models
 
         [Display(Name = "Discount")]
         public float? ProductDiscount { get; set; }
-
+        [Required]
+        public double PriceAfterDiscount { get; set; }
         public DateTime SaleStartDateTime { get; set; }
         public DateTime SaleEndDateTime { get; set; }
 
@@ -57,6 +58,7 @@ namespace HomeSquareApp.Models
         public int Week1PurchaseCount { get; set; } = 0;
         [Display(Name ="Current Week Purchase")]
         public int CurrentWeekPurchaseCount { get; set; } = 0;
+
 
         [MaxLength(256)]
         [Display(Name = "Product Information")]

@@ -30,6 +30,9 @@ namespace HomeSquareApp.ViewModels
         [Range(0,1,ErrorMessage = "Discount Range should be from 0 to 1")]
         public float? ProductDiscount { get; set; }
 
+        [Required]
+        public double PriceAfterDiscount { get; set; }
+
         [Display(Name = "Sale Start Date-Time")]
         public DateTime SaleStartDateTime { get; set; }
 

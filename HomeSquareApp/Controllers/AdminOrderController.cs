@@ -16,7 +16,7 @@ namespace HomeSquareApp.Controllers
         private readonly AppDbContext _context;
         private static List<Order> _ordersContext;
 
-        private const int ITEMS_PER_PAGE = 13;
+        private const int ITEMS_PER_PAGE = 11;
         private static int _currentRange = 0;
 
         public AdminOrderController(AppDbContext _context)

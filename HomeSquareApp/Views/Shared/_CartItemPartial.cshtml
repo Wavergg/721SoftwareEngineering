@@ -8,7 +8,7 @@
         && Model.Product.SaleStartDateTime <= DateTime.Now
         && Model.Product.SaleEndDateTime >= DateTime.Now)
     {
-        priceAfterDiscount = Model.Product.ProductPrice - (Model.Product.ProductPrice * (Model.Product.ProductDiscount == null ? 0 : (double)Model.Product.ProductDiscount));
+        priceAfterDiscount = Model.Product.PriceAfterDiscount;
     }
 
     string price = string.Format("{0:F2}", priceAfterDiscount);

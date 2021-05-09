@@ -65,7 +65,18 @@ namespace HomeSquareApp.Controllers
                 {
                     model.Order.OrderDetails = _context.OrderDetails.Where(od => od.OrderID == model.Order.OrderID)
                                         .Include(od => od.Product)
+                                        .ThenInclude(p=>p.ProductStatus)
                                         .ToList();
+
+                    foreach(OrderDetails orderDetails in model.Order.OrderDetails)
+                    {
+                        if(orderDetails.Product.ProductStatus.ProductStatusName == "Sale" &&
+                            orderDetails.Product.SaleStartDateTime <= DateTime.Now &&
+                            orderDetails.Product.SaleEndDateTime >= DateTime.Now)
+                        {
+                            orderDetails.TotalPrice = orderDetails.Product.PriceAfterDiscount * orderDetails.Quantity;
+                        }
+                    }
 
                     model.OrderViewModel.OrderID = model.Order.OrderID;
                 }

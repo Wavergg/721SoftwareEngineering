@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = Model.Product.ProductName;
-    string priceAfterDiscount = string.Format("{0:F2}", (Model.Product.ProductPrice - (Model.Product.ProductPrice * Model.Product.ProductDiscount)));
+    string priceAfterDiscount = string.Format("{0:F2}", Model.Product.PriceAfterDiscount);
     string[] priceBase = priceAfterDiscount.Split('.');
 
     int dayOfWeek = ((int)DateTime.Now.DayOfWeek) == 0 ? 7 : (int)DateTime.Now.DayOfWeek;
@@ -32,7 +32,7 @@
     <div class="d-flex align-items-center justify-content-center mb-3 pt-4">
         <div class="container flex-md-row d-md-flex justify-content-center">
             @* Product Card Image section *@
-            <section class="magnifier-thumb-wrapper w-md-50 card bg-white border-0" style="height:auto">
+            <section class="magnifier-thumb-wrapper card bg-white border-0" style="height:auto">
                 <img id="thumb" class="mx-3" src="~/lib/images/products/@Model.Product.ImageUrl" alt="@Model.Product.ProductName" style="object-fit:fill;background-repeat: no-repeat;" asp-append-version="true" />
                 @if (Model.Product.ProductStatus.ProductStatusName == "Sale" && Model.Product.SaleEndDateTime >= DateTime.Now)
                 {

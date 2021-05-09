@@ -1,9 +1,10 @@
 ﻿@model HomeSquareApp.Models.Product
 
 @{ 
-    string priceAfterDiscount = string.Format("{0:F2}",(Model.ProductPrice - (Model.ProductPrice * Model.ProductDiscount)));
-    string[] priceBase = priceAfterDiscount.Split('.');
-    
+    //string priceAfterDiscount = string.Format("{0:F2}",(Model.ProductPrice - (Model.ProductPrice * Model.ProductDiscount)));
+    string formatPriceAfterDiscount = string.Format("{0:F2}", Model.PriceAfterDiscount);
+    string[] priceBase = formatPriceAfterDiscount.Split('.');
+
     //TEMP CHANGE IT LATER, NOT EFFICIENT TO PERFORM CALCULATION FOR EVERYTHING
     double TOTAL_REVIEW_COUNT = Model.ReviewFiveStarsCount + Model.ReviewFourStarsCount + Model.ReviewThreeStarsCount + Model.ReviewTwoStarsCount + Model.ReviewOneStarsCount;
     double AVERAGE_REVIEW_SCORE = (Model.ReviewFiveStarsCount * 5 + Model.ReviewFourStarsCount * 4 + Model.ReviewThreeStarsCount * 3 + Model.ReviewTwoStarsCount * 2 + Model.ReviewOneStarsCount) / TOTAL_REVIEW_COUNT;
@@ -14,7 +15,7 @@
 <div class="card pt-3 d-flex flex-column justify-content-between">
     <a class="link-dark" asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductID">
         <div class="p-3 align-items-center d-flex justify-content-center position-relative">
-            <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: cover;height:220px" asp-append-version="true">
+            <img src="~/lib/images/products/@Model.ImageUrl" alt="@Model.ProductName" class="img-fluid" style="object-fit: contain;height:220px" asp-append-version="true">
             <div class="position-absolute bottom-0 start-0 ms-2">
                 @*<span class="fa fa-star checked" style="font-size: 12px;"></span>
                     <span class="fa fa-star checked" style="font-size: 12px;"></span>

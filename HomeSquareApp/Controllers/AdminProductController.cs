@@ -21,7 +21,7 @@ namespace HomeSquareApp.Controllers
         private readonly AppDbContext _context;
         private static List<Product> _productsContext;
 
-        private const int ITEMS_PER_PAGE = 13;
+        private const int ITEMS_PER_PAGE = 11;
         private static int _currentRange = 0;
 
         public IHostingEnvironment _HostingEnvironment { get; }
@@ -282,6 +282,8 @@ namespace HomeSquareApp.Controllers
                     ProductStatusID = model.ProductStatusID,
                     CategoryID = model.CategoryID
                 };
+                 
+                product.PriceAfterDiscount = (double)(product.ProductPrice - (product.ProductPrice * (model.ProductDiscount == null ? 0 : model.ProductDiscount)));
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
@@ -393,6 +395,7 @@ namespace HomeSquareApp.Controllers
                 product.ProductStock += model.ProductIncrement == null ? 0 : model.ProductIncrement;
                 product.ProductPrice = model.ProductPrice;
                 product.ProductDiscount = model.ProductDiscount == null ? 0 : model.ProductDiscount;
+                product.PriceAfterDiscount = (double)(product.ProductPrice - (product.ProductPrice * product.ProductDiscount));
                 product.SaleStartDateTime = model.SaleStartDateTime;
                 product.SaleEndDateTime = model.SaleEndDateTime;
                 product.ProductInformation = model.ProductInformation;
