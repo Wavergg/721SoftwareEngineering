@@ -231,7 +231,23 @@ namespace HomeSquareApp.Controllers
                 _ordersContext.RemoveAll(o => o.OrderID == orderID);
             }
 
-            return PartialView("_AdminOrderTableDataPartial", _ordersContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+            if (_ordersContext.Count() > ITEMS_PER_PAGE)
+            {
+                int pageCount = ((_ordersContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+                ViewData["PaginationCount"] = pageCount;
+                
+                if(_currentRange > pageCount)
+                {
+                    _currentRange = pageCount - 1;
+                }
+
+            } else {
+                _currentRange = 0;
+            }
+
+            ViewData["SetActivePage"] = _currentRange;
+
+            return PartialView("_AdminOrderTableModelPartial", _ordersContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
     }
 }

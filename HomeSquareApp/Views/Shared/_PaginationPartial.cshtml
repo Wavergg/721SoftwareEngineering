@@ -8,7 +8,15 @@
     </button>
     @for (int i = 0; i < (int)ViewData["PaginationCount"]; i++)
     {
-        var activeClass = i == 0 ? "active" : "";
+        var activeClass = "";
+        if (ViewData["SetActivePage"] != null) {
+           <script>
+               goToPage(@((int)ViewData["SetActivePage"]))
+           </script>
+        } else
+        {
+           activeClass = i == 0 ? "active" : "";
+        }
         var hiddenAttr = (i >= -1 && i < 3) ? "" : "hidden";
 
         <button onclick="goToPage(@i)" class="btn btn-default paginationElement paginationLink rounded-0 @activeClass" @hiddenAttr>

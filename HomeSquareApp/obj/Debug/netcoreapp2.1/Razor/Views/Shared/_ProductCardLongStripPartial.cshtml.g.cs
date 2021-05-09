@@ -103,12 +103,12 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("<div class=\"card pt-3 d-flex flex-column justify-content-between\">\r\n    ");
             EndContext();
             BeginContext(965, 1732, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "509b07dce2fb48f79604e0b07715b45e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1d4535a5b789419aab7b0d488c06e508", async() => {
                 BeginContext(1064, 108, true);
                 WriteLiteral("\r\n        <div class=\"p-3 align-items-center d-flex justify-content-center position-relative\">\r\n            ");
                 EndContext();
                 BeginContext(1172, 159, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "032aa8e20ed74855b745eb514da26c67", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "baf0f6a5fa3d47c98bea6ad559476e38", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -257,7 +257,7 @@ WriteAttributeValue("", 2218, className, 2218, 10, false);
             WriteLiteral("\r\n    <div class=\"product-details pt-1 flex-fill px-3\">\r\n        <div class=\"text-start text-md-center\" style=\"min-height:55px;\">\r\n            ");
             EndContext();
             BeginContext(2840, 177, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "53ac5145d06f4f73bce6c973a0e31384", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b06515a817cd4e66ac9b88fcaf16d3cc", async() => {
                 BeginContext(2963, 18, true);
                 WriteLiteral("\r\n                ");
                 EndContext();
@@ -391,7 +391,7 @@ WriteAttributeValue("", 2218, className, 2218, 10, false);
             WriteLiteral("</span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    ");
             EndContext();
             BeginContext(4062, 1099, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4064c8ef7294b3a9c91ae5d72cf0bbc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "129977bad5ce4e0cbba306ae525cc186", async() => {
                 BeginContext(4325, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

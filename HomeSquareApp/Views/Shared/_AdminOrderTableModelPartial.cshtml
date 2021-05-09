@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HomeSquareApp.Models.Order>
+
+<div class="table-responsive" style="min-height:440px">
+    <table class="table">
+        <thead>
+            <tr>
+                <th onclick="sortData('orderDate')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.OrderDateTime)
+                    </a>
+                </th>
+                <th onclick="sortData('firstName')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.User.FirstName)
+                    </a>
+                </th>
+                <th onclick="sortData('lastName')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.User.LastName)
+                    </a>
+                </th>
+                <th onclick="sortData('orderStatus')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.OrderStatus)
+                    </a>
+                </th>
+                <th onclick="sortData('deliveryOption')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.DeliveryOptions)
+                    </a>
+                </th>
+                <th>
+                    @*Actions*@
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            <partial name="_AdminOrderTableDataPartial" model="Model" />
+        </tbody>
+    </table>
+</div>
+<div class="d-flex" id="pagination">
+    <partial name="_PaginationPartial" />
+</div>
