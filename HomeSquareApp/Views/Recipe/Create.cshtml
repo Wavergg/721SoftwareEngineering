@@ -1,0 +1,251 @@
+﻿@model HomeSquareApp.ViewModels.RecipeCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Recipe";
+    Layout = "_MainLayout";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+    <link rel="stylesheet" href="~/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.css" />
+    <style>
+        .form-control {
+            border-radius: 0;
+            background: #FDFDFD;
+        }
+
+            .form-control:focus {
+                border-color: black;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+                outline: 0 none;
+            }
+
+
+        .recipe-title {
+            font-family: Bahnschrift;
+        }
+
+        label {
+            font-size: 14px;
+            color: #808080;
+        }
+
+        select {
+            font-size: 14px !important;
+            color: #808080 !important;
+        }
+
+            select option {
+                font-size: 14px;
+                color: #808080;
+            }
+    </style>
+}
+
+<form asp-controller="Recipe" asp-action="Create" method="post" enctype="multipart/form-data" autocomplete="off">
+    <input type="hidden" asp-for="UserID"/>
+    <div class="bg-light pb-5">
+        <div class="container pt-5">
+            <h2>Create New Recipe</h2>
+            <hr />
+            <div class="small text-danger" asp-validation-summary="All"></div>
+            <div class="card d-flex flex-md-row">
+                <section class="order-md-0 order-1 col-md-6">
+                    <div class="m-5">
+                        <small class="text-muted"></small>
+                        <div class="form-floating">
+                            <input asp-for="RecipeName" type="text" class="form-control" placeholder="Title">
+                            <label asp-for="RecipeName"></label>
+                            
+                        </div>
+                        <div class="d-flex mb-3">
+
+                        </div>
+                        <div class="form-floating">
+                            <textarea asp-for="RecipeDescription" class="form-control" onkeyup="textAreaAdjust(this)" placeholder="Description of Recipe" style="height: 100px"></textarea>
+                            <label asp-for="RecipeDescription"></label>
+                        </div>
+                    </div>
+                    <div class="d-flex mx-5 mb-5 gap-2">
+
+                        <div class="d-flex flex-column col align-items-center">
+                            <div class="form-floating mb-3">
+                                <input asp-for="PrepareTime" type="text" class="form-control" placeholder="0 Min">
+                                <label asp-for="PrepareTime"></label>
+                            </div>
+                        </div>
+                        <div class="bg-secondary" style="width:2px">
+                        </div>
+                        <div class="d-flex flex-column col align-items-center">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Servings" type="number" class="form-control" min="0" style="max-width:100%" placeholder="0">
+                                <label asp-for="Servings"></label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                @* background-image: url(/lib/images/products/productPlaceholder.png) *@
+                <section id="recipeImage" class="img-sm-fixed-height order-md-1 order-0 col-md-6 bg-light d-flex justify-content-center align-items-center" style="background-position:center;background-repeat:no-repeat;background-size:cover">
+                    @* Play around with object-fit to get wanted result *@
+                    @* either contain or cover would be good *@
+                    <div class="custom-file">
+                        <input id="Image" asp-for="Image" class="form-control custom-file-input" />
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5 d-md-flex">
+        <div class="card rounded-3 col-md-5 py-5">
+            <h2 class="px-5">Ingredients</h2>
+            <div class="px-xl-5 px-4">
+                @*NYD Loop This Ingredients *@
+                <div id="ingredientRow">
+                    
+                    @for(var i = 0; i < Model.Ingredients.Count; i++) { 
+                    <div id="@string.Format("IngredientContent{0}",i)" class="d-flex my-3">
+
+                        <div class="form-floating col-4 d-flex">
+                            <input asp-for="@Model.Ingredients[i].ServingContent" type="text" class="form-control" placeholder="0">
+                            <label>Amount</label>
+                        </div>
+                        <div class="form-floating flex-fill">
+                            <input asp-for="@Model.Ingredients[i].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
+                            <label>Ingredient Name</label>
+                        </div>
+                        <button type="button" onclick="removeIngredient('IngredientContent'+@i)" class="text-danger fw-bold btn btn-default">X</button>
+                    </div>
+                    }
+
+                </div>
+                <button id="addIngredient" type="button" class="btn-dark btn w-100">Add Ingredients</button>
+            </div>
+        </div>
+
+        <div class="container rounded-3 col-md-6 offset-xl-1 mt-5 mt-md-0">
+            <h2>Steps</h2>
+            @*NYD Loop this steps *@
+            <div class="d-flex flex-column gap-2">
+                <div id="stepsRow">
+                    @for (int i = 0; i < Model.RecipeSteps.Count(); i++)
+                    {
+                        <div class="card pt-5 pb-4 px-4 my-2" id="@string.Format("StepsContent{0}",i)">
+                            <div class="position-absolute start-0 top-0 mx-4 mt-3">
+                                <small class="fw-bold">Step @(i+1)</small> 
+                                <a style="cursor:pointer" onclick="removeSteps('StepsContent'+@i)" class="text-danger fw-bold">X</a>
+                            </div>
+                            <div>
+                                <div class="form-floating">
+                                    <textarea asp-for="RecipeSteps[i].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
+                                    <label asp-for="RecipeSteps[i].Steps">Instruction</label>
+                                </div>
+                            </div>
+                            <span class="small text-danger" asp-validation-for="RecipeSteps[i].Steps"></span>
+                        </div>
+                    }
+                </div>
+                <button id="addInstruction" type="button" class="btn btn-dark mt-3">Add Steps</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center my-5">
+        <button type="submit" class="btn btn-success col-md-6 col-10">Create Recipe</button>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25 + element.scrollHeight) + "px";
+        }
+
+        var recipeImage = document.getElementById("recipeImage")
+
+        /*recipeImage.style.backgroundImage = "url('/lib/images/products/productPlaceholder.png')";*/
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    //console.log(e.target.result)
+                    recipeImage.style.backgroundImage = "url('" + e.target.result+"')";;
+                }
+
+                const file = input.files[0];
+
+                const fileType = file['type'];
+
+                const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg','image/png'];
+                if (validImageTypes.includes(fileType)) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        var nextIngredientId = @Model.Ingredients.Count();
+
+        $("#addIngredient").click(function () {
+            var rowHtml = `<div class="d-flex my-3" id="IngredientContent`+nextIngredientId+`">
+
+                            <div class="form-floating col-4">
+                                <input name="Ingredients[`+nextIngredientId+`].ServingContent" type="text" class="form-control" placeholder="0">
+                                <label>Amount</label>
+                            </div>
+                            <div class="form-floating flex-fill">
+                                <input  name="Ingredients[`+nextIngredientId+`].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
+                                <label>Ingredient Name</label>
+                            </div>
+                            <button type="button" onclick="removeIngredient('IngredientContent'+`+ nextIngredientId +`)" class="text-danger fw-bold btn btn-default">X</button>
+                        </div>`
+            nextIngredientId++;
+
+            $("#ingredientRow").append(rowHtml);
+        });
+
+        function removeIngredient(elementID) {
+            var el = document.getElementById(elementID)
+            el.remove();
+            nextIngredientId--;
+        }
+
+
+        var nextInstructionId =  @Model.RecipeSteps.Count();
+        $("#addInstruction").click(function () {
+
+            var rowHtml = `<div class="card pt-5 pb-4 px-4 my-2" id="StepsContent`+nextInstructionId+`">
+                            <div class="position-absolute start-0 top-0 mx-4 mt-3">
+                                <small class="fw-bold">Step `+(nextInstructionId+1)+`</small>
+                                <a style="cursor:pointer" onclick="removeSteps('StepsContent`+nextInstructionId+`')" class="text-danger fw-bold">X</a>
+                            </div>
+                            <div>
+                                <div class="form-floating">
+                                    <textarea id="RecipeSteps_`+nextInstructionId+`__Steps" name="RecipeSteps[`+nextInstructionId+`].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
+                                    <label for="RecipeSteps_`+nextInstructionId+`__Steps">Instruction</label>
+                                </div>
+                            </div>
+                        </div>`
+
+            nextInstructionId++;
+
+            $("#stepsRow").append(rowHtml);
+        });
+
+        function removeSteps(elementID) {
+            var el = document.getElementById(elementID)
+            el.remove();
+            nextInstructionId--;
+        }
+
+        $("#Image").change(function () {
+            readURL(this);
+        });
+
+        $(document).on("keydown", ":input:not(textarea)", function (event) {
+            return event.key != "Enter";
+        });
+    </script>
+}

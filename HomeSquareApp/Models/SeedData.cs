@@ -38,6 +38,32 @@ namespace HomeSquareApp.Models
                     
                 }
 
+                if (!context.ProductServingType.Any())
+                {
+                    context.ProductServingType.AddRange(
+                       new ProductServingType
+                       {
+                           ServingType = "Grams"
+                       },
+                       new ProductServingType
+                       {
+                           ServingType = "Kg"
+                       },
+                       new ProductServingType
+                       {
+                           ServingType = "L"
+                       },
+                       new ProductServingType
+                       {
+                           ServingType = "ml"
+                       },
+                       new ProductServingType
+                       {
+                           ServingType = "Pcs"
+                       }
+                    );
+                }
+
                 if (!context.Roles.Any())
                 {
                     var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

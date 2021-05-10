@@ -1,72 +1,313 @@
 ﻿@model IEnumerable<HomeSquareApp.Models.Recipe>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Recipe List";
     Layout = "_AdminLayout";
+    ViewData["NavData"] = "Recipe";
+    ViewData["CurrentPage"] = "Main";
 }
 
-<h2>Index</h2>
+
+<div id="vueEl" class="mb-2">
+    <div class="d-md-flex justify-content-center">
+        <div class="col-md-4 col-9 mb-2">
+            <div class="input-group">
+
+                <input type="text" class="form-control" v-model="searchValue" :placeholder="[[ searchPlaceholder ]]">
+
+                @* NYD Update the Categories based on clicked option *@
+                <button v-text="categorySelected.name" class="btn btn-sm border-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul style="z-index:4" class="dropdown-menu dropdown-menu-end">
+                    <li v-for="item in categoryItems">
+                        <button @@click="changeCategory(item.id)" class="dropdown-item">{{item.name}}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <span class="ms-md-2">
+            <button class="btn btn-outline-dark rounded-0" type="button" @@click="generateFilterResult()">
+                Filter Result
+            </button>
+        </span>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-cols-auto justify-content-md-center justify-content-start gap-2 py-4">
+            <div v-for="filterItem in filters" class="col">
+                <filter-badge @@delete-filter="deleteFilter" :filter="filterItem"></filter-badge>
+            </div>
+        </div>
+    </div>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RecipeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RecipeDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Servings)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrepareTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Likes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RecipeApprovalStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecipeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecipeDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Servings)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrepareTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Likes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecipeApprovalStatus.RecipeApprovalStatusID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RecipeID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RecipeID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RecipeID">Delete</a>
-            </td>
-        </tr>
+<div id="productTable">
+    <div class="table-responsive" style="min-height:440px">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th onclick="sortData('addedDate')">
+                        <a class="d-flex align-items-end tableSortLink">
+                            <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                            @Html.DisplayNameFor(model => model.AddedDate)
+                        </a>
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th onclick="sortData('recipeName')">
+                        <a class="d-flex align-items-end tableSortLink">
+                            <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                            @Html.DisplayNameFor(model => model.RecipeName)
+                        </a>
+                    </th>
+                    <th onclick="sortData('status')">
+                        <a class="d-flex align-items-end tableSortLink">
+                            <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                            @Html.DisplayNameFor(model => model.RecipeApprovalStatus)
+                        </a>
+                    </th>
+                    <th>
+                        @*Actions*@
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tableData">
+                <partial name="_AdminRecipeTableDataPartial" model="Model" />
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex" id="pagination">
+        <partial name="_PaginationPartial" />
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        var paginationList = document.getElementsByClassName("paginationElement")
+        var currentPage = 0;
+        function goToPage(pageNumber) {
+            //set style
+            updatePaginationStyle(pageNumber)
+            currentPage = pageNumber;
+
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminRecipes/RecipeNextTableData", // Controller/View
+                    data: {
+                        pageNumber: pageNumber
+                    }
+                }).done(function (data) {
+                    $("#tableData").html(data)
+                });
+        }
+
+        function updatePaginationStyle(pageNumber) {
+            var prevPageBtn = document.getElementById("prevPageBtn");
+            if (prevPageBtn != null) {
+                if ( pageNumber != 0) {
+                    prevPageBtn.hidden = false;
+                } else {
+                    prevPageBtn.hidden = true;
+                }
+            }
+
+            var nextPageBtn = document.getElementById('nextPageBtn');
+            if (nextPageBtn != null) {
+                if (pageNumber == paginationList.length - 1) {
+                    nextPageBtn.hidden = true;
+                } else {
+                    nextPageBtn.hidden = false;
+                }
+            }
+
+            for (i = 0; i < paginationList.length; i++) {
+                paginationList[i].classList.remove("active");
+                if (i == pageNumber) {
+                    paginationList[i].classList.add("active");
+                }
+                //hide button that are not in range of this
+                if (i >= pageNumber - 1 && i < pageNumber + 3) {
+                    paginationList[i].hidden = false
+
+                } else {
+                    paginationList[i].hidden = true
+                }
+            }
+        }
+
+    @* Sorting Function *@
+        var addedDateToggle = true;
+        var recipeNameToggle = true;
+        var statusToggle = true;
+
+        function sortData(sortOrder) {
+            if (sortOrder == "addedDate") {
+                sortOrder += addedDateToggle ? "_desc" : "_asc"
+                addedDateToggle = !addedDateToggle
+            } else if (sortOrder == "recipeName") {
+                sortOrder += recipeNameToggle ? "_desc" : "_asc"
+                recipeNameToggle = !recipeNameToggle
+            } else if (sortOrder == "status") {
+                sortOrder += statusToggle ? "_desc" : "_asc"
+                statusToggle = !statusToggle
+            }
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminRecipes/RecipeSortTableData", // Controller/View
+                    data: {
+                        sortOrder: sortOrder
+                    }
+                }).done(function (data) {
+                    $("#tableData").html(data)
+                });
+        }
+    </script>
+
+    <script src="~/lib/js/vue.js"></script>
+    <script>
+        Vue.component('filter-badge', {
+            props: {
+                filter: Object
+            },
+            template: `
+            <button v-on:click="onDelete()" class="btn badge badge-filter rounded-pill tooltip-badge">
+                {{filter.category}}_{{filter.value}} <i class="far fa-times-circle" style="font-size:11px"></i>
+                <span class="tooltip-badgetext">Remove Filter</span>
+            </button>`,
+            methods: {
+                onDelete() {
+                    this.$emit('delete-filter', this.filter.id);
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: '#vueEl',
+            data: {
+                searchPlaceholder: "Search",
+                searchValue: "",
+                filters: [],
+                categoryItems: [
+                    {
+                        id: 0,
+                        name: "Recipe Name",
+                        value: "RecipeName",
+                    },
+                    {
+                        id: 1,
+                        name: "Recipe Status",
+                        value: "Status",
+                    },
+                    {
+                        id: 2,
+                        name: "Author",
+                        value: "Author",
+                    },
+                ],
+                categorySelected: {
+                    id: 0,
+                    name: "Recipe Name",
+                    value: "RecipeName",
+                },
+            },
+            methods: {
+                deleteFilter: function (id) {
+                    for (i = 0; i < this.filters.length; i++) {
+                        if (this.filters[i].id == id) {
+                            this.filters.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    this.removeFilterResult();
+                },
+                changeCategory: function (id) {
+                    this.categorySelected = this.categoryItems[id];
+                },
+                generateFilterResult: function () {
+                    //prevent duplication and empty value
+                    if (this.searchValue == "" ||
+                        this.filters.some(
+                            filterX => (filterX.value.toLowerCase() == this.searchValue.toLowerCase()) &&
+                                filterX.category == this.categorySelected.value)
+                        )
+                        return;
+
+                    this.filters.push({
+                        id: this.filters.length,
+                        value: this.searchValue,
+                        category: this.categorySelected.value,
+                    })
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRecipes/RecipeFilterTableData", // Controller/View
+                            data: {
+                                filters: this.searchValue,
+                                category: this.categorySelected.value
+                            }
+                        }).done(function (data) {
+                            //console.log(data)
+                            $("#tableData").html(data)
+                            app.updatePagination();
+                        });
+
+                    this.searchValue = "";
+                },
+                removeFilterResult:function() {
+                    var items = JSON.stringify(this.filters);
+                    //console.log(items)
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRecipes/RecipeRemoveFilterTableData", // Controller/View
+                            contentType: 'application/json',
+                            dataType: "json",
+                            data: items,
+                            success: function (data) {
+                                //can't get data back if passing partial view, have to do 2nd ajax call
+                                $.ajax(
+                                    {
+                                        type: "POST", //HTTP GET Method
+                                        url: "/AdminRecipes/RefreshRecipeTableIndex", // Controller/View
+                                        data: {
+                                        }
+                                    }).done(function (data) {
+                                        //console.log(data)
+                                        $("#tableData").html(data)
+                                        app.updatePagination();
+                                    });
+                            }
+                        });
+
+
+                },
+                updatePagination() {
+                    //reset to first page
+                    //updatePaginationStyle(0)
+                    currentPage = 0;
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRecipes/UpdatePagination", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            $("#pagination").html(data)
+                        });
+                }
+            },
+        })
+    </script>
 }
-    </tbody>
-</table>

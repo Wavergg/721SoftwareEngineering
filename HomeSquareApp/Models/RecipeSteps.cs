@@ -13,6 +13,7 @@ namespace HomeSquareApp.Models
 
         [MaxLength(256)]
         [Required]
+        [Display(Name = "Instruction")]
         public string Steps { get; set; }
 
         public int RecipeID { get; set; }

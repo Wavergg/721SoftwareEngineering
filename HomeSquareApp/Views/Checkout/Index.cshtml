@@ -42,4 +42,9 @@
 
 @section Scripts{
     <script src="~/lib/js/checkout.js"></script>
+    <script>
+        $(document).on("keydown", ":input:not(textarea)", function (event) {
+            return event.key != "Enter";
+        });
+    </script>
 }

@@ -15,154 +15,141 @@ namespace HomeSquareApp.Controllers
     public class AdminRecipesController : Controller
     {
         private readonly AppDbContext _context;
+        private static List<Recipe> _recipesContext;
+
+        private const int ITEMS_PER_PAGE = 11;
+        private static int _currentRange = 0;
 
         public AdminRecipesController(AppDbContext context)
         {
             _context = context;
         }
 
+        public void PerformRecipeFilter(string filters, string category)
+        {
+            switch (category)
+            {
+                case "RecipeName":
+                    _recipesContext = _recipesContext.Where(r => r.RecipeName.ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                case "Status":
+                    _recipesContext = _recipesContext.Where(r => r.RecipeApprovalStatus.ToString().ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                case "Author":
+                    _recipesContext = _recipesContext.Where(r => r.User.FirstName.ToLower().Contains(filters.ToLower()) || r.User.LastName.ToLower().Contains(filters.ToLower())).ToList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public IActionResult UpdatePagination()
+        {
+            if (_recipesContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
+
+            return PartialView("_PaginationPartial");
+        }
+
+
+        [HttpPost]
+        public IActionResult RefreshRecipeTableIndex()
+        {
+            return PartialView("_AdminRecipeTableDataPartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecipeSortTableData(string sortOrder)
+        {
+            if (_recipesContext == null)
+            {
+                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            }
+
+            switch (sortOrder)
+            {
+                case "recipeName_desc":
+                    _recipesContext = _recipesContext.OrderByDescending(r => r.RecipeName).ToList();
+                    break;
+                case "recipeName_asc":
+                    _recipesContext = _recipesContext.OrderBy(r => r.RecipeName).ToList();
+                    break;
+                case "status_asc":
+                    _recipesContext = _recipesContext.OrderBy(r => r.RecipeApprovalStatus.ToString()).ToList();
+                    break;
+                case "status_desc":
+                    _recipesContext = _recipesContext.OrderByDescending(r => r.RecipeApprovalStatus.ToString()).ToList();
+                    break;
+                case "addedDate_asc":
+                    _recipesContext = _recipesContext.OrderBy(r => r.AddedDate).ToList();
+                    break;
+                default:
+                    _recipesContext = _recipesContext.OrderBy(r => r.AddedDate).ToList();
+                    break;
+            }
+
+            return PartialView("_AdminRecipeTableDataPartial", _recipesContext.Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecipeNextTableData(int pageNumber)
+        {
+            if (_recipesContext == null)
+            {
+                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            }
+
+            _currentRange = pageNumber * ITEMS_PER_PAGE;
+
+            return PartialView("_AdminRecipeTableDataPartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        #region search bar Overloading
+        //Method used when the filter is added
+        [HttpPost]
+        public async Task<IActionResult> RecipeFilterTableData(string filters, string category)
+        {
+            if (_recipesContext == null)
+            {
+                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            }
+
+            PerformRecipeFilter(filters, category);
+
+            _currentRange = 0;
+            return PartialView("_AdminRecipeTableDataPartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        //Method used when the filter is removed by click
+        [HttpPost]
+        public async Task<IActionResult> RecipeRemoveFilterTableData([FromBody] List<AdminFilterModel> filters)
+        {
+            _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            foreach (AdminFilterModel filterItem in filters)
+            {
+                PerformRecipeFilter(filterItem.value, filterItem.category);
+            }
+            _currentRange = 0;
+
+            return Json("success");
+        }
+        #endregion
+
+
         // GET: AdminRecipes
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Recipe.Include(r => r.RecipeApprovalStatus).Include(r => r.User);
-            return View(await appDbContext.ToListAsync());
+            _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            if (_recipesContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
+            return View(_recipesContext.OrderByDescending(r => r.AddedDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
 
-        // GET: AdminRecipes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _context.Recipe
-                .Include(r => r.RecipeApprovalStatus)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.RecipeID == id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            return View(recipe);
-        }
-
-        // GET: AdminRecipes/Create
-        public IActionResult Create()
-        {
-            ViewData["RecipeApprovalStatusID"] = new SelectList(_context.RecipeApprovalStatus, "RecipeApprovalStatusID", "RecipeApprovalStatusID");
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
-        }
-
-        // POST: AdminRecipes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecipeID,RecipeName,RecipeDescription,Servings,PrepareTime,Likes,RecipeApprovalStatusID,UserID")] Recipe recipe)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(recipe);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["RecipeApprovalStatusID"] = new SelectList(_context.RecipeApprovalStatus, "RecipeApprovalStatusID", "RecipeApprovalStatusID", recipe.RecipeApprovalStatusID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", recipe.UserID);
-            return View(recipe);
-        }
-
-        // GET: AdminRecipes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _context.Recipe.FindAsync(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            ViewData["RecipeApprovalStatusID"] = new SelectList(_context.RecipeApprovalStatus, "RecipeApprovalStatusID", "RecipeApprovalStatusID", recipe.RecipeApprovalStatusID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", recipe.UserID);
-            return View(recipe);
-        }
-
-        // POST: AdminRecipes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecipeID,RecipeName,RecipeDescription,Servings,PrepareTime,Likes,RecipeApprovalStatusID,UserID")] Recipe recipe)
-        {
-            if (id != recipe.RecipeID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(recipe);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RecipeExists(recipe.RecipeID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["RecipeApprovalStatusID"] = new SelectList(_context.RecipeApprovalStatus, "RecipeApprovalStatusID", "RecipeApprovalStatusID", recipe.RecipeApprovalStatusID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", recipe.UserID);
-            return View(recipe);
-        }
-
-        // GET: AdminRecipes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _context.Recipe
-                .Include(r => r.RecipeApprovalStatus)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.RecipeID == id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            return View(recipe);
-        }
-
-        // POST: AdminRecipes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var recipe = await _context.Recipe.FindAsync(id);
-            _context.Recipe.Remove(recipe);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool RecipeExists(int id)
-        {
-            return _context.Recipe.Any(e => e.RecipeID == id);
-        }
     }
 }

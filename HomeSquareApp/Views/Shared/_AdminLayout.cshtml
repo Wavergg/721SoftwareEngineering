@@ -202,7 +202,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a asp-action="Index" asp-controller="AdminRecipes">
                         <i class="fas fa-utensils fa-2x"></i>
                         <span class="nav-text">
                             Recipe
@@ -265,6 +265,10 @@
                 {
                     <h2 class="mx-2 m-0">Order</h2>
                 }
+                else if ((ViewData["NavData"] as string) == "Recipe")
+                {
+                    <h2 class="mx-2 m-0">Recipe</h2>
+                }
 
                 <button class="btn btn-default me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
                     <i class="fas fa-bars d-flex align-items-center justify-content-center" style="font-size: 1em;width:1.5rem"></i>
@@ -285,16 +289,16 @@
             <div class="navbar-collapse mt-2 offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
+                        <a asp-controller="Admin" asp-action="Index" class="nav-link text-white" aria-current="page">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" asp-action="Index" asp-controller="AdminOrder">Order</a>
+                        <a asp-controller="AdminOrder" asp-action="Index" class="nav-link text-white" >Order</a>
                     </li>
                     <li class="nav-item">
                         <a asp-controller="AdminProduct" asp-action="Index" class="nav-link text-white">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Recipe</a>
+                        <a asp-controller="AdminRecipes" asp-action="Index" class="nav-link text-white">Recipe</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Rewards</a>

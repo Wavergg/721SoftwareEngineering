@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.Models
 {
+    public enum RecipeApprovalStatus
+    {
+        Pending,
+        Approved
+    }
+
     public class Recipe
     {
         [Key]
@@ -32,15 +38,18 @@ namespace HomeSquareApp.Models
 
         public int Likes { get; set; } = 0;
 
-        public int RecipeApprovalStatusID { get; set; }
+        public string ImageUrl { get; set; }
+
+        public DateTime AddedDate { get; set; }
+
         public RecipeApprovalStatus RecipeApprovalStatus { get; set; }
 
         public string UserID { get; set; }
         [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
 
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
-        public IEnumerable<RecipeSteps> RecipeSteps { get; set; }
+        public List<RecipeSteps> RecipeSteps { get; set; } = new List<RecipeSteps>();
     }
 }

@@ -3,7 +3,7 @@
 <div>
     <div class="input-group my-3 my-md-0">
 
-        <input onkeyup="app.triggerSearchQuery(this)" type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" v-model="searchString" :placeholder="'Search '+searchCategories">
+        <input onkeyup="app.triggerSearchQuery(this)" type="text" class="form-control" style="border-top-left-radius:12.5rem;border-bottom-left-radius:12.5rem" :placeholder="'Search '+searchCategories">
 
         @* NYD Update the Categories based on clicked option *@
         <button class="btn btn-sm btn-outline-success dropdown-toggle w-25" type="button" data-bs-toggle="dropdown" aria-expanded="false" v-text="searchCategories"></button>

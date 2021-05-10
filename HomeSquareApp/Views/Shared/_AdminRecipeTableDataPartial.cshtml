@@ -1,0 +1,25 @@
+﻿@model List<HomeSquareApp.Models.Recipe>
+
+@foreach (var item in Model)
+{
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FirstName)  @Html.DisplayFor(modelItem => item.User.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecipeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecipeApprovalStatus)
+        </td>
+        <td class="text-nowrap">
+            <a asp-action="Edit" asp-route-id="@item.RecipeID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.RecipeID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.RecipeID">Delete</a>
+        </td>
+    </tr>
+}

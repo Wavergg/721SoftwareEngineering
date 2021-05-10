@@ -382,11 +382,27 @@
     <script src="~/lib/js/jquery-ui.min.js"></script>
     <script src="~/lib/js/vue.js"></script>
     <script>
+        //Vue.component('ingredient-data', {
+        //    props: {
+        //        filter: Object
+        //    },
+        //    template: `
+        //    <button v-on:click="onDelete()" class="btn badge badge-filter rounded-pill tooltip-badge">
+        //        {{filter.category}}_{{filter.value}} <i class="far fa-times-circle" style="font-size:11px"></i>
+        //        <span class="tooltip-badgetext">Remove Filter</span>
+        //    </button>`,
+        //    methods: {
+        //        onDelete() {
+        //            this.$emit('delete-filter', this.filter.id);
+        //        }
+        //    }
+        //})
+
         var app = new Vue({
             el: '#app',
             data: {
                 searchCategories: "Products",
-                searchString: "",
+                
                 productOrderSubmitBtn: null,
                 cartItemCount: 0,
             },
@@ -395,19 +411,20 @@
                     this.searchCategories = event.target.value;
                 },
                 triggerSearchQuery: function (el) {
-                    if (this.searchString.length < 2 || this.searchCategories == "") {
+                    if (el.value.length < 2 || this.searchCategories == "") {
                         return;
                     }
-
+                    
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
                             url: "/Home/GetQuery", // Controller/View
                             data: {
-                                searchString: app.searchString,
+                                searchString: el.value,
                                 searchCategories: app.searchCategories,
                             }
                         }).done(function (data) {
+                            
                             var a, b, i, val = el.value;
                             /*close any already open lists of autocompleted values*/
                             app.closeAllLists();
@@ -425,7 +442,7 @@
                                 b.addEventListener("click", function (e) {
                                     /*insert the value for the autocomplete text field:*/
                                     el.value = this.getElementsByTagName("input")[0].value;
-                                    app.searchString = el.value;
+                                    //app.searchString = el.value;
                                     /*close the list of autocompleted values,
                                     (or any other open lists of autocompleted values:*/
                                     app.closeAllLists();
@@ -445,7 +462,7 @@
                     }
                 },
                 submitSearchQuery: function () {
-                    $('#insertForm').html('<form action="Home/StartQuery" name="searchQuery" style="display:none;"><input type="text" name="searchString" value="' + this.searchString + '" /><input type="text" name="searchCategories" value="' + this.searchCategories + '" /></form>');
+                    $('#insertForm').html('<form action="/Home/StartQuery" name="searchQuery" style="display:none;"><input type="text" name="searchString" value="' + this.searchString + '" /><input type="text" name="searchCategories" value="' + this.searchCategories + '" /></form>');
 
                     document.forms['searchQuery'].submit();
                 },
@@ -660,14 +677,7 @@
                 }
             })
         })
-                                                //var myAccountEl = document.getElementById('myAccountPopover')
-                                                //var popover = new bootstrap.Popover(myAccountEl,
-                                                //    {
-                                                //    html: true,
-                                                //    content: function () {
-                                                //        return $("#popoverTemplate").html();
-                                                //    }
-                                                //})
+                                                       
     </script>
 </body>
 </html>

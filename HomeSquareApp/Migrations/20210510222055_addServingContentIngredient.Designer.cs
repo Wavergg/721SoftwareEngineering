@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210510222055_addServingContentIngredient")]
+    partial class addServingContentIngredient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,8 +132,7 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("RecipeID");
 
-                    b.Property<string>("ServingContent")
-                        .HasMaxLength(64);
+                    b.Property<string>("ServingContent");
 
                     b.HasKey("IngredientID");
 

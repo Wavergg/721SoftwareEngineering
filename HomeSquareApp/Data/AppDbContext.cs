@@ -38,8 +38,6 @@ namespace HomeSquareApp.Data
 
         public DbSet<Recipe> Recipe { get; set; }
 
-        public DbSet<RecipeApprovalStatus> RecipeApprovalStatus { get; set; }
-
         public DbSet<RecipeSteps> RecipeSteps { get; set; }
 
         public DbSet<Review> Review { get; set; }
