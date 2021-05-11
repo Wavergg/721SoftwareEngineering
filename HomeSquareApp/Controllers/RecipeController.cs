@@ -19,12 +19,17 @@ namespace HomeSquareApp.Controllers
     {
         private readonly AppDbContext _context;
         private readonly SignInManager<ApplicationUser> _SignInManager;
+        private readonly UserManager<ApplicationUser> _UserManager;
         private readonly IHostingEnvironment _HostingEnvironment;
 
-        public RecipeController(AppDbContext _context, SignInManager<ApplicationUser> signInManager, IHostingEnvironment hostingEnvironment)
+        public RecipeController(AppDbContext _context, 
+            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager,
+            IHostingEnvironment hostingEnvironment)
         {
             this._context = _context;
             this._SignInManager = signInManager;
+            this._UserManager = userManager;
             this._HostingEnvironment = hostingEnvironment;
         }
 
@@ -79,11 +84,12 @@ namespace HomeSquareApp.Controllers
                 if (category != null)
                 {
                     product = await _context.Product.Include(p => p.ServingType).Include(p => p.Category)
-                        .Where(p => p.Category.CategoryName == category.CategoryName && p.ProductStock > 0).OrderByDescending(p=>p.ProductUpdateDate).FirstOrDefaultAsync();
+                        .Where(p => p.Category.CategoryName == category.CategoryName).OrderByDescending(p=>p.ProductStock).FirstOrDefaultAsync();
                 }
                 else
                 {
-                    product = await _context.Product.Include(p=>p.ServingType).Where(p => p.ProductName.ToLower().Contains(ingredient.IngredientName.ToLower()) && p.ProductStock > 0)
+                    product = await _context.Product.Include(p=>p.ServingType).Where(p => p.ProductName.ToLower().Contains(ingredient.IngredientName.ToLower()))
+                                        .OrderByDescending(p=>p.ProductStock)
                                         .FirstOrDefaultAsync();
                 }
 
@@ -112,8 +118,10 @@ namespace HomeSquareApp.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = ProcessUploadedFile(model.Image);
+                ApplicationUser user = await _UserManager.FindByIdAsync(model.UserID);
+                bool isAdmin = await _UserManager.IsInRoleAsync(user,"ADMIN");
 
-                recipe.RecipeApprovalStatus = RecipeApprovalStatus.Pending;
+                recipe.RecipeApprovalStatus = isAdmin? RecipeApprovalStatus.Approved : RecipeApprovalStatus.Pending;
                 recipe.AddedDate = DateTime.Now;
                 recipe.RecipeName = model.RecipeName;
                 recipe.UserID = model.UserID;

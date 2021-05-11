@@ -89,7 +89,7 @@ namespace HomeSquareApp.Models
                         Address = "ADMIN",
                         PhoneNumber = "00000",
                     };
-                    var result = await UserManager.CreateAsync(superUser, "Trihardo123#");
+                    var result = await UserManager.CreateAsync(superUser, "HomeAdmin123#");
 
                     if (result.Succeeded)
                     {

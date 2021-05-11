@@ -2,7 +2,15 @@
 
 @{ 
     //string priceAfterDiscount = string.Format("{0:F2}",(Model.ProductPrice - (Model.ProductPrice * Model.ProductDiscount)));
-    string formatPriceAfterDiscount = string.Format("{0:F2}", Model.PriceAfterDiscount);
+    double currentPrice = 0;
+    if(Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime >= DateTime.Now && Model.SaleStartDateTime <= DateTime.Now)
+    {
+        currentPrice = Model.PriceAfterDiscount;
+    } else
+    {
+        currentPrice = Model.ProductPrice;
+    }
+    string formatPriceAfterDiscount = string.Format("{0:F2}", currentPrice);
     string[] priceBase = formatPriceAfterDiscount.Split('.');
 
     //TEMP CHANGE IT LATER, NOT EFFICIENT TO PERFORM CALCULATION FOR EVERYTHING
@@ -36,7 +44,7 @@
                 }
             </div>
         </div>
-        @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime >= DateTime.Now)
+        @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime >= DateTime.Now && Model.SaleStartDateTime <= DateTime.Now)
         {
             <div class="alert alert-success p-0 px-2 rounded-0" style="position: absolute; left: -1px; top: 0px;">
                 <small class="alert-link">@(Model.ProductDiscount*100) % OFF</small>
@@ -54,7 +62,7 @@
                 @if (Model.ProductStock != 0)
                 {
                     <span class="product-price">$</span><span class="product-price">@priceBase[0]</span><sup class="product-price-decimal">@priceBase[1]</sup>
-                    @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime >= DateTime.Now)
+                    @if (Model.ProductStatus.ProductStatusName == "Sale" && Model.SaleEndDateTime >= DateTime.Now && Model.SaleStartDateTime <= DateTime.Now)
                     {
                         <p>
                             Was <span class="product-price-before-special">$@String.Format("{0:F2}", Model.ProductPrice)</span>
