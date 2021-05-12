@@ -14,6 +14,9 @@ namespace HomeSquareApp.Models
         [MaxLength(64)]
         public string ServingContent { get; set; }
 
+        [MaxLength(64)]
+        public string IngredientName { get; set; }
+
         public int Quantity { get; set; }
 
         public int ProductID { get; set; }

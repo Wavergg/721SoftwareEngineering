@@ -1,0 +1,40 @@
+﻿@model IEnumerable<HomeSquareApp.Models.Recipe>
+
+<div class="table-responsive" style="min-height:440px">
+    <table class="table">
+        <thead>
+            <tr>
+                <th onclick="sortData('addedDate')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.AddedDate)
+                    </a>
+                </th>
+                <th>
+                    Author
+                </th>
+                <th onclick="sortData('recipeName')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.RecipeName)
+                    </a>
+                </th>
+                <th onclick="sortData('status')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.RecipeApprovalStatus)
+                    </a>
+                </th>
+                <th>
+                    @*Actions*@
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            <partial name="_AdminRecipeTableDataPartial" model="Model" />
+        </tbody>
+    </table>
+</div>
+<div class="d-flex" id="pagination">
+    <partial name="_PaginationPartial" />
+</div>

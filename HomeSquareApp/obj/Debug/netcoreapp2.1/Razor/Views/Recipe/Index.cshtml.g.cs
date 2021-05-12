@@ -80,7 +80,7 @@ using Microsoft.AspNetCore.Identity;
                 WriteLiteral("\r\n    <script src=\"https://kit.fontawesome.com/ea080c442b.js\" crossorigin=\"anonymous\"></script>\r\n    ");
                 EndContext();
                 BeginContext(224, 57, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d81cb03bea8c41a0be9a8cdb70d18f36", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "478de7d54e8a46be8a5e0898b84206c7", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -148,7 +148,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("            ");
             EndContext();
             BeginContext(2477, 100, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "124f3cc13e234fb48142b6c93dc82917", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2c4899032d2d46da856f7af669c85bfb", async() => {
                 BeginContext(2532, 41, true);
                 WriteLiteral("<i class=\"fas fa-plus\"></i> Add My Recipe");
                 EndContext();
@@ -188,7 +188,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("                <div class=\"col d-flex justify-content-center\">\r\n                    ");
             EndContext();
             BeginContext(2801, 46, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7a54014447d04e5eb52d28521e3dc4bd", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "dfacf6baa1c74e5f983da1f402e21804", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

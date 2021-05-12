@@ -8,9 +8,10 @@ namespace HomeSquareApp.ViewModels
 {
     public class IngredientViewModel
     {
+        
         [MaxLength(64)]
         public string ServingContent { get; set; }
-
+        [MaxLength(64)]
         public string IngredientName { get; set; }
 
         public int ServingTypeID { get; set; }

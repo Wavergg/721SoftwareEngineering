@@ -134,7 +134,13 @@ namespace HomeSquareApp.Controllers
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 //Change the return URL LATER
-                return RedirectToAction(nameof(Index));
+
+                if (isAdmin)
+                {
+                    return RedirectToAction("Index","AdminRecipes");
+                } else { 
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View(model);

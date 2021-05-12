@@ -18,8 +18,7 @@
         </td>
         <td class="text-nowrap">
             <a asp-action="Edit" asp-route-id="@item.RecipeID">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.RecipeID">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.RecipeID">Delete</a>
+            <a href="#" onclick="openDeleteConfirmationModal('@item.RecipeID')" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</a>
         </td>
     </tr>
 }

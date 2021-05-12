@@ -142,3 +142,4 @@ C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\o
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Recipe\Create.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_IngredientContentPartial.cshtml.g.cs
 C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminRecipeTableDataPartial.cshtml.g.cs
+C:\Users\Waver\source\repos\HomeSquareApp\721SoftwareEngineering\HomeSquareApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_AdminRecipeTableModelPartial.cshtml.g.cs

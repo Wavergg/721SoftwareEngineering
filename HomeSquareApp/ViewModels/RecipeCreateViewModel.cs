@@ -36,7 +36,7 @@ namespace HomeSquareApp.ViewModels
         public string FirstName { get; set; }
 
         [Required]
-        public IFormFile Image { get; set; }
+        public virtual IFormFile Image { get; set; }
 
         public List<IngredientViewModel> Ingredients { get; set; } = new List<IngredientViewModel>();
 

@@ -10,7 +10,8 @@ namespace HomeSquareApp.Models
     public enum RecipeApprovalStatus
     {
         Pending,
-        Approved
+        Approved,
+        Delete,
     }
 
     public class Recipe
