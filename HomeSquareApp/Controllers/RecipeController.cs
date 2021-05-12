@@ -22,6 +22,10 @@ namespace HomeSquareApp.Controllers
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly IHostingEnvironment _HostingEnvironment;
 
+        private const int ITEMS_PER_PAGE = 11;
+        private static int _currentRange = 0;
+        private static List<Recipe> _recipesContext;
+
         public RecipeController(AppDbContext _context, 
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager,
@@ -33,9 +37,16 @@ namespace HomeSquareApp.Controllers
             this._HostingEnvironment = hostingEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            _recipesContext = await _context.Recipe.Include(r => r.User)
+                            .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved).ToListAsync();
+            if (_recipesContext.Count() > ITEMS_PER_PAGE)
+            {
+                ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            _currentRange = 0;
+            return View(_recipesContext.OrderByDescending(r => r.ApprovedDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
 
         public IActionResult Details(int id)
@@ -145,6 +156,8 @@ namespace HomeSquareApp.Controllers
 
             return View(model);
         }
+
+
 
         private string ProcessUploadedFile(IFormFile Image)
         {

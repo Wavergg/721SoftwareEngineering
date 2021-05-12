@@ -43,6 +43,8 @@ namespace HomeSquareApp.Models
 
         public DateTime AddedDate { get; set; }
 
+        public DateTime ApprovedDate { get; set; }
+
         public RecipeApprovalStatus RecipeApprovalStatus { get; set; }
 
         public string UserID { get; set; }

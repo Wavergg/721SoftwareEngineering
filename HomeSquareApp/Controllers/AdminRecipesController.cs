@@ -27,6 +27,8 @@ namespace HomeSquareApp.Controllers
 
         private const int ITEMS_PER_PAGE = 11;
         private static int _currentRange = 0;
+        private int counter = 0;
+        private List<string> invalidProducts = new List<string>();
 
         public AdminRecipesController(AppDbContext context, SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
@@ -35,6 +37,92 @@ namespace HomeSquareApp.Controllers
             this._SignInManager = signInManager;
             this._UserManager = userManager;
             this._HostingEnvironment = hostingEnvironment;
+        }
+
+        private async Task<List<Ingredient>> MatchRecipeProduct(List<IngredientViewModel> ingredients)
+        {
+            List<Ingredient> ingredientList = new List<Ingredient>();
+            counter = 0;
+            invalidProducts = new List<string>();
+            foreach (IngredientViewModel ingredient in ingredients)
+            {
+                if (string.IsNullOrEmpty(ingredient.IngredientName) || string.IsNullOrEmpty(ingredient.ServingContent))
+                {
+                    counter++;
+                    continue;
+                }
+                Category category = _context.Category.Where(c => c.CategoryName.ToLower().Contains(ingredient.IngredientName.ToLower())).FirstOrDefault();
+
+                Product product = null;
+
+                if (category != null)
+                {
+                    product = await _context.Product.Include(p => p.ServingType).Include(p => p.Category).Include(p => p.ProductStatus)
+                        .Where(p => p.Category.CategoryName == category.CategoryName && p.ProductStatus.ProductStatusName != "Hold").OrderByDescending(p => p.ProductStock).FirstOrDefaultAsync();
+                }
+                else
+                {
+                    product = await _context.Product.Include(p => p.ServingType).Include(p => p.ProductStatus)
+                                .Where(p => p.ProductName.ToLower().Contains(ingredient.IngredientName.ToLower()) && p.ProductStatus.ProductStatusName != "Hold")
+                                .OrderByDescending(p => p.ProductStock)
+                                .FirstOrDefaultAsync();
+                }
+
+                if (product == null)
+                {
+                    invalidProducts.Add(ingredient.IngredientName);
+                }
+                else
+                {
+                    //MIGHT NEED CHANGE COMPARE SERVING CONTENT
+                    Ingredient ingredientModel = new Ingredient()
+                    {
+                        ProductID = product.ProductID,
+                        ServingContent = ingredient.ServingContent,
+                        IngredientName = ingredient.IngredientName,
+                        Quantity = 1
+                    };
+
+                    ingredientList.Add(ingredientModel);
+                }
+            }
+
+            return ingredientList;
+        }
+
+        private string ProcessUploadedFile(IFormFile Image)
+        {
+            string uniqueFileName = "";
+
+            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                Image.CopyTo(fileStream);
+            }
+            return uniqueFileName;
+        }
+
+        //UNUSED
+        private void HardDeleteRecipe(Recipe recipe)
+        {
+            foreach (RecipeSteps steps in recipe.RecipeSteps)
+            {
+                _context.RecipeSteps.Remove(steps);
+            }
+            foreach (Ingredient ingredient in recipe.Ingredients)
+            {
+                _context.Ingredient.Remove(ingredient);
+            }
+
+            string filePath = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes", recipe.ImageUrl);
+            System.IO.File.Delete(filePath);
+
+
+
+            _context.Recipe.Remove(recipe);
+            _context.SaveChanges();
         }
 
         public void PerformRecipeFilter(string filters, string category)
@@ -66,7 +154,6 @@ namespace HomeSquareApp.Controllers
             return PartialView("_PaginationPartial");
         }
 
-
         [HttpPost]
         public IActionResult RefreshRecipeTableIndex()
         {
@@ -78,7 +165,8 @@ namespace HomeSquareApp.Controllers
         {
             if (_recipesContext == null)
             {
-                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+                _recipesContext = await _context.Recipe.Include(r => r.User)
+                                .Where(r => r.RecipeApprovalStatus != RecipeApprovalStatus.Delete).ToListAsync();
             }
 
             switch (sortOrder)
@@ -111,7 +199,8 @@ namespace HomeSquareApp.Controllers
         {
             if (_recipesContext == null)
             {
-                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+                _recipesContext = await _context.Recipe.Include(r => r.User)
+                                .Where(r => r.RecipeApprovalStatus != RecipeApprovalStatus.Delete).ToListAsync();
             }
 
             _currentRange = pageNumber * ITEMS_PER_PAGE;
@@ -126,7 +215,8 @@ namespace HomeSquareApp.Controllers
         {
             if (_recipesContext == null)
             {
-                _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+                _recipesContext = await _context.Recipe.Include(r => r.User)
+                                    .Where(r => r.RecipeApprovalStatus != RecipeApprovalStatus.Delete).ToListAsync();
             }
 
             PerformRecipeFilter(filters, category);
@@ -154,7 +244,8 @@ namespace HomeSquareApp.Controllers
         // GET: AdminRecipes
         public async Task<IActionResult> Index()
         {
-            _recipesContext = await _context.Recipe.Include(r => r.User).ToListAsync();
+            _recipesContext = await _context.Recipe.Include(r => r.User)
+                            .Where(r => r.RecipeApprovalStatus != RecipeApprovalStatus.Delete).ToListAsync();
             if (_recipesContext.Count() > ITEMS_PER_PAGE)
             {
                 ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
@@ -184,55 +275,18 @@ namespace HomeSquareApp.Controllers
             [Bind("RecipeName", "RecipeDescription", "Servings", "PrepareTime",
             "UserID", "Image", "Ingredients", "RecipeSteps")] RecipeCreateViewModel model)
         {
-
             Recipe recipe = new Recipe();
-            int counter = 0;
+            recipe.Ingredients = await MatchRecipeProduct(model.Ingredients);
 
-            foreach (IngredientViewModel ingredient in model.Ingredients)
-            {
-                if (string.IsNullOrEmpty(ingredient.IngredientName) || string.IsNullOrEmpty(ingredient.ServingContent))
-                {
-                    counter++;
-                    continue;
-                }
-                Category category = _context.Category.Where(c => c.CategoryName.ToLower().Contains(ingredient.IngredientName.ToLower())).FirstOrDefault();
-
-                Product product = null;
-
-                if (category != null)
-                {
-                    product = await _context.Product.Include(p => p.ServingType).Include(p => p.Category)
-                        .Where(p => p.Category.CategoryName == category.CategoryName).OrderByDescending(p => p.ProductStock).FirstOrDefaultAsync();
-                }
-                else
-                {
-                    product = await _context.Product.Include(p => p.ServingType).Where(p => p.ProductName.ToLower().Contains(ingredient.IngredientName.ToLower()))
-                                .OrderByDescending(p => p.ProductStock)
-                                .FirstOrDefaultAsync();
-                }
-
-                if (product == null)
-                {
-                    ModelState.AddModelError("", "Unable to find matched product for " + ingredient.IngredientName);
-                }
-                else
-                {
-                    //MIGHT NEED CHANGE COMPARE SERVING CONTENT
-                    Ingredient ingredientModel = new Ingredient()
-                    {
-                        ProductID = product.ProductID,
-                        ServingContent = ingredient.ServingContent,
-                        IngredientName = ingredient.IngredientName,
-                        Quantity = 1
-                    };
-
-                    recipe.Ingredients.Add(ingredientModel);
-                }
-            }
-
-            if (counter == model.Ingredients.Count)
+            if (counter >= recipe.Ingredients.Count)
             {
                 ModelState.AddModelError("", "Recipe is Required to Have Minimum of 1 Ingredient");
+            } 
+            else if(invalidProducts.Count > 0)
+            {
+                foreach(string invalidProduct in invalidProducts) { 
+                    ModelState.AddModelError("", "Unable to find matched product for " + invalidProduct);
+                }
             }
 
             if (ModelState.IsValid)
@@ -315,53 +369,19 @@ namespace HomeSquareApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            int counter = 0;
-            List<Ingredient> TempIngredient = new List<Ingredient>();
-            foreach (IngredientViewModel ingredient in model.Ingredients)
-            {
-                if (string.IsNullOrEmpty(ingredient.IngredientName) || string.IsNullOrEmpty(ingredient.ServingContent))
-                {
-                    counter++;
-                    continue;
-                }
-                Category category = _context.Category.Where(c => c.CategoryName.ToLower().Contains(ingredient.IngredientName.ToLower())).FirstOrDefault();
+            
+            List<Ingredient> TempIngredient = await MatchRecipeProduct(model.Ingredients);
 
-                Product product = null;
-
-                if (category != null)
-                {
-                    product = await _context.Product.Include(p => p.ServingType).Include(p => p.Category)
-                        .Where(p => p.Category.CategoryName == category.CategoryName).OrderByDescending(p => p.ProductStock).FirstOrDefaultAsync();
-                }
-                else
-                {
-                    product = await _context.Product.Include(p => p.ServingType).Where(p => p.ProductName.ToLower().Contains(ingredient.IngredientName.ToLower()))
-                                .OrderByDescending(p => p.ProductStock)
-                                .FirstOrDefaultAsync();
-                }
-
-                if (product == null)
-                {
-                    ModelState.AddModelError("", "Unable to find matched product for " + ingredient.IngredientName);
-                }
-                else
-                {
-                    //MIGHT NEED CHANGE COMPARE SERVING CONTENT
-                    Ingredient ingredientModel = new Ingredient()
-                    {
-                        ProductID = product.ProductID,
-                        ServingContent = ingredient.ServingContent,
-                        IngredientName = ingredient.IngredientName,
-                        Quantity = 1
-                    };
-
-                    TempIngredient.Add(ingredientModel);
-                }
-            }
-
-            if (counter == model.Ingredients.Count)
+            if (counter >= TempIngredient.Count)
             {
                 ModelState.AddModelError("", "Recipe is Required to Have Minimum of 1 Ingredient");
+            }
+            else if (invalidProducts.Count > 0)
+            {
+                foreach (string invalidProduct in invalidProducts)
+                {
+                    ModelState.AddModelError("", "Unable to find matched product for " + invalidProduct);
+                }
             }
 
 
@@ -380,6 +400,10 @@ namespace HomeSquareApp.Controllers
 
                 recipe.RecipeID = model.RecipeID;
                 recipe.RecipeApprovalStatus = model.RecipeStatus;
+                if(model.RecipeStatus == RecipeApprovalStatus.Approved)
+                {
+                    recipe.ApprovedDate = DateTime.Now;
+                }
                 recipe.AddedDate = DateTime.Now;
                 recipe.RecipeName = model.RecipeName;
                 recipe.UserID = model.UserID;
@@ -419,27 +443,20 @@ namespace HomeSquareApp.Controllers
         {
             Recipe recipe = await _context.Recipe.Where(r => r.RecipeID == recipeID).Include(r => r.RecipeSteps).Include(r => r.Ingredients).FirstOrDefaultAsync();
 
+            //METHOD 1 SET STATUS INSTEAD OF DELETING:
+            //only set the status to be delete swap it between both method
+            recipe.RecipeApprovalStatus = RecipeApprovalStatus.Delete;
+            _context.Recipe.Update(recipe);
+            await _context.SaveChangesAsync();
 
-            foreach (RecipeSteps steps in recipe.RecipeSteps)
-            {
-                _context.RecipeSteps.Remove(steps);
-            }
-            foreach (Ingredient ingredient in recipe.Ingredients)
-            {
-                _context.Ingredient.Remove(ingredient);
-            }
-
-            string filePath = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes", recipe.ImageUrl);
-            System.IO.File.Delete(filePath);
+            //METHOD 2 DELETE CASCADE ON DATABASE
+            //Reenable this if recipe is required to be hard deleted
+            //await HardDeleteRecipe(recipe);
 
             if (_recipesContext.Where(r => r.RecipeID == recipe.RecipeID) != null)
             {
                 _recipesContext.RemoveAll(r => r.RecipeID == recipe.RecipeID);
             }
-
-            _context.Recipe.Remove(recipe);
-            _context.SaveChanges();
-
 
             if (_recipesContext.Count() > ITEMS_PER_PAGE)
             {
@@ -461,18 +478,6 @@ namespace HomeSquareApp.Controllers
             return PartialView("_AdminRecipeTableModelPartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
 
-        private string ProcessUploadedFile(IFormFile Image)
-        {
-            string uniqueFileName = "";
-
-            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                Image.CopyTo(fileStream);
-            }
-            return uniqueFileName;
-        }
+        
     }
 }

@@ -86,113 +86,10 @@
 
 
         <input type="hidden" asp-for="RecipeID" />
-        <input type="hidden" asp-for="UserID" />
         <input type="hidden" asp-for="ExistingImageUrl" />
        
-        <div class="pb-5">
-            <div class="container">
-                <div class="small text-danger" asp-validation-summary="All"></div>
-                <div class="mt-5 card d-flex flex-md-row shadow-sm">
-                    <section class="order-md-0 order-1 col-md-6">
-                        <div class="m-5">
-                            <small class="text-muted"></small>
-                            <div class="form-floating">
-                                <input asp-for="RecipeName" type="text" class="form-control" placeholder="Title">
-                                <label asp-for="RecipeName"></label>
+        <partial name="_RecipeFormTemplatePartial" model="Model" />
 
-                            </div>
-                            <div class="d-flex mb-3">
-
-                            </div>
-                            <div class="form-floating">
-                                <textarea asp-for="RecipeDescription" class="form-control" onkeyup="textAreaAdjust(this)" placeholder="Description of Recipe" style="height: 100px"></textarea>
-                                <label asp-for="RecipeDescription"></label>
-                            </div>
-                        </div>
-                        <div class="d-flex mx-5 mb-5 gap-2">
-
-                            <div class="d-flex flex-column col align-items-center">
-                                <div class="form-floating mb-3">
-                                    <input asp-for="PrepareTime" type="text" class="form-control" placeholder="0 Min">
-                                    <label asp-for="PrepareTime"></label>
-                                </div>
-                            </div>
-                            <div class="bg-secondary" style="width:2px">
-                            </div>
-                            <div class="d-flex flex-column col align-items-center">
-                                <div class="form-floating mb-3">
-                                    <input asp-for="Servings" type="number" class="form-control" min="0" style="max-width:100%" placeholder="0">
-                                    <label asp-for="Servings"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    @* background-image: url(/lib/images/products/productPlaceholder.png) *@
-                    <section id="recipeImage" class="img-sm-fixed-height order-md-1 order-0 col-md-6 bg-light d-flex justify-content-center align-items-center" style="background-position:center;background-repeat:no-repeat;background-size:cover">
-                        @* Play around with object-fit to get wanted result *@
-                        @* either contain or cover would be good *@
-                        <div class="custom-file">
-                            <input id="Image" asp-for="Image" class="form-control custom-file-input" />
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-
-        <div class="container my-5 d-md-flex">
-            <div class="card shadow-sm rounded-3 col-md-5 py-5">
-                <h2 class="px-5">Ingredients</h2>
-                <div class="px-xl-5 px-4">
-                    @*NYD Loop This Ingredients *@
-                    <div id="ingredientRow">
-
-                        @for (var i = 0; i < Model.Ingredients.Count; i++)
-                        {
-                            <div id="@string.Format("IngredientContent{0}",i)" class="d-flex my-3">
-
-                                <div class="form-floating col-4 d-flex">
-                                    <input asp-for="@Model.Ingredients[i].ServingContent" type="text" class="form-control" placeholder="0">
-                                    <label>Amount</label>
-                                </div>
-                                <div class="form-floating flex-fill">
-                                    <input asp-for="@Model.Ingredients[i].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
-                                    <label>Ingredient Name</label>
-                                </div>
-                                <button type="button" onclick="removeIngredient('IngredientContent'+@i)" class="text-danger fw-bold btn btn-default">X</button>
-                            </div>
-                        }
-
-                    </div>
-                    <button id="addIngredient" type="button" class="btn-dark btn w-100">Add Ingredients</button>
-                </div>
-            </div>
-
-            <div class="container rounded-3 col-md-6 offset-xl-1 mt-5 mt-md-0">
-                <h2>Steps</h2>
-                @*NYD Loop this steps *@
-                <div class="d-flex flex-column gap-2">
-                    <div id="stepsRow">
-                        @for (int i = 0; i < Model.RecipeSteps.Count(); i++)
-                        {
-                            <div class="card shadow-sm pt-5 pb-4 px-4 my-2" id="@string.Format("StepsContent{0}",i)">
-                                <div class="position-absolute start-0 top-0 mx-4 mt-3">
-                                    <small class="fw-bold">Step @(i+1)</small>
-                                    <a style="cursor:pointer" onclick="removeSteps('StepsContent'+@i)" class="text-decoration-none text-danger fw-bold">X</a>
-                                </div>
-                                <div>
-                                    <div class="form-floating">
-                                        <textarea asp-for="RecipeSteps[i].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
-                                        <label asp-for="RecipeSteps[i].Steps">Instruction</label>
-                                    </div>
-                                </div>
-                                <span class="small text-danger" asp-validation-for="RecipeSteps[i].Steps"></span>
-                            </div>
-                        }
-                    </div>
-                    <button id="addInstruction" type="button" class="btn btn-dark mt-3">Add Steps</button>
-                </div>
-            </div>
-        </div>
         <div class="border-top py-2">
             <div class="d-flex align-items-center">
                 <a asp-action="Index" class="me-auto text-decoration-none">
@@ -210,17 +107,10 @@
         var app = new Vue({
             el: '#app',
             data: {
-                searchCategories: "Products",
-
-                productOrderSubmitBtn: null,
-                cartItemCount: 0,
             },
             methods: {
-                updateSearchCategories: function (event) {
-                    this.searchCategories = event.target.value;
-                },
                 triggerSearchQuery: function (el) {
-                    if (el.value.length < 2 || this.searchCategories == "") {
+                    if (el.value.length < 2) {
                         return;
                     }
 
@@ -230,7 +120,7 @@
                             url: "/Home/GetQuery", // Controller/View
                             data: {
                                 searchString: el.value,
-                                searchCategories: app.searchCategories,
+                                searchCategories: "Products",
                             }
                         }).done(function (data) {
 
@@ -335,7 +225,7 @@
 
             var rowHtml = `<div class="card shadow-sm pt-5 pb-4 px-4 my-2" id="StepsContent`+nextInstructionId+`">
                             <div class="position-absolute start-0 top-0 mx-4 mt-3">
-                                <small class="fw-bold">Step `+(nextInstructionId+1)+`</small>
+                                <small class="fw-bold">Step </small>
                                 <a style="cursor:pointer" onclick="removeSteps('StepsContent`+ nextInstructionId +`')" class="text-decoration-none text-danger fw-bold">X</a>
                             </div>
                             <div>

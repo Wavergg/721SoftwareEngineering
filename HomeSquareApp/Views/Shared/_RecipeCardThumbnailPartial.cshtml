@@ -1,6 +1,6 @@
-﻿@{ 
-    string dummyData = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-}
+﻿@model HomeSquareApp.Models.Recipe
+
+
 
 @* NYD Change the Link to details page, Get Data From Modal *@
 
@@ -9,23 +9,23 @@
         @* Set the max height to be the same as image Height is Important*@
         <div class="row g-0" style="max-height:240px;">
             <div class="col-4">
-                <img class="img-fluid" src="~/lib/images/recipes/waffle2.jpg" asp-append-version="true" style="object-fit:cover;height:240px" />
+                <img class="img-fluid" src="~/lib/images/recipes/@Model.ImageUrl" asp-append-version="true" style="object-fit:cover;height:240px" />
             </div>
             <div class="col-8 d-flex">
                 <div class="card-body align-self-stretch d-flex align-items-start flex-column">
                     @*<small class="text-secondary">Breakfast | Lunch</small>*@
-                    <h3 class="cardRecipe-title mb-0 mt-2">Waffle Recipe</h3>
-                    <small>&mdash; Author Name</small>
+                    <h3 class="cardRecipe-title mb-0 mt-2">@Model.RecipeName</h3>
+                    <small>&mdash; @Model.User.FirstName</small>
                     <p class="cardRecipe-description mb-2 mt-2 mt-md-3">
-                        @if (dummyData.Length > 130)
+                        @if (Model.RecipeDescription.Length > 130)
                         {
-                            int iNextSpace = dummyData.LastIndexOf(" ", 130, StringComparison.Ordinal);
-                            dummyData = string.Format("{0} . . .", dummyData.Substring(0, (iNextSpace > 0) ? iNextSpace : 130).Trim());
-                            <span>@dummyData</span>
+                            int iNextSpace = Model.RecipeDescription.LastIndexOf(" ", 130, StringComparison.Ordinal);
+                            Model.RecipeDescription = string.Format("{0} . . .", Model.RecipeDescription.Substring(0, (iNextSpace > 0) ? iNextSpace : 130).Trim());
+                            <span>@Model.RecipeDescription</span>
                         }
                         else
                         {
-                            <span>@dummyData</span>
+                            <span>@Model.RecipeDescription</span>
                         }
                     </p>
                     <div class="d-flex mt-auto">
@@ -35,7 +35,7 @@
                                 <svg class="bi" width="16" height="16">
                                     <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
                                 </svg>
-                                10 mins
+                                @Model.PrepareTime
                             </small>
                         </div>
                         <div class="row text-end">
@@ -44,7 +44,7 @@
                                 <svg class="bi" width="16" height="16">
                                     <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
                                 </svg>
-                                2
+                                @Model.Servings
                             </small>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 <svg class="bi" width="16" height="16">
                     <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
                 </svg>
-                2
+                @Model.Likes
             </small>
         </span>
     </a>
