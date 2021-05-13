@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.RegularExpressions;
 
 namespace HomeSquareApp.Controllers
 {
@@ -74,6 +75,7 @@ namespace HomeSquareApp.Controllers
                 }
                 else
                 {
+                    
                     //MIGHT NEED CHANGE COMPARE SERVING CONTENT
                     Ingredient ingredientModel = new Ingredient()
                     {
@@ -304,6 +306,16 @@ namespace HomeSquareApp.Controllers
                 recipe.RecipeSteps = model.RecipeSteps;
                 recipe.ImageUrl = uniqueFileName;
 
+                if (model.PrepareTime.Any(char.IsDigit))
+                {
+
+                    Regex regex = new Regex(@"^(?<NUMVALUE>\d+.?\d*)\s*(?<STRVALUE>[A-Za-z]*)$", RegexOptions.Singleline);
+                    Match match = regex.Match(recipe.PrepareTime);
+
+                    recipe.PrepareTimeDuration = match.Groups["NUMVALUE"].Value;
+                    recipe.PrepareTimeMeasurement = match.Groups["STRVALUE"].Value;
+                }
+
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 //Change the return URL LATER
@@ -339,6 +351,8 @@ namespace HomeSquareApp.Controllers
             model.RecipeDescription = recipe.RecipeDescription;
             model.PrepareTime = recipe.PrepareTime;
             model.RecipeStatus = recipe.RecipeApprovalStatus;
+
+
 
             List<Ingredient> ingredients = _context.Ingredient.Where(i => i.RecipeID == recipe.RecipeID).ToList();
 
@@ -412,6 +426,16 @@ namespace HomeSquareApp.Controllers
                 recipe.RecipeDescription = model.RecipeDescription;
                 recipe.RecipeSteps = model.RecipeSteps;
                 recipe.Ingredients = TempIngredient;
+
+                if (model.PrepareTime.Any(char.IsDigit))
+                {
+                    
+                    Regex regex = new Regex(@"^(?<NUMVALUE>\d+.?\d*)\s*(?<STRVALUE>[A-Za-z]*)$", RegexOptions.Singleline);
+                    Match match = regex.Match(recipe.PrepareTime);
+
+                    recipe.PrepareTimeDuration = match.Groups["NUMVALUE"].Value;
+                    recipe.PrepareTimeMeasurement = match.Groups["STRVALUE"].Value;
+                }
 
                 if (model.Image != null)
                 {

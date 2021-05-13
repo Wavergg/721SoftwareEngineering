@@ -1,8 +1,8 @@
-﻿@model int
-@*NYD Replace title later with strongly typed data*@
+﻿@model HomeSquareApp.Models.Recipe
+@inject SignInManager<ApplicationUser> signInManager
+
 @{
-    ViewData["Title"] = @Model + "Recipe Details";
-}
+    ViewData["Title"] = Model.RecipeName + " Recipe";}
 
 @section pageSpecificCss{
     <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
@@ -11,16 +11,18 @@
 
 <div class="bg-light pb-5">
     <div class="container pt-5">
-        <div class="card d-flex flex-md-row">
-            <section class="order-md-0 order-1 col-md-6">
-                <div class="m-5">
-                    @*<small class="text-muted">Lunch | Dinner</small>*@
-                    <h1 class="fw-bold">Recipe title can be quite long for this one</h1>
-                    <div class="d-flex">
+        <div class=" card d-flex flex-md-row">
 
-                    </div>
+            <section class="position-relative order-md-0 order-1 col-md-6 d-flex flex-column justify-content-between">
+                <div class="position-absolute top-0 start-0 m-3">
+                    <small class="text-muted" style="font-size:12px">Recipe by &mdash; @Model.User.FirstName</small>
+                </div>
+                <div class="m-md-5 m-4">
+                    @*<small class="text-muted">Lunch | Dinner</small>*@
+                    <h1 class="fw-bold mt-4 mt-md-1">@Model.RecipeName</h1>
+
                     <p>
-                        Lorem Ipsum is rambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        @Model.RecipeDescription
                     </p>
                 </div>
                 <div class="d-flex mx-5 mb-5">
@@ -32,7 +34,7 @@
                             </div>
                         </div>
                         <div>
-                            <span class="display-5">10</span> Min
+                            <span class="display-5">@Model.PrepareTimeDuration</span> @Model.PrepareTimeMeasurement
                         </div>
                     </div>
                     <div class="bg-secondary" style="width:2px">
@@ -45,7 +47,7 @@
                             </div>
                         </div>
                         <div>
-                            <span class="display-5">2</span>
+                            <span class="display-5">@Model.Servings</span>
                         </div>
                     </div>
                 </div>
@@ -53,22 +55,14 @@
             <section class="img-sm-fixed-height order-md-1 order-0 col-md-6 bg-light d-flex align-items-stretch">
                 @* Play around with object-fit to get wanted result *@
                 @* either contain or cover would be good *@
-                <img class="w-100" src="~/lib/images/recipes/waffle.jpg" style="object-fit:contain;" asp-append-version="true"/>
+                <img class="w-100" src="~/lib/images/recipes/@Model.ImageUrl" style="object-fit:contain;" asp-append-version="true" />
             </section>
         </div>
     </div>
 
-    <div class="container mt-4 d-flex justify-content-center">
-        <div class="d-flex flex-row btn" onclick="alert('You clicked me !')">
-            <div class="card display-5 p-3">
-                100 Likes
-            </div>
-            <button class="btn btn-lg btn-success rounded-0 rounded-end">
-                <i class="bi bi-hand-thumbs-up"></i>
-            </button>
-        </div>
+    <div id="recipeLike" class="container mt-4 d-flex justify-content-center">
+        <partial name="_RecipeLikePartial" model="Model" />
     </div>
-
 </div>
 
 
@@ -78,28 +72,29 @@
         <h2 class="px-5">Ingredients</h2>
         <div class="px-5">
             @*NYD Loop This Ingredients *@
-            @for (int i = 0; i < 6; i++)
+            @for (int i = 0; i < Model.Ingredients.Count; i++)
             {
                 <div class="border-bottom border-muted py-3">
-                    100 tbs tea
+                    @Model.Ingredients[i].ServingContent @Model.Ingredients[i].IngredientName
                 </div>
             }
         </div>
-        <button class="btn btn-success mt-3 rounded-0 rounded-bottom">Get All Items</button>
+        @* NYD GET ITEMS BTN *@
+        <button data-bs-toggle="modal" data-bs-target="#recipeIngredients" class="btn btn-success mt-3 rounded-0 rounded-bottom">Get All Items</button>
     </div>
 
     <div class="container rounded-3 col-md-6 offset-md-1 mt-5 mt-md-0">
         <h2>Steps</h2>
         @*NYD Loop this steps *@
         <div class="d-flex flex-column gap-2">
-            @for (int i = 0; i < 4; i++)
+            @for (int i = 0; i < Model.RecipeSteps.Count; i++)
             {
                 <div class="card pt-5 pb-4 px-4">
                     <div class="position-absolute start-0 top-0 mx-4 mt-3">
                         <small class="fw-bold">Step @(i+1)</small>
                     </div>
                     <div>
-                        Boil water on the pan
+                        @Model.RecipeSteps[i].Steps
                     </div>
                 </div>
             }
@@ -107,3 +102,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="recipeIngredients" tabindex="-1" aria-labelledby="recipeIngredientsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content p-4 modal-dialog-scrollable">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="ingredientProductContent" class="mt-4 row row-cols-lg-2 g-2">
+                @for (int i = 0; i < Model.Ingredients.Count; i++)
+                {
+                    <partial name="_RecipeDetailsProductIngredientPartial" model="Model.Ingredients[i]" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function sendLikeStatus(){
+            @if (signInManager.IsSignedIn(User)) {
+                <Text>
+                $('#submitLikeForm').click();
+                </Text>
+            } else
+            {
+                <Text>
+                $('#loginModal').modal('show')
+                </Text>
+            }
+        }
+
+        function updateLike(data) {
+            console.log(data)
+            $("#recipeLike").html(data.responseText)
+        }
+    </script>
+} 

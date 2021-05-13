@@ -382,21 +382,7 @@
     <script src="~/lib/js/jquery-ui.min.js"></script>
     <script src="~/lib/js/vue.js"></script>
     <script>
-        //Vue.component('ingredient-data', {
-        //    props: {
-        //        filter: Object
-        //    },
-        //    template: `
-        //    <button v-on:click="onDelete()" class="btn badge badge-filter rounded-pill tooltip-badge">
-        //        {{filter.category}}_{{filter.value}} <i class="far fa-times-circle" style="font-size:11px"></i>
-        //        <span class="tooltip-badgetext">Remove Filter</span>
-        //    </button>`,
-        //    methods: {
-        //        onDelete() {
-        //            this.$emit('delete-filter', this.filter.id);
-        //        }
-        //    }
-        //})
+        
 
         var app = new Vue({
             el: '#app',
@@ -483,7 +469,7 @@
                         ribbonEl.classList.add("bg-success")
                         ribbonEl.innerHTML = data.responseJSON.message[0]
                         this.loadCart();
-                        setTimeout(() => { ribbonEl.innerHTML = "" }, 2000)
+                        setTimeout(() => { ribbonEl.innerHTML = "", ribbonEl.classList.remove("bg-success") }, 2000)
                     }
                 },
                 detailsOrderAdded: function (data) {

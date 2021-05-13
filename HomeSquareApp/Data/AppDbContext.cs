@@ -51,5 +51,7 @@ namespace HomeSquareApp.Data
         public DbSet<ProductStatus> ProductStatus { get; set; }
 
         public DbSet<ProductServingType> ProductServingType { get; set; }
+
+        public DbSet<RecipeUserLike> RecipeUserLike { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace HomeSquareApp.Controllers
         public async Task<IActionResult> Index()
         {
             List<Product> featuredProducts = await _context.Product.Include(p => p.ProductStatus).Include(p=> p.ServingType)
-                                .Where(p => p.ProductStatus.ProductStatusName == "Sale" && p.SaleEndDateTime >= DateTime.Now)
+                                .Where(p => p.ProductStatus.ProductStatusName == "Sale" && p.SaleStartDateTime <= DateTime.Now && p.SaleEndDateTime >= DateTime.Now)
                                 .OrderByDescending(p => p.SaleStartDateTime)
                                 .Take(20)
                                 .ToListAsync();
@@ -34,9 +34,17 @@ namespace HomeSquareApp.Controllers
                                 .Take(20)
                                 .ToListAsync();
 
+            List<Recipe> featuredRecipes = await _context.Recipe.Include(r => r.User)
+                                            .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved)
+                                            .OrderByDescending(r => r.ApprovedDate)
+                                            .Take(20)
+                                            .ToListAsync();
+
+
             HomeViewModel model = new HomeViewModel();
             model.FeaturedProducts = featuredProducts;
             model.LatestProducts = latestProduct;
+            model.FeaturedRecipes = featuredRecipes;
             return View(model);
         }
 

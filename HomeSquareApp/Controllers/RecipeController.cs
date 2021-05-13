@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HomeSquareApp.Controllers
@@ -22,7 +23,7 @@ namespace HomeSquareApp.Controllers
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly IHostingEnvironment _HostingEnvironment;
 
-        private const int ITEMS_PER_PAGE = 11;
+        private const int ITEMS_PER_PAGE = 6;
         private static int _currentRange = 0;
         private static List<Recipe> _recipesContext;
 
@@ -37,6 +38,20 @@ namespace HomeSquareApp.Controllers
             this._HostingEnvironment = hostingEnvironment;
         }
 
+        private string ProcessUploadedFile(IFormFile Image)
+        {
+            string uniqueFileName = "";
+
+            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                Image.CopyTo(fileStream);
+            }
+            return uniqueFileName;
+        }
+
         public async Task<IActionResult> Index()
         {
             _recipesContext = await _context.Recipe.Include(r => r.User)
@@ -49,12 +64,30 @@ namespace HomeSquareApp.Controllers
             return View(_recipesContext.OrderByDescending(r => r.ApprovedDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            //NYD Do DB QUERY HERE
+            Recipe recipe = _context.Recipe.Include(r=>r.User)
+                            .Where(r => r.RecipeID == id ).FirstOrDefault();
+            if (id==null || recipe == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-            //NYD Replace with Strongly typed model later
-            return View(id);
+            recipe.Ingredients = _context.Ingredient.Include(i=>i.Product).ThenInclude(p=>p.ServingType)
+                                .Include(i=>i.Product).ThenInclude(p=>p.ProductStatus)
+                                .Where(i => i.RecipeID == recipe.RecipeID).ToList();
+            recipe.RecipeSteps = _context.RecipeSteps.Where(rs => rs.RecipeID == recipe.RecipeID).ToList();
+
+            ViewData["IsLiked"] = false;
+
+            if (_SignInManager.IsSignedIn(User))
+            {
+                ApplicationUser user = await _UserManager.GetUserAsync(User);
+                RecipeUserLike recipeUserLike =_context.RecipeUserLike.Where(rul => rul.UserID == user.Id && rul.RecipeID == recipe.RecipeID).FirstOrDefault();
+                ViewData["IsLiked"] = recipeUserLike != null ? true : false;
+            }
+
+            return View(recipe);
         }
 
         [HttpGet]
@@ -119,6 +152,8 @@ namespace HomeSquareApp.Controllers
 
                     recipe.Ingredients.Add(ingredientModel);
                 }
+
+                
             }
 
             if(counter == model.Ingredients.Count)
@@ -142,6 +177,14 @@ namespace HomeSquareApp.Controllers
                 recipe.RecipeSteps = model.RecipeSteps;
                 recipe.ImageUrl = uniqueFileName;
 
+                if (model.PrepareTime.Any(char.IsDigit))
+                {
+                    Regex regex = new Regex(@"^(?<NUMVALUE>\d+.?\d*)\s*(?<STRVALUE>[A-Za-z]*)$", RegexOptions.Singleline);
+                    Match match = regex.Match(recipe.PrepareTime);
+
+                    recipe.PrepareTimeDuration = match.Groups["NUMVALUE"].Value;
+                    recipe.PrepareTimeMeasurement = match.Groups["STRVALUE"].Value;
+                }
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 //Change the return URL LATER
@@ -157,20 +200,66 @@ namespace HomeSquareApp.Controllers
             return View(model);
         }
 
-
-
-        private string ProcessUploadedFile(IFormFile Image)
+        [HttpPost]
+        public async Task<IActionResult> HandleLike(int recipeID)
         {
-            string uniqueFileName = "";
+            Recipe recipe = _context.Recipe.Where(r => r.RecipeID == recipeID).FirstOrDefault();
 
-            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "recipes");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            if (recipe != null && _SignInManager.IsSignedIn(User))
             {
-                Image.CopyTo(fileStream);
+                ApplicationUser user = await _UserManager.GetUserAsync(User);
+
+                RecipeUserLike recipeUserLike = _context.RecipeUserLike.Where(rul => rul.RecipeID == recipe.RecipeID && rul.UserID == user.Id).FirstOrDefault();
+                if (recipeUserLike == null)
+                {
+                    recipeUserLike = new RecipeUserLike()
+                    {
+                        RecipeID = recipe.RecipeID,
+                        UserID = user.Id
+                    };
+                    _context.Add(recipeUserLike);
+                    recipe.Likes++;
+                    ViewData["IsLiked"] = true;
+                }
+                else
+                {
+                    _context.Remove(recipeUserLike);
+                    recipe.Likes--;
+                    ViewData["IsLiked"] = false;
+                }
+                _context.Recipe.Update(recipe);
+                _context.SaveChanges();
             }
-            return uniqueFileName;
+
+            return PartialView("_RecipeLikePartial", recipe);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> LoadProductIngredient(int recipeID)
+        //{
+        //    Recipe recipe = await _context.Recipe.Where(r => r.RecipeID == recipeID).FirstOrDefaultAsync();
+
+        //    List<Product> products = new List<Product>();
+
+        //    if(recipe != null)
+        //    {
+        //        recipe.Ingredients = await _context.Ingredient.Include(i=>i.Product)
+        //                            .Where(i => i.RecipeID == recipe.RecipeID).ToListAsync();
+                
+        //        foreach(Ingredient ingredient in recipe.Ingredients)
+        //        {
+        //            Product product = _context.Product.Include(p=>p.Category).Include(p=>p.ProductStatus)
+        //                            .Where(p => p.ProductID == ingredient.ProductID && p.ProductStatus.ProductStatusName != "Hold").FirstOrDefault();
+                    
+        //            if(product.ProductStock > 0)
+        //            {
+        //                products.Add(product);
+        //            } else
+        //            {
+        //                _context.Product.
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

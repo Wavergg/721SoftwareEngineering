@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210513022241_updatePrepTime")]
+    partial class updatePrepTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -372,26 +374,6 @@ namespace HomeSquareApp.Migrations
                     b.ToTable("RecipeSteps");
                 });
 
-            modelBuilder.Entity("HomeSquareApp.Models.RecipeUserLike", b =>
-                {
-                    b.Property<int>("RecipeUserLikeID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RecipeID");
-
-                    b.Property<string>("UserID")
-                        .IsRequired();
-
-                    b.HasKey("RecipeUserLikeID");
-
-                    b.HasIndex("RecipeID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("RecipeUserLike");
-                });
-
             modelBuilder.Entity("HomeSquareApp.Models.Review", b =>
                 {
                     b.Property<int>("ReviewID")
@@ -638,19 +620,6 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
                         .WithMany("RecipeSteps")
                         .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("HomeSquareApp.Models.RecipeUserLike", b =>
-                {
-                    b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

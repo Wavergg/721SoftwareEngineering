@@ -84,8 +84,8 @@ namespace HomeSquareApp.Models
                     {
                         Email = "HomeAdmin@gmail.com",
                         UserName = "HomeAdmin@gmail.com",
-                        FirstName = "ADMIN",
-                        LastName = "ADMIN",
+                        FirstName = "HomeSquare",
+                        LastName = "Admin",
                         Address = "ADMIN",
                         PhoneNumber = "00000",
                     };

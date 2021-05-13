@@ -37,6 +37,10 @@ namespace HomeSquareApp.Models
         [Display(Name = "Prepare & Cook Time")]
         public string PrepareTime { get; set; }
 
+        public string PrepareTimeDuration { get; set; }
+
+        public string PrepareTimeMeasurement { get; set; }
+
         public int Likes { get; set; } = 0;
 
         public string ImageUrl { get; set; }

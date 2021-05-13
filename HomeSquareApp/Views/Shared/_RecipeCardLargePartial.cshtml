@@ -1,6 +1,8 @@
-﻿@* Card Start *@
+﻿@model HomeSquareApp.Models.Recipe
+
+@* Card Start *@
 <div class="card m-md-3 m-1 border-0" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)">
-    <div class="card-header" style="height:240px; background: url(lib/images/recipes/waffle.jpg) no-repeat center;background-size: cover;">
+    <div class="card-header" style="height:240px; background: url(/lib/images/recipes/@Model.ImageUrl) no-repeat center;background-size: cover;">
     </div>
     <div class="m-2">
         <div class="d-flex justify-content-between">
@@ -10,13 +12,15 @@
                     <svg class="bi" width="16" height="16">
                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
                     </svg>
-                    2
+                    @Model.Likes
                 </small>
             </span>
         </div>
-        <p class="cardRecipe-title mb-0">Waffle with maple syrup</p>
-        <small>&mdash; Author Name</small>
-        <p>lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.lorem ipsum dolor amet sit.</p>
+        <p class="cardRecipe-title mb-0">@Model.RecipeName</p>
+        <small>&mdash; @Model.User.FirstName</small>
+        <p>
+            @Model.RecipeDescription
+        </p>
         <div class="mb-3 d-flex justify-content-md-start justify-content-between">
             <div class="col-md-3">
                 <span class="small fw-bold text-secondary">Cook & Prep Time</span><br />
@@ -24,7 +28,7 @@
                     <svg class="bi" width="16" height="16">
                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
                     </svg>
-                    10 mins
+                    @Model.PrepareTime
                 </small>
             </div>
             <div class="col-md-3">
@@ -33,12 +37,12 @@
                     <svg class="bi" width="16" height="16">
                         <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
                     </svg>
-                    2
+                    @Model.Servings
                 </small>
             </div>
         </div>
         @*NYD Change it with strongly typed ID later, Do it on Recipe Card Thumbnail Partial as well *@
-        <a asp-controller="Recipe" asp-action="Details" asp-route-id="1" class="btn btn-danger text-white form-control">Go to Recipe</a>
+        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@Model.RecipeID" class="btn btn-danger text-white form-control">Go to Recipe</a>
     </div>
 </div>
 @* CardEnd *@
