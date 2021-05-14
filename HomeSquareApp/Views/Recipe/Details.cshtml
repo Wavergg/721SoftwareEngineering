@@ -68,19 +68,21 @@
 
 
 <div class="container my-5 d-md-flex">
-    <div class="card rounded-3 col-md-5 pt-5">
-        <h2 class="px-5">Ingredients</h2>
-        <div class="px-5">
-            @*NYD Loop This Ingredients *@
-            @for (int i = 0; i < Model.Ingredients.Count; i++)
-            {
-                <div class="border-bottom border-muted py-3">
-                    @Model.Ingredients[i].ServingContent @Model.Ingredients[i].IngredientName
-                </div>
-            }
+    <div class="col-md-5">
+        <div class="card pt-5 rounded-3">
+            <h2 class="px-5">Ingredients</h2>
+            <div class="px-5">
+                @*NYD Loop This Ingredients *@
+                @for (int i = 0; i < Model.Ingredients.Count; i++)
+                {
+                    <div class="border-bottom border-muted py-3">
+                        @Model.Ingredients[i].ServingContent @Model.Ingredients[i].IngredientName
+                    </div>
+                }
+            </div>
+            @* NYD GET ITEMS BTN *@
+            <button data-bs-toggle="modal" data-bs-target="#recipeIngredients" class="btn btn-success mt-3 rounded-0 rounded-bottom">Get All Items</button>
         </div>
-        @* NYD GET ITEMS BTN *@
-        <button data-bs-toggle="modal" data-bs-target="#recipeIngredients" class="btn btn-success mt-3 rounded-0 rounded-bottom">Get All Items</button>
     </div>
 
     <div class="container rounded-3 col-md-6 offset-md-1 mt-5 mt-md-0">

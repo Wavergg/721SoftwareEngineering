@@ -391,6 +391,7 @@
                 searchString: "",
                 productOrderSubmitBtn: null,
                 cartItemCount: 0,
+                btnDisableSubmit: []
             },
             methods: {
                 updateSearchCategories: function (event) {
@@ -510,10 +511,15 @@
                 disableSubmit: function () {
                     this.productOrderSubmitBtn.disabled = true;
                     this.productOrderSubmitBtn.innerHTML = "Added";
+                    this.btnDisableSubmit.push(this.productOrderSubmitBtn)
                 },
                 reenableSubmit: function () {
-                    this.productOrderSubmitBtn.disabled = false;
-                    this.productOrderSubmitBtn.innerHTML = "Add To Cart";
+                    //this.productOrderSubmitBtn.disabled = false;
+                    //this.productOrderSubmitBtn.innerHTML = "Add To Cart";
+                    for (i = 0; i < this.btnDisableSubmit.length; i++) {
+                        this.btnDisableSubmit[i].disabled = false;
+                        this.btnDisableSubmit[i].innerHTML = "Add to Cart";
+                    }
                 },
                 loadCart: function () {
                     $.ajax(
@@ -542,6 +548,11 @@
                                 document.getElementById("cartTotalPriceN").innerHTML = newPrice[0]
                                 document.getElementById("cartTotalPriceD").innerHTML = newPrice[1]
                                 app.cartItemCount--;
+
+                                if (app.cartItemCount == 0) {
+                                    var cartCheckoutBtn = document.getElementById("cartCheckoutBtn")
+                                    cartCheckoutBtn.classList.add("disabled")
+                                }
 
                                 var orderSummaryEl = document.getElementById("orderSummary")
                                 if (orderSummaryEl) {
