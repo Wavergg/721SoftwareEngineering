@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.NavbarExtension = true;
+    ViewData["Title"] = "My Details";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/sidebar.css" />
+}
+<div class="d-flex bg-light" id="wrapper">
+    <div class="bg-white border-right shadow pt-5" id="sidebar-wrapper">
+        <div class="container" data-bs-toggle="collapse" href="#collapseCategories" role="button" aria-expanded="true" aria-controls="collapseCategories">
+            <h2 class="sidebar-heading text-center p-3">
+                My Account
+                <svg class="bi" width="16" height="24" fill="currentColor">
+                    <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-down" />
+                </svg>
+            </h2>
+        </div>
+        <div class="list-group collapse active show" id="collapseCategories" style="">
+            <a id="MyAccountLink" asp-controller="Manage" asp-action="Index" asp-route-pageName="AccountInformation" class="p-3">My Account Information</a>
+            <a id="MyOrdersLink" asp-controller="Manage" asp-action="Index" asp-route-pageName="MyOrders" class="p-3">My Orders</a>
+            <a id="MyRewardsLink" asp-controller="Manage" asp-action="Index" asp-route-pageName="MyOrders" class="p-3">My Orders</a>
+            <a asp-controller="Account" asp-action="Logout" class="p-3">Sign Out</a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <div class="container m-md-5 mt-0" id="myAccountContent">
+            
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        //ViewData['Active'] is being set by controller
+        @if (ViewData["Active"] != null)
+        {
+            <Text>
+            document.getElementById("@ViewData["Active"]").classList.add("active");
+            $('#myAccountContent').load('/Manage/@ViewData["PageName"]');
+            </Text>
+        }
+
+    </script>
+}

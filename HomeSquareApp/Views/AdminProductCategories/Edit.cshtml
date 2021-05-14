@@ -1,0 +1,45 @@
+﻿@model HomeSquareApp.Models.Category
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Categories";
+    Layout = "_AdminLayout";
+}
+
+<h2>Edit Category</h2>
+<hr />
+<div class="pb-5">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CategoryID" />
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+
+           
+            <input id="submitFormBtn" type="submit" value="Save" class="btn btn-default" hidden />
+           
+        </form>
+    </div>
+</div>
+
+<div class="border-top pt-2">
+    <div class="d-flex align-items-center col-md-5">
+        <a asp-action="Index" class="me-auto text-decoration-none">
+            Back to Category List
+        </a>
+        <input type="button" onclick="submitForm()" value="Save Changes" class="rounded-0 btn btn-outline-dark border-secondary" />
+    </div>
+</div>
+
+@section Scripts{ 
+<script>
+    function submitForm() {
+        document.getElementById("submitFormBtn").click();
+    }
+</script>
+}

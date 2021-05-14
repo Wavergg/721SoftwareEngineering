@@ -1,0 +1,50 @@
+﻿@model HomeSquareApp.Models.Recipe
+
+@* Card Start *@
+<div class="card d-flex flex-column m-md-3 m-1 border-0 w-100" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)">
+    <div class="card-header" style="height:240px; background: url(/lib/images/recipes/@Model.ImageUrl) no-repeat center;background-size: cover;">
+    </div>
+    <div class="m-2 flex-fill d-flex flex-column justify-content-between">
+        <div class="d-flex justify-content-between">
+            @*<small class="text-secondary">Breakfast | Lunch</small>*@
+            <span>
+                <small class="text-muted align-items-center">
+                    <svg class="bi" width="16" height="16">
+                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#hand-thumbs-up" />
+                    </svg>
+                    @Model.Likes
+                </small>
+            </span>
+        </div>
+        <div>
+            <p class="cardRecipe-title mb-0">@Model.RecipeName</p>
+            <small>&mdash; @Model.User.FirstName</small>
+        </div>
+        <p class="flex-fill">
+            @Model.RecipeDescription
+        </p>
+        <div class="mb-3 d-flex justify-content-md-start justify-content-between">
+            <div class="col-md-3">
+                <span class="small fw-bold text-secondary">Cook & Prep Time</span><br />
+                <small class="text-muted align-items-center">
+                    <svg class="bi" width="16" height="16">
+                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#clock" />
+                    </svg>
+                    @Model.PrepareTime
+                </small>
+            </div>
+            <div class="col-md-3">
+                <span class="small fw-bold text-secondary">Servings</span><br />
+                <small class="text-muted align-items-center">
+                    <svg class="bi" width="16" height="16">
+                        <use xlink:href="/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#egg-fried" />
+                    </svg>
+                    @Model.Servings
+                </small>
+            </div>
+        </div>
+        @*NYD Change it with strongly typed ID later, Do it on Recipe Card Thumbnail Partial as well *@
+        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@Model.RecipeID" class="btn btn-danger text-white form-control">Go to Recipe</a>
+    </div>
+</div>
+@* CardEnd *@

@@ -1,0 +1,50 @@
+﻿@model HomeSquareApp.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/css/checkOut.css" />
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input.noshow::-webkit-outer-spin-button,
+        input.noshow::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number].noshow {
+            -moz-appearance: textfield;
+        }
+    </style>
+}
+
+<div class="container py-5 text-dark" id="checkoutFormContainer">
+    @* @Model.Order.OrderDetails.Count() *@
+    <h1 style="font-size:22px">Checkout <span class="text-muted">(<span v-text="cartItemCount"></span> Items)</span></h1>
+    <div class="d-md-flex">
+        <div class="col-md-8">
+            <partial name="_CheckoutFormPartial" model="Model.OrderViewModel" />
+        </div>
+        <div class="col-md-4 bg-light px-lg-5 px-3 py-4 ms-md-3 mt-4 mt-md-0">
+            <h2>Order Summary</h2>
+            <hr />
+            <div id="orderSummary">
+                <partial name="_OrderSummaryPartial" model="Model.Order.OrderDetails" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/js/checkout.js"></script>
+    <script>
+        $(document).on("keydown", ":input:not(textarea)", function (event) {
+            return event.key != "Enter";
+        });
+    </script>
+}

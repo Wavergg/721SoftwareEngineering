@@ -1,0 +1,55 @@
+﻿@model HomeSquareApp.Models.Ingredient
+@{
+    double currentProductPrice;
+    if (Model.Product.ProductStatus.ProductStatusName == "Sale" &&
+        Model.Product.SaleStartDateTime <= DateTime.Now &&
+        Model.Product.SaleEndDateTime >= DateTime.Now)
+    {
+        currentProductPrice = Model.Product.PriceAfterDiscount;
+    }
+    else
+    {
+        currentProductPrice = Model.Product.ProductPrice;
+    }
+
+    string formattedPrice = string.Format("$ {0:F2}", currentProductPrice);
+}
+
+<div class="col">
+    <div class="card d-flex flex-column">
+        <div class="d-md-flex justify-content-between bg-success fw-bold text-white p-2" role="alert">
+            <span class="d-block d-md-inline">
+                Ingredient Required: @Model.ServingContent
+            </span>
+            <span>
+               @formattedPrice / @Model.Product.ProductServingContent @Model.Product.ServingType.ServingType
+            </span>
+        </div>
+        <div class="d-flex align-items-stretch p-1 pt-2">
+            <div class="align-self-center bg-dark">
+                <img src="~/lib/images/products/@Model.Product.ImageUrl" style="max-height:100px;max-width:145px" />
+            </div>
+            <div class="flex-fill justify-content-between flex-column d-flex ms-3">
+                <div>
+                    <span class="fw-bold">@Model.IngredientName</span>
+                </div>
+                <form asp-controller="Order" asp-action="HandleOrder" method="post"
+                      data-ajax="true" data-ajax-method="post" data-ajax-begin="app.disableSubmit" data-ajax-complete="app.cardOrderAdded" data-ajax-url="/Order/HandleOrder">
+
+                    <div class="py-2 d-md-flex align-items-center text-md-center">
+
+                        <input name="productID" hidden type="hidden" value="@Model.Product.ProductID" />
+                        <label class="text-muted" style="font-size:14px;">QTY</label>
+                        <input name="quantity" type="number" @(Model.Product.ProductStock > 0 ? "" : "disabled") placeholder="1" min="1" value="1" class="mx-2 w-25" />
+
+                        <button type="submit" onclick="app.orderFormSubmitBtn(this)" @(Model.Product.ProductStock > 0 ? "" : "disabled")
+                                class="ms-auto my-2 me-2 my-md-0 btn btn-success rounded-pill float-md-end">
+                            Add To Cart
+                        </button>
+                    </div>
+                    <small style="min-height:16px;" class="rounded-3 d-flex justify-content-center text-white"></small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

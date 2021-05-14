@@ -1,0 +1,100 @@
+﻿@media only screen and (min-width: 1200px) {
+    .product-bottom-left-btn {
+        position: absolute;
+        bottom: 0;
+        width: 50%;
+        height:inherit;
+        border-bottom-left-radius: 0.25rem;
+        padding: 7px;
+    }
+
+    .product-bottom-right-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+        border-top: 1px solid #e3e3e3;
+        border-bottom-right-radius: 0.25rem;
+        padding: 7px;
+    }
+}
+
+
+
+@media only screen and (max-width: 1199.98px) {
+    .product-bottom-left-btn {
+        border-radius: 0 0 0 0;
+    }
+
+    .product-bottom-right-btn {
+        border: 1px solid #eee;
+        border-radius: 0 0 0.25rem 0.25rem;
+    }
+}
+
+
+.badge-special {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    background: red;
+    color: #fff;
+    padding: 3px 10px;
+}
+
+.product-details {
+    padding: 5px;
+    font-family: Bahnschrift;
+    font-size: 0.8rem;
+}
+
+.product-category {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 18px;
+}
+
+.product-price {
+    font-size: 1.8em;
+    color: #fbb72c;
+    font-weight: 600;
+}
+
+.product-price-before-special{
+    text-decoration: line-through;
+    color: #c70000;
+}
+
+.product-price-decimal {
+    font-size: 1.4em;
+    color: #fbb72c;
+    font-weight: 600;
+}
+
+    .product-price small {
+        font-size: 80%;
+        font-weight: 400;
+        text-decoration: line-through;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+.product-link {
+    text-decoration:none;
+    color: #000;
+}
+
+    .product-link:hover {
+        color: #0F6B41;
+    }
+
+.fa-star.checked{
+    color: orange;
+}
+

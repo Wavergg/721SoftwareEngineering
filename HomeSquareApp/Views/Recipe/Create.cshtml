@@ -1,0 +1,149 @@
+﻿@model HomeSquareApp.ViewModels.RecipeCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Recipe";
+    Layout = "_MainLayout";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+    <link rel="stylesheet" href="~/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.css" />
+    <style>
+        .form-control {
+            border-radius: 0;
+            background: #FDFDFD;
+        }
+
+            .form-control:focus {
+                border-color: black;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+                outline: 0 none;
+            }
+
+
+        .recipe-title {
+            font-family: Bahnschrift;
+        }
+
+        label {
+            font-size: 14px;
+            color: #808080;
+        }
+
+        select {
+            font-size: 14px !important;
+            color: #808080 !important;
+        }
+
+            select option {
+                font-size: 14px;
+                color: #808080;
+            }
+    </style>
+}
+<div class="p-5">
+    <h2>Create New Recipe</h2>
+    <hr />
+    <form asp-controller="Recipe" asp-action="Create" method="post" enctype="multipart/form-data" autocomplete="off">
+        <partial name="_RecipeFormTemplatePartial" model="Model"/>
+
+        <div class="d-flex justify-content-center my-5">
+            <button type="submit" class="btn btn-success col-md-6 col-10">Create Recipe</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25 + element.scrollHeight) + "px";
+        }
+
+        var recipeImage = document.getElementById("recipeImage")
+
+        /*recipeImage.style.backgroundImage = "url('/lib/images/products/productPlaceholder.png')";*/
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    //console.log(e.target.result)
+                    recipeImage.style.backgroundImage = "url('" + e.target.result+"')";;
+                }
+
+                const file = input.files[0];
+
+                const fileType = file['type'];
+
+                const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg','image/png'];
+                if (validImageTypes.includes(fileType)) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        var nextIngredientId = @Model.Ingredients.Count();
+
+        $("#addIngredient").click(function () {
+            var rowHtml = `<div class="d-flex my-3" id="IngredientContent`+nextIngredientId+`">
+
+                            <div class="form-floating col-4">
+                                <input name="Ingredients[`+nextIngredientId+`].ServingContent" type="text" class="form-control" placeholder="0">
+                                <label>Amount</label>
+                            </div>
+                            <div class="form-floating flex-fill">
+                                <input  name="Ingredients[`+nextIngredientId+`].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
+                                <label>Ingredient Name</label>
+                            </div>
+                            <button type="button" onclick="removeIngredient('IngredientContent'+`+ nextIngredientId +`)" class="text-danger fw-bold btn btn-default">X</button>
+                        </div>`
+            nextIngredientId++;
+
+            $("#ingredientRow").append(rowHtml);
+        });
+
+        function removeIngredient(elementID) {
+            var el = document.getElementById(elementID)
+            el.remove();
+            nextIngredientId--;
+        }
+
+
+        var nextInstructionId =  @Model.RecipeSteps.Count();
+        $("#addInstruction").click(function () {
+
+            var rowHtml = `<div class="card pt-5 pb-4 px-4 my-2" id="StepsContent`+nextInstructionId+`">
+                            <div class="position-absolute start-0 top-0 mx-4 mt-3">
+                                <small class="fw-bold">Step `+(nextInstructionId+1)+`</small>
+                                <a style="cursor:pointer" onclick="removeSteps('StepsContent`+nextInstructionId+`')" class="text-danger fw-bold">X</a>
+                            </div>
+                            <div>
+                                <div class="form-floating">
+                                    <textarea id="RecipeSteps_`+nextInstructionId+`__Steps" name="RecipeSteps[`+nextInstructionId+`].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
+                                    <label for="RecipeSteps_`+nextInstructionId+`__Steps">Instruction</label>
+                                </div>
+                            </div>
+                        </div>`
+
+            nextInstructionId++;
+
+            $("#stepsRow").append(rowHtml);
+        });
+
+        function removeSteps(elementID) {
+            var el = document.getElementById(elementID)
+            el.remove();
+            nextInstructionId--;
+        }
+
+        $("#Image").change(function () {
+            readURL(this);
+        });
+
+        $(document).on("keydown", ":input:not(textarea)", function (event) {
+            return event.key != "Enter";
+        });
+    </script>
+}

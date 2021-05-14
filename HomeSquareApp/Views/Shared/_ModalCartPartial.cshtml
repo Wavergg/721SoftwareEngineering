@@ -1,0 +1,30 @@
+﻿@model HomeSquareApp.ViewModels.CartViewModel
+@{ 
+    string totalPrice = string.Format("{0:F2}", Model.TotalInCart);
+    string[] totalBase = totalPrice.Split('.');
+}
+<div class="modal-content rounded-0">
+    <div class="modal-header sticky-top bg-white" style="height:10vh;">
+        <h3 class="mb-0 fw-bold position-relative">My Cart</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="bg-light" style="height: 70vh;overflow-y:scroll;">
+        @* NYD Loop through the number of item *@
+        @foreach (OrderDetails orderDetails in Model.OrderDetails)
+        {
+            <partial name="_CartItemPartial" model="orderDetails"/>
+        }
+    </div>
+    <div class="d-flex p-3 justify-content-between bg-dark align-items-center" style="height:19.7599993vh">
+        <div class="d-flex flex-column text-light">
+            <h4 class="m-0 fw-bold text-center">Total</h4>
+            @* NYD Update Total Based On Model Passed *@
+            <div style="font-family:Arial, Helvetica, sans-serif; font-size:24px">
+                <small>$</small> <span id="cartTotalPriceN">@totalBase[0]</span> <small id="cartTotalPriceD">@totalBase[1]</small>
+            </div>
+        </div>
+        <div class="d-flex flex-fill justify-content-end">
+            <a id="cartCheckoutBtn" asp-controller="Checkout" asp-action="Index" class="@(Model.OrderDetails.Count()<1?"disabled": "") btn col-10 btn-success text-light rounded-pill">Check Out</a>
+        </div>
+    </div>
+</div>

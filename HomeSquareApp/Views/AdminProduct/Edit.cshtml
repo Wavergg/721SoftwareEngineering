@@ -1,0 +1,270 @@
+﻿@model HomeSquareApp.ViewModels.AdminProductEditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Main";
+    Layout = "_AdminLayout";
+}
+
+<h2>Edit New Product</h2>
+<hr />
+<div class="pb-5">
+    <div class="col-md-5">
+        <form enctype="multipart/form-data" asp-action="Edit" class="row gap-2 pb-5" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductID" />
+            <input type="hidden" asp-for="ImageUrl" />
+            <input type="hidden" asp-for="ProductOldName" />
+            <div class="d-md-flex">
+                <label asp-for="ProductName" class="col-md-5 required"></label>
+                <input asp-for="ProductName" class="col-md-7 form-control" />
+            </div>
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+            <div class="d-flex justify-content-end">
+                <div class="card col-md-6 p-3">
+                    <img id="imagePhotoPreview" src="~/lib/images/products/@Model.ImageUrl" class="img-fluid" style="object-fit: cover;" asp-append-version="true">
+                </div>
+            </div>
+
+            <div class="d-md-flex">
+                <label asp-for="Image" class="col-md-5 required"></label>
+                <div class="custom-file">
+                    <input id="imageInput" asp-for="Image" class="col-md-7 form-control custom-file-input" />
+                </div>
+            </div>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductPrice" class="col-md-5 required"></label>
+                <input asp-for="ProductPrice" class="col-md-7 form-control" />
+            </div>
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductStock" class="col-md-5"></label>
+                <input readonly asp-for="ProductStock" class="col-md-7 form-control" />
+            </div>
+            <span asp-validation-for="ProductStock" class="text-danger"></span>
+            <div class="d-md-flex">
+                <label asp-for="ProductIncrement" class="col-md-5"></label>
+                <input asp-for="ProductIncrement" class="col-md-7 form-control" />
+            </div>
+            <span asp-validation-for="ProductStock" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="Description" class="col-md-5"></label>
+                <textarea asp-for="Description" onkeyup="textAreaAdjust(this)" class="col-md-7 form-control"
+                          placeholder="Brief description of the product" style="height: 100px"></textarea>
+            </div>
+            <span asp-validation-for="Description" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <label asp-for="ProductInformation" class="col-md-5"></label>
+                <textarea asp-for="ProductInformation" onkeyup="textAreaAdjust(this)" class="col-md-7 form-control"
+                          placeholder="E.g Contains gluten, Ingredients: sunflower oil, potatoes" style="height: 100px"></textarea>
+            </div>
+            <span asp-validation-for="ProductInformation" class="text-danger"></span>
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="ProductServingContent" class="required"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <input asp-for="ProductServingContent" class="form-control" />
+                    <select id="ProductServingTypeDropdown" asp-for="ProductServingTypeID" class="form-control flex-fill" asp-items="ViewBag.ProductServingTypeID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductServingTypeDropdown()">
+                        <i id="syncIconProductServingType" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex flex-fill justify-content-end me-4">
+                <a asp-action="Create" asp-controller="AdminProductServingTypes" target="_blank" class="text-primary small text-end">
+                    Create New Serving Type
+                </a>
+            </div>
+            <span asp-validation-for="ProductServingContent" class="text-danger"></span>
+
+
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="CategoryID" class="required"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <select id="ProductCategoryDropdown" asp-for="CategoryID" class="form-control flex-fill" asp-items="ViewBag.CategoryID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductCategoryDropdown()">
+                        <i id="syncIconProductCategory" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex flex-fill justify-content-end me-4">
+                <a asp-action="Create" asp-controller="AdminProductCategories" target="_blank" class="text-primary small">
+                    Create New Category
+                </a>
+            </div>
+
+            <div class="d-md-flex">
+                <div class="col-md-5 d-flex align-items-center">
+                    <label asp-for="ProductStatusID" class="required"></label>
+                </div>
+                <div class="d-flex flex-fill">
+                    <select onchange="getContext(this)" id="ProductStatusDropdown" asp-for="ProductStatusID" class="form-control flex-fill" asp-items="ViewBag.ProductStatusID"></select>
+                    <a class="refreshLink" style="cursor:pointer" onclick="refreshProductStatusDropdown()">
+                        <i id="syncIconProductStatus" class="fas fa-sync ms-2 d-flex align-items-center" style="font-size: 1em;width:1rem"></i>
+                    </a>
+                </div>
+            </div>
+            @*<div class="d-flex flex-fill justify-content-end me-4">
+            <a asp-action="Create" asp-controller="AdminProductStatus" target="_blank" class="text-primary small">
+                Create New Product Status
+            </a>
+        </div>*@
+            <span asp-validation-for="ProductStatusID" class="text-danger"></span>
+
+            <div class="d-md-flex" id="discountSection">
+                <label asp-for="ProductDiscount" class="col-md-5" hidden></label>
+                <input asp-for="ProductDiscount" placeholder="0.0" class="col-md-7 form-control flex-fill me-4" hidden/>
+            </div>
+            <span asp-validation-for="ProductDiscount" class="text-danger"></span>
+
+            <div class="d-md-flex" id="saleStartSection">
+                <label asp-for="SaleStartDateTime" class="col-md-5" hidden></label>
+                <input asp-for="SaleStartDateTime" class="col-md-7 form-control flex-lg-fill me-4" hidden />
+            </div>
+            <div class="d-md-flex" id="saleEndSection">
+                <label asp-for="SaleEndDateTime" class="col-md-5" hidden></label>
+                <input asp-for="SaleEndDateTime" class="col-md-7 form-control flex-lg-fill me-4" hidden />
+            </div>
+
+            <input id="submitFormBtn" type="submit" value="Submit Form" hidden />
+        </form>
+    </div>
+
+    <div class="border-top pt-2">
+        <div class="d-flex align-items-center col-lg-5">
+            <a asp-action="Index" class="me-auto text-decoration-none">
+                Back to Products List
+            </a>
+            <input type="button" onclick="submitForm()" value="Save Changes" class="rounded-0 btn btn-outline-dark border-secondary me-4" />
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function getContext(el) {
+            var discountElms = document.getElementById("discountSection").getElementsByTagName("*")
+            var saleStartElms = document.getElementById("saleStartSection").getElementsByTagName("*")
+            var saleEndElms = document.getElementById("saleEndSection").getElementsByTagName("*")
+            if (el.options[el.selectedIndex].innerHTML == "Sale") {
+                for (i = 0; i < discountElms.length; i++) {
+                    discountElms[i].hidden = false;
+                }
+                for (i = 0; i < saleStartElms.length; i++) {
+                    saleStartElms[i].hidden = false;
+                }
+                for (i = 0; i < saleEndElms.length; i++) {
+                    saleEndElms[i].hidden = false;
+                }
+            } else {
+                for (i = 0; i < discountElms.length; i++) {
+                    discountElms[i].hidden = true;
+                }
+                for (i = 0; i < saleStartElms.length; i++) {
+                    saleStartElms[i].hidden = true;
+                }
+                for (i = 0; i < saleEndElms.length; i++) {
+                    saleEndElms[i].hidden = true;
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            var selectList = document.getElementById("ProductStatusDropdown")
+            getContext(selectList)
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imagePhotoPreview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imageInput").change(function () {
+            readURL(this);
+        });
+
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25 + element.scrollHeight) + "px";
+        }
+
+        function submitForm() {
+            document.getElementById("submitFormBtn").click();
+        }
+
+        function refreshProductServingTypeDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductServingType",
+                dataType: "json",
+                beforeSend: function () {
+                    document.getElementById("syncIconProductServingType").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].productServingTypeID + '">' + data[i].servingType + '</option>';
+                    }
+                    $("#ProductServingTypeDropdown").html(s);
+                }
+            })
+        }
+
+        function refreshProductStatusDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductStatus",
+                dataType: "json",
+                beforeSend: function () {
+                    document.getElementById("syncIconProductStatus").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].productStatusID + '">' + data[i].productStatusName + '</option>';
+                    }
+                    $("#ProductStatusDropdown").html(s);
+                }
+            })
+        }
+
+        function refreshProductCategoryDropdown() {
+            $.ajax({
+                method: "GET",
+                url: "/AdminProduct/GetProductCategory",
+                dataType: "json",
+                beforeSend: function () {
+
+                    document.getElementById("syncIconProductCategory").style.animation = "spin 4s linear";
+                },
+                success: function (data) {
+                    var s;
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].categoryID + '">' + data[i].categoryName + '</option>';
+                    }
+                    $("#ProductCategoryDropdown").html(s);
+                }
+            })
+        }
+    </script>
+}

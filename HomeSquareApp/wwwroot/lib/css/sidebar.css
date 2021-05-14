@@ -1,0 +1,52 @@
+﻿
+#wrapper {
+    overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -20rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+    #sidebar-wrapper a:hover {
+        background-color: #F6F6F6;
+    }
+
+    #sidebar-wrapper a.active {
+        background-color: #F6F6F6;
+        color: blue;
+    }
+
+    #sidebar-wrapper .container {
+        width: 20rem;
+    }
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+
+@media (min-width: 769px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+/*-418px because of 20 REM + 6REM From bootstrap margin ( 1REM=16PX ) */
+    #page-content-wrapper {
+        min-width: 0;
+        width: calc(100% - 418px);
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -20rem;
+    }
+}
+

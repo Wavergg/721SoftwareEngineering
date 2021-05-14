@@ -1,0 +1,299 @@
+﻿@model HomeSquareApp.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+@section pageSpecificCss {
+    @* owl carousel*@
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.carousel.css">
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.theme.default.css">
+    @* Icons *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+    <link rel="stylesheet" href="~/lib/css/productCard.css" />
+    
+}
+
+@if (TempData["ResetMessage"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast hide" style="background-color:#c5e1a5" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ResetMessage"]
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="liveToast" class="toast hide" style="background-color:#F8C4B6" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ErrorMessage"]
+            </div>
+        </div>
+    </div>
+}
+
+<div class="mb-5">
+    @* Carousel For Promotional ADS/PRODUCTS *@
+    <div id="carouselExampleCaptions" class="carousel slide mb-2" data-bs-ride="carousel">
+
+        <div class="carousel-indicators d-md-flex d-none" style="bottom:15%">
+            <button style="width:10px;height:10px;margin:0 8px 0 0px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button style="width:10px;height:10px;margin:0 8px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button style="width:10px;height:10px;margin:0 0px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="position:relative;top:-1px;left:-1px">
+                <img asp-append-version="true" src="~/lib/images/banner/Fairfield-Meat-Market-Beef-Banner.png" class="d-block w-100" alt="banner1">
+            </div>
+            <div class="carousel-item" style="position:relative;top:-1px;left:-1px">
+                <img asp-append-version="true" src="~/lib/images/banner/Fairfield-Meat-Market-Chicken-Banner1.png" class="d-block w-100" alt="banner2">
+
+            </div>
+            <div class="carousel-item" style="position:relative;top:-1px;left:-1px">
+                <img asp-append-version="true" src="~/lib/images/banner/Fairfield-Meat-Market-Lamb-Banner.png" class="d-block w-100" alt="banner3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class=" container d-flex justify-content-center p-0">
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a asp-controller="Contact" asp-action="Index">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person-fill" />
+                </svg>
+            </a>
+            <span class="mt-2">Contact Us</span>
+        </div>
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a href="#">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#award" />
+                </svg>
+            </a>
+            <span class="mt-2">Fresh Product</span>
+        </div>
+        <div class="moveSlightlyY-animation mx-2 col-md-2 col-3 card text-center p-3">
+            <a href="#">
+                <svg class="bi text-dark" width="36" height="36">
+                    <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#newspaper" />
+                </svg>
+            </a>
+            <span class="mt-2">Our Blog</span>
+        </div>
+    </div>
+
+    <div class="p-md-5 p-1 mt-5 d-md-flex">
+
+        @* Recipe Start *@
+        <div class="col-md-6">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="h2 mb-0">Featured Cooking Recipe</h2>
+                <div class="d-flex gap-1">
+                    <button class="recipePrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                        </svg>
+                    </button>
+                    <button class="recipeNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <hr />
+            <div class="owl-carousel owl-carouselRecipe">
+                @* NYD fill based on Model with model/viewdata*@
+                @for (int i = 0; i < Model.FeaturedRecipes.Count; i++)
+                {
+                    <partial name="_RecipeCardLargePartial" model="Model.FeaturedRecipes[i]"/>
+                }
+            </div>
+        </div>
+        @* Recipe End *@
+
+        @* Special product start *@
+        <div class="col-md-5 offset-md-1 g-2 mt-5">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="h2 mb-0">Super Price Of The Week</h2>
+                <div class="d-flex gap-1">
+                    <button class="productPrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                        </svg>
+                    </button>
+                    <button class="productNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                        <svg class="bi text-white" width="16" height="24">
+                            <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <hr />
+            <div class="owl-carousel owl-carouselOfferProduct">
+                @* NYD Pass In the model here model/viewdata *@
+                @foreach (Product product in Model.FeaturedProducts)
+                {
+                    <partial name="_ProductCardLongStripPartial" model="product" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-light p-5 text-md-center text-justify">
+        <h1>Home Square, Tedious shopping? <br />Say no more</h1>
+        <div class="my-3 lead">
+            <p>With our latest addition, shopping couldn't be made easier by just a click of a button</p>
+            <p>That's because we value your time and the joy of our customer</p>
+            <p>Join our square for easier checkout, rewards and more...</p>
+        </div>
+        <button data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-dark rounded-pill">Sign Up Now</button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="h2 mb-0">Latest Products</h2>
+            <div>
+                <button class="latestProductPrevBtn bg-success btn btn-sm rounded" style="height:32px">
+                    <svg class="bi text-white" width="16" height="24">
+                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-left" />
+                    </svg>
+                </button>
+                <button class="latestProductNextBtn bg-success btn btn-sm rounded" style="height:32px">
+                    <svg class="bi text-white" width="16" height="24">
+                        <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#chevron-right" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <hr />
+        <div class=" owl-carousel owl-carouselLatestProduct row">
+            @* NYD Pass In the model here model/viewdata *@
+            @foreach (Product product in Model.LatestProducts)
+            {
+                <partial name="_ProductCardLongStripPartial" model="product" />
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        //Recipe Carousel
+        //--------------------------------------------------------
+        var owlRecipe = $('.owl-carouselRecipe');
+        //Initialization
+        owlRecipe.owlCarousel({
+            loop: true,
+            margin: 150,
+            items: 1,
+            autoHeight: true,
+        }
+        );
+
+        $('.owl-carouselRecipe div:has(.owl-item)').css("display","block")
+
+        // Go to the next item
+        $('.recipeNextBtn').click(function () {
+            owlRecipe.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.recipePrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlRecipe.trigger('prev.owl.carousel', [300]);
+        })
+
+        //Special Offer for Product Carousel
+        //--------------------------------------------------------
+        var owlOfferProduct = $('.owl-carouselOfferProduct');
+        //Initialization
+        owlOfferProduct.owlCarousel({
+            loop: true,
+            margin: 10,
+            responsive: {
+                0: {
+                    items: 2,
+                },
+                577: {
+                    items: 3,
+                },
+                768: {
+                    items: 1,
+                },
+                1296: {
+                    items: 2
+                }
+            }
+        }
+        );
+        // Go to the next item
+        $('.productNextBtn').click(function () {
+            owlOfferProduct.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.productPrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlOfferProduct.trigger('prev.owl.carousel', [300]);
+        })
+
+        //Latest Product Carousel
+        //--------------------------------------------------------
+        var owlLatestProduct = $('.owl-carouselLatestProduct');
+        //Initialization
+        owlLatestProduct.owlCarousel({
+            loop: true,
+            margin: 10,
+            autoHeight: false,
+            responsive: {
+                0: {
+                    items: 2,
+                },
+                600: {
+                    items: 3,
+                },
+                1000: {
+                    items: 4,
+                }
+            }
+        }
+        );
+        // Go to the next item
+        $('.latestProductNextBtn').click(function () {
+            owlLatestProduct.trigger('next.owl.carousel');
+        })
+        // Go to the previous item
+        $('.latestProductPrevBtn').click(function () {
+            // With optional speed parameter
+            // Parameters has to be in square bracket '[]'
+            owlLatestProduct.trigger('prev.owl.carousel', [300]);
+        })
+
+        $(document).ready(function () {
+            $(".toast").toast('show');
+        });
+    </script>
+}

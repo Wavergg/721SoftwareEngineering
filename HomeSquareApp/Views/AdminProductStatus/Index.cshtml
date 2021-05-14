@@ -1,0 +1,35 @@
+﻿@model IEnumerable<HomeSquareApp.Models.ProductStatus>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["NavData"] = "Product";
+    ViewData["CurrentPage"] = "Statuses";
+    Layout = "_AdminLayout";
+}
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductStatusName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductStatusName)
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

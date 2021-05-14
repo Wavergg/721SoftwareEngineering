@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] | Admin</title>
+
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/css/adminPanel.css" />
+    @RenderSection("pageSpecificCss", required: false)
+    <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <style>
+        @@media (max-width: 991.98px) {
+            .offcanvas-collapse {
+                position: fixed;
+                top: 56px; /* Height of navbar */
+                bottom: 0;
+                left: 100%;
+                width: 100%;
+                padding-right: 1rem;
+                padding-left: 1rem;
+                overflow-y: auto;
+                visibility: hidden;
+                background-color: #343a40;
+                transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+            }
+
+                .offcanvas-collapse.open {
+                    visibility: visible;
+                    transform: translateX(-100%);
+                }
+        }
+
+        .required::after{
+            content: "*";
+            color: #f00;
+        }
+
+        @@media(max-width: 767.98px){
+            .sticky-top-small-vp {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                z-index: 1020;
+            }
+        }
+
+        body {
+            font-family: 'Titillium Web';
+            font-style: normal;
+            font-weight: 300;
+        }
+
+        @@media (min-width:768px) {
+            .margin-offset {
+                margin-left: 59px;
+            }
+        }
+
+
+        
+
+        .fa.fa-star.checked {
+            color: #ffc107 !important;
+        }
+
+        .fa-2x {
+            font-size: 2em;
+        }
+
+        .fas {
+            position: relative;
+            display: table-cell;
+            width: 60px;
+            height: 36px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+        }
+
+        .form-control {
+            border-radius: 0;
+        }
+
+            .form-control:focus {
+                border-color: black;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+                outline: 0 none;
+            }
+
+        .refreshLink {
+            color: #198754;
+            text-decoration: none;
+        }
+
+        @@keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        table {
+            overflow: hidden;
+        }
+
+            table th,td {
+                white-space: nowrap;
+            }
+
+        .tableSortLink {
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .paginationLink.active {
+            border-bottom: 3px solid #f564a9 !important;
+        }
+        .paginationLink:hover {
+            background-color: #f8f9fa !important
+        }
+
+        .badge-filter {
+            background-color:#212529 !important;
+            color: #fff;
+        }
+
+            .badge-filter:hover {
+                background-color: #dc3545 !important;
+                color: #fff;
+            }
+
+        /* Tooltip container */
+        .tooltip-badge {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+        }
+
+            /* Tooltip text */
+            .tooltip-badge .tooltip-badgetext {
+                visibility: hidden;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 5px 0;
+                border-radius: 6px;
+                position: absolute;
+                width:100px;
+                margin-left: -50px;
+                z-index: 10;
+                bottom: 100%;
+                left: 50%;
+            }
+
+
+            /* Show the tooltip-badge text when you mouse over the tooltip-badge container */
+            .tooltip-badge:hover .tooltip-badgetext {
+                visibility: visible;
+            }
+
+        .tooltip-badge .tooltip-badgetext::after {
+            content: " ";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+    </style>
+</head>
+
+<body style="position:relative;height:100%">
+    <div class="d-flex">
+        @* Desktop Menu *@
+        <nav class="main-menu min-vh-100 d-md-block d-none">
+            <ul>
+                <li>
+                    <a asp-action="Index" asp-controller="Admin">
+                        <i class="fas fa-home fa-2x"></i>
+                        <span class="nav-text">
+                            Dashboard
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="AdminOrder">
+                        <i class="fas fa-clipboard-list fa-2x"></i>
+                        <span class="nav-text">
+                            Order
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="AdminProduct">
+                        <i class="fas fa-shopping-bag fa-2x"></i>
+                        <span class="nav-text">
+                            Product
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="AdminRecipes">
+                        <i class="fas fa-utensils fa-2x"></i>
+                        <span class="nav-text">
+                            Recipe
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-bahai fa-2x"></i>
+                        <span class="nav-text">
+                            Reward
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-bar fa-2x"></i>
+                        <span class="nav-text">
+                            Graphs and Statistics
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="Logout" asp-controller="Account">
+                        <i class="fas fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid p-0 margin-offset" style="min-height:100vh">
+            <div id="TopRibbon" class="py-2 bg-white sticky-top-small-vp shadow-sm d-flex justify-content-between align-items-center">
+
+                @if ((ViewData["NavData"] as string) == "Product")
+                {
+
+                    <div class="d-flex">
+                        <h2 class="mx-2 m-0">Product <span class="text-muted">&ndash;</span></h2>
+                        <div class="dropdown">
+                            <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                @ViewData["CurrentPage"]
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a asp-action="Index" asp-controller="AdminProduct" class="dropdown-item">Main</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductCategories" class="dropdown-item">Categories</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductServingTypes" class="dropdown-item">Serving Types</a></li>
+                                <li><a asp-action="Index" asp-controller="AdminProductStatus" class="dropdown-item">Statuses</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                }
+                else if ((ViewData["NavData"] as string) == "Index")
+                {
+                    <h2 class="mx-2 m-0">Dashboard</h2>
+                }
+                else if ((ViewData["NavData"] as string) == "Order")
+                {
+                    <h2 class="mx-2 m-0">Order</h2>
+                }
+                else if ((ViewData["NavData"] as string) == "Recipe")
+                {
+                    <h2 class="mx-2 m-0">Recipe</h2>
+                }
+
+                <button class="btn btn-default me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
+                    <i class="fas fa-bars d-flex align-items-center justify-content-center" style="font-size: 1em;width:1.5rem"></i>
+                </button>
+            </div>
+            
+            <div class="container pt-5">
+                <a href="#TopRibbon" class="d-none d-md-block btn position-fixed text-white" style="bottom:0px;left:0px;z-index:1000">
+                    <i style="width:34.97px" class="fas fa-angle-double-up fa-2x"></i>
+                </a>
+                
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <nav style="z-index:2" class="navbar navbar-expand-lg navbar-dark bg-dark d-md-none d-block" aria-label="Main navigation">
+        <div class="container-fluid">
+            <div class="navbar-collapse mt-2 offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a asp-controller="Admin" asp-action="Index" class="nav-link text-white" aria-current="page">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="AdminOrder" asp-action="Index" class="nav-link text-white" >Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="AdminProduct" asp-action="Index" class="nav-link text-white">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="AdminRecipes" asp-action="Index" class="nav-link text-white">Recipe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Rewards</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Graph and Statistic</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @* MODIFIED JQUERY VALIDATE START *@
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: false)
+    }
+    <script>
+        (function () {
+            'use strict'
+            document.querySelector('[data-bs-toggle="offcanvas"]').addEventListener('click', function () {
+                document.querySelector('.offcanvas-collapse').classList.toggle('open')
+            })
+        })()
+
+        if (performance.navigation.type == 2) {
+          location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿@model HomeSquareApp.Models.Recipe
+
+<form asp-controller="Recipe" asp-action="HandleLike"
+      method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="updateLike" data-ajax-url="/Recipe/HandleLike">
+    <input type="hidden" asp-for="RecipeID" />
+    <div class="d-flex flex-row btn" onclick="sendLikeStatus()">
+        <div class="card display-5 p-3">
+            @Model.Likes Likes
+        </div>
+
+        @if ((bool)ViewData["IsLiked"])
+        {
+            <button type="button" class="btn btn-lg btn-danger rounded-0 rounded-end">
+                <i class="bi bi-hand-thumbs-down"></i>
+            </button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-lg btn-success rounded-0 rounded-end">
+                <i class="bi bi-hand-thumbs-up"></i>
+            </button>
+        }
+    </div>
+
+    <button id="submitLikeForm" hidden type="submit" value="Submit Like Form"></button>
+</form>

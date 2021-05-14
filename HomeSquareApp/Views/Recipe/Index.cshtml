@@ -1,0 +1,153 @@
+﻿@model List<HomeSquareApp.Models.Recipe>
+
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    ViewData["Title"] = "Recipe";
+}
+
+@section pageSpecificCss{
+    <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+}
+
+<div class="mb-5">
+    <div class="bg-dark" style="position:relative">
+        <div class="card-header" style="height:360px;opacity:0.4; background: url(/lib/images/banner/diy-food-background-5.jpg) no-repeat center;background-size: cover;">
+        </div>
+
+        <div class="text-white w-100 h-100 d-flex align-items-center" style="font-size:1.5rem;position:absolute;top:0">
+            <div class="container">
+                <div class="col-lg-7">
+                    <h1 class="">Our Recipes</h1>
+                    <p class="d-none d-md-block">
+                        From classic kiwi recipes to dishes from all around the world,<br /> That cater for all diet, budgets, and taste.
+                    </p>
+                    <div class="input-group my-3 text-center">
+                        <input class="w-75" id="searchRecipeInput" type="text" placeholder="Search Recipe">
+                        <button onclick="searchRecipeByName()" class="btn btn-success" type="button">
+                            <svg class="bi text-white" width="16" height="24">
+                                <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#search" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-white" style="height:10px;">
+        </div>
+    </div>
+    <div id="recipeContainer" class="container-fluid pt-5 bg-white">
+        @*<div class="d-md-flex justify-content-center gx-2">
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Meals and Courses</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Occasion</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">All Recipes</button>
+            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Diet and Lifestyle</button>
+        </div>*@
+        <div class="d-md-flex justify-content-center mt-5">
+            <h1 class="fw-bold">Recipes</h1>
+        </div>
+        <hr />
+        <div class="d-flex gap-2">
+            @if (signInManager.IsSignedIn(User))
+            {
+                <a asp-action="Create" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add My Recipe</a>
+            }
+            <button id="clearRecipeFilterBtn" @((bool)ViewData["IsFiltered"] ? "" : "hidden") onclick="clearFilter(this)" class="col-4 btn btn-dark">
+                Clear Filter
+            </button>
+        </div>
+
+        
+        <div id="recipeCardList" class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3 mt-3 ">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <div class="col d-flex justify-content-center">
+                    <partial name="_RecipeCardThumbnailPartial" model="Model[i]" />
+                </div>
+            }
+        </div>
+
+        @if (ViewData["PaginationCount"] != null)
+        {
+            <div class="text-center my-3">
+                @* NYD ADD ONCLICK FUNCTION TO LOAD MORE RECIPE *@
+                <button id="moreRecipeBtn" onclick="loadNextRecipes()" class="btn btn-success rounded-pill">More Recipe</button>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var clearFilterBtn = document.getElementById("clearRecipeFilterBtn")
+        var moreRecipeBtn = document.getElementById("moreRecipeBtn")
+
+        function searchRecipeByName() {
+            var recipeNameInput = document.getElementById("searchRecipeInput")
+            
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Recipe/GetRecipesByName", // Controller/View
+                    data: {
+                        recipeName: recipeNameInput.value,
+                    }
+                }).done(function (data) {
+                    $("#recipeCardList").html(data)
+                    hasMoreRecipe()
+                });
+
+
+            var elmnt = document.getElementById("recipeContainer");
+            elmnt.scrollIntoView();
+        }
+
+        function clearFilter(el) {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Recipe/GetAllRecipes", // Controller/View
+                    data: {
+                    }
+                }).done(function (data) {
+                    $("#recipeCardList").html(data)
+
+                    hasMoreRecipe()
+                });
+            
+            clearFilterBtn.hidden = true;
+        }
+
+        function loadNextRecipes(){
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Recipe/LoadNextRecipes", // Controller/View
+                    data: {
+                    }
+                }).done(function (data) {
+                    $("#recipeCardList").append(data)
+                    hasMoreRecipe()
+                });
+        }
+
+        function hasMoreRecipe() {
+            console.log("yes")
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Recipe/HasRecipeData", // Controller/View
+                    data: {
+                    }
+                }).done(function (data) {
+                    if (data) {
+                        moreRecipeBtn.hidden = false;
+                    } else {
+                        moreRecipeBtn.hidden = true;
+                    }
+                });
+        }
+    </script>
+}
