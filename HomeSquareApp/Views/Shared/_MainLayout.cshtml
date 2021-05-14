@@ -98,9 +98,11 @@
             <div style="z-index:10" class="navigation sticky container-fluid px-0 d-none d-lg-block">
                 <div class="d-none d-md-flex align-items-center justify-content-between p-3 px-md-4  bg-body border-bottom shadow-sm">
                     @* Home link for logo *@
-                    <a asp-controller="Home" asp-action="index" class="col-md-4 col-12">
-                        <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo" />
-                    </a>
+                    <div class="col-md-4">
+                        <a asp-controller="Home" asp-action="index">
+                            <img class="img-fluid col-md-6" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo" />
+                        </a>
+                    </div>
 
                     <div class="col-md-4 col-12">
                         @* NYD GET DATA AND PASS TO CONTROLLER AJAX? *@
@@ -149,8 +151,8 @@
 
             @* Mobile Navbar start *@
             <div id="mobileNav" class="navigation sticky d-lg-none d-block navbar pb-0 shadow-sm bg-white" style="padding-top:0">
-                <div id="mobileLogoBarNav" class="pb-3 container-fluid text-center d-flex flex-row justify-content-center">
-                    <a asp-controller="Home" asp-action="index" class="pt-3 col-9">
+                <div id="mobileLogoBarNav" class="pb-3 col-9 container-fluid text-center d-flex flex-row justify-content-center">
+                    <a asp-controller="Home" asp-action="index" class="pt-3">
                         <img class="img-fluid" src="~/lib/images/appLogo.svg" asp-append-version="true" alt="HomeSquare Logo" />
                     </a>
                 </div>
