@@ -77,7 +77,7 @@ namespace HomeSquareApp.Controllers
             }
             else if (searchCategories == "Recipes")
             {
-                return Json(true);
+                return RedirectToAction("Index", "Recipe", new { searchString = searchString });
             }
 
             return RedirectToAction("Index");

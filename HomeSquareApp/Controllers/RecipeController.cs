@@ -52,10 +52,25 @@ namespace HomeSquareApp.Controllers
             return uniqueFileName;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             _recipesContext = await _context.Recipe.Include(r => r.User)
-                            .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved).ToListAsync();
+                            .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved)
+                            .OrderByDescending(r => r.ApprovedDate)
+                            .ToListAsync();
+            ViewData["IsFiltered"] = false;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                _recipesContext = _recipesContext
+                                    .Where(r => r.User.FirstName.ToLower().Contains(searchString.ToLower())
+                                            || r.User.LastName.ToLower().Contains(searchString.ToLower())
+                                            || r.RecipeName.ToLower().Contains(searchString.ToLower()))
+                                    .OrderByDescending(r => r.ApprovedDate)
+                                    .ToList();
+
+                ViewData["IsFiltered"] = true;
+            }
+
             if (_recipesContext.Count() > ITEMS_PER_PAGE)
             {
                 ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
@@ -147,6 +162,7 @@ namespace HomeSquareApp.Controllers
                     {
                         ProductID = product.ProductID,
                         ServingContent = ingredient.ServingContent,
+                        IngredientName = ingredient.IngredientName,
                         Quantity = 1
                     };
 
@@ -234,32 +250,58 @@ namespace HomeSquareApp.Controllers
             return PartialView("_RecipeLikePartial", recipe);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> LoadProductIngredient(int recipeID)
-        //{
-        //    Recipe recipe = await _context.Recipe.Where(r => r.RecipeID == recipeID).FirstOrDefaultAsync();
+        [HttpPost]
+        public async Task<IActionResult> GetRecipesByName(string recipeName)
+        {
+            if (string.IsNullOrEmpty(recipeName))
+            {
+                _recipesContext = await _context.Recipe.Include(r => r.User)
+                                .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved)
+                                .OrderByDescending(r=>r.ApprovedDate)
+                                .ToListAsync();
+            }
+            else { 
+                _recipesContext = await _context.Recipe.Include(r => r.User)
+                                    .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved &&
+                                            r.RecipeName.ToLower().Contains(recipeName))
+                                    .OrderByDescending(r => r.ApprovedDate)
+                                    .ToListAsync();
+            }
+            _currentRange = 0;
+            
+            return PartialView("_RecipeShowCasePartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
 
-        //    List<Product> products = new List<Product>();
+        [HttpPost]
+        public async Task<IActionResult> GetAllRecipes()
+        {
+            _recipesContext = await _context.Recipe.Include(r => r.User)
+                                .Where(r => r.RecipeApprovalStatus == RecipeApprovalStatus.Approved)
+                                .OrderByDescending(r => r.ApprovedDate)
+                                .ToListAsync();
 
-        //    if(recipe != null)
-        //    {
-        //        recipe.Ingredients = await _context.Ingredient.Include(i=>i.Product)
-        //                            .Where(i => i.RecipeID == recipe.RecipeID).ToListAsync();
-                
-        //        foreach(Ingredient ingredient in recipe.Ingredients)
-        //        {
-        //            Product product = _context.Product.Include(p=>p.Category).Include(p=>p.ProductStatus)
-        //                            .Where(p => p.ProductID == ingredient.ProductID && p.ProductStatus.ProductStatusName != "Hold").FirstOrDefault();
-                    
-        //            if(product.ProductStock > 0)
-        //            {
-        //                products.Add(product);
-        //            } else
-        //            {
-        //                _context.Product.
-        //            }
-        //        }
-        //    }
-        //}
+            _currentRange = 0;
+            
+            return PartialView("_RecipeShowCasePartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public IActionResult LoadNextRecipes()
+        {
+            _currentRange++;
+            if (_recipesContext.Count() > ITEMS_PER_PAGE + (_currentRange * ITEMS_PER_PAGE))
+            {
+                ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
+            }
+            return PartialView("_RecipeShowCasePartial", _recipesContext.Skip(_currentRange * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE).ToList());
+        }
+
+        [HttpPost]
+        public IActionResult HasRecipeData()
+        {
+            bool hasRecipeData = _recipesContext.Count() > ITEMS_PER_PAGE + (_currentRange * ITEMS_PER_PAGE);
+
+            return Json(hasRecipeData);
+        }
     }
 }

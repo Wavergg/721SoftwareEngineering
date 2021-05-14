@@ -158,7 +158,7 @@
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "Product/UpdatePagination", // Controller/View
+                    url: "/Product/UpdatePagination", // Controller/View
                     data: {
                     }
                 }).done(function (data) {
@@ -173,7 +173,7 @@
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "Product/GetProductsByName", // Controller/View
+                    url: "/Product/GetProductsByName", // Controller/View
                     data: {
                         productName: productNameInput.value,
                         sortBy: sortBySelect.value,
@@ -193,7 +193,7 @@
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "Product/GetProductsByCategoryName", // Controller/View
+                    url: "/Product/GetProductsByCategoryName", // Controller/View
                     data: {
                         categoryName: el.getAttribute('value'),
                         sortBy: sortBySelect.value,
@@ -210,7 +210,7 @@
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                    url: "Product/GetAllProducts", // Controller/View
+                    url: "/Product/GetAllProducts", // Controller/View
                     data: {
                         sortBy: sortBySelect.value,
                     }
@@ -234,7 +234,7 @@
              $.ajax(
                 {
                     type: "POST", //HTTP POST Method
-                     url: "Product/SortProducts", // Controller/View
+                     url: "/Product/SortProducts", // Controller/View
                     data: {
                         sortBy: el.value,
                     }

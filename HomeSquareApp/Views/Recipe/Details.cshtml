@@ -11,9 +11,9 @@
 
 <div class="bg-light pb-5">
     <div class="container pt-5">
-        <div class=" card d-flex flex-md-row">
+        <div style="max-height:500px;" class=" card d-flex flex-md-row">
 
-            <section class="position-relative order-md-0 order-1 col-md-6 d-flex flex-column justify-content-between">
+            <section  class="position-relative order-md-0 order-1 col-md-6 d-flex flex-column justify-content-between">
                 <div class="position-absolute top-0 start-0 m-3">
                     <small class="text-muted" style="font-size:12px">Recipe by &mdash; @Model.User.FirstName</small>
                 </div>
@@ -55,7 +55,7 @@
             <section class="img-sm-fixed-height order-md-1 order-0 col-md-6 bg-light d-flex align-items-stretch">
                 @* Play around with object-fit to get wanted result *@
                 @* either contain or cover would be good *@
-                <img class="w-100" src="~/lib/images/recipes/@Model.ImageUrl" style="object-fit:contain;" asp-append-version="true" />
+                <img class="w-100" src="~/lib/images/recipes/@Model.ImageUrl" style="object-fit:cover;" asp-append-version="true" />
             </section>
         </div>
     </div>

@@ -135,7 +135,7 @@ namespace HomeSquareApp.Controllers
 
         public async Task<IActionResult> GetProductsByName(string productName, int sortBy)
         {
-            if(productName == null || productName == string.Empty)
+            if(string.IsNullOrEmpty(productName))
             {
                 return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
             }
@@ -153,7 +153,7 @@ namespace HomeSquareApp.Controllers
 
         public async Task<IActionResult> GetProductsByCategoryName(string categoryName, int sortBy)
         {
-            if (categoryName == null || categoryName == string.Empty)
+            if (string.IsNullOrEmpty(categoryName))
             {
                 return PartialView("_ProductShowCasePartial", _productsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
             }
