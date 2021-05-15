@@ -2,7 +2,9 @@
 @inject SignInManager<ApplicationUser> signInManager
 
 @{
-    ViewData["Title"] = Model.RecipeName + " Recipe";}
+    ViewData["Title"] = Model.RecipeName + " Recipe";
+    
+}
 
 @section pageSpecificCss{
     <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
@@ -34,7 +36,12 @@
                             </div>
                         </div>
                         <div>
-                            <span class="display-5">@Model.PrepareTimeDuration</span> @Model.PrepareTimeMeasurement
+                            @if(Model.PrepareTimeDuration.Length > 0) { 
+                                <span class="display-5">@Model.PrepareTimeDuration</span> @Model.PrepareTimeMeasurement
+                            } else
+                            {
+                                <span>@Model.PrepareTime</span>
+                            }
                         </div>
                     </div>
                     <div class="bg-secondary" style="width:2px">

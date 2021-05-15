@@ -60,17 +60,17 @@
 
                 @for (var i = 0; i < Model.Ingredients.Count; i++)
                 {
-                    <div id="@string.Format("IngredientContent{0}",i)" class="d-flex my-3">
+                    <div id="@string.Format("IngredientContent{0}",i)" class="ingredientContentWrapper d-flex my-3">
 
                         <div class="form-floating col-4 d-flex">
-                            <input asp-for="@Model.Ingredients[i].ServingContent" type="text" class="form-control" placeholder="0">
+                            <input asp-for="@Model.Ingredients[i].ServingContent" type="text" class="ingredientServingContent form-control" placeholder="0">
                             <label>Amount</label>
                         </div>
                         <div class="form-floating flex-fill">
-                            <input asp-for="@Model.Ingredients[i].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
+                            <input asp-for="@Model.Ingredients[i].IngredientName" type="text" class="ingredientName form-control" onkeyup="app.triggerSearchQuery(this)">
                             <label>Ingredient Name</label>
                         </div>
-                        <button type="button" onclick="removeIngredient('IngredientContent'+@i)" class="text-danger fw-bold btn btn-default">X</button>
+                        <button type="button" onclick="removeIngredient('IngredientContent'+@i)" class="ingredientContentRemove text-danger fw-bold btn btn-default">X</button>
                     </div>
                 }
 
@@ -86,15 +86,15 @@
             <div id="stepsRow">
                 @for (int i = 0; i < Model.RecipeSteps.Count(); i++)
                 {
-                    <div class="card shadow-sm pt-5 pb-4 px-4 my-2" id="@string.Format("StepsContent{0}",i)">
+                    <div class="instructionStepWrapper card shadow-sm pt-5 pb-4 px-4 my-2" id="@string.Format("StepsContent{0}",i)">
                         <div class="position-absolute start-0 top-0 mx-4 mt-3">
-                            <small class="fw-bold">Step @(i+1)</small>
-                            <a style="cursor:pointer" onclick="removeSteps('StepsContent'+@i)" class="text-decoration-none text-danger fw-bold">X</a>
+                            <small class="fw-bold">Step <span class="step-number">@(i+1)</span></small>
+                            <a style="cursor:pointer" onclick="removeSteps('StepsContent'+@i)" class="instructionStepRemove text-decoration-none text-danger fw-bold">X</a>
                         </div>
                         <div>
                             <div class="form-floating">
-                                <textarea asp-for="RecipeSteps[i].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
-                                <label asp-for="RecipeSteps[i].Steps">Instruction</label>
+                                <textarea asp-for="RecipeSteps[i].Steps" class="stepTextArea form-control" onkeyup="textAreaAdjust(this)" style="height: 85px" placeholder="Describe Instruction"></textarea>
+                                <label class="stepTextAreaLabel" asp-for="RecipeSteps[i].Steps">Instruction</label>
                             </div>
                         </div>
                         <span class="small text-danger" asp-validation-for="RecipeSteps[i].Steps"></span>

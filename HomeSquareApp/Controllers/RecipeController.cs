@@ -185,6 +185,10 @@ namespace HomeSquareApp.Controllers
 
                 recipe.RecipeApprovalStatus = isAdmin? RecipeApprovalStatus.Approved : RecipeApprovalStatus.Pending;
                 recipe.AddedDate = DateTime.Now;
+                if (isAdmin)
+                {
+                    recipe.ApprovedDate = DateTime.Now;
+                }
                 recipe.RecipeName = model.RecipeName;
                 recipe.UserID = model.UserID;
                 recipe.PrepareTime = model.PrepareTime;

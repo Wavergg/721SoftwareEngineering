@@ -164,100 +164,20 @@
         })
     </script>
     <script>
-        function textAreaAdjust(element) {
-            element.style.height = "1px";
-            element.style.height = (25 + element.scrollHeight) + "px";
-        }
+        var nextIngredientId = @Model.Ingredients.Count();
+        var nextInstructionId =  @Model.RecipeSteps.Count();
 
         var recipeImage = document.getElementById("recipeImage")
         recipeImage.style.backgroundImage = "url('@Model.ExistingImagePath')";;
         /*recipeImage.style.backgroundImage = "url('/lib/images/products/productPlaceholder.png')";*/
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    //console.log(e.target.result)
-                    recipeImage.style.backgroundImage = "url('" + e.target.result+"')";
-                }
-
-                const file = input.files[0];
-
-                const fileType = file['type'];
-
-                const validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg','image/png'];
-                if (validImageTypes.includes(fileType)) {
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        var nextIngredientId = @Model.Ingredients.Count();
-
-        $("#addIngredient").click(function () {
-            var rowHtml = `<div class="d-flex my-3" id="IngredientContent`+nextIngredientId+`">
-
-                            <div class="form-floating col-4">
-                                <input name="Ingredients[`+nextIngredientId+`].ServingContent" type="text" class="form-control" placeholder="0">
-                                <label>Amount</label>
-                            </div>
-                            <div class="form-floating flex-fill">
-                                <input  name="Ingredients[`+nextIngredientId+`].IngredientName" type="text" class="form-control" onkeyup="app.triggerSearchQuery(this)">
-                                <label>Ingredient Name</label>
-                            </div>
-                            <button type="button" onclick="removeIngredient('IngredientContent'+`+ nextIngredientId +`)" class="text-danger fw-bold btn btn-default">X</button>
-                        </div>`
-            nextIngredientId++;
-
-            $("#ingredientRow").append(rowHtml);
-        });
-
-        function removeIngredient(elementID) {
-            var el = document.getElementById(elementID)
-            el.remove();
-            nextIngredientId--;
-        }
-
-
-        var nextInstructionId =  @Model.RecipeSteps.Count();
-        $("#addInstruction").click(function () {
-
-            var rowHtml = `<div class="card shadow-sm pt-5 pb-4 px-4 my-2" id="StepsContent`+nextInstructionId+`">
-                            <div class="position-absolute start-0 top-0 mx-4 mt-3">
-                                <small class="fw-bold">Step </small>
-                                <a style="cursor:pointer" onclick="removeSteps('StepsContent`+ nextInstructionId +`')" class="text-decoration-none text-danger fw-bold">X</a>
-                            </div>
-                            <div>
-                                <div class="form-floating">
-                                    <textarea id="RecipeSteps_`+nextInstructionId+`__Steps" name="RecipeSteps[`+nextInstructionId+`].Steps" class="form-control" onkeyup="textAreaAdjust(this)" style="height: 100px" placeholder="Describe Instruction"></textarea>
-                                    <label for="RecipeSteps_`+nextInstructionId+`__Steps">Instruction</label>
-                                </div>
-                            </div>
-                        </div>`
-
-            nextInstructionId++;
-
-            $("#stepsRow").append(rowHtml);
-        });
-
-        function removeSteps(elementID) {
-            var el = document.getElementById(elementID)
-            el.remove();
-            nextInstructionId--;
-        }
-
-        $("#Image").change(function () {
-            readURL(this);
-        });
-
-        $(document).on("keydown", ":input:not(textarea)", function (event) {
-            return event.key != "Enter";
-        });
+        
 
         $(function() {
             $("#RecipeStatus option[value='@Model.RecipeStatus']").attr('selected', 'true');
         });
     </script>
 
+    <script src="~/lib/js/RecipeDynamicListStepsIngredient.js">
+    </script>
 }
