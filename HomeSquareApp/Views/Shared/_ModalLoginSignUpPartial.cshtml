@@ -14,7 +14,7 @@
                     <input id="tab-1" onchange="updatePanel(this)" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab" style="cursor:pointer">Sign In</label>
                     <input id="tab-2" onchange="updatePanel(this)" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="cursor:pointer">Sign Up</label>
                     <div class="login-form">
-                        <div class="sign-in-htm">
+                        <div class="sign-in-htm" id="loginPanel">
                             @* SignIn AREA *@
                             @* ---------------------------------------------- *@
                             @*<partial name="_UserFormLoginPartial" />*@
@@ -22,7 +22,7 @@
                         </div>
                         @* SignUp / Register AREA *@
                         @* ---------------------------------------------- *@
-                        <div class="sign-up-htm">
+                        <div class="sign-up-htm" hidden id="signupPanel">
                             <span id="progressBarPrompt">1/2</span>
                             <div class="progress mb-3" style="height: 1px;">
                                 <div id="progressBarLogin" class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>

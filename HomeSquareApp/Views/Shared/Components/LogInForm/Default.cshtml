@@ -7,7 +7,7 @@
 <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@returnUrl"
       method="post" data-ajax="true" data-ajax-loading="#modalLoader" data-ajax-complete="loginReturned"
       data-ajax-method="post" data-ajax-url="/Account/Login?returnUrl=@returnUrl" id="loginForm">
-    
+
     @* Information of register being successful sent from the signup panel *@
     <div style="background-color: #ffcccb">
         <p id="signupConfirmationPrompt" class="p-3 form-text d-none">
@@ -39,17 +39,18 @@
         @* NYD VALIDATE USER, THEN REDIRECT TO The current page *@
         <button type="submit" onclick="clearSummary()" class="btn btn-primary form-control rounded-pill"> Sign In</button>
     </div>
+    <div class="foot-lnk">
+        <a onclick="togglePanel()" id="switchForgotPasswordBtn">Forgot Password?</a>
+    </div>
 </form>
-<div class="foot-lnk">
-    <a onclick="togglePanel()" id="switchForgotPasswordBtn">Forgot Password?</a>
-</div>
+
 
 <script>
     var loginSummaryElement = document.getElementById("errorLogInSummary");
 
     function updatePanel(el) {
-        var loginPanel = document.getElementById("loginForm")
-        var registerPanel = document.getElementById("signUpForm")
+        var loginPanel = document.getElementById("loginPanel")
+        var registerPanel = document.getElementById("signupPanel")
 
         if (el.id == "tab-2") {
             registerPanel.hidden = false;
@@ -58,6 +59,7 @@
             registerPanel.hidden = true;
             loginPanel.hidden = false;
         }
+       
     }
 
     function clearSummary() {

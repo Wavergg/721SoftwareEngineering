@@ -1,6 +1,6 @@
 ﻿@model RegisterViewModel
 
-<form hidden asp-controller="Account" asp-action="Register"
+<form asp-controller="Account" asp-action="Register"
       method="post" data-ajax="true" data-ajax-loading="#modalLoader" data-ajax-complete="registerReturned" data-ajax-method="post" data-ajax-url="/Account/Register" id="signUpForm">
     <div id="signUpGroup1" class="">
         <small id="errorSignUpSummary" class="text-danger mb-3"></small>
@@ -252,8 +252,8 @@
 
     function openSignUp() {
         document.getElementById('tab-2').checked = true;
-        var loginPanel = document.getElementById("loginForm")
-        var registerPanel = document.getElementById("signUpForm")
+        var loginPanel = document.getElementById("loginPanel")
+        var registerPanel = document.getElementById("signupPanel")
         registerPanel.hidden = false;
         loginPanel.hidden = true;
     }
