@@ -47,6 +47,18 @@
 <script>
     var loginSummaryElement = document.getElementById("errorLogInSummary");
 
+    function updatePanel(el) {
+        var loginPanel = document.getElementById("loginForm")
+        var registerPanel = document.getElementById("signUpForm")
+
+        if (el.id == "tab-2") {
+            registerPanel.hidden = false;
+            loginPanel.hidden = true;
+        } else {
+            registerPanel.hidden = true;
+            loginPanel.hidden = false;
+        }
+    }
 
     function clearSummary() {
         //CLEAR PREVIOUS ERROR SUMMARY
