@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Order>
+
+
+<div class="container m-md-5 mt-5">
+    <button onclick="loadOrderList()" id="backOrderBtn" class="btn btn-outline-white text-primary" hidden>
+        <i class="fas fa-arrow-left"></i>
+        &nbsp; Back to Orders List
+    </button>
+    <div id="myOrderContent">
+        <partial name="_OrderTableModelPartial" model="Model"/>
+    </div>
+</div>

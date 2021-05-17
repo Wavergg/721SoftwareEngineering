@@ -240,6 +240,7 @@ namespace HomeSquareApp.Controllers
                     order.OrderDateTime = DateTime.Now;
                     order.OrderStatus = "Preparing";
                     order.DeliveryOptions = model.DeliveryOptions;
+                    order.OrderTotal = order.OrderDetails.Sum(od => od.TotalPrice);
                     _context.Order.Update(order);
                     _context.SaveChanges();
                 }

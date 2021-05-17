@@ -46,6 +46,8 @@ namespace HomeSquareApp.Models
         [MaxLength(18)]
         public string DisplayName { get; set; }
 
+        public int RewardPlayChanceCount { get; set; }
+
         public IEnumerable<Order> Orders { get; set; }
 
         public IEnumerable<Reward> Rewards { get; set; }

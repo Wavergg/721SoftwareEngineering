@@ -1,0 +1,44 @@
+﻿@model IEnumerable<HomeSquareApp.Models.Recipe>
+
+
+
+@foreach (var item in Model)
+{
+    string statusColor = "";
+    switch (item.RecipeApprovalStatus)
+    {
+        case RecipeApprovalStatus.Pending:
+            statusColor = "text-warning";
+            break;
+        case RecipeApprovalStatus.Approved:
+            statusColor = "text-success";
+            break;
+        case RecipeApprovalStatus.Delete:
+            statusColor = "text-muted";
+            break;
+        default:
+            break;
+    }
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecipeName)
+        </td>
+        <td class="@statusColor fw-bold">
+            @if(item.RecipeApprovalStatus == RecipeApprovalStatus.Delete)
+                {
+                    <span>Rejected</span>
+                } else
+                {
+                    <span> @Html.DisplayFor(modelItem => item.RecipeApprovalStatus)</span>
+                }
+        </td>
+        <td class="text-nowrap small">
+            <a asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeID" target="_blank" class="text-primary text-decoration-underline">Details</a> |
+            <a href="#" onclick="openDeleteConfirmationModal('@item.RecipeID')" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" class="text-primary text-decoration-underline">Delete</a>
+        </td>
+    </tr>
+}

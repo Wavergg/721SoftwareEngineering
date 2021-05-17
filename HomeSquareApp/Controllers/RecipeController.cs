@@ -213,7 +213,7 @@ namespace HomeSquareApp.Controllers
                 {
                     return RedirectToAction("Index","AdminRecipes");
                 } else { 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index","Manage",new { pageName = "MyRecipes" });
                 }
             }
 

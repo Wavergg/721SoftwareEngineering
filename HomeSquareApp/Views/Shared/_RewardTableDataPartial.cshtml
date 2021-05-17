@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Reward>
+
+@foreach (var item in Model)
+{
+    string statusColor = "";
+    switch (item.RewardStatus)
+    {
+        case RewardStatus.Available:
+            statusColor = "text-success";
+            break;
+        case RewardStatus.Claimed:
+            statusColor = "text-muted";
+            break;
+        default:
+            break;
+    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardAddedDateTime)
+        </td>
+        <td class="fw-bold @statusColor">
+            @Html.DisplayFor(modelItem => item.RewardStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
+        </td>
+        <td class="text-nowrap">
+            <a href="#" class="text-decoration-underline small text-primary" onclick="getProductDetails('@item.ProductID')">Details</a>
+        </td>
+    </tr>
+}

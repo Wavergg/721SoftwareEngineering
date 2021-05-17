@@ -1,0 +1,14 @@
+﻿@model Product
+
+<h3 class="mb-4">Current Selected: </h3>
+<input type="hidden" asp-for="ProductID" />
+<div class="row gap-2">
+    <div class="d-md-flex">
+        <label class="col-md-5">Selected Product</label>
+        <input asp-for="ProductName" class="form-control flex-fill col-md-7" disabled />
+    </div>
+    <div class="d-md-flex">
+        <label class="col-md-5">Available Stock</label>
+        <input asp-for="ProductStock" class="form-control flex-fill col-md-7" disabled />
+    </div>
+</div>

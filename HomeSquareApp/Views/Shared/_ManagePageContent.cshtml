@@ -1,0 +1,24 @@
+﻿@if (ViewData["pageName"] as string == "PastOrders")
+{
+    <div>
+        @await Component.InvokeAsync("PastOrders")
+    </div>
+}
+else if (ViewData["pageName"] as string == "MyRecipes")
+{
+    <div>
+        @await Component.InvokeAsync("MyRecipes")
+    </div>
+}
+else if (ViewData["pageName"] as string == "MyRewards")
+{
+    <div>
+        @await Component.InvokeAsync("MyRewards")
+    </div>
+}
+else
+{
+    <div>
+        @await Component.InvokeAsync("AccountProfileSettings")
+    </div>
+}

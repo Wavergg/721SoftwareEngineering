@@ -136,7 +136,7 @@ namespace HomeSquareApp.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword([Bind("Email,CurrentPassword,NewPassword,ConfirmNewPassword")]ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword([Bind("CurrentPassword,NewPassword,ConfirmNewPassword")]ChangePasswordViewModel model)
         {
 
             ErrorMessage errorMsg = new ErrorMessage();
@@ -144,8 +144,8 @@ namespace HomeSquareApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = await _UserManager.FindByEmailAsync(model.Email);
-
+                var user = await _UserManager.GetUserAsync(User);
+               
                 if (user != null)
                 {
                     var result = await _UserManager.ChangePasswordAsync(user,model.CurrentPassword,model.NewPassword);
@@ -155,6 +155,11 @@ namespace HomeSquareApp.Controllers
                         errorMsg.IsSuccess = true;
                         errorMsg.Message.Add("Successfully Changing Your Password");
                         return Json(errorMsg);
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        errorMsg.Message.Add($"{error.Description}");
                     }
                 }
             }
@@ -273,6 +278,7 @@ namespace HomeSquareApp.Controllers
                     LastName = model.LastName,
                     Address = model.Address,
                     PhoneNumber = model.PhoneNumber,
+                    PictureUrl = "blank-profile.png",
                 };
 
                 var result = await _UserManager.CreateAsync(user, model.Password);

@@ -45,10 +45,12 @@ namespace HomeSquareApp.Models
 
         public string ImageUrl { get; set; }
 
+        [Display(Name = "Added Date")]
         public DateTime AddedDate { get; set; }
 
         public DateTime ApprovedDate { get; set; }
 
+        [Display(Name = "Status")]
         public RecipeApprovalStatus RecipeApprovalStatus { get; set; }
 
         public string UserID { get; set; }

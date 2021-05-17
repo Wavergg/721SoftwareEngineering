@@ -7,13 +7,25 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.Models
 {
+    public enum RewardStatus
+    {
+        Available,
+        Claimed
+    }
+
     public class Reward
     {
         [Key]
         public int RewardID { get; set; }
 
-        [Column(TypeName ="varchar(8)")]
-        public string RewardStatus { get; set; }
+        [Display(Name = "Reward Status")]
+        public RewardStatus RewardStatus { get; set; }
+
+        [Display(Name = "Reward Grant Date")]
+        public DateTime RewardAddedDateTime { get; set; }
+
+        public int ProductID { get; set; }
+        public Product Product { get; set; }
 
         public string UserID { get; set; }
         [ForeignKey("UserID")]

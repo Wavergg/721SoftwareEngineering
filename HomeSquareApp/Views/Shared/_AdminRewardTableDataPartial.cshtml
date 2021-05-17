@@ -1,0 +1,16 @@
+﻿@model List<HomeSquareApp.Models.RewardPool>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PoolQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
+        </td>
+        <td class="text-nowrap">
+            <a href="#" onclick="openDeleteConfirmationModal('@item.RewardPoolID')" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</a>
+        </td>
+    </tr>
+}

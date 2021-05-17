@@ -30,6 +30,9 @@ namespace HomeSquareApp.Models
         [Display(Name = "Delivery Type")]
         public string DeliveryOptions { get; set; }
 
+        [Display(Name = "Order Total")]
+        public double OrderTotal { get; set; }
+
         public IEnumerable<OrderDetails> OrderDetails { get; set; }
 
         public IEnumerable<Reward> Rewards { get; set; }

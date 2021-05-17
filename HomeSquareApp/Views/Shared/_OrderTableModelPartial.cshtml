@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Order>
+
+<div class="table-responsive" style="min-height:380px">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveryOptions)
+                </th>
+                <th>
+                    @*Actions*@
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            <partial name="_OrderTableDataPartial" model="Model" />
+        </tbody>
+    </table>
+</div>
+<div class="d-flex" id="pagination">
+    <partial name="_PaginationPartial" />
+</div>

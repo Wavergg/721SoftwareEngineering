@@ -1,0 +1,14 @@
+﻿@model ManageProfileViewModel 
+
+<div class="container m-md-5 mt-5" id="myAccountContent">
+    <span class="display-6 px-4">Account Settings</span>
+    <hr class="text-muted" />
+    <partial name="_ChangePasswordPartial" model="Model.ChangePasswordViewModel" />
+
+    <hr class="text-muted" />
+    <span class="display-6 p-4">Profile Settings</span>
+    <partial name="_EditUserProfilePartial" model="Model.User" />
+</div>
+
+
+    

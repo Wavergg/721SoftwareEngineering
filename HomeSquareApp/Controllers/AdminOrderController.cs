@@ -16,7 +16,7 @@ namespace HomeSquareApp.Controllers
         private readonly AppDbContext _context;
         private static List<Order> _ordersContext;
 
-        private const int ITEMS_PER_PAGE = 4;
+        private const int ITEMS_PER_PAGE = 11;
         private static int _currentRange = 0;
 
         public AdminOrderController(AppDbContext _context)
@@ -231,21 +231,23 @@ namespace HomeSquareApp.Controllers
                 _ordersContext.RemoveAll(o => o.OrderID == orderID);
             }
 
+            int currentPage = (_currentRange / ITEMS_PER_PAGE);
+
             if (_ordersContext.Count() > ITEMS_PER_PAGE)
             {
                 int pageCount = ((_ordersContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
                 ViewData["PaginationCount"] = pageCount;
                 
-                if(_currentRange > pageCount)
+                if(currentPage > pageCount)
                 {
-                    _currentRange = pageCount - 1;
+                    currentPage = pageCount - 1;
                 }
 
             } else {
-                _currentRange = 0;
+                currentPage = 0;
             }
 
-            ViewData["SetActivePage"] = _currentRange;
+            ViewData["SetActivePage"] = currentPage;
 
             return PartialView("_AdminOrderTableModelPartial", _ordersContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }

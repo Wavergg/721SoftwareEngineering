@@ -1,0 +1,31 @@
+﻿@model IEnumerable<HomeSquareApp.Models.RewardPool>
+
+<div class="table-responsive" style="min-height:440px">
+    <table class="table">
+        <thead>
+            <tr>
+                <th onclick="sortData('stock')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.PoolQuantity)
+                    </a>
+                </th>
+                <th onclick="sortData('name')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.Product.ProductName)
+                    </a>
+                </th>
+                <th>
+                    @*Actions*@
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            <partial name="_AdminRewardTableDataPartial" model="Model" />
+        </tbody>
+    </table>
+</div>
+<div class="d-flex" id="pagination">
+    <partial name="_PaginationPartial" />
+</div>

@@ -7,6 +7,9 @@
     ViewData["CurrentPage"] = "Main";
 }
 
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+}
 
 <div id="vueEl" class="mb-2">
     <div class="d-md-flex justify-content-center">
@@ -43,7 +46,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div id="recipeTable">
-    <partial name="_AdminRecipeTableModelPartial" model="Model"/>
+    <partial name="_AdminRecipeTableModelPartial" model="Model" />
 </div>
 
 <!-- Modal -->

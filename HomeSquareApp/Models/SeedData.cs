@@ -88,6 +88,7 @@ namespace HomeSquareApp.Models
                         LastName = "Admin",
                         Address = "ADMIN",
                         PhoneNumber = "00000",
+                        PictureUrl = "blank-profile.png"
                     };
                     var result = await UserManager.CreateAsync(superUser, "HomeAdmin123#");
 

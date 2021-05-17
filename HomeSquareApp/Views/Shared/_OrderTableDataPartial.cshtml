@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Order>
+
+@foreach (var item in Model)
+{
+    string statusColor = "";
+    switch (item.OrderStatus)
+    {
+        case "Preparing":
+            statusColor = "text-warning";
+            break;
+        case "Ready":
+            statusColor = "text-success";
+            break;
+        case "Completed":
+            statusColor = "text-muted";
+            break;
+        default:
+            break;
+    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDateTime)
+        </td>
+        <td class="fw-bold @statusColor">
+            @Html.DisplayFor(modelItem => item.OrderStatus)
+        </td>
+        <td>
+            @string.Format("$ {0:F2}", item.OrderTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeliveryOptions)
+        </td>
+        <td class="text-nowrap">
+            <a href="#" class="text-decoration-underline small text-primary" onclick="getOrderDetails('@item.OrderID')">Details</a>
+        </td>
+    </tr>
+}

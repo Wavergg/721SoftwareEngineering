@@ -109,6 +109,11 @@ namespace HomeSquareApp.Controllers
         //UNUSED
         private void HardDeleteRecipe(Recipe recipe)
         {
+            List<RecipeUserLike> recipesLike = _context.RecipeUserLike.Where(rul => rul.RecipeID == recipe.RecipeID).ToList();
+            foreach (RecipeUserLike recipeLike in recipesLike)
+            {
+                _context.RecipeUserLike.Remove(recipeLike);
+            }
             foreach (RecipeSteps steps in recipe.RecipeSteps)
             {
                 _context.RecipeSteps.Remove(steps);
@@ -482,22 +487,24 @@ namespace HomeSquareApp.Controllers
                 _recipesContext.RemoveAll(r => r.RecipeID == recipe.RecipeID);
             }
 
+            int currentPage = (_currentRange / ITEMS_PER_PAGE);
+
             if (_recipesContext.Count() > ITEMS_PER_PAGE)
             {
                 int pageCount = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
                 ViewData["PaginationCount"] = pageCount;
 
-                if (_currentRange > pageCount)
+                if (currentPage > pageCount)
                 {
-                    _currentRange = pageCount - 1;
+                    currentPage = pageCount - 1;
                 }
             }
             else
             {
-                _currentRange = 0;
+                currentPage = 0;
             }
 
-            ViewData["SetActivePage"] = _currentRange;
+            ViewData["SetActivePage"] = currentPage;
 
             return PartialView("_AdminRecipeTableModelPartial", _recipesContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
         }

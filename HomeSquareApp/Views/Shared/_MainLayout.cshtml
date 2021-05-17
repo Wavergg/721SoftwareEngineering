@@ -344,7 +344,7 @@
         <div id="popoverTemplate" class="hide" hidden>
             <h5 class="border-bottom border-1 pb-2">@User.Identity.Name</h5>
             <div>
-                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountInformation" class="form-control border-0 rounded-0 text-success">Profile</a>
+                <a asp-action="Index" asp-controller="Manage" asp-route-pageName="AccountSettings" class="form-control border-0 rounded-0 text-success">Profile</a>
             </div>
             @* Found a bug here, if there is no separator link it wont work for the next link *@
             @if (User.IsInRole("ADMIN"))
@@ -358,7 +358,11 @@
             {
                 <a asp-action="Index" asp-controller="Home"></a>
                 <div>
-                    <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyOrders" class="form-control border-0 rounded-0 text-success">My Orders</a>
+                    <a asp-action="Index" asp-controller="Manage" asp-route-pageName="PastOrders" class="form-control border-0 rounded-0 text-success">Past Orders</a>
+                </div>
+                <a asp-action="Index" asp-controller="Home"></a>
+                <div>
+                    <a asp-action="Index" asp-controller="Manage" asp-route-pageName="MyRecipes" class="form-control border-0 rounded-0 text-success">My Recipes</a>
                 </div>
                 <a asp-action="Index" asp-controller="Home"></a>
                 <div>
@@ -384,7 +388,7 @@
     <script src="~/lib/js/jquery-ui.min.js"></script>
     <script src="~/lib/js/vue.js"></script>
     <script>
-        
+
 
         var app = new Vue({
             el: '#app',
@@ -403,7 +407,7 @@
                     if (el.value.length < 2 || this.searchCategories == "") {
                         return;
                     }
-                    
+
                     $.ajax(
                         {
                             type: "POST", //HTTP POST Method
@@ -413,7 +417,7 @@
                                 searchCategories: app.searchCategories,
                             }
                         }).done(function (data) {
-                            
+
                             var a, b, i, val = el.value;
                             /*close any already open lists of autocompleted values*/
                             app.closeAllLists();
@@ -624,6 +628,7 @@
         @RenderSection("Scripts", required: false)
     }
 
+
     @* Script for sticky nav bar on mobile and desktop, initialize sticky *@
     <script>
 
@@ -676,7 +681,7 @@
                 }
             })
         })
-                                                       
+
     </script>
 </body>
 </html>

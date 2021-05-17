@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Recipe>
+
+
+<div class="container m-md-5 mt-5">
+    <a asp-controller="Recipe" asp-action="Create" target="_blank" class="btn btn-outline-white text-success">
+        <i class="fas fa-plus"></i>
+        &nbsp; Add Recipes
+    </a>
+    <div id="myRecipeContent">
+        <partial name="_RecipeTableModelPartial" model="Model" />
+    </div>
+</div>

@@ -74,6 +74,8 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("PictureUrl")
                         .HasMaxLength(256);
 
+                    b.Property<int>("RewardPlayChanceCount");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Suburb")
@@ -160,6 +162,8 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("OrderStatus")
                         .HasColumnType("varchar(9)")
                         .HasMaxLength(9);
+
+                    b.Property<double>("OrderTotal");
 
                     b.Property<string>("UserID");
 
@@ -272,9 +276,7 @@ namespace HomeSquareApp.Migrations
 
                     b.HasIndex("ProductStatusID");
 
-                    b.HasIndex("RewardPoolID")
-                        .IsUnique()
-                        .HasFilter("[RewardPoolID] IS NOT NULL");
+                    b.HasIndex("RewardPoolID");
 
                     b.ToTable("Product");
                 });
@@ -427,16 +429,21 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<string>("OrderID");
 
+                    b.Property<int>("ProductID");
+
+                    b.Property<DateTime>("RewardAddedDateTime");
+
                     b.Property<int?>("RewardPoolID");
 
-                    b.Property<string>("RewardStatus")
-                        .HasColumnType("varchar(8)");
+                    b.Property<int>("RewardStatus");
 
                     b.Property<string>("UserID");
 
                     b.HasKey("RewardID");
 
                     b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
 
                     b.HasIndex("RewardPoolID");
 
@@ -451,9 +458,15 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("PoolQuantity");
+
                     b.Property<int>("ProductID");
 
+                    b.Property<int>("RewardPoolStatus");
+
                     b.HasKey("RewardPoolID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("RewardPool");
                 });
@@ -620,8 +633,8 @@ namespace HomeSquareApp.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HomeSquareApp.Models.RewardPool", "RewardPool")
-                        .WithOne("Product")
-                        .HasForeignKey("HomeSquareApp.Models.Product", "RewardPoolID")
+                        .WithMany()
+                        .HasForeignKey("RewardPoolID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -674,6 +687,11 @@ namespace HomeSquareApp.Migrations
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("HomeSquareApp.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("HomeSquareApp.Models.RewardPool")
                         .WithMany("Rewards")
                         .HasForeignKey("RewardPoolID")
@@ -682,6 +700,14 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany("Rewards")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("HomeSquareApp.Models.RewardPool", b =>
+                {
+                    b.HasOne("HomeSquareApp.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

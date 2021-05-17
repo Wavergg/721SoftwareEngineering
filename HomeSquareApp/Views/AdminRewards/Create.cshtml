@@ -1,0 +1,220 @@
+﻿@model HomeSquareApp.ViewModels.AdminRewardPoolViewModel
+
+@{
+    ViewData["Title"] = "Create Reward";
+    Layout = "_AdminLayout";
+    ViewData["NavData"] = "Rewards";
+    ViewData["CurrentPage"] = "Main";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+    <style>
+        .form-control {
+            border-radius: 0;
+            background: #FDFDFD;
+        }
+
+            .form-control:focus {
+                border-color: black;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+                outline: 0 none;
+            }
+
+
+        .recipe-title {
+            font-family: Bahnschrift;
+        }
+
+        label {
+            font-size: 14px;
+            color: #808080;
+        }
+
+        select {
+            font-size: 14px !important;
+            color: #808080 !important;
+        }
+
+            select option {
+                font-size: 14px;
+                color: #808080;
+            }
+
+        /*Autocomplete*/
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+            .autocomplete-items div {
+                padding: 10px;
+                cursor: pointer;
+                background-color: #fff;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+                .autocomplete-items div:hover {
+                    /*when hovering an item:*/
+                    background-color: #e9e9e9;
+                }
+
+        .autocomplete-active {
+            /*when navigating through the items using the arrow keys:*/
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+}
+
+<h2>Add Reward</h2>
+<hr />
+<div id="app" class="pb-5">
+    <form asp-action="Create" method="post" autocomplete="off" id="rewardForm">
+        <div class="col-md-5">
+            <div class="row gap-2">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="d-md-flex">
+                    <label asp-for="ProductName" class="col-md-5"></label>
+                    <div class="col-md-7 position-relative"><input asp-for="ProductName" onchange="enableQuantity(this)" onkeyup="app.triggerSearchQuery(this)" class="form-control flex-fill" /></div>
+                </div>
+                <div class="d-md-flex">
+                    <label asp-for="PoolQuantity" class="col-md-5"></label>
+                    <input onkeyup="compareQuantity(this)" asp-for="PoolQuantity" class="col-md-7 form-control flex-fill" disabled/>
+                </div>
+                <span asp-validation-for="PoolQuantity" class="text-danger"></span>
+                <span id="quantityErrorMessage" class="text-danger"></span>
+                <div class="form-group">
+                    <input id="submitFormBtn" type="submit" value="Create" class="btn btn-default" hidden />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div id="rewardSelectorResult" class="col-md-5">
+            <partial name="_AdminRewardSelectorResultPartial" model="@Model.Product"/>
+        </div>
+    </form>
+</div>
+
+<div class="border-top pt-2">
+    <div class="d-flex align-items-center col-md-5">
+        <a asp-action="Index" class="me-auto text-decoration-none">
+            Back to Rewards List
+        </a>
+        <input id="submitRewardForm" type="button" onclick="submitForm()" value="Create" class="rounded-0 btn btn-outline-dark border-secondary" disabled />
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+            },
+            methods: {
+                triggerSearchQuery: function (el) {
+                    if (el.value.length < 2) {
+                        return;
+                    }
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRewards/GetProductQuery", // Controller/View
+                            data: {
+                                searchString: el.value,
+                            }
+                        }).done(function (data) {
+                            var a, b, i, val = el.value;
+                            /*close any already open lists of autocompleted values*/
+                            app.closeAllLists();
+
+                            a = document.createElement("DIV");
+                            a.setAttribute("id", this.id + "autocomplete-list");
+                            a.setAttribute("class", "autocomplete-items");
+
+                            el.parentNode.appendChild(a);
+
+                            for (i = 0; i < data.length; i++) {
+                                b = document.createElement("DIV");
+                                b.innerHTML = data[i].productName
+                                b.innerHTML += "<input type='hidden' name='" + data[i].productName + "' value='"+data[i].productID+"'>";
+                                b.addEventListener("click", function (e) {
+                                    /*insert the value for the autocomplete text field:*/
+                                    el.value = this.getElementsByTagName("input")[0].name;
+
+                                    $.ajax(
+                                        {
+                                            type: "POST", //HTTP POST Method
+                                            url: "/AdminRewards/GetProductByID", // Controller/View
+                                            data: {
+                                                productID: this.getElementsByTagName("input")[0].value,
+                                            }
+                                        }).done(function (data) {
+                                            $("#rewardSelectorResult").html(data)
+                                        });
+
+                                    //app.searchString = el.value;
+                                    /*close the list of autocompleted values,
+                                    (or any other open lists of autocompleted values:*/
+                                    app.closeAllLists();
+                                });
+                                a.appendChild(b);
+                            }
+                        });
+                },
+                closeAllLists: function (elmnt) {
+                    /*close all autocomplete lists in the document,
+                    except the one passed as an argument:*/
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                        if (elmnt != x[i]) {
+                            x[i].parentNode.removeChild(x[i]);
+                        }
+                    }
+                },
+            },
+        })
+    </script>
+    <script>
+        function submitForm() {
+            document.getElementById("submitFormBtn").click();
+        }
+
+        function enableQuantity(el) {
+            if (el.value.length > 0) {
+                document.getElementById("PoolQuantity").removeAttribute("disabled")
+            } else {
+                document.getElementById("PoolQuantity").setAttribute("disabled", "true")
+            }
+        }
+
+        function compareQuantity(el) {
+            document.getElementById("quantityErrorMessage").innerHTML = "";
+
+            var productStockEl = document.getElementById("ProductStock")
+            if (productStockEl.value.length > 0 && el.value >0) {
+                if (productStockEl.value < el.value) {
+                    document.getElementById("quantityErrorMessage").innerHTML = "Quantity Shouldnt Exceed Available Product Amount";
+                } else {
+                    document.getElementById("submitRewardForm").removeAttribute("disabled")
+                    return;
+                }
+            } 
+
+            document.getElementById("submitRewardForm").setAttribute("disabled", "true")
+            return;
+            
+        }
+    </script>
+} 

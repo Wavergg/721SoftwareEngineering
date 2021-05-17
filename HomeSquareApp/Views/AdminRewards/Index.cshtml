@@ -1,0 +1,311 @@
+﻿@model IEnumerable<HomeSquareApp.Models.RewardPool>
+
+@{
+    ViewData["Title"] = "Reward List";
+    Layout = "_AdminLayout";
+    ViewData["NavData"] = "Rewards";
+    ViewData["CurrentPage"] = "Main";
+}
+
+@section pageSpecificCss{
+    <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+}
+
+<div id="vueEl" class="mb-2">
+    <div class="d-md-flex justify-content-center">
+        <div class="col-md-4 col-9 mb-2">
+            <div class="input-group">
+
+                <input type="text" class="form-control" v-model="searchValue" :placeholder="[[ searchPlaceholder ]]">
+
+                @* NYD Update the Categories based on clicked option *@
+                <button v-text="categorySelected.name" class="btn btn-sm border-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul style="z-index:4" class="dropdown-menu dropdown-menu-end">
+                    <li v-for="item in categoryItems">
+                        <button @@click="changeCategory(item.id)" class="dropdown-item">{{item.name}}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <span class="ms-md-2">
+            <button class="btn btn-outline-dark rounded-0" type="button" @@click="generateFilterResult()">
+                Filter Result
+            </button>
+        </span>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-cols-auto justify-content-md-center justify-content-start gap-2 py-4">
+            <div v-for="filterItem in filters" class="col">
+                <filter-badge @@delete-filter="deleteFilter" :filter="filterItem"></filter-badge>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    <a asp-action="Create">Add New Reward</a>
+</p>
+
+<div id="rewardTable">
+    <partial name="_AdminRewardTableModelPartial" model="Model"/>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <i class="far fa-times-circle fa-5x text-danger"></i>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteConfirmed()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        var paginationList = document.getElementsByClassName("paginationElement")
+        var currentPage = 0;
+        function goToPage(pageNumber) {
+            //set style
+            updatePaginationStyle(pageNumber)
+            currentPage = pageNumber;
+
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminRewards/RewardNextTableData", // Controller/View
+                    data: {
+                        pageNumber: pageNumber
+                    }
+                }).done(function (data) {
+                    $("#tableData").html(data)
+                });
+        }
+
+        function updatePaginationStyle(pageNumber) {
+            var prevPageBtn = document.getElementById("prevPageBtn");
+            if (prevPageBtn != null) {
+                if ( pageNumber != 0) {
+                    prevPageBtn.hidden = false;
+                } else {
+                    prevPageBtn.hidden = true;
+                }
+            }
+
+            var nextPageBtn = document.getElementById('nextPageBtn');
+            if (nextPageBtn != null) {
+                if (pageNumber == paginationList.length - 1) {
+                    nextPageBtn.hidden = true;
+                } else {
+                    nextPageBtn.hidden = false;
+                }
+            }
+
+            for (i = 0; i < paginationList.length; i++) {
+                paginationList[i].classList.remove("active");
+                if (i == pageNumber) {
+                    paginationList[i].classList.add("active");
+                }
+                //hide button that are not in range of this
+                if (i >= pageNumber - 1 && i < pageNumber + 3) {
+                    paginationList[i].hidden = false
+
+                } else {
+                    paginationList[i].hidden = true
+                }
+            }
+        }
+
+    @* Sorting Function *@
+        var nameToggle = true;
+        var stockToggle = false;
+
+        function sortData(sortOrder) {
+            if (sortOrder == "name") {
+                sortOrder += nameToggle ? "_desc" : "_asc"
+                nameToggle = !nameToggle
+            } else if (sortOrder == "stock") {
+                sortOrder += stockToggle ? "_desc" : "_asc"
+                stockToggle = !stockToggle
+            }
+
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminRewards/RewardSortTableData", // Controller/View
+                    data: {
+                        sortOrder: sortOrder
+                    }
+                }).done(function (data) {
+                    $("#tableData").html(data)
+                });
+        }
+
+        //Delete Confirmation Order
+        var rewardID;
+        function openDeleteConfirmationModal(rewardID) {
+            this.rewardID = rewardID
+        }
+
+        function deleteConfirmed() {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/AdminRewards/DeleteConfirmed", // Controller/View
+                    data: {
+                        rewardID: this.rewardID,
+                    },
+                }).done(function (data) {
+                    $("#rewardTable").html(data)
+                    var myModalEl = document.getElementById('deleteConfirmationModal')
+                    var modal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
+                    modal.hide();
+                });
+        }
+    </script>
+
+    <script src="~/lib/js/vue.js"></script>
+    <script>
+        Vue.component('filter-badge', {
+            props: {
+                filter: Object
+            },
+            template: `
+            <button v-on:click="onDelete()" class="btn badge badge-filter rounded-pill tooltip-badge">
+                {{filter.category}}_{{filter.value}} <i class="far fa-times-circle" style="font-size:11px"></i>
+                <span class="tooltip-badgetext">Remove Filter</span>
+            </button>`,
+            methods: {
+                onDelete() {
+                    this.$emit('delete-filter', this.filter.id);
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: '#vueEl',
+            data: {
+                searchPlaceholder: "Search",
+                searchValue: "",
+                filters: [],
+                categoryItems: [
+                    {
+                        id: 0,
+                        name: "Product Name",
+                        value: "Name",
+                    },
+                    {
+                        id: 1,
+                        name: "Product Category",
+                        value: "Category",
+                    },
+                ],
+                categorySelected: {
+                    id: 0,
+                    name: "Product Name",
+                    value: "Name",
+                },
+            },
+            methods: {
+                deleteFilter: function (id) {
+                    for (i = 0; i < this.filters.length; i++) {
+                        if (this.filters[i].id == id) {
+                            this.filters.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    this.removeFilterResult();
+                },
+                changeCategory: function (id) {
+                    this.categorySelected = this.categoryItems[id];
+                },
+                generateFilterResult: function () {
+                    //prevent duplication and empty value
+                    if (this.searchValue == "" ||
+                        this.filters.some(
+                            filterX => (filterX.value.toLowerCase() == this.searchValue.toLowerCase()) &&
+                                filterX.category == this.categorySelected.value)
+                        )
+                        return;
+
+                    this.filters.push({
+                        id: this.filters.length,
+                        value: this.searchValue,
+                        category: this.categorySelected.value,
+                    })
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRewards/RewardFilterTableData", // Controller/View
+                            data: {
+                                filters: this.searchValue,
+                                category: this.categorySelected.value
+                            }
+                        }).done(function (data) {
+                            $("#tableData").html(data)
+                            app.updatePagination();
+                        });
+
+                    this.searchValue = "";
+                },
+                removeFilterResult:function() {
+                    var items = JSON.stringify(this.filters);
+                    //console.log(items)
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRewards/RewardRemoveFilterTableData", // Controller/View
+                            contentType: 'application/json',
+                            dataType: "json",
+                            data: items,
+                            success: function (data) {
+                                //can't get data back if passing partial view, have to do 2nd ajax call
+                                $.ajax(
+                                    {
+                                        type: "POST", //HTTP GET Method
+                                        url: "/AdminRewards/RefreshRewardTableIndex", // Controller/View
+                                        data: {
+                                        }
+                                    }).done(function (data) {
+                                        console.log(data)
+                                        $("#tableData").html(data)
+                                        app.updatePagination();
+                                    });
+                            }
+                        });
+
+
+                },
+                updatePagination() {
+                    //reset to first page
+                    //updatePaginationStyle(0)
+                    currentPage = 0;
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/AdminRewards/UpdatePagination", // Controller/View
+                            data: {
+                            }
+                        }).done(function (data) {
+                            $("#pagination").html(data)
+                        });
+                }
+            },
+        })
+    </script>
+}
