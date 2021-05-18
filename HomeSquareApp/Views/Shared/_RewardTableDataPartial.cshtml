@@ -25,7 +25,9 @@
             @Html.DisplayFor(modelItem => item.Product.ProductName)
         </td>
         <td class="text-nowrap">
-            <a href="#" class="text-decoration-underline small text-primary" onclick="getProductDetails('@item.ProductID')">Details</a>
+            @if(item.RewardStatus == RewardStatus.Claimed) { 
+            <a href="#" class="text-decoration-underline small text-primary" onclick="getOrderDetailsFromRewards('@item.OrderID')">Details</a>
+            }
         </td>
     </tr>
 }

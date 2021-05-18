@@ -134,7 +134,7 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -152,6 +152,15 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="rewardsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content position-relative" id="modelRewardPartialContent">
+            
+        </div>
+    </div>
+</div>
+
 @section Scripts{
 
     <!-- Menu Toggle Script -->
@@ -193,6 +202,22 @@
                     success: function (data) {
                         $("#myOrderContent").html(data)
                         document.getElementById("backOrderBtn").hidden = false;
+                    }
+                })
+        }
+
+        function getOrderDetailsFromRewards(orderID) {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Manage/OrderDetails", // Controller/View
+                    data: {
+                        orderID: orderID,
+                    },
+                    success: function (data) {
+                        $("#myRewardContent").html(data)
+                        document.getElementById("backRewardsBtn").hidden = false;
+                        document.getElementById("getRewardBtn").hidden = true;
                     }
                 })
         }
@@ -340,7 +365,8 @@
                     }).done(function (data) {
                         $("#tableData").html(data)
                     });
-            } else {
+            }
+            else if (currentPageName == "PastOrders") {
                 $.ajax(
                     {
                         type: "POST", //HTTP POST Method
@@ -352,9 +378,19 @@
                         $("#tableData").html(data)
                     });
             }
+            else if (currentPageName == "MyRewards") {
+                $.ajax(
+                    {
+                        type: "POST", //HTTP POST Method
+                        url: "/Manage/RewardsNextTableData", // Controller/View
+                        data: {
+                            pageNumber: pageNumber
+                        }
+                    }).done(function (data) {
+                        $("#tableData").html(data)
+                    });
+            }
         }
-
-        
 
         function updatePaginationStyle(pageNumber) {
             var paginationList = document.getElementsByClassName("paginationElement")
@@ -413,6 +449,62 @@
                     var myModalEl = document.getElementById('deleteConfirmationModal')
                     var modal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
                     modal.hide();
+                });
+        }
+    </script>
+    <script>
+        function getReward(rewardIndex) {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Reward/GetReward", // Controller/View
+                    data: {
+                        rewardIndex: rewardIndex,
+                    },
+                }).done(function (data) {
+                    document.getElementById("rewardContent").innerHTML = "";
+                    $("#rewardContent").html(data)
+                    loadRewardsData()
+                });
+        }
+
+        function loadRewardsData() {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Manage/GetAllUserRewards", // Controller/View
+                    data: {
+                    },
+                }).done(function (data) {
+                    $("#page-content-wrapper").html(data)
+                });
+        }
+
+        function renderModelRewardPartial() {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Manage/RenderModalRewardPartial", // Controller/View
+                    data: {
+                    },
+                }).done(function (data) {
+                    document.getElementById("modelRewardPartialContent").innerHTML = "";
+                    $("#modelRewardPartialContent").html(data)
+                });
+        }
+
+        function getChoosePrizePartial() {
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Reward/GetChoosePrizePartial", // Controller/View
+                    data: {
+                    },
+                }).done(function (data) {
+                    document.getElementById("rewardStartSection").style.display = "none";
+                    
+                    $("#rewardContent").html(data)
+                    
                 });
         }
     </script>

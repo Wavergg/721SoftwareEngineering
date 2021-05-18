@@ -180,6 +180,37 @@ namespace HomeSquareApp.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> RewardsNextTableData(int pageNumber)
+        {
+            ApplicationUser user = await _UserManager.GetUserAsync(User);
+
+            List<Reward> recipes = _context.Reward
+                                .Where(r => r.UserID == user.Id)
+                                .Include(r => r.Product)
+                                .OrderByDescending(r => r.RewardAddedDateTime).ToList();
+
+            if (recipes.Count() > ITEMS_PER_PAGE)
+            {
+                int pageCount = ((recipes.Count() - 1) / ITEMS_PER_PAGE) + 1;
+                ViewData["PaginationCount"] = pageCount;
+
+                if (pageNumber > pageCount)
+                {
+                    pageNumber = pageCount - 1;
+                }
+            }
+            else
+            {
+                pageNumber = 0;
+            }
+
+            ViewData["SetActivePage"] = pageNumber;
+
+            return PartialView("_RewardTableDataPartial", recipes.Skip(pageNumber * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE));
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> GetUserPictureUrlAndHandleName()
         {
             ApplicationUser user = await _UserManager.GetUserAsync(User);
@@ -211,7 +242,6 @@ namespace HomeSquareApp.Controllers
             return ViewComponent("MyRecipes",new { _currentPage = currentPage });
         }
 
-        //UNUSED
         private void HardDeleteRecipe(Recipe recipe)
         {
             List<RecipeUserLike> recipesLike = _context.RecipeUserLike.Where(rul => rul.RecipeID == recipe.RecipeID).ToList();
@@ -233,6 +263,26 @@ namespace HomeSquareApp.Controllers
 
             _context.Recipe.Remove(recipe);
             _context.SaveChanges();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAllUserRewards()
+        {
+            ApplicationUser user = await _UserManager.GetUserAsync(User);
+
+            List<Reward> rewards = _context.Reward.Where(r => r.UserID == user.Id).ToList();
+
+            //return PartialView("_RewardTableModelPartial", rewards);
+
+            return ViewComponent("MyRewards");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RenderModalRewardPartial()
+        {
+            ApplicationUser user = await _UserManager.GetUserAsync(User);
+
+            return PartialView("_ModalRewardPartial", user);
         }
 
         private string ProcessUploadedFile(IFormFile Image)

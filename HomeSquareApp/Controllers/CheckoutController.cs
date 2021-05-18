@@ -180,19 +180,19 @@ namespace HomeSquareApp.Controllers
             if (ModelState.IsValid)
             {
                 //SENDING EMAIL(REENABLE THIS LATER)
-                try
-                {
-                    MailMessage message = new MailMessage("homesquare322@gmail.com", model.DeliveryEmail);
-                    message.Subject = "Order Confirmation";
-                    message.Body = "Thank you for your purchase, Here is your order URL: \n" +
-                                    Url.Action("Success", "Checkout", new { orderID = model.OrderID }, Request.Scheme);
-                    EmailController.SendEmail(message);
-                }
-                catch
-                {
-                    errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
-                    return Json(errorMsg);
-                }
+                //try
+                //{
+                //    MailMessage message = new MailMessage("homesquare322@gmail.com", model.DeliveryEmail);
+                //    message.Subject = "Order Confirmation";
+                //    message.Body = "Thank you for your purchase, Here is your order URL: \n" +
+                //                    Url.Action("Success", "Checkout", new { orderID = model.OrderID }, Request.Scheme);
+                //    EmailController.SendEmail(message);
+                //}
+                //catch
+                //{
+                //    errorMsg.Message.Add("Failure in sending Email confirmation, Please try again.");
+                //    return Json(errorMsg);
+                //}
 
                 Order order;
                 try
@@ -241,6 +241,26 @@ namespace HomeSquareApp.Controllers
                     order.OrderStatus = "Preparing";
                     order.DeliveryOptions = model.DeliveryOptions;
                     order.OrderTotal = order.OrderDetails.Sum(od => od.TotalPrice);
+
+                    //Attach Reward
+                    List<Reward> rewards = _context.Reward.Where(r => r.UserID == user.Id && r.RewardStatus == RewardStatus.Available).ToList();
+
+                    foreach(Reward reward in rewards)
+                    {
+                        OrderDetails orderDetails = new OrderDetails()
+                        {
+                            OrderID = order.OrderID,
+                            ProductID = reward.ProductID,
+                            Quantity = 1,
+                            TotalPrice = 0,
+                        };
+                        _context.OrderDetails.Add(orderDetails);
+
+                        reward.RewardStatus = RewardStatus.Claimed;
+                        reward.OrderID = order.OrderID;
+                        _context.Update(reward);
+                    }
+
                     _context.Order.Update(order);
                     _context.SaveChanges();
                 }
@@ -263,6 +283,10 @@ namespace HomeSquareApp.Controllers
                     user.Suburb = model.Suburb;
                     user.ZipCode = model.ZipCode;
                     user.Unit = model.Unit;
+                    if(order.OrderTotal >= 100)
+                    {
+                        user.RewardPlayChanceCount++;
+                    }
                     _context.ApplicationUser.Update(user);
                     _context.SaveChanges();
                     errorMsg.IsSuccess = true;

@@ -1,0 +1,10 @@
+﻿<h2 class="mb-3 ">Choose Prize</h2>
+<div class="row row-cols-5 g-2 w-100 justify-content-center gap-1">
+    @for (int i = 0; i < 9; i++)
+    {
+        <div onclick="getReward(@i)" class="col card rounded-0 btn">
+            <span class="text-success fw-bold">Prize @(i+1)</span>
+            <div class="text-end"><img src="~/lib/images/keyhole.png" style="height:24px;width:24px" /></div>
+        </div>
+    }
+</div>

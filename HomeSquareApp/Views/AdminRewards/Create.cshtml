@@ -105,7 +105,7 @@
     </form>
 </div>
 
-<div class="border-top pt-2">
+<div class="border-top py-2">
     <div class="d-flex align-items-center col-md-5">
         <a asp-action="Index" class="me-auto text-decoration-none">
             Back to Rewards List
@@ -203,8 +203,10 @@
             document.getElementById("quantityErrorMessage").innerHTML = "";
 
             var productStockEl = document.getElementById("ProductStock")
-            if (productStockEl.value.length > 0 && el.value >0) {
-                if (productStockEl.value < el.value) {
+            if (productStockEl.value.length > 0 && el.value > 0) {
+                
+                if (parseInt(productStockEl.value) < parseInt(el.value)) {
+                   
                     document.getElementById("quantityErrorMessage").innerHTML = "Quantity Shouldnt Exceed Available Product Amount";
                 } else {
                     document.getElementById("submitRewardForm").removeAttribute("disabled")

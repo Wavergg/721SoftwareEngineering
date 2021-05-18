@@ -1,12 +1,18 @@
 ﻿@model RewardViewModel
 
 <div class="container m-md-5 mt-5">
-    @if(Model.CurrentUser.RewardPlayChanceCount > 0) { 
-    <a class="btn btn-dark mb-5">
-        @Model.CurrentUser.RewardPlayChanceCount
-        <i class="fas fa-ticket-alt"></i>
-        &nbsp; Get Rewards
-    </a>
+
+    <button onclick="loadRewardsData()" id="backRewardsBtn" class="btn btn-outline-white text-primary" hidden>
+        <i class="fas fa-arrow-left"></i>
+        &nbsp; Back to Rewards List
+    </button>
+    @if (Model.CurrentUser.RewardPlayChanceCount > 0)
+    {
+        <a id="getRewardBtn" onclick="renderModelRewardPartial()" data-bs-toggle="modal" data-bs-target="#rewardsModal" class="btn btn-dark mb-5">
+            @Model.CurrentUser.RewardPlayChanceCount
+            <i class="fas fa-ticket-alt"></i>
+            &nbsp; Get Rewards
+        </a>
     }
     <div id="myRewardContent">
         <partial name="_RewardTableModelPartial" model="Model.Rewards" />
