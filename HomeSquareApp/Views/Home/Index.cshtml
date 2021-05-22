@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
     <link rel="stylesheet" href="~/lib/css/productCard.css" />
-
+    <style>
+        
+    </style>
 }
 
 @if (TempData["ResetMessage"] != null)
@@ -50,11 +52,10 @@
 <div class="mb-5">
     @* Carousel For Promotional ADS/PRODUCTS *@
     <div id="carouselExampleCaptions" class="carousel slide mb-2" data-bs-ride="carousel">
-
-        <div class="carousel-indicators d-md-flex d-none" style="bottom:15%">
-            <button style="width:10px;height:10px;margin:0 8px 0 0px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button style="width:10px;height:10px;margin:0 8px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button style="width:10px;height:10px;margin:0 0px 0 8px;background-color:#FFF;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <div class="carousel-indicators d-md-flex d-none m-0" style="bottom: -38px">
+            <button style="width:10px;height:10px;margin:0 8px 0 0px;background-color:#000;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button style="width:10px;height:10px;margin:0 8px 0 8px;background-color:#000;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button style="width:10px;height:10px;margin:0 0px 0 8px;background-color:#000;border-radius:50%;" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active" style="position:relative;top:-1px;left:-1px">
@@ -78,7 +79,7 @@
         </button>
     </div>
 
-    <div class="container d-flex justify-content-center pt-2">
+    <div class="container d-flex justify-content-center pt-5">
         <a asp-controller="Contact" asp-action="Index" class="moveSlightlyY-animation mx-2 col col-md-3 d-flex flex-md-row flex-column align-items-center card text-center justify-content-md-center justify-content-between p-3">
             <svg class="bi text-dark" width="36" height="36">
                 <use xlink:href="./lib/images/bootstrap-icons-1.4.0/bootstrap-icons.svg#person-fill" />
@@ -130,7 +131,7 @@
         @* Recipe End *@
 
         @* Special product start *@
-        <div class="col-md-5 offset-md-1 g-2 mt-5">
+        <div class="col-md-5 offset-md-1 g-2">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="h2 mb-0 me-2">Super Price Of The Week</h2>
                 <div class="d-flex gap-1">

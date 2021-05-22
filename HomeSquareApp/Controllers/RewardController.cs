@@ -67,7 +67,7 @@ namespace HomeSquareApp.Controllers
             return PartialView("_RewardPrizePartial",product);
         }
 
-        [HtppPost]
+        [HttpPost]
         public async Task<IActionResult> GetChoosePrizePartial()
         {
             ApplicationUser user = await _UserManager.GetUserAsync(User);

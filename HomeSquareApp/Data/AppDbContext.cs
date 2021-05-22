@@ -53,5 +53,7 @@ namespace HomeSquareApp.Data
         public DbSet<ProductServingType> ProductServingType { get; set; }
 
         public DbSet<RecipeUserLike> RecipeUserLike { get; set; }
+
+        public DbSet<BannerImages> BannerImages { get; set; }
     }
 }

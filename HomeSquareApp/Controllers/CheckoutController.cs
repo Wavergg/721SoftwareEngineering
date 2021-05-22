@@ -97,9 +97,11 @@ namespace HomeSquareApp.Controllers
             return View(model);
         }
 
-        public IActionResult Success(string orderID)
+        public IActionResult Success(string userID,string orderID)
         {
-            Order order = _context.Order.Where(o => o.OrderID == orderID).Include(o=>o.User).FirstOrDefault();
+            Order order = _context.Order.Include(o=>o.User)
+                            .Where(o => o.OrderID == orderID && o.UserID == userID)
+                            .FirstOrDefault();
 
             if(order == null)
             {
@@ -185,7 +187,7 @@ namespace HomeSquareApp.Controllers
                 //    MailMessage message = new MailMessage("homesquare322@gmail.com", model.DeliveryEmail);
                 //    message.Subject = "Order Confirmation";
                 //    message.Body = "Thank you for your purchase, Here is your order URL: \n" +
-                //                    Url.Action("Success", "Checkout", new { orderID = model.OrderID }, Request.Scheme);
+                //                    Url.Action("Success", "Checkout", new { userID= user.Id, orderID = model.OrderID }, Request.Scheme);
                 //    EmailController.SendEmail(message);
                 //}
                 //catch
@@ -290,7 +292,7 @@ namespace HomeSquareApp.Controllers
                     _context.ApplicationUser.Update(user);
                     _context.SaveChanges();
                     errorMsg.IsSuccess = true;
-                    errorMsg.UrlRedirect = Url.Action("Success", "Checkout", new { orderID = model.OrderID });
+                    errorMsg.UrlRedirect = Url.Action("Success", "Checkout", new { userID = user.Id, orderID = model.OrderID });
                     return Json(errorMsg);
                 }
                 catch

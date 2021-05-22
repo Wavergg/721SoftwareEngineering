@@ -2,28 +2,47 @@
 
 @foreach (var item in Model)
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeliveryOptions)
-        </td>
-        <td class="text-nowrap">
-            <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
-            @*<a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>*@
+    string statusColor = "";
+    switch (item.OrderStatus)
+    {
+        case "Preparing":
+            statusColor = "text-warning";
+            break;
+        case "Ready":
+            statusColor = "text-success";
+            break;
+        case "Completed":
+            statusColor = "text-muted";
+            break;
+        default:
+            break;
+    }
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDateTime)
+    </td>
+    <td class="">
+        <div class="badge @statusColor">@Html.DisplayFor(modelItem => item.OrderStatus)</div>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeliveryOptions)
+    </td>
+    <td class="text-nowrap">
+        <a asp-controller="AdminOrder" asp-action="Details" asp-route-id="@item.OrderID">Details</a>
+        @*<a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>*@
+        @if (ViewData["NavData"] as string != "Index")
+        {
+            <span>|</span>
             <a href="#" onclick="openDeleteConfirmationModal('@item.OrderID')" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
                 Delete
             </a>
-        </td>
-    </tr>
+        }
+    </td>
+</tr>
 }

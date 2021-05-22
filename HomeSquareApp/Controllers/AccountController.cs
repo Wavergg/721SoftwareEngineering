@@ -279,6 +279,7 @@ namespace HomeSquareApp.Controllers
                     Address = model.Address,
                     PhoneNumber = model.PhoneNumber,
                     PictureUrl = "blank-profile.png",
+                    AccountCreatedDate = DateTime.Now,
                 };
 
                 var result = await _UserManager.CreateAsync(user, model.Password);

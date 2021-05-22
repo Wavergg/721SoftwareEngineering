@@ -1,0 +1,59 @@
+﻿@{ 
+    Layout = "_MainLayout";
+    ViewData["Title"] = "Our Store";
+
+    string CurrentDayOfWeek = DateTime.Now.DayOfWeek.ToString();
+}
+
+@section pageSpecificCss{ 
+    <style>
+        iframe {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle
+        }
+    </style>
+}
+
+<div class="container-fluid text-white p-0 bg-dark border-0 shadow-sm card rounded-0">
+    <div class="d-md-flex">
+        <div class="col-md-4 p-lg-5 p-3 pt-5">
+            <h2 class="" style="font-family:Helvetica, sans-serif">Opening Hours</h2>
+            <div class="d-flex flex-column">
+                <div class="@(CurrentDayOfWeek == "Monday"? "text-warning" : "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Mon   </span>
+                    <span>7:00 AM - 10:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Tuesday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Tuesday</span>
+                    <span>7:00 AM - 10:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Wednesday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Wednesday</span>
+                    <span>7:00 AM - 10:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Thursday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Thursday</span>
+                    <span>7:00 AM - 10:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Friday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Friday</span>
+                    <span>7:00 AM - 10:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Saturday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Saturday</span>
+                    <span>7:00 AM - 08:00 PM</span>
+                </div>
+                <div class="@(CurrentDayOfWeek == "Sunday"? "text-warning": "") d-flex flex-row flex-md-column flex-lg-row justify-content-between shadow p-3 px-lg-2 px-3  px-xl-3">
+                    <span>Sunday</span>
+                    <span>7:00 AM - 08:00 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <iframe style="height:100vh" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=133%20Tay%20St,%20Invercargill%20New%20Zealand+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+            </iframe>
+        </div>
+    </div>
+</div>
+

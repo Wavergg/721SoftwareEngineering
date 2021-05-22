@@ -1,8 +1,100 @@
-﻿
+﻿@model AdminDashboardViewModel
+
 @{
     ViewData["Title"] = "Admin Panel";
+    ViewData["CurrentPage"] = "Main";
     Layout = "_AdminLayout";
     ViewData["NavData"] = "Index";
 }
 
-    CONTENT
+@section pageSpecificCss{ 
+    <style>
+        .table-responsive{
+            max-height:280px;
+        }
+
+        .bg-darkblue {
+            background-color: #546e7a;
+        }
+
+        .bg-teal {
+            background-color: #009688;
+        }
+    </style>
+}
+
+<div class="row gap-2 gap-md-0">
+    @*<div class="col-md">
+        <a class="card text-decoration-none d-flex align-items-center justify-content-center btn btn-light text-start rounded-0 p-3 fw-bold">
+            <div class="d-flex justify-content-between">
+                <span class="align-self-center">Home Page Banner</span>
+                <i style="height:auto" class="align-self-center fas fa-home"></i>
+            </div>
+        </a>
+    </div>*@
+    <div class="col-md">
+        <a asp-controller="Admin" asp-action="EditProductBanner" class="card text-decoration-none d-flex align-items-center justify-content-center btn btn-light text-start rounded-0 p-3 fw-bold">
+            <div class="d-flex justify-content-between">
+                <span class="align-self-center">Products Page Banner</span>
+                <i style="height:auto" class="align-self-center fas fa-shopping-bag"></i>
+            </div>
+        </a>
+    </div>
+    <div class="col-md">
+        <a href="#" class="card text-decoration-none d-flex align-items-center justify-content-center btn btn-light text-start rounded-0 p-3 fw-bold">
+            <div class="d-flex justify-content-between">
+                <span class="align-self-center">Recipe Page Banner</span>
+                <i style="height:auto" class="align-self-center fas fa-utensils"></i>
+            </div>
+        </a>
+    </div>
+</div>
+
+<hr />
+
+<div class="d-flex flex-column my-5">
+    <div class="d-flex">
+        <span class="h2">Active Orders</span>
+        <span class="badge bg-dark ms-2 align-self-center">@Model.Orders.Count()</span>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="orderTable">
+                <partial name="_AdminOrderTableModelPartial" model="Model.Orders" />
+            </div>
+        </div>
+        <div class="col ms-lg-5 ms-md-3 mt-5 mt-md-0 d-flex flex-column gap-2 justify-content-center">
+
+            <div class="position-relative card shadow rounded-0 bg-darkblue text-white border-0" style="box-sizing:border-box">
+                <div class="position-absolute start-0 bg-warning" style="height:100%;width:6px;">
+                </div>
+                <div class="px-4 py-2">
+                    <h4 class="fw-bold">
+                        Total Order This Week
+                    </h4>
+                    <div>
+                        <h4 class="text-end">@(string.Format("$ {0:F2}",Model.Orders.Sum(o=>o.OrderTotal)))</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="position-relative card shadow rounded-0 bg-teal text-white border-0" style="box-sizing:border-box">
+                <div class="position-absolute start-0 bg-info" style="height:100%;width:6px;">
+                </div>
+                <div class="px-4 py-2">
+
+                    <h4 class="fw-bold">
+                        Users This Week
+                    </h4>
+                    <div class="d-flex justify-content-end">
+                        <h4>@Model.NewUserCount</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    
+}

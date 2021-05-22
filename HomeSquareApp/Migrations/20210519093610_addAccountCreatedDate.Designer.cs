@@ -4,14 +4,16 @@ using HomeSquareApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210519093610_addAccountCreatedDate")]
+    partial class addAccountCreatedDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,25 +107,6 @@ namespace HomeSquareApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("HomeSquareApp.Models.BannerImages", b =>
-                {
-                    b.Property<int>("BannerImageID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BannerStatus");
-
-                    b.Property<int>("BannerType");
-
-                    b.Property<string>("BannerUrl")
-                        .IsRequired()
-                        .HasMaxLength(256);
-
-                    b.HasKey("BannerImageID");
-
-                    b.ToTable("BannerImages");
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Category", b =>

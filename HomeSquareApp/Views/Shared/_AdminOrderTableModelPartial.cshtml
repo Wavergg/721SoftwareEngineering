@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<HomeSquareApp.Models.Order>
 
-<div class="table-responsive" style="min-height:440px">
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -8,6 +8,12 @@
                     <a class="d-flex align-items-end tableSortLink">
                         <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
                         @Html.DisplayNameFor(model => model.OrderDateTime)
+                    </a>
+                </th>
+                <th onclick="sortData('orderStatus')">
+                    <a class="d-flex align-items-end tableSortLink">
+                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
+                        @Html.DisplayNameFor(model => model.OrderStatus)
                     </a>
                 </th>
                 <th onclick="sortData('firstName')">
@@ -20,12 +26,6 @@
                     <a class="d-flex align-items-end tableSortLink">
                         <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
                         @Html.DisplayNameFor(model => model.User.LastName)
-                    </a>
-                </th>
-                <th onclick="sortData('orderStatus')">
-                    <a class="d-flex align-items-end tableSortLink">
-                        <i class="fas fa-sort d-flex align-items-start me-1" style="width:16px;height:20px"></i>
-                        @Html.DisplayNameFor(model => model.OrderStatus)
                     </a>
                 </th>
                 <th onclick="sortData('deliveryOption')">

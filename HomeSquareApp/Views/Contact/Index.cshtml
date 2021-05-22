@@ -5,48 +5,63 @@
 
 @section pageSpecificCss{
     <link rel="stylesheet" href="~/lib/css/contactUs.css" />
+    <style>
+        .form-control {
+            border-radius: 0;
+        }
+
+            .form-control:focus {
+                border-color: black;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+                outline: 0 none;
+            }
+
+        
+    </style>
 }
 
-<div class="contact-form d-flex align-items-center justify-content-center bg-white flex-column mb-3 center-vh">
-    <h1 class="mb-4 pt-4">Contact Us</h1>
-    <div class="w-md-75">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="group">
-                        <label for="contactNameInput" class="text-label">Your Name</label>
-                        <input id="contactNameInput" type="text" class="input bg-light rounded-pill form-control" required>
-                        <span class="text-danger form-text"></span>
+<form class="justify-content-center d-flex py-5 bg-dark">
+    <div class="col-md-9 contact-form py-5 card rounded-0 d-flex align-items-center justify-content-center bg-light flex-column mb-3">
+        <h1 class="mb-4 pt-4">Contact Us</h1>
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="group">
+                            <label for="contactNameInput" class="text-label">Your Name</label>
+                            <input id="contactNameInput" type="text" class="input bg-light form-control" required>
+                            <span class="text-danger form-text"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="group">
+                            <label for="contactEmailInput" class="text-label">Email</label>
+                            <input id="contactEmailInput" type="email" class="input bg-light form-control" required>
+                            <span class="text-danger form-text"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="group">
+                            <label for="contactPhoneInput" class="text-label">Phone</label>
+                            <input id="contactPhoneInput" type="tel" class="input bg-light form-control" required>
+                            <span class="text-danger form-text"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm">
-                    <div class="group">
-                        <label for="contactEmailInput" class="text-label">Email</label>
-                        <input id="contactEmailInput" type="email" class="input bg-light rounded-pill form-control" required>
-                        <span class="text-danger form-text"></span>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="group">
+                            <label for="textAreaMessage" class="text-label">Message</label>
+                            <textarea class="form-control" style="background-color: #f6f6f6" id="textAreaMessage" rows="4"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm">
-                    <div class="group">
-                        <label for="contactPhoneInput" class="text-label">Phone</label>
-                        <input id="contactPhoneInput" type="tel" class="input bg-light rounded-pill form-control" required>
-                        <span class="text-danger form-text"></span>
+                <div class=" d-flex justify-content-center">
+                    <div class="group col-md-4">
+                        <button class="btn btn-dark w-100 rounded-0 text-white">Send Message</button>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="group">
-                        <label for="textAreaMessage" class="text-label">Message</label>
-                        <textarea class="form-control" style="background-color: #f6f6f6" id="textAreaMessage" rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class=" d-flex justify-content-center">
-                <div class="group col-md-4">
-                    <button class="btn btn-primary form-control text-white rounded-pill">Send Message</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>

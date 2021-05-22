@@ -144,7 +144,7 @@
                     <a asp-controller="Product" asp-action="Index" class="nav-ribbon">Products</a>
 
                     <a asp-controller="Recipe" asp-action="Index" class="nav-ribbon">Recipes</a>
-                    <a class="nav-ribbon" href="#">Our Stores</a>
+                    <a asp-controller="OurStore" asp-action="Index" class="nav-ribbon">Our Stores</a>
                 </nav>
             </div>
             @* Desktop Navbar end *@
@@ -211,7 +211,7 @@
                         <a asp-controller="Recipe" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white border-bottom border-secondary">Recipes</div>
                         </a>
-                        <a href="#">
+                        <a asp-controller="OurStore" asp-action="Index">
                             <div class="d-flex p-2 py-3 bg-white ">Our Stores</div>
                         </a>
                     </div>

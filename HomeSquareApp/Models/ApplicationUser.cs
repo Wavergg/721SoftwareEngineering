@@ -48,6 +48,8 @@ namespace HomeSquareApp.Models
 
         public int RewardPlayChanceCount { get; set; }
 
+        public DateTime AccountCreatedDate { get; set; }
+
         public IEnumerable<Order> Orders { get; set; }
 
         public IEnumerable<Reward> Rewards { get; set; }

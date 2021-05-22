@@ -45,6 +45,7 @@ namespace HomeSquareApp.Controllers
                 LastName = "AnonymousUser",
                 Address = "homeSquareCookieID",
                 PhoneNumber = "000000",
+                AccountCreatedDate = DateTime.Now,
             };
 
             var result = await _UserManager.CreateAsync(user, cookieID);

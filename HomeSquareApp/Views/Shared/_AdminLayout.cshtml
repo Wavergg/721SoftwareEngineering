@@ -259,7 +259,20 @@
                 }
                 else if ((ViewData["NavData"] as string) == "Index")
                 {
-                    <h2 class="mx-2 m-0">Dashboard</h2>
+                <div class="d-flex ">
+                    <h2 class="mx-2 m-0">Dashboard <span class="text-muted">&ndash;</span></h2>
+                    <div class="dropdown">
+                        <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            @ViewData["CurrentPage"]
+                        </button>
+                        @*<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a asp-action="Index" class="dropdown-item">Main</a></li>
+                            <li><a asp-action="Index" class="dropdown-item">Banners</a></li>
+                        </ul>*@
+                    </div>
+                </div>
+
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark align-items-center gap-2 me-3 d-none d-md-flex"><i class="fas fa-home" style="width:auto;height:auto"></i> Back to Home Page</a>
                 }
                 else if ((ViewData["NavData"] as string) == "Order")
                 {
@@ -292,25 +305,28 @@
         <div class="container-fluid">
             <div class="navbar-collapse mt-2 offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a asp-controller="Admin" asp-action="Index" class="nav-link text-white" aria-current="page">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a asp-controller="AdminOrder" asp-action="Index" class="nav-link text-white">Order</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a asp-controller="AdminProduct" asp-action="Index" class="nav-link text-white">Product</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a asp-controller="AdminRecipes" asp-action="Index" class="nav-link text-white">Recipe</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a class="nav-link text-white" href="#">Rewards</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
                         <a class="nav-link text-white" href="#">Graph and Statistic</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item py-2">
+                        <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Back to Home Page</a>
+                    </li>
+                    <li class="nav-item py-2">
                         <a class="nav-link text-white" asp-action="Logout" asp-controller="Account">Logout</a>
                     </li>
                 </ul>
