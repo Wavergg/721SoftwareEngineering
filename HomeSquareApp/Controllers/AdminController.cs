@@ -37,12 +37,15 @@ namespace HomeSquareApp.Controllers
             List<Order> _ordersContext = await _context.Order.Include(u => u.User)
                             .Where(o => o.OrderStatus =="Preparing" || o.OrderStatus == "Ready").ToListAsync();
 
-
+           
             int dayOfWeek = ((int)DateTime.Now.DayOfWeek) == 0 ? 7 : (int)DateTime.Now.DayOfWeek;
             var previous1WeekSunday = @DateTime.Now.AddDays(-(dayOfWeek));
 
             List<ApplicationUser> users = _context.ApplicationUser
                                         .Where(u => u.AccountCreatedDate > previous1WeekSunday && u.EmailConfirmed).ToList();
+
+            double totalOrderThisWeek = _context.Order.Where(o => o.OrderDateTime > previous1WeekSunday && (o.OrderStatus != "Ongoing" && o.OrderStatus != "Deleted")).Sum(o => o.OrderTotal);
+
 
             int customerCount = 0;
 
@@ -58,6 +61,7 @@ namespace HomeSquareApp.Controllers
             AdminDashboardViewModel model = new AdminDashboardViewModel() {
                 Orders = _ordersContext,
                 NewUserCount = customerCount,
+                TotalOrderThisWeek = totalOrderThisWeek,
             };
 
             return View(model);

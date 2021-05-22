@@ -8,15 +8,22 @@
 
 @section pageSpecificCss {
     @* owl carousel*@
-    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.carousel.css">
-    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.theme.default.css">
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/lib/OwlCarousel2/assets/owl.theme.default.min.css">
     @* Icons *@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
-    <link rel="stylesheet" href="~/lib/css/productCard.css" />
-    <style>
-        
-    </style>
+    
+    
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+        <link rel="stylesheet" href="~/lib/css/productCard.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/recipeCard.min.css" />
+        <link rel="stylesheet" href="~/lib/css/productCard.min.css" />
+    </environment>
 }
 
 @if (TempData["ResetMessage"] != null)

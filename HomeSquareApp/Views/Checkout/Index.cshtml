@@ -6,7 +6,16 @@
 
 @section pageSpecificCss{
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/lib/css/checkOut.css" />
+
+
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/checkOut.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/checkOut.min.css" />
+    </environment>
 
     <style>
         /* Chrome, Safari, Edge, Opera */
@@ -41,7 +50,15 @@
 </div>
 
 @section Scripts{
-    <script src="~/lib/js/checkout.js"></script>
+    
+    <environment include="Development">
+        @* Custom Page Specific JS *@
+        <script src="~/lib/js/checkout.js"></script>
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific JS  *@
+        <script src="~/lib/js/checkout.min.js"></script>
+    </environment>
     <script>
         $(document).on("keydown", ":input:not(textarea)", function (event) {
             return event.key != "Enter";

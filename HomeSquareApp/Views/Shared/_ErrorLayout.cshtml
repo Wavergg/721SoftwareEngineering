@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @* replace icon later *@
+    <link rel="icon" href="~/lib/favicon.ico" />
+
+    @* bootstrap *@
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <style>
+        /*@@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);*/
+
+        @@font-face {
+            font-family: 'Titillium Web';
+            src: url('/lib/font/TitilliumWeb-Light.ttf') format('truetype');
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

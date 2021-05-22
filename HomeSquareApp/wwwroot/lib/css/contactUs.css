@@ -1,21 +1,4 @@
-﻿/*.contact-form .group .label,
-.contact-form .group .input,
-.contact-form .group .button {
-    width: 100%;
-    color: #0F6B41;
-    display: block;
-}
-
-.contact-form .group .input,
-.contact-form .group .button,
-.contact-form .group textarea
-{
-    border: none;
-    padding: 15px 20px;
-    border-radius: 25px;
-    background: #f6f6f6;
-}
-*/
+﻿
 .contact-form .group .button {
     background: #1161ee;
 }
@@ -52,3 +35,13 @@
         width: 75% !important;
     }
 }
+
+.form-control {
+    border-radius: 0;
+}
+
+    .form-control:focus {
+        border-color: black;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+        outline: 0 none;
+    }

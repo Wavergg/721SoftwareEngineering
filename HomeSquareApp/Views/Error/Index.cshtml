@@ -1,0 +1,39 @@
+﻿@model int
+
+
+@{
+    Layout = "_ErrorLayout";
+}
+<div class="vh-100 bg-light d-flex justify-content-center align-items-center">
+    <div class="text-center row gap-2 col-6 justify-content-center">
+        <h1>Sorry . . .</h1>
+        @if (Model == 404)
+        {
+            <h3 style="font-weight:100">We Couldn't Find The Page You Are Looking For</h3>
+        }
+        else
+        {
+            <h3 style="font-weight:100">Something went wrong with your Request</h3>
+        }
+
+        @if (User.IsInRole("ADMIN"))
+        {
+            <a asp-controller="Admin" asp-action="Index" class="btn btn-dark w-50">Return to Admin Dashboard</a>
+        }
+        else
+        {
+            <a asp-controller="Home" asp-action="Index" class="btn btn-dark w-50">Return to Home Page</a>
+        }
+
+    </div>
+    <div class="col-6">
+        @if (Model == 404)
+        {
+            <img class="img-fluid" src="~/lib/images/404Error.jpg" asp-append-version="true"/>
+        }
+        else
+        {
+            <img class="img-fluid" src="~/lib/images/500Error.png" asp-append-version="true"/>
+        }
+    </div>
+</div>

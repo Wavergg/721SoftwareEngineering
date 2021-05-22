@@ -8,7 +8,15 @@
 }
 
 @section pageSpecificCss{
-    <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/adminOrder.min.css" />
+    </environment>
 }
 
 <div class="d-md-flex justify-content-between align-items-center">
@@ -128,7 +136,7 @@
 
         function openDeleteConfirmationModal(orderID) {
             this.orderID = orderID
-            
+
         }
 
         function deleteConfirmed() {
@@ -142,7 +150,7 @@
                 }).done(function (data) {
                     var myModalEl = document.getElementById('deleteConfirmationModal')
                     var modal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
-                    modal.hide(); 
+                    modal.hide();
                     document.getElementById("displayOrderStatus").innerHTML = "Deleted"
                 });
         }

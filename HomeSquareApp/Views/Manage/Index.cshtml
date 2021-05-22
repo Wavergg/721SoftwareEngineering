@@ -8,8 +8,19 @@
 
 @section pageSpecificCss{
     <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="~/lib/css/sidebar.css" />
-    <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    
+    
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/sidebar.css" />
+        <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/sidebar.min.css" />
+        <link rel="stylesheet" href="~/lib/css/adminOrder.min.css" />
+    </environment>
+
     <style>
         .form-control {
             border-radius: 0;
@@ -156,7 +167,7 @@
 <div class="modal fade" id="rewardsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content position-relative" id="modelRewardPartialContent">
-            
+
         </div>
     </div>
 </div>
@@ -346,7 +357,7 @@
             }
         }
     </script>
-    
+
     <script>
 
         function goToPage(pageNumber) {
@@ -502,9 +513,9 @@
                     },
                 }).done(function (data) {
                     document.getElementById("rewardStartSection").style.display = "none";
-                    
+
                     $("#rewardContent").html(data)
-                    
+
                 });
         }
     </script>

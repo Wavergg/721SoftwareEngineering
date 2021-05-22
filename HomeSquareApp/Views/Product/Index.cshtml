@@ -6,8 +6,17 @@
 
 @section pageSpecificCss{
     <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="~/lib/css/productCard.css" />
     
+
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/productCard.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/productCard.min.css" />
+    </environment>
+
     <style>
         .categoryList:hover {
             background-color: #c5e1a5 !important;
@@ -29,7 +38,7 @@
     <div style="position:relative">
         <img src="~/lib/images/banner/banner3.jpg" style="min-height:215px;width:100%; object-fit:cover;object-position: 25% center" />
     </div>
-    
+
     <div class="container mt-3 pt-md-5">
         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             <svg class="bi" width="16" height="24" fill="currentColor">
@@ -39,9 +48,9 @@
         </button>
         @if (ViewData["IsFiltered"] != null)
         {
-        <button onclick="clearFilter(this)" class="col-4 btn btn-dark">
-            Clear Filter
-        </button>
+            <button onclick="clearFilter(this)" class="col-4 btn btn-dark">
+                Clear Filter
+            </button>
         }
         <div class="collapse mt-2" id="collapseFilter">
             <div class="card card-body">
@@ -81,7 +90,7 @@
             </div>
         </div>
 
-        
+
         <div class="d-flex my-5 justify-content-end" id="pagination">
             <partial name="_PaginationPartial" />
         </div>
@@ -92,7 +101,7 @@
 @section Scripts{
 
     <script>
-        var productNameInput = document.getElementById('productNameInput'); 
+        var productNameInput = document.getElementById('productNameInput');
         var sortBySelect = document.getElementById('sortBySelect');
         var clearFilterBtn = document.getElementById('clearFilterBtn');
 
@@ -245,7 +254,7 @@
         }
 
         @if(ViewData["IsFiltered"] != null)
-            { 
+            {
                 <Text>
                 $(document).ready(function() {
                     clearFilterBtn.hidden = false;

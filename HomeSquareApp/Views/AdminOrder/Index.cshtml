@@ -8,10 +8,17 @@
 }
 
 @section pageSpecificCss{
-    <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/adminOrder.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/adminOrder.min.css" />
+    </environment>
     <style>
-        .table-responsive{
-            min-height:440px;
+        .table-responsive {
+            min-height: 440px;
         }
     </style>
 }
@@ -49,7 +56,7 @@
 
 
 <div id="orderTable">
-    <partial name="_AdminOrderTableModelPartial" model="Model"/>
+    <partial name="_AdminOrderTableModelPartial" model="Model" />
 </div>
 
 <!-- Modal -->
@@ -91,7 +98,7 @@
                         pageNumber: pageNumber
                     }
                 }).done(function (data) {
-                    
+
                     $("#tableData").html(data)
                 });
         }
@@ -194,7 +201,7 @@
         }
     </script>
 
-    <script src="~/lib/js/vue.js"></script>
+    <script src="~/lib/vue/vue.js"></script>
     <script>
         Vue.component('filter-badge', {
             props: {

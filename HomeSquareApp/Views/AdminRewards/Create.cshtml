@@ -8,71 +8,14 @@
 }
 
 @section pageSpecificCss{
-    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
-    <style>
-        .form-control {
-            border-radius: 0;
-            background: #FDFDFD;
-        }
-
-            .form-control:focus {
-                border-color: black;
-                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
-                outline: 0 none;
-            }
-
-
-        .recipe-title {
-            font-family: Bahnschrift;
-        }
-
-        label {
-            font-size: 14px;
-            color: #808080;
-        }
-
-        select {
-            font-size: 14px !important;
-            color: #808080 !important;
-        }
-
-            select option {
-                font-size: 14px;
-                color: #808080;
-            }
-
-        /*Autocomplete*/
-
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            /*position the autocomplete items to be the same width as the container:*/
-            top: 100%;
-            left: 0;
-            right: 0;
-        }
-
-            .autocomplete-items div {
-                padding: 10px;
-                cursor: pointer;
-                background-color: #fff;
-                border-bottom: 1px solid #d4d4d4;
-            }
-
-                .autocomplete-items div:hover {
-                    /*when hovering an item:*/
-                    background-color: #e9e9e9;
-                }
-
-        .autocomplete-active {
-            /*when navigating through the items using the arrow keys:*/
-            background-color: DodgerBlue !important;
-            color: #ffffff;
-        }
-    </style>
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/recipeDetails.min.css" />
+    </environment>
 }
 
 <h2>Add Reward</h2>
@@ -89,7 +32,7 @@
                 </div>
                 <div class="d-md-flex">
                     <label asp-for="PoolQuantity" class="col-md-5"></label>
-                    <input onkeyup="compareQuantity(this)" asp-for="PoolQuantity" class="col-md-7 form-control flex-fill" disabled/>
+                    <input onkeyup="compareQuantity(this)" asp-for="PoolQuantity" class="col-md-7 form-control flex-fill" disabled />
                 </div>
                 <span asp-validation-for="PoolQuantity" class="text-danger"></span>
                 <span id="quantityErrorMessage" class="text-danger"></span>
@@ -100,7 +43,7 @@
         </div>
         <hr />
         <div id="rewardSelectorResult" class="col-md-5">
-            <partial name="_AdminRewardSelectorResultPartial" model="@Model.Product"/>
+            <partial name="_AdminRewardSelectorResultPartial" model="@Model.Product" />
         </div>
     </form>
 </div>
@@ -115,7 +58,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/lib/js/vue.js"></script>
+    <script src="~/lib/vue/vue.js"></script>
     <script>
         var app = new Vue({
             el: '#app',
@@ -148,7 +91,7 @@
                             for (i = 0; i < data.length; i++) {
                                 b = document.createElement("DIV");
                                 b.innerHTML = data[i].productName
-                                b.innerHTML += "<input type='hidden' name='" + data[i].productName + "' value='"+data[i].productID+"'>";
+                                b.innerHTML += "<input type='hidden' name='" + data[i].productName + "' value='" + data[i].productID + "'>";
                                 b.addEventListener("click", function (e) {
                                     /*insert the value for the autocomplete text field:*/
                                     el.value = this.getElementsByTagName("input")[0].name;
@@ -204,19 +147,19 @@
 
             var productStockEl = document.getElementById("ProductStock")
             if (productStockEl.value.length > 0 && el.value > 0) {
-                
+
                 if (parseInt(productStockEl.value) < parseInt(el.value)) {
-                   
+
                     document.getElementById("quantityErrorMessage").innerHTML = "Quantity Shouldnt Exceed Available Product Amount";
                 } else {
                     document.getElementById("submitRewardForm").removeAttribute("disabled")
                     return;
                 }
-            } 
+            }
 
             document.getElementById("submitRewardForm").setAttribute("disabled", "true")
             return;
-            
+
         }
     </script>
 } 

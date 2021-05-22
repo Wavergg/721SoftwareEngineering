@@ -11,5 +11,7 @@ namespace HomeSquareApp.ViewModels
         public List<Order> Orders { get; set; }
 
         public int NewUserCount { get; set; }
+
+        public double TotalOrderThisWeek { get; set; }
     }
 }

@@ -6,8 +6,18 @@
 }
 
 @section pageSpecificCss{
-    <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/recipeDetails.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/recipeDetails.min.css" />
+    </environment>
+
     <link rel="stylesheet" href="~/lib/images/bootstrap-icons-1.4.0/bootstrap-icons.css" />
+
     <style>
         .form-control {
             border-radius: 0;
@@ -45,7 +55,7 @@
     <h2>Create New Recipe</h2>
     <hr />
     <form asp-controller="Recipe" asp-action="Create" method="post" enctype="multipart/form-data" autocomplete="off">
-        <partial name="_RecipeFormTemplatePartial" model="Model"/>
+        <partial name="_RecipeFormTemplatePartial" model="Model" />
 
         <div class="d-flex justify-content-center my-5">
             <button type="submit" class="btn btn-success col-md-6 col-10">Create Recipe</button>
@@ -59,7 +69,7 @@
         var nextInstructionId =  @Model.RecipeSteps.Count();
         var recipeImage = document.getElementById("recipeImage")
 
-        
+
     </script>
     <script src="~/lib/js/RecipeDynamicListStepsIngredient.js">
     </script>

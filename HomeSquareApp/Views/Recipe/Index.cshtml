@@ -7,7 +7,16 @@
 
 @section pageSpecificCss{
     <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+    
+
+    <environment include="Development">
+        @* Custom Page Specific Css *@
+        <link rel="stylesheet" href="~/lib/css/recipeCard.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Page Specific Css  *@
+        <link rel="stylesheet" href="~/lib/css/recipeCard.min.css" />
+    </environment>
 }
 
 <div class="mb-5">
@@ -38,11 +47,11 @@
     </div>
     <div id="recipeContainer" class="container-fluid pt-5 bg-white">
         @*<div class="d-md-flex justify-content-center gx-2">
-            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Meals and Courses</button>
-            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Occasion</button>
-            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">All Recipes</button>
-            <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Diet and Lifestyle</button>
-        </div>*@
+                <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Meals and Courses</button>
+                <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Occasion</button>
+                <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">All Recipes</button>
+                <button class="m-2 btn btn-light text-dark border-secondary rounded-pill">Diet and Lifestyle</button>
+            </div>*@
         <div class="d-md-flex justify-content-center mt-5">
             <h1 class="fw-bold">Recipes</h1>
         </div>
@@ -57,7 +66,7 @@
             </button>
         </div>
 
-        
+
         <div id="recipeCardList" class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3 mt-3 ">
             @for (int i = 0; i < Model.Count(); i++)
             {
@@ -85,7 +94,7 @@
 
         function searchRecipeByName() {
             var recipeNameInput = document.getElementById("searchRecipeInput")
-            
+
 
             $.ajax(
                 {
@@ -116,11 +125,11 @@
 
                     hasMoreRecipe()
                 });
-            
+
             clearFilterBtn.hidden = true;
         }
 
-        function loadNextRecipes(){
+        function loadNextRecipes() {
             $.ajax(
                 {
                     type: "POST", //HTTP POST Method

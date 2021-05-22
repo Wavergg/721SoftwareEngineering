@@ -5,11 +5,27 @@
     <title>@ViewData["Title"] | Admin</title>
 
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/css/adminPanel.css" />
+    
+    <environment include="Development">
+        @* Custom Css *@
+        <link rel="stylesheet" href="~/lib/css/adminPanel.css" />
+    </environment>
+    <environment exclude="Development">
+        @* Custom Css  *@
+        <link rel="stylesheet" href="~/lib/css/adminPanel.min.css" />
+    </environment>
+
     @RenderSection("pageSpecificCss", required: false)
     <script src="https://kit.fontawesome.com/ea080c442b.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/jquery.min.js"></script>
     <style>
+
+
+        @@font-face {
+            font-family: 'Titillium Web';
+            src: url('/lib/font/TitilliumWeb-Regular.ttf') format('truetype');
+        }
+
         @@media (max-width: 991.98px) {
             .offcanvas-collapse {
                 position: fixed;
@@ -31,12 +47,12 @@
                 }
         }
 
-        .required::after{
+        .required::after {
             content: "*";
             color: #f00;
         }
 
-        @@media(max-width: 767.98px){
+        @@media(max-width: 767.98px) {
             .sticky-top-small-vp {
                 position: -webkit-sticky;
                 position: sticky;
@@ -58,7 +74,7 @@
         }
 
 
-        
+
 
         .fa.fa-star.checked {
             color: #ffc107 !important;
@@ -104,7 +120,7 @@
             overflow: hidden;
         }
 
-            table th,td {
+            table th, td {
                 white-space: nowrap;
             }
 
@@ -116,12 +132,13 @@
         .paginationLink.active {
             border-bottom: 3px solid #f564a9 !important;
         }
+
         .paginationLink:hover {
             background-color: #f8f9fa !important
         }
 
         .badge-filter {
-            background-color:#212529 !important;
+            background-color: #212529 !important;
             color: #fff;
         }
 
@@ -146,7 +163,7 @@
                 padding: 5px 0;
                 border-radius: 6px;
                 position: absolute;
-                width:100px;
+                width: 100px;
                 margin-left: -50px;
                 z-index: 10;
                 bottom: 100%;
@@ -159,16 +176,16 @@
                 visibility: visible;
             }
 
-        .tooltip-badge .tooltip-badgetext::after {
-            content: " ";
-            position: absolute;
-            top: 100%; /* At the bottom of the tooltip */
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: black transparent transparent transparent;
-        }
+            .tooltip-badge .tooltip-badgetext::after {
+                content: " ";
+                position: absolute;
+                top: 100%; /* At the bottom of the tooltip */
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
+            }
     </style>
 </head>
 
@@ -335,10 +352,10 @@
     </nav>
 
     @* MODIFIED JQUERY VALIDATE START *@
-    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
 
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
 
     @if (IsSectionDefined("Scripts"))
