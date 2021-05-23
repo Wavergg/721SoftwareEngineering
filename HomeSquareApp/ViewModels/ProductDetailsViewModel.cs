@@ -13,5 +13,7 @@ namespace HomeSquareApp.ViewModels
         public ApplicationUser User { get; set; }
 
         public ReviewViewModel Review { get; set; }
+
+        public Review CurrentUserReview { get; set; }
     }
 }

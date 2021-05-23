@@ -234,14 +234,14 @@
                         </span>
                     </a>
                 </li>
-                <li>
+                @*<li>
                     <a href="#">
                         <i class="fas fa-chart-bar fa-2x"></i>
                         <span class="nav-text">
                             Graphs and Statistics
                         </span>
                     </a>
-                </li>
+                </li>*@
                 <li>
                     <a asp-action="Logout" asp-controller="Account">
                         <i class="fas fa-sign-out-alt fa-2x"></i>
@@ -336,11 +336,11 @@
                         <a asp-controller="AdminRecipes" asp-action="Index" class="nav-link text-white">Recipe</a>
                     </li>
                     <li class="nav-item py-2">
-                        <a class="nav-link text-white" href="#">Rewards</a>
+                        <a asp-controller="AdminRewards" asp-action="Index" class="nav-link text-white">Rewards</a>
                     </li>
-                    <li class="nav-item py-2">
+                    @*<li class="nav-item py-2">
                         <a class="nav-link text-white" href="#">Graph and Statistic</a>
-                    </li>
+                    </li>*@
                     <li class="nav-item py-2">
                         <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Back to Home Page</a>
                     </li>

@@ -40,6 +40,7 @@ namespace HomeSquareApp.ViewModels
         public DateTime SaleEndDateTime { get; set; }
 
         [Required(ErrorMessage = "Please Provide Image For The Product")]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         public virtual IFormFile Image { get; set; }
 
         [MaxLength(256)]

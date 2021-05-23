@@ -50,6 +50,7 @@ namespace HomeSquareApp.ViewModels
         public string PictureUrl { get; set; }
 
         [Display(Name = "Profile Image")]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         public IFormFile Image { get; set; }
     }
 }

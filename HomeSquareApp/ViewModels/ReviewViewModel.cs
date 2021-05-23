@@ -13,9 +13,9 @@ namespace HomeSquareApp.ViewModels
         public int ProductID { get; set; }
 
         [MaxLength(1024)]
-        [Required]
         public string ReviewContent { get; set; }
 
+        [Range(1,5,ErrorMessage = "Select Amount of Stars for Product Review")]
         public int ReviewStars { get; set; }
     }
 }

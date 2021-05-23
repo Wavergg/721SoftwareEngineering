@@ -1,0 +1,134 @@
+﻿@model Product
+
+@{ 
+    //TEMP CHANGE IT LATER, NOT EFFICIENT TO PERFORM CALCULATION FOR EVERYTHING
+    double TOTAL_REVIEW_COUNT = Model.ReviewFiveStarsCount + Model.ReviewFourStarsCount + Model.ReviewThreeStarsCount + Model.ReviewTwoStarsCount + Model.ReviewOneStarsCount;
+    double AVERAGE_REVIEW_SCORE = (Model.ReviewFiveStarsCount * 5 + Model.ReviewFourStarsCount * 4 + Model.ReviewThreeStarsCount * 3 + Model.ReviewTwoStarsCount * 2 + Model.ReviewOneStarsCount) / TOTAL_REVIEW_COUNT;
+    double SCORE_ROUNDED = Math.Round(AVERAGE_REVIEW_SCORE) - 1;
+}
+
+<div class="container py-5">
+    <span class="heading">User Rating</span>
+    @for (int i = 0; i < 5; i++)
+    {
+        string className = "fa fa-star ";
+        if (i <= SCORE_ROUNDED)
+        {
+            className += "checked";
+        }
+        <span class="@className"></span>
+    }
+    <p>@string.Format($"{ AVERAGE_REVIEW_SCORE:F2}") average based on @TOTAL_REVIEW_COUNT reviews.</p>
+    <div class="row">
+        <div class="side">
+            <div>5 star </div>
+        </div>
+        <div class="middle">
+            <div class="bar-container">
+                @{
+                    double fiveStarWidth;
+                    try
+                    {
+                        fiveStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewFiveStarsCount)) * 100;
+                    }
+                    catch
+                    {
+                        fiveStarWidth = 0;
+                    }
+                }
+                <div class="bar-5" style="width:@string.Format("{0}%",fiveStarWidth)"></div>
+            </div>
+        </div>
+        <div class="side right">
+            <div>@Model.ReviewFiveStarsCount</div>
+        </div>
+        <div class="side">
+            <div>4 star</div>
+        </div>
+        <div class="middle">
+            <div class="bar-container">
+                @{
+                    double fourStarWidth;
+                    try
+                    {
+                        fourStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewFourStarsCount)) * 100;
+                    }
+                    catch
+                    {
+                        fourStarWidth = 0;
+                    }
+                }
+                <div class="bar-4" style="width:@string.Format("{0}%",fourStarWidth)"></div>
+            </div>
+        </div>
+        <div class="side right">
+            <div>@Model.ReviewFourStarsCount</div>
+        </div>
+        <div class="side">
+            <div>3 star</div>
+        </div>
+        <div class="middle">
+            <div class="bar-container">
+                @{
+                    double threeStarWidth;
+                    try
+                    {
+                        threeStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewThreeStarsCount)) * 100;
+                    }
+                    catch
+                    {
+                        threeStarWidth = 0;
+                    }
+                }
+                <div class="bar-3" style="width:@string.Format("{0}%",threeStarWidth)"></div>
+            </div>
+        </div>
+        <div class="side right">
+            <div>@Model.ReviewThreeStarsCount</div>
+        </div>
+        <div class="side">
+            <div>2 star</div>
+        </div>
+        <div class="middle">
+            <div class="bar-container">
+                @{
+                    double twoStarWidth;
+                    try
+                    {
+                        twoStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewTwoStarsCount)) * 100;
+                    }
+                    catch
+                    {
+                        twoStarWidth = 0;
+                    }
+                }
+                <div class="bar-2" style="width:@string.Format("{0}%",twoStarWidth)"></div>
+            </div>
+        </div>
+        <div class="side right">
+            <div>@Model.ReviewTwoStarsCount</div>
+        </div>
+        <div class="side">
+            <div>1 star</div>
+        </div>
+        <div class="middle">
+            <div class="bar-container">
+                @{
+                    double oneStarWidth;
+                    try
+                    {
+                        oneStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewOneStarsCount)) * 100;
+                    }
+                    catch
+                    {
+                        oneStarWidth = 0;
+                    }
+                }
+                <div class="bar-1" style="width:@string.Format("{0}%",oneStarWidth)"></div>
+            </div>
+        </div>
+        <div class="side right">
+            <div>@Model.ReviewOneStarsCount</div>
+        </div>
+    </div>
+</div>

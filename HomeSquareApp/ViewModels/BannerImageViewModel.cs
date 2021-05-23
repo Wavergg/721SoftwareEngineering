@@ -14,6 +14,7 @@ namespace HomeSquareApp.ViewModels
 
         [Required]
         [Display(Name = "Image")]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         public IFormFile BannerImage { get; set; }
 
         public string ExistingImageUrl { get; set; }

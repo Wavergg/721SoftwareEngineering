@@ -13,12 +13,7 @@
     var previous4WeekSunday = previous3WeekSunday.AddDays(-7);
     var previous5WeekSunday = previous4WeekSunday.AddDays(-7);
 
-    //TEMP CHANGE IT LATER, NOT EFFICIENT TO PERFORM CALCULATION FOR EVERYTHING
-    double TOTAL_REVIEW_COUNT = Model.Product.ReviewFiveStarsCount + Model.Product.ReviewFourStarsCount + Model.Product.ReviewThreeStarsCount + Model.Product.ReviewTwoStarsCount + Model.Product.ReviewOneStarsCount;
-    double AVERAGE_REVIEW_SCORE = (Model.Product.ReviewFiveStarsCount * 5 + Model.Product.ReviewFourStarsCount * 4 + Model.Product.ReviewThreeStarsCount * 3 + Model.Product.ReviewTwoStarsCount * 2 + Model.Product.ReviewOneStarsCount) / TOTAL_REVIEW_COUNT;
-    double SCORE_ROUNDED = Math.Round(AVERAGE_REVIEW_SCORE) - 1;
-
-
+    
 }
 
 @section pageSpecificCss{
@@ -153,141 +148,12 @@
                 </div>
             </div>
             <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="rating-tab">
-                <div class="container py-5">
-                    <span class="heading">User Rating</span>
-                    @*<span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>*@
-                    @for (int i = 0; i < 5; i++)
-                    {
-                        string className = "fa fa-star ";
-                        if (i <= SCORE_ROUNDED)
-                        {
-                            className += "checked";
-                        }
-                        <span class="@className"></span>
-                    }
-                    <p>@string.Format($"{ AVERAGE_REVIEW_SCORE:F2}") average based on @TOTAL_REVIEW_COUNT reviews.</p>
-                    <div class="row">
-                        <div class="side">
-                            <div>5 star </div>
-                        </div>
-                        <div class="middle">
-                            <div class="bar-container">
-                                @{
-                                    double fiveStarWidth;
-                                    try
-                                    {
-                                        fiveStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.Product.ReviewFiveStarsCount)) * 100;
-                                    }
-                                    catch
-                                    {
-                                        fiveStarWidth = 0;
-                                    }
-                                }
-                                <div class="bar-5" style="width:@string.Format("{0}%",fiveStarWidth)"></div>
-                            </div>
-                        </div>
-                        <div class="side right">
-                            <div>@Model.Product.ReviewFiveStarsCount</div>
-                        </div>
-                        <div class="side">
-                            <div>4 star</div>
-                        </div>
-                        <div class="middle">
-                            <div class="bar-container">
-                                @{
-                                    double fourStarWidth;
-                                    try
-                                    {
-                                        fourStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.Product.ReviewFourStarsCount)) * 100;
-                                    }
-                                    catch
-                                    {
-                                        fourStarWidth = 0;
-                                    }
-                                }
-                                <div class="bar-4" style="width:@string.Format("{0}%",fourStarWidth)"></div>
-                            </div>
-                        </div>
-                        <div class="side right">
-                            <div>@Model.Product.ReviewFourStarsCount</div>
-                        </div>
-                        <div class="side">
-                            <div>3 star</div>
-                        </div>
-                        <div class="middle">
-                            <div class="bar-container">
-                                @{
-                                    double threeStarWidth;
-                                    try
-                                    {
-                                        threeStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.Product.ReviewThreeStarsCount)) * 100;
-                                    }
-                                    catch
-                                    {
-                                        threeStarWidth = 0;
-                                    }
-                                }
-                                <div class="bar-3" style="width:@string.Format("{0}%",threeStarWidth)"></div>
-                            </div>
-                        </div>
-                        <div class="side right">
-                            <div>@Model.Product.ReviewThreeStarsCount</div>
-                        </div>
-                        <div class="side">
-                            <div>2 star</div>
-                        </div>
-                        <div class="middle">
-                            <div class="bar-container">
-                                @{
-                                    double twoStarWidth;
-                                    try
-                                    {
-                                        twoStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.Product.ReviewTwoStarsCount)) * 100;
-                                    }
-                                    catch
-                                    {
-                                        twoStarWidth = 0;
-                                    }
-                                }
-                                <div class="bar-2" style="width:@string.Format("{0}%",twoStarWidth)"></div>
-                            </div>
-                        </div>
-                        <div class="side right">
-                            <div>@Model.Product.ReviewTwoStarsCount</div>
-                        </div>
-                        <div class="side">
-                            <div>1 star</div>
-                        </div>
-                        <div class="middle">
-                            <div class="bar-container">
-                                @{
-                                    double oneStarWidth;
-                                    try
-                                    {
-                                        oneStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.Product.ReviewOneStarsCount)) * 100;
-                                    }
-                                    catch
-                                    {
-                                        oneStarWidth = 0;
-                                    }
-                                }
-                                <div class="bar-1" style="width:@string.Format("{0}%",oneStarWidth)"></div>
-                            </div>
-                        </div>
-                        <div class="side right">
-                            <div>@Model.Product.ReviewOneStarsCount</div>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_UserRatingSummaryPartial" model="Model.Product" />
             </div>
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container pt-5">
         <h2>Reviews</h2>
         @* NYD Use user role here *@
         @if (!signInManager.IsSignedIn(User))
@@ -298,48 +164,57 @@
         }
         else
         {
-            <div class="d-md-flex">
-                <div class="px-md-5 px-4 py-md-4 pt-2 align-items-center d-flex">
-                    @if (Model.User.PictureUrl != null)
-                    {
-                        <img src="~/lib/images/users/@Model.User.PictureUrl" class="rounded-circle" style="height:50px;width:50px" />
-                    }
-                    else
-                    {
-                        <img src="~/lib/images/users/blank-profile.png" class="rounded-circle" style="height:50px;width:50px" />
-                    }
+            @if (Model.CurrentUserReview == null)
+            {
+                <div class="d-md-flex" id="reviewFormSection">
+                    <div class="px-md-5 px-4 py-md-4 pt-2 align-items-center d-flex">
+                        @if (Model.User.PictureUrl != null)
+                        {
+                            <img src="~/lib/images/users/@Model.User.PictureUrl" class="rounded-circle" style="height:50px;width:50px" />
+                        }
+                        else
+                        {
+                            <img src="~/lib/images/users/blank-profile.png" class="rounded-circle" style="height:50px;width:50px" />
+                        }
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <form asp-controller="Review" asp-action="CreateReview" method="post" data-ajax="true"
+                              data-ajax-complete="refreshReview" data-ajax-method="post" data-ajax-url="/Review/CreateReview"
+                              >
+                            <input asp-for="Review.UserID" value="@Model.User.Id" hidden />
+                            <input asp-for="Review.ProductID" value="@Model.Product.ProductID" hidden />
+                            <div class="stars">
+                                <input class="star star-5" id="star-5" type="radio" value="5" asp-for="Review.ReviewStars" />
+                                <label class="star star-5" for="star-5"></label>
+                                <input class="star star-4" id="star-4" type="radio" value="4" asp-for="Review.ReviewStars" />
+                                <label class="star star-4" for="star-4"></label>
+                                <input class="star star-3" id="star-3" type="radio" value="3" asp-for="Review.ReviewStars" />
+                                <label class="star star-3" for="star-3"></label>
+                                <input class="star star-2" id="star-2" type="radio" value="2" asp-for="Review.ReviewStars" />
+                                <label class="star star-2" for="star-2"></label>
+                                <input class="star star-1" id="star-1" type="radio" value="1" asp-for="Review.ReviewStars" />
+                                <label class="star star-1" for="star-1"></label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea asp-for="Review.ReviewContent" onkeyup="textAreaAdjust(this)" class="form-control" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                                <label asp-for="Review.ReviewContent" class="text-muted">Enter Your Review</label>
+                            </div>
+                            <div id="reviewValidation" class="text-danger my-2"></div>
+                            <button type="submit" id="submitReviewFormBtn" class="btn btn-outline-success rounded-0 mt-2">Submit Review</button>
+                        </form>
+
+                    </div>
                 </div>
-                <div class="flex-grow-1 ms-3">
-                    <form asp-controller="Review" asp-action="CreateReview" method="post" data-ajax="true"
-                          data-ajax-complete="refreshReview" data-ajax-method="post" data-ajax-url="/Review/CreateReview">
-                        <input id="userIDInput" name="UserID" value="@Model.User.Id" hidden />
-                        <input id="productIDInput" name="ProductID" value="@Model.Product.ProductID" hidden />
-                        <div class="stars">
-                            <input class="star star-5" id="star-5" type="radio" value="5" name="ReviewStars" />
-                            <label class="star star-5" for="star-5"></label>
-                            <input class="star star-4" id="star-4" type="radio" value="4" name="ReviewStars" />
-                            <label class="star star-4" for="star-4"></label>
-                            <input class="star star-3" id="star-3" type="radio" value="3" name="ReviewStars" />
-                            <label class="star star-3" for="star-3"></label>
-                            <input class="star star-2" id="star-2" type="radio" value="2" name="ReviewStars" />
-                            <label class="star star-2" for="star-2"></label>
-                            <input class="star star-1" id="star-1" type="radio" value="1" name="ReviewStars" />
-                            <label class="star star-1" for="star-1"></label>
-                        </div>
-                        <div class="form-floating">
-                            <textarea id="ReviewContent" name="ReviewContent" onkeyup="textAreaAdjust(this)" class="form-control" placeholder="Leave a comment here" style="height: 100px"></textarea>
-                            <label for="ReviewContent" class="text-muted">Enter Your Review</label>
-                        </div>
-                        <p id="ReviewContentError" class="text-danger my-2"></p>
-                        <button type="submit" id="submitReviewFormBtn" class="btn btn-success">Submit Review</button>
-                    </form>
-                </div>
-            </div>
+            }
+            else
+            {
+                <partial name="_ReviewCardPartial" model="Model.CurrentUserReview" />
+            }
         }
         <div class="text-muted">
             <hr class="" />
         </div>
-        <div class="bg-light" id="reviewsSection">
+        <div id="reviewsSection">
             <partial name="_ReviewsListPartial" model="Model.Product.Review" />
         </div>
     </div>
@@ -462,26 +337,61 @@
             element.style.height = (25 + element.scrollHeight) + "px";
 
             if (element.value.length > 1024) {
-                document.getElementById("ReviewContentError").innerHTML = "Review Should Not Be Longer Than 1024 Characters"
+                document.getElementById("reviewValidation").innerHTML = "Review Should Not Be Longer Than 1024 Characters"
                 submitReviewFormBtn.disabled = true
             } else {
-                document.getElementById("ReviewContentError").innerHTML = "";
+                document.getElementById("reviewValidation").innerHTML = "";
                 submitReviewFormBtn.disabled = false
             }
         }
 
-        function refreshReview() {
-            var productID = document.getElementById("productIDInput");
-            $.ajax(
-                {
-                    type: "POST", //HTTP POST Method
-                    url: "/Review/RefreshReview", // Controller/View
-                    data: {
-                        productID: productID.value,
-                    }
-                }).done(function (data) {
-                    $("#reviewsSection").html(data)
-                });
+        function refreshReview(data) {
+            //CLEAR PREVIOUS ERROR SUMMARY
+            document.getElementById("reviewValidation").innerHTML = "";
+
+            if (data.responseJSON.isSuccess) {
+                var productID = document.getElementById("Review_ProductID");
+                $.ajax(
+                    {
+                        type: "POST", //HTTP POST Method
+                        url: "/Review/RefreshReview", // Controller/View
+                        data: {
+                            productID: productID.value,
+                        }
+                    }).done(function (data) {
+                        $("#reviewsSection").html(data)
+                    });
+
+                $.ajax(
+                    {
+                        type: "POST", //HTTP POST Method
+                        url: "/Review/RefreshRating", // Controller/View
+                        data: {
+                            productID: productID.value,
+                        }
+                    }).done(function (data) {
+                        $("#rating").html(data)
+                    });
+
+                document.getElementById("reviewFormSection").innerHTML = "";
+
+            } else {
+                //Create UL ELEMENT AND POPULATE IT BASED ON ERROR RETURNED
+                var list = document.createElement('div');
+                for (var i = 0; i < data.responseJSON.message.length; i++) {
+                    // Create the list item:
+                    var item = document.createElement('span');
+
+                    // Set its contents:
+                    item.appendChild(document.createTextNode(data.responseJSON.message[i]));
+
+                    // Add it to the list:
+                    list.appendChild(item);
+                }
+                
+                //REPOPULATE THE SUMMARY With list above
+                document.getElementById("reviewValidation").appendChild(list);
+            }
         }
     </script>
 }

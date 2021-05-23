@@ -19,6 +19,7 @@ namespace HomeSquareApp.Controllers
             this._context = context;
         }
 
+        [HttpPost]
         public IActionResult RefreshReview(int productID)
         {
             List<Review> reviews = _context.Review.Where(r => r.ProductID == productID)
@@ -28,28 +29,73 @@ namespace HomeSquareApp.Controllers
             return PartialView("_ReviewsListPartial", reviews);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CreateReview([Bind("UserID,ProductID,ReviewContent,ReviewStars")]ReviewViewModel model)
+        public IActionResult RefreshRating(int productID)
         {
-            if (ModelState.IsValid)
-            {
-                Review review = new Review() { 
-                    ProductID = model.ProductID,
-                    UserID = model.UserID,
-                    ReviewContent = model.ReviewContent,
-                    ReviewStars = model.ReviewStars,
-                    ReviewDateTime = DateTime.Now,
-                };
+            Product product = _context.Product.Where(p => p.ProductID == productID).FirstOrDefault();
 
-                _context.Add(review);
-                _context.SaveChanges();
+            if(product != null)
+            {
+                return PartialView("_UserRatingSummaryPartial", product);
             }
 
-            
             return Json(true);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateReview(ProductDetailsViewModel model)
+        {
+            ErrorMessage errorMsg = new ErrorMessage();
+            errorMsg.IsSuccess = false;
 
+            Product product = _context.Product.Where(p => p.ProductID == model.Review.ProductID).FirstOrDefault();
+
+            if (ModelState.IsValid && product != null)
+            {
+                
+                Review review = new Review() { 
+                    ProductID = model.Review.ProductID,
+                    UserID = model.Review.UserID,
+                    ReviewContent = model.Review.ReviewContent,
+                    ReviewStars = model.Review.ReviewStars,
+                    ReviewDateTime = DateTime.Now,
+                };
+
+                switch (model.Review.ReviewStars)
+                {
+                    case 5:
+                        product.ReviewFiveStarsCount++;
+                        break;
+                    case 4:
+                        product.ReviewFourStarsCount++;
+                        break;
+                    case 3:
+                        product.ReviewThreeStarsCount++;
+                        break;
+                    case 2:
+                        product.ReviewTwoStarsCount++;
+                        break;
+                    case 1:
+                        product.ReviewOneStarsCount++;
+                        break;
+                    default:
+                        break;
+                }
+
+                _context.Add(review);
+                _context.Update(product);
+                _context.SaveChanges();
+
+                errorMsg.IsSuccess = true;
+            }
+
+            var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+
+            foreach (string error in allErrors)
+            {
+                errorMsg.Message.Add($"{error}");
+            }
+            return Json(errorMsg);
+        }
     }
 }

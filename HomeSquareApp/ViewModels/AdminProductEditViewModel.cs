@@ -26,7 +26,8 @@ namespace HomeSquareApp.ViewModels
         public int? ProductIncrement { get; set; } 
 
         public string ImageUrl { get; set; }
-        
+
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         public new IFormFile Image { get; set; }
     }
 }

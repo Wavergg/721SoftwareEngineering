@@ -13,7 +13,6 @@ namespace HomeSquareApp.Models
         public int ReviewID { get; set; }
 
         [MaxLength(1024)]
-        [Required]
         public string ReviewContent { get; set; }
 
         public int ReviewStars { get; set; }
