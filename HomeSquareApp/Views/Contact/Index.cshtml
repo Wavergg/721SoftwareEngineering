@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ContactMessageViewModel
+
+@{
     ViewData["Title"] = "Contact Us";
 }
 
@@ -15,7 +17,7 @@
     </environment>
 }
 
-<form class="justify-content-center d-flex py-5 bg-dark">
+<form asp-action="SendMessage" method="post" class="justify-content-center d-flex py-5 bg-dark">
     <div class="col-md-9 contact-form py-5 card rounded-0 d-flex align-items-center justify-content-center bg-light flex-column mb-3">
         <h1 class="mb-4 pt-4">Contact Us</h1>
         <div class="">
@@ -23,31 +25,32 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="group">
-                            <label for="contactNameInput" class="text-label">Your Name</label>
-                            <input id="contactNameInput" type="text" class="input bg-light form-control" required>
-                            <span class="text-danger form-text"></span>
+                            <label asp-for="Name" class="text-label">Your Name</label>
+                            <input asp-for="Name" type="text" class="input bg-light form-control" required>
+                            <span asp-validation-for="Name" class="text-danger form-text"></span>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="group">
-                            <label for="contactEmailInput" class="text-label">Email</label>
-                            <input id="contactEmailInput" type="email" class="input bg-light form-control" required>
-                            <span class="text-danger form-text"></span>
+                            <label asp-for="Email" class="text-label">Email</label>
+                            <input asp-for="Email" type="email" class="input bg-light form-control" required>
+                            <span asp-validation-for="Email" class="text-danger form-text"></span>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="group">
-                            <label for="contactPhoneInput" class="text-label">Phone</label>
-                            <input id="contactPhoneInput" type="tel" class="input bg-light form-control" required>
-                            <span class="text-danger form-text"></span>
+                            <label asp-for="PhoneNumber" class="text-label">Phone</label>
+                            <input asp-for="PhoneNumber" type="tel" class="input bg-light form-control" required>
+                            <span asp-validation-for="PhoneNumber" class="text-danger form-text"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm">
                         <div class="group">
-                            <label for="textAreaMessage" class="text-label">Message</label>
-                            <textarea class="form-control" style="background-color: #f6f6f6" id="textAreaMessage" rows="4"></textarea>
+                            <label asp-for="Message" class="text-label">Message</label>
+                            <textarea asp-for="Message" class="form-control" style="background-color: #f6f6f6" rows="4"></textarea>
+                            <span asp-validation-for="Message" class="text-danger form-text"></span>
                         </div>
                     </div>
                 </div>

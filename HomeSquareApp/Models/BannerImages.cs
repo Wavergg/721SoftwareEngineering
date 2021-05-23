@@ -28,6 +28,10 @@ namespace HomeSquareApp.Models
         [Required]
         public string BannerUrl { get; set; }
 
+        [MaxLength(256)]
+        [Required]
+        public string BannerName { get; set; }
+
         public BannerType BannerType { get; set; }
 
         public BannerStatus BannerStatus { get; set; }

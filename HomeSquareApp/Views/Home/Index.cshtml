@@ -26,7 +26,7 @@
     </environment>
 }
 
-@if (TempData["ResetMessage"] != null)
+@if (TempData["SuccessMessage"] != null)
 {
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
         <div id="liveToast" class="toast hide" style="background-color:#c5e1a5" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
@@ -35,7 +35,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                @TempData["ResetMessage"]
+                @TempData["SuccessMessage"]
             </div>
         </div>
     </div>

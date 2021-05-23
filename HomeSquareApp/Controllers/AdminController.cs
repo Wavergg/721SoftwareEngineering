@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -68,54 +69,197 @@ namespace HomeSquareApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditProductBanner()
+        public IActionResult ProductBanner()
         {
             List<BannerImages> bannerProducts = _context.BannerImages.Where(b => b.BannerType == BannerType.Product).ToList();
 
-            ProductBannerImageViewModel model = new ProductBannerImageViewModel()
+            BannerImageViewModel model = new BannerImageViewModel();
+            model.BannerImages = bannerProducts;
+            model.SetAsMainBanner = true;
+
+            BannerImages currentBanner = bannerProducts.Where(bp => bp.BannerStatus == BannerStatus.Active).FirstOrDefault();
+            
+            if(currentBanner!= null)
             {
-                BannerImages = bannerProducts,
-            };
+                model.ExistingImageUrl = currentBanner.BannerUrl;
+            }
+
+            ViewData["ExistingBanners"] = new SelectList(bannerProducts, "BannerUrl", "BannerName");
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditProductBanner([Bind("ProductBannerImage")]ProductBannerImageViewModel model)
+        public IActionResult AddProductBanner([Bind("BannerImage", "SetAsMainBanner")]BannerImageViewModel model)
         {
             BannerImages banner = new BannerImages();
-            if(banner == null)
-            {
-                ModelState.AddModelError("","Unable to Update Existing Banner Please Refresh the Page and Try Again");
-            }
+            
 
             if (ModelState.IsValid)
             {
-                banner.BannerUrl = ProcessUploadedFile(model.ProductBannerImage);
+                banner.BannerUrl = ProcessUploadedFile(model.BannerImage);
                 banner.BannerType = BannerType.Product;
-                banner.BannerStatus = model.BannerStatus;
+                banner.BannerStatus = model.SetAsMainBanner? BannerStatus.Active : BannerStatus.Inactive;
+                banner.BannerName = model.BannerImage.FileName;
 
-                if(banner.BannerStatus == BannerStatus.Active)
+                if (banner.BannerStatus == BannerStatus.Active)
                 {
                     List<BannerImages> existingBanners = _context.BannerImages.Where(b => b.BannerType == BannerType.Product).ToList();
-                    existingBanners.ForEach(b => b.BannerStatus = BannerStatus.Inactive);
+                    
 
-                    _context.Update(existingBanners);
+                    if(existingBanners.Count > 0) {
+                        existingBanners.ForEach(b => b.BannerStatus = BannerStatus.Inactive);
+                        foreach (BannerImages images in existingBanners)
+                        {
+                            _context.Update(images);
+                        }
+                    }
                 }
 
                 _context.Add(banner);
                 _context.SaveChanges();
 
-                TempData["Message"] = "Succesfully Added Product Banner";
+                TempData["  Message"] = "Succesfully Added Product Banner";
+            } else
+            {
+                TempData["ErrorMessage"] = "Failed to Add Product Banner";
             }
+            return RedirectToAction("ProductBanner");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeProductBanner([Bind("ExistingImageUrl")]BannerImageViewModel model)
+        {
+            if(!string.IsNullOrEmpty(model.ExistingImageUrl))
+            {
+                BannerImages bannerSelected = _context.BannerImages.Where(bi => bi.BannerUrl == model.ExistingImageUrl).FirstOrDefault();
+
+                if(bannerSelected != null) {
+                    List<BannerImages> existingBanners = _context.BannerImages.Where(b => b.BannerType == BannerType.Product).ToList();
+
+                    if (existingBanners.Count > 0)
+                    {
+                        existingBanners.ForEach(b => b.BannerStatus = BannerStatus.Inactive);
+                        foreach(BannerImages images in existingBanners)
+                        {
+                            _context.Update(images);
+                        }
+                    }
+
+                    bannerSelected.BannerStatus = BannerStatus.Active;
+                    _context.Update(bannerSelected);
+
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Succesfully Editing Product Banner";
+                    return RedirectToAction("ProductBanner");
+                }
+            }
+            TempData["ErrorMessage"] = "Failed to Edit Product Banner";
+            return RedirectToAction("ProductBanner");
+        }
+
+        [HttpGet]
+        public IActionResult RecipeBanner()
+        {
+            List<BannerImages> bannerRecipes = _context.BannerImages.Where(b => b.BannerType == BannerType.Recipe).ToList();
+
+            BannerImageViewModel model = new BannerImageViewModel();
+            model.BannerImages = bannerRecipes;
+            model.SetAsMainBanner = true;
+
+            BannerImages currentBanner = bannerRecipes.Where(bp => bp.BannerStatus == BannerStatus.Active).FirstOrDefault();
+
+            if (currentBanner != null)
+            {
+                model.ExistingImageUrl = currentBanner.BannerUrl;
+            }
+
+            ViewData["ExistingBanners"] = new SelectList(bannerRecipes, "BannerUrl", "BannerName");
+
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddRecipeBanner([Bind("BannerImage", "SetAsMainBanner")] BannerImageViewModel model)
+        {
+            BannerImages banner = new BannerImages();
+
+
+            if (ModelState.IsValid)
+            {
+                banner.BannerUrl = ProcessUploadedFile(model.BannerImage);
+                banner.BannerType = BannerType.Recipe;
+                banner.BannerStatus = model.SetAsMainBanner ? BannerStatus.Active : BannerStatus.Inactive;
+                banner.BannerName = model.BannerImage.FileName;
+
+                if (banner.BannerStatus == BannerStatus.Active)
+                {
+                    List<BannerImages> existingBanners = _context.BannerImages.Where(b => b.BannerType == BannerType.Recipe).ToList();
+
+
+                    if (existingBanners.Count > 0)
+                    {
+                        existingBanners.ForEach(b => b.BannerStatus = BannerStatus.Inactive);
+                        foreach (BannerImages images in existingBanners)
+                        {
+                            _context.Update(images);
+                        }
+                    }
+                }
+
+                _context.Add(banner);
+                _context.SaveChanges();
+
+                TempData["SuccessMessage"] = "Succesfully Added Recipe Banner";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Failed to Add Recipe Banner";
+            }
+            return RedirectToAction("RecipeBanner");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeRecipeBanner([Bind("ExistingImageUrl")] BannerImageViewModel model)
+        {
+            if (!string.IsNullOrEmpty(model.ExistingImageUrl))
+            {
+                BannerImages bannerSelected = _context.BannerImages.Where(bi => bi.BannerUrl == model.ExistingImageUrl).FirstOrDefault();
+
+                if (bannerSelected != null)
+                {
+                    List<BannerImages> existingBanners = _context.BannerImages.Where(b => b.BannerType == BannerType.Recipe).ToList();
+
+                    if (existingBanners.Count > 0)
+                    {
+                        existingBanners.ForEach(b => b.BannerStatus = BannerStatus.Inactive);
+                        foreach (BannerImages images in existingBanners)
+                        {
+                            _context.Update(images);
+                        }
+                    }
+
+                    bannerSelected.BannerStatus = BannerStatus.Active;
+                    _context.Update(bannerSelected);
+
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Succesfully Editing Recipe Banner";
+                    return RedirectToAction("RecipeBanner");
+                }
+            }
+            TempData["ErrorMessage"] = "Failed to Edit Recipe Banner";
+            return RedirectToAction("RecipeBanner");
         }
 
         private string ProcessUploadedFile(IFormFile Image)
         {
             string uniqueFileName = "";
 
-            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products");
+            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "banner");
             uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))

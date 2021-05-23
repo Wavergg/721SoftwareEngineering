@@ -61,7 +61,7 @@ namespace HomeSquareApp.Controllers
                         //sign the user in after reset
                         await _SignInManager.SignInAsync(user, false);
 
-                        TempData["ResetMessage"] = "Succesfully resetting your password";
+                        TempData["SuccessMessage"] = "Succesfully resetting your password";
                         return RedirectToAction("Index", "Home");
                     }
                     foreach( var error in result.Errors)

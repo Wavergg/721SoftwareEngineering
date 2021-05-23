@@ -86,6 +86,12 @@ namespace HomeSquareApp.Controllers
 
             model.Products = _productsContext.Take(ITEMS_PER_PAGE).ToList();
             model.Categories = categories;
+            BannerImages bannerImage = _context.BannerImages.Where(bi => bi.BannerType == BannerType.Product && bi.BannerStatus == BannerStatus.Active).FirstOrDefault();
+            if(bannerImage != null)
+            {
+                model.ProductBannerUrl = bannerImage.BannerUrl;
+            }
+
 
             if (_productsContext.Count() > ITEMS_PER_PAGE)
             {

@@ -35,10 +35,11 @@
 }
 
 <div>
+    @if (!string.IsNullOrEmpty(Model.ProductBannerUrl)) {
     <div style="position:relative">
-        <img src="~/lib/images/banner/banner3.jpg" style="min-height:215px;width:100%; object-fit:cover;object-position: 25% center" />
+        <img src="~/lib/images/banner/@Model.ProductBannerUrl" style="width:100%; object-fit:fill;object-position: top;max-height:320px" asp-append-version="true"/>
     </div>
-
+    }
     <div class="container mt-3 pt-md-5">
         <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             <svg class="bi" width="16" height="24" fill="currentColor">

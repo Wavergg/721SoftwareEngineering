@@ -76,7 +76,15 @@ namespace HomeSquareApp.Controllers
                 ViewData["PaginationCount"] = ((_recipesContext.Count() - 1) / ITEMS_PER_PAGE) + 1;
             }
             _currentRange = 0;
-            return View(_recipesContext.OrderByDescending(r => r.ApprovedDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
+
+            RecipeViewModel model = new RecipeViewModel();
+            model.Recipes = _recipesContext.OrderByDescending(r => r.ApprovedDate).Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList();
+            BannerImages bannerImages = _context.BannerImages.Where(bi => bi.BannerType == BannerType.Recipe && bi.BannerStatus == BannerStatus.Active).FirstOrDefault();
+            if(bannerImages != null)
+            {
+                model.RecipeBannerImageUrl = bannerImages.BannerUrl;
+            }
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int? id)

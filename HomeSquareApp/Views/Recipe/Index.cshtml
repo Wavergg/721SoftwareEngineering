@@ -1,4 +1,4 @@
-﻿@model List<HomeSquareApp.Models.Recipe>
+﻿@model RecipeViewModel;
 
 @inject SignInManager<ApplicationUser> signInManager
 @{
@@ -21,9 +21,11 @@
 
 <div class="mb-5">
     <div class="bg-dark" style="position:relative">
-        <div class="card-header" style="height:360px;opacity:0.4; background: url(/lib/images/banner/diy-food-background-5.jpg) no-repeat center;background-size: cover;">
+        @if (!string.IsNullOrEmpty(Model.RecipeBannerImageUrl))
+        {
+        <div class="card-header" style="height:360px;opacity:0.4; background: url(/lib/images/banner/@Model.RecipeBannerImageUrl) no-repeat center;background-size: cover;">
         </div>
-
+        }
         <div class="text-white w-100 h-100 d-flex align-items-center" style="font-size:1.5rem;position:absolute;top:0">
             <div class="container">
                 <div class="col-lg-7">
@@ -68,10 +70,10 @@
 
 
         <div id="recipeCardList" class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3 mt-3 ">
-            @for (int i = 0; i < Model.Count(); i++)
+            @for (int i = 0; i < Model.Recipes.Count(); i++)
             {
                 <div class="col d-flex justify-content-center">
-                    <partial name="_RecipeCardThumbnailPartial" model="Model[i]" />
+                    <partial name="_RecipeCardThumbnailPartial" model="Model.Recipes[i]" />
                 </div>
             }
         </div>

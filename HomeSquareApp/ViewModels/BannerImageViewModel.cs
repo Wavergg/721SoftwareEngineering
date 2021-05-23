@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace HomeSquareApp.ViewModels
 {
-    public class ProductBannerImageViewModel
+    public class BannerImageViewModel
     {
         public int BannerID { get; set; }
 
         [Required]
         [Display(Name = "Image")]
-        public IFormFile ProductBannerImage { get; set; }
-
-        public BannerStatus BannerStatus { get; set; }
+        public IFormFile BannerImage { get; set; }
 
         public string ExistingImageUrl { get; set; }
+
+        public bool SetAsMainBanner { get; set; }
 
         public List<BannerImages> BannerImages { get; set; }
     }

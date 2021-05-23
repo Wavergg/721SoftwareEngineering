@@ -277,15 +277,16 @@
                 else if ((ViewData["NavData"] as string) == "Index")
                 {
                 <div class="d-flex ">
-                    <h2 class="mx-2 m-0">Dashboard <span class="text-muted">&ndash;</span></h2>
+                    <h2 class="mx-2 m-0">Dashboard @*<span class="text-muted">&ndash;</span>*@</h2>
                     <div class="dropdown">
                         <button class="btn btn-default border-bottom  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             @ViewData["CurrentPage"]
                         </button>
-                        @*<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a asp-action="Index" class="dropdown-item">Main</a></li>
-                            <li><a asp-action="Index" class="dropdown-item">Banners</a></li>
-                        </ul>*@
+                            <li><a asp-action="ProductBanner" class="dropdown-item">Product Banner</a></li>
+                            <li><a asp-action="RecipeBanner" class="dropdown-item">Recipe Banner</a></li>
+                        </ul>
                     </div>
                 </div>
 

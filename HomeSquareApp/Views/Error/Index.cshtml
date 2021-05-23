@@ -4,16 +4,16 @@
 @{
     Layout = "_ErrorLayout";
 }
-<div class="vh-100 bg-light d-flex justify-content-center align-items-center">
-    <div class="text-center row gap-2 col-6 justify-content-center">
+<div class="vh-100 bg-light d-flex flex-column flex-md-row   justify-content-center align-items-center">
+    <div class="text-center d-flex flex-column gap-2 mb-5 mb-md-0 col-md-6 align-items-center">
         <h1>Sorry . . .</h1>
         @if (Model == 404)
         {
-            <h3 style="font-weight:100">We Couldn't Find The Page You Are Looking For</h3>
+            <h3 class="mb-3" style="font-weight:100">We Couldn't Find The Page You Are Looking For</h3>
         }
         else
         {
-            <h3 style="font-weight:100">Something went wrong with your Request</h3>
+            <h3 class="mb-3" style="font-weight:100">Something went wrong with your Request</h3>
         }
 
         @if (User.IsInRole("ADMIN"))
@@ -26,7 +26,7 @@
         }
 
     </div>
-    <div class="col-6">
+    <div class="col-md-6 d-md-block d-none">
         @if (Model == 404)
         {
             <img class="img-fluid" src="~/lib/images/404Error.jpg" asp-append-version="true"/>
