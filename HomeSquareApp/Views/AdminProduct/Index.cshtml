@@ -42,9 +42,10 @@
         </div>
     </div>
 </div>
-<p>
+<div class="d-flex gap-3 align-items-center">
     <a asp-action="Create">Add New Product</a>
-</p>
+    
+</div>
 
 <div id="productTable">
     <div class="table-responsive" style="min-height:440px">
@@ -91,7 +92,7 @@
             </tbody>
         </table>
     </div>
-    <div class="d-flex" id="pagination">
+    <div class="d-flex justify-content-end" id="pagination">
         <partial name="_PaginationPartial" />
     </div>
 </div>

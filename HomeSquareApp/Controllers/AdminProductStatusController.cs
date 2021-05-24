@@ -24,7 +24,13 @@ namespace HomeSquareApp.Controllers
         // GET: AdminProductStatus
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductStatus.ToListAsync());
+            List<ProductStatus> productStatuses = await _context.ProductStatus.ToListAsync();
+
+            //productStatuses.Where(ps=>ps.ProductStatusName == "Sale").FirstOrDefault()
+            //    .Products =
+            //    await _context.Product.Where(p => p.ProductStatus.ProductStatusName == "Sale" && p.SaleEndDateTime <= DateTime.Now).ToListAsync();
+
+            return View(productStatuses);
         }
 
         // GET: AdminProductStatus/Details/5

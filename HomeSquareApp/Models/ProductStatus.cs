@@ -16,5 +16,7 @@ namespace HomeSquareApp.Models
         [Required]
         [Display(Name ="Product Status Name")]
         public string ProductStatusName { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

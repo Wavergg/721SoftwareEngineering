@@ -277,8 +277,6 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("ReviewTwoStarsCount");
 
-                    b.Property<int?>("RewardPoolID");
-
                     b.Property<DateTime>("SaleEndDateTime");
 
                     b.Property<DateTime>("SaleStartDateTime");
@@ -300,8 +298,6 @@ namespace HomeSquareApp.Migrations
                     b.HasIndex("ProductServingTypeID");
 
                     b.HasIndex("ProductStatusID");
-
-                    b.HasIndex("RewardPoolID");
 
                     b.ToTable("Product");
                 });
@@ -652,13 +648,8 @@ namespace HomeSquareApp.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HomeSquareApp.Models.ProductStatus", "ProductStatus")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductStatusID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("HomeSquareApp.Models.RewardPool", "RewardPool")
-                        .WithMany()
-                        .HasForeignKey("RewardPoolID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

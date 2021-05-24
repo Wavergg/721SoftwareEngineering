@@ -101,6 +101,26 @@ namespace HomeSquareApp.Models
                     }
                 }
 
+                if (!context.BannerImages.Any())
+                {
+                    context.BannerImages.AddRange(
+                       new BannerImages
+                       {
+                           BannerName = "DefaultProductBanner",
+                           BannerStatus = BannerStatus.Active,
+                           BannerType = BannerType.Product,
+                           BannerUrl = "banner3.jpg"
+                       },
+                       new BannerImages
+                       {
+                           BannerName = "DefaultRecipeBanner",
+                           BannerStatus = BannerStatus.Active,
+                           BannerType = BannerType.Recipe,
+                           BannerUrl = "diy-food-background-5.jpg"
+                       }
+                    );
+                }
+
                 context.SaveChanges();
             }
         }

@@ -87,10 +87,6 @@ namespace HomeSquareApp.Models
         [Display(Name = "Product Category")]
         public virtual Category Category { get; set; }
 
-        public int? RewardPoolID { get; set; }
-        [ForeignKey("RewardPoolID")]
-        public virtual RewardPool RewardPool { get; set; }
-
         public IEnumerable<Review> Review { get; set; }
 
         public IEnumerable<Ingredient> Ingredients { get; set; }

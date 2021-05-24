@@ -35,7 +35,7 @@ namespace HomeSquareApp.Models
 
         public string GetErrorMessage()
         {
-            return $"Your image's filetype is not valid.";
+            return $"Your Image's File Type is Not Valid.";
         }
     }
 }

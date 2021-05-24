@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeSquareApp.Migrations
 {
-    public partial class restartInitial : Migration
+    public partial class updatestatus : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,16 +44,35 @@ namespace HomeSquareApp.Migrations
                     FirstName = table.Column<string>(maxLength: 64, nullable: false),
                     LastName = table.Column<string>(maxLength: 64, nullable: false),
                     Address = table.Column<string>(maxLength: 128, nullable: false),
+                    DeliveryEmail = table.Column<string>(maxLength: 64, nullable: true),
                     DeliveryAddress = table.Column<string>(maxLength: 128, nullable: true),
-                    Suburb = table.Column<string>(maxLength: 16, nullable: true),
+                    Suburb = table.Column<string>(maxLength: 32, nullable: true),
                     ZipCode = table.Column<string>(maxLength: 8, nullable: true),
                     Unit = table.Column<string>(maxLength: 8, nullable: true),
                     PictureUrl = table.Column<string>(maxLength: 256, nullable: true),
-                    DisplayName = table.Column<string>(maxLength: 18, nullable: true)
+                    DisplayName = table.Column<string>(maxLength: 18, nullable: true),
+                    RewardPlayChanceCount = table.Column<int>(nullable: false),
+                    AccountCreatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BannerImages",
+                columns: table => new
+                {
+                    BannerImageID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BannerUrl = table.Column<string>(maxLength: 256, nullable: false),
+                    BannerName = table.Column<string>(maxLength: 256, nullable: false),
+                    BannerType = table.Column<int>(nullable: false),
+                    BannerStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BannerImages", x => x.BannerImageID);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,32 +112,6 @@ namespace HomeSquareApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductStatus", x => x.ProductStatusID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RecipeApprovalStatus",
-                columns: table => new
-                {
-                    RecipeApprovalStatusID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApprovalStatus = table.Column<string>(maxLength: 12, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecipeApprovalStatus", x => x.RecipeApprovalStatusID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RewardPool",
-                columns: table => new
-                {
-                    RewardPoolID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ProductID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RewardPool", x => x.RewardPoolID);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +227,9 @@ namespace HomeSquareApp.Migrations
                     OrderID = table.Column<string>(maxLength: 36, nullable: false),
                     OrderDateTime = table.Column<DateTime>(nullable: false),
                     UserID = table.Column<string>(nullable: true),
-                    OrderStatus = table.Column<string>(type: "varchar(9)", maxLength: 9, nullable: true)
+                    OrderStatus = table.Column<string>(type: "varchar(9)", maxLength: 9, nullable: true),
+                    DeliveryOptions = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: true),
+                    OrderTotal = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,19 +252,18 @@ namespace HomeSquareApp.Migrations
                     RecipeDescription = table.Column<string>(maxLength: 512, nullable: false),
                     Servings = table.Column<int>(nullable: false),
                     PrepareTime = table.Column<string>(maxLength: 64, nullable: false),
+                    PrepareTimeDuration = table.Column<string>(nullable: true),
+                    PrepareTimeMeasurement = table.Column<string>(nullable: true),
                     Likes = table.Column<int>(nullable: false),
-                    RecipeApprovalStatusID = table.Column<int>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    AddedDate = table.Column<DateTime>(nullable: false),
+                    ApprovedDate = table.Column<DateTime>(nullable: false),
+                    RecipeApprovalStatus = table.Column<int>(nullable: false),
                     UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipe", x => x.RecipeID);
-                    table.ForeignKey(
-                        name: "FK_Recipe_RecipeApprovalStatus_RecipeApprovalStatusID",
-                        column: x => x.RecipeApprovalStatusID,
-                        principalTable: "RecipeApprovalStatus",
-                        principalColumn: "RecipeApprovalStatusID",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Recipe_AspNetUsers_UserID",
                         column: x => x.UserID,
@@ -290,6 +284,7 @@ namespace HomeSquareApp.Migrations
                     ProductAddedDate = table.Column<DateTime>(nullable: false),
                     ProductUpdateDate = table.Column<DateTime>(nullable: false),
                     ProductDiscount = table.Column<float>(nullable: true),
+                    PriceAfterDiscount = table.Column<double>(nullable: false),
                     SaleStartDateTime = table.Column<DateTime>(nullable: false),
                     SaleEndDateTime = table.Column<DateTime>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: false),
@@ -309,8 +304,7 @@ namespace HomeSquareApp.Migrations
                     ProductServingContent = table.Column<float>(nullable: false),
                     ProductServingTypeID = table.Column<int>(nullable: false),
                     ProductStatusID = table.Column<int>(nullable: false),
-                    CategoryID = table.Column<int>(nullable: false),
-                    RewardPoolID = table.Column<int>(nullable: true)
+                    CategoryID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -332,46 +326,6 @@ namespace HomeSquareApp.Migrations
                         column: x => x.ProductStatusID,
                         principalTable: "ProductStatus",
                         principalColumn: "ProductStatusID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Product_RewardPool_RewardPoolID",
-                        column: x => x.RewardPoolID,
-                        principalTable: "RewardPool",
-                        principalColumn: "RewardPoolID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reward",
-                columns: table => new
-                {
-                    RewardID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RewardStatus = table.Column<string>(type: "varchar(8)", nullable: true),
-                    UserID = table.Column<string>(nullable: true),
-                    OrderID = table.Column<string>(nullable: true),
-                    RewardPoolID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reward", x => x.RewardID);
-                    table.ForeignKey(
-                        name: "FK_Reward_Order_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "Order",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reward_RewardPool_RewardPoolID",
-                        column: x => x.RewardPoolID,
-                        principalTable: "RewardPool",
-                        principalColumn: "RewardPoolID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reward_AspNetUsers_UserID",
-                        column: x => x.UserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -396,11 +350,39 @@ namespace HomeSquareApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RecipeUserLike",
+                columns: table => new
+                {
+                    RecipeUserLikeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<string>(nullable: false),
+                    RecipeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecipeUserLike", x => x.RecipeUserLikeID);
+                    table.ForeignKey(
+                        name: "FK_RecipeUserLike_Recipe_RecipeID",
+                        column: x => x.RecipeID,
+                        principalTable: "Recipe",
+                        principalColumn: "RecipeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RecipeUserLike_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ingredient",
                 columns: table => new
                 {
                     IngredientID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ServingContent = table.Column<string>(maxLength: 64, nullable: true),
+                    IngredientName = table.Column<string>(maxLength: 64, nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     ProductID = table.Column<int>(nullable: false),
                     RecipeID = table.Column<int>(nullable: false)
@@ -456,7 +438,7 @@ namespace HomeSquareApp.Migrations
                 {
                     ReviewID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ReviewContent = table.Column<string>(maxLength: 1024, nullable: false),
+                    ReviewContent = table.Column<string>(maxLength: 1024, nullable: true),
                     ReviewStars = table.Column<int>(nullable: false),
                     ReviewDateTime = table.Column<DateTime>(nullable: false),
                     UserID = table.Column<string>(nullable: true),
@@ -473,6 +455,69 @@ namespace HomeSquareApp.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Review_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RewardPool",
+                columns: table => new
+                {
+                    RewardPoolID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PoolQuantity = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    RewardPoolStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RewardPool", x => x.RewardPoolID);
+                    table.ForeignKey(
+                        name: "FK_RewardPool_Product_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Product",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reward",
+                columns: table => new
+                {
+                    RewardID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RewardStatus = table.Column<int>(nullable: false),
+                    RewardAddedDateTime = table.Column<DateTime>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    OrderID = table.Column<string>(nullable: true),
+                    RewardPoolID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reward", x => x.RewardID);
+                    table.ForeignKey(
+                        name: "FK_Reward_Order_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Order",
+                        principalColumn: "OrderID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reward_Product_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Product",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reward_RewardPool_RewardPoolID",
+                        column: x => x.RewardPoolID,
+                        principalTable: "RewardPool",
+                        principalColumn: "RewardPoolID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reward_AspNetUsers_UserID",
                         column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -559,18 +604,6 @@ namespace HomeSquareApp.Migrations
                 column: "ProductStatusID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_RewardPoolID",
-                table: "Product",
-                column: "RewardPoolID",
-                unique: true,
-                filter: "[RewardPoolID] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Recipe_RecipeApprovalStatusID",
-                table: "Recipe",
-                column: "RecipeApprovalStatusID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Recipe_UserID",
                 table: "Recipe",
                 column: "UserID");
@@ -579,6 +612,16 @@ namespace HomeSquareApp.Migrations
                 name: "IX_RecipeSteps_RecipeID",
                 table: "RecipeSteps",
                 column: "RecipeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeUserLike_RecipeID",
+                table: "RecipeUserLike",
+                column: "RecipeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeUserLike_UserID",
+                table: "RecipeUserLike",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_ProductID",
@@ -596,6 +639,11 @@ namespace HomeSquareApp.Migrations
                 column: "OrderID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reward_ProductID",
+                table: "Reward",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reward_RewardPoolID",
                 table: "Reward",
                 column: "RewardPoolID");
@@ -604,6 +652,11 @@ namespace HomeSquareApp.Migrations
                 name: "IX_Reward_UserID",
                 table: "Reward",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RewardPool_ProductID",
+                table: "RewardPool",
+                column: "ProductID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -624,6 +677,9 @@ namespace HomeSquareApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BannerImages");
+
+            migrationBuilder.DropTable(
                 name: "Ingredient");
 
             migrationBuilder.DropTable(
@@ -631,6 +687,9 @@ namespace HomeSquareApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "RecipeSteps");
+
+            migrationBuilder.DropTable(
+                name: "RecipeUserLike");
 
             migrationBuilder.DropTable(
                 name: "Review");
@@ -645,13 +704,16 @@ namespace HomeSquareApp.Migrations
                 name: "Recipe");
 
             migrationBuilder.DropTable(
-                name: "Product");
-
-            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "RecipeApprovalStatus");
+                name: "RewardPool");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "Category");
@@ -661,12 +723,6 @@ namespace HomeSquareApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductStatus");
-
-            migrationBuilder.DropTable(
-                name: "RewardPool");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

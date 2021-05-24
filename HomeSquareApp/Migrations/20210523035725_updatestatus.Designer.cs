@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeSquareApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210513022241_updatePrepTime")]
-    partial class updatePrepTime
+    [Migration("20210523035725_updatestatus")]
+    partial class updatestatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,8 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<DateTime>("AccountCreatedDate");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -76,6 +78,8 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("PictureUrl")
                         .HasMaxLength(256);
 
+                    b.Property<int>("RewardPlayChanceCount");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Suburb")
@@ -103,6 +107,29 @@ namespace HomeSquareApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HomeSquareApp.Models.BannerImages", b =>
+                {
+                    b.Property<int>("BannerImageID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BannerName")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<int>("BannerStatus");
+
+                    b.Property<int>("BannerType");
+
+                    b.Property<string>("BannerUrl")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("BannerImageID");
+
+                    b.ToTable("BannerImages");
                 });
 
             modelBuilder.Entity("HomeSquareApp.Models.Category", b =>
@@ -162,6 +189,8 @@ namespace HomeSquareApp.Migrations
                     b.Property<string>("OrderStatus")
                         .HasColumnType("varchar(9)")
                         .HasMaxLength(9);
+
+                    b.Property<double>("OrderTotal");
 
                     b.Property<string>("UserID");
 
@@ -250,8 +279,6 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<int>("ReviewTwoStarsCount");
 
-                    b.Property<int?>("RewardPoolID");
-
                     b.Property<DateTime>("SaleEndDateTime");
 
                     b.Property<DateTime>("SaleStartDateTime");
@@ -273,10 +300,6 @@ namespace HomeSquareApp.Migrations
                     b.HasIndex("ProductServingTypeID");
 
                     b.HasIndex("ProductStatusID");
-
-                    b.HasIndex("RewardPoolID")
-                        .IsUnique()
-                        .HasFilter("[RewardPoolID] IS NOT NULL");
 
                     b.ToTable("Product");
                 });
@@ -374,6 +397,26 @@ namespace HomeSquareApp.Migrations
                     b.ToTable("RecipeSteps");
                 });
 
+            modelBuilder.Entity("HomeSquareApp.Models.RecipeUserLike", b =>
+                {
+                    b.Property<int>("RecipeUserLikeID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RecipeID");
+
+                    b.Property<string>("UserID")
+                        .IsRequired();
+
+                    b.HasKey("RecipeUserLikeID");
+
+                    b.HasIndex("RecipeID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("RecipeUserLike");
+                });
+
             modelBuilder.Entity("HomeSquareApp.Models.Review", b =>
                 {
                     b.Property<int>("ReviewID")
@@ -383,7 +426,6 @@ namespace HomeSquareApp.Migrations
                     b.Property<int>("ProductID");
 
                     b.Property<string>("ReviewContent")
-                        .IsRequired()
                         .HasMaxLength(1024);
 
                     b.Property<DateTime>("ReviewDateTime");
@@ -409,16 +451,21 @@ namespace HomeSquareApp.Migrations
 
                     b.Property<string>("OrderID");
 
+                    b.Property<int>("ProductID");
+
+                    b.Property<DateTime>("RewardAddedDateTime");
+
                     b.Property<int?>("RewardPoolID");
 
-                    b.Property<string>("RewardStatus")
-                        .HasColumnType("varchar(8)");
+                    b.Property<int>("RewardStatus");
 
                     b.Property<string>("UserID");
 
                     b.HasKey("RewardID");
 
                     b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
 
                     b.HasIndex("RewardPoolID");
 
@@ -433,9 +480,15 @@ namespace HomeSquareApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("PoolQuantity");
+
                     b.Property<int>("ProductID");
 
+                    b.Property<int>("RewardPoolStatus");
+
                     b.HasKey("RewardPoolID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("RewardPool");
                 });
@@ -597,13 +650,8 @@ namespace HomeSquareApp.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HomeSquareApp.Models.ProductStatus", "ProductStatus")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductStatusID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("HomeSquareApp.Models.RewardPool", "RewardPool")
-                        .WithOne("Product")
-                        .HasForeignKey("HomeSquareApp.Models.Product", "RewardPoolID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -620,6 +668,19 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
                         .WithMany("RecipeSteps")
                         .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("HomeSquareApp.Models.RecipeUserLike", b =>
+                {
+                    b.HasOne("HomeSquareApp.Models.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -643,6 +704,11 @@ namespace HomeSquareApp.Migrations
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("HomeSquareApp.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("HomeSquareApp.Models.RewardPool")
                         .WithMany("Rewards")
                         .HasForeignKey("RewardPoolID")
@@ -651,6 +717,14 @@ namespace HomeSquareApp.Migrations
                     b.HasOne("HomeSquareApp.Models.ApplicationUser", "User")
                         .WithMany("Rewards")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("HomeSquareApp.Models.RewardPool", b =>
+                {
+                    b.HasOne("HomeSquareApp.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
