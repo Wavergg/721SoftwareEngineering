@@ -8,7 +8,7 @@
 
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductPrice)
+            @string.Format("$ {0:F2}",item.ProductPrice) 
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductStock)

@@ -11,7 +11,7 @@
 <hr />
 <div class="pb-5">
     <div class="col-md-5">
-        <form enctype="multipart/form-data" asp-action="Edit" class="row gap-2 pb-5" method="post">
+        <form enctype="multipart/form-data" asp-action="Edit" class="row gap-2 pb-5" method="post" autocomplete="off">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="ProductID" />
             <input type="hidden" asp-for="ImageUrl" />
