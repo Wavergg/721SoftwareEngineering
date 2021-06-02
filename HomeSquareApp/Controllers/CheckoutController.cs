@@ -253,7 +253,7 @@ namespace HomeSquareApp.Controllers
                         {
                             OrderID = order.OrderID,
                             ProductID = reward.ProductID,
-                            Quantity = 1,
+                            Quantity = (int)order.OrderTotal / 100,
                             TotalPrice = 0,
                         };
                         _context.OrderDetails.Add(orderDetails);

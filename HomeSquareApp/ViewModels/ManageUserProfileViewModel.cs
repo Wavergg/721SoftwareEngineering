@@ -40,10 +40,10 @@ namespace HomeSquareApp.ViewModels
         [MaxLength(32, ErrorMessage = "Suburb Field shouldnt exceed maximum Length of 32 characters")]
         public string Suburb { get; set; }
 
-        [MaxLength(8, ErrorMessage = "Zip Code Field shouldnt exceed maximum Length of 64 characters")]
+        [MaxLength(8, ErrorMessage = "Zip Code Field shouldnt exceed maximum Length of 8 characters")]
         public string ZipCode { get; set; }
 
-        [MaxLength(8, ErrorMessage = "Unit Field shouldnt exceed maximum Length of 64 characters")]
+        [MaxLength(8, ErrorMessage = "Unit Field shouldnt exceed maximum Length of 8 characters")]
         public string Unit { get; set; }
 
         [MaxLength(256)]

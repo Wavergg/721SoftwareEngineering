@@ -23,6 +23,7 @@ namespace HomeSquareApp.Controllers
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly RoleManager<IdentityRole> _RoleManager;
         private readonly IHostingEnvironment _HostingEnvironment;
+        private static List<Order> _ordersContext;
 
         public AdminController(AppDbContext context, UserManager<ApplicationUser> userManager ,
                                 RoleManager<IdentityRole> roleManager, IHostingEnvironment hostingEnvironment)
@@ -33,10 +34,56 @@ namespace HomeSquareApp.Controllers
             this._HostingEnvironment = hostingEnvironment;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> OrderSortTableData(string sortOrder)
+        {
+            if (_ordersContext == null)
+            {
+                _ordersContext = await _context.Order.Include(u => u.User)
+                            .Where(o => o.OrderStatus != "Ongoing" && o.OrderStatus != "Deleted").ToListAsync();
+            }
+
+            switch (sortOrder)
+            {
+                case "orderDate_asc":
+                    _ordersContext = _ordersContext.OrderBy(o => o.OrderDateTime).ToList();
+                    break;
+                case "firstName_asc":
+                    _ordersContext = _ordersContext.OrderBy(o => o.User.FirstName).ToList();
+                    break;
+                case "firstName_desc":
+                    _ordersContext = _ordersContext.OrderByDescending(o => o.User.FirstName).ToList();
+                    break;
+                case "lastName_asc":
+                    _ordersContext = _ordersContext.OrderBy(o => o.User.LastName).ToList();
+                    break;
+                case "lastName_desc":
+                    _ordersContext = _ordersContext.OrderByDescending(o => o.User.LastName).ToList();
+                    break;
+                case "orderStatus_desc":
+                    _ordersContext = _ordersContext.OrderByDescending(o => o.OrderStatus).ToList();
+                    break;
+                case "orderStatus_asc":
+                    _ordersContext = _ordersContext.OrderBy(o => o.OrderStatus).ToList();
+                    break;
+                case "deliveryOption_asc":
+                    _ordersContext = _ordersContext.OrderBy(o => o.DeliveryOptions).ToList();
+                    break;
+                case "deliveryOption_desc":
+                    _ordersContext = _ordersContext.OrderByDescending(o => o.DeliveryOptions).ToList();
+                    break;
+                default:
+                    _ordersContext = _ordersContext.OrderByDescending(o => o.OrderDateTime).ToList();
+                    break;
+            }
+
+            return PartialView("_AdminOrderTableDataPartial", _ordersContext);
+        }
+
         public async Task<IActionResult> Index()
         {
-            List<Order> _ordersContext = await _context.Order.Include(u => u.User)
-                            .Where(o => o.OrderStatus =="Preparing" || o.OrderStatus == "Ready").ToListAsync();
+            _ordersContext = await _context.Order.Include(u => u.User)
+                            .Where(o => o.OrderStatus =="Preparing" || o.OrderStatus == "Ready").OrderByDescending(o=>o.OrderDateTime).ToListAsync();
 
            
             int dayOfWeek = ((int)DateTime.Now.DayOfWeek) == 0 ? 7 : (int)DateTime.Now.DayOfWeek;

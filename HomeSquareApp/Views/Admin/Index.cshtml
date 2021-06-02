@@ -96,5 +96,46 @@
 </div>
 
 @section Scripts{
-    
+    <script>
+        @* Sorting Function *@
+        //set to true if desc comes first
+        var orderDateToggle = false;
+        var firstNameToggle = true;
+        var lastNameToggle = true;
+        var orderStatusToggle = false;
+        var deliveryOptionToggle = true;
+
+        function sortData(sortOrder) {
+            if (sortOrder == "orderDate") {
+                sortOrder += orderDateToggle ? "_desc" : "_asc"
+                orderDateToggle = !orderDateToggle
+            } else if (sortOrder == "firstName") {
+                sortOrder += firstNameToggle ? "_desc" : "_asc"
+                firstNameToggle = !firstNameToggle
+            } else if (sortOrder == "lastName") {
+                sortOrder += lastNameToggle ? "_desc" : "_asc"
+                lastNameToggle = !lastNameToggle
+            } else if (sortOrder == "orderStatus") {
+                sortOrder += orderStatusToggle ? "_desc" : "_asc"
+                orderStatusToggle = !orderStatusToggle
+            }
+            else if (sortOrder == "deliveryOption") {
+                sortOrder += deliveryOptionToggle ? "_desc" : "_asc"
+                deliveryOptionToggle = !deliveryOptionToggle
+            }
+
+
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "/Admin/OrderSortTableData", // Controller/View
+                    data: {
+                        sortOrder: sortOrder
+                    }
+                }).done(function (data) {
+                    $("#tableData").html(data)
+                });
+        }
+
+    </script>
 }

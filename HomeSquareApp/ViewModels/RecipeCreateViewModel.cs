@@ -36,7 +36,7 @@ namespace HomeSquareApp.ViewModels
         public string FirstName { get; set; }
 
         [Required]
-        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".gif", ".tiff" })]
         public virtual IFormFile Image { get; set; }
 
         public List<IngredientViewModel> Ingredients { get; set; } = new List<IngredientViewModel>();

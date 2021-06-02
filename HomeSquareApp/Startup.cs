@@ -63,7 +63,7 @@ namespace HomeSquareApp
             }
             else
             {
-                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/{0}");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 app.UseHsts();
             }

@@ -29,7 +29,7 @@
                     double fiveStarWidth;
                     try
                     {
-                        fiveStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewFiveStarsCount)) * 100;
+                        fiveStarWidth = (Convert.ToDouble(Model.ReviewFiveStarsCount) / TOTAL_REVIEW_COUNT ) * 100;
                     }
                     catch
                     {
@@ -51,7 +51,7 @@
                     double fourStarWidth;
                     try
                     {
-                        fourStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewFourStarsCount)) * 100;
+                        fourStarWidth = (Convert.ToDouble(Model.ReviewFourStarsCount) / TOTAL_REVIEW_COUNT) * 100;
                     }
                     catch
                     {
@@ -73,7 +73,7 @@
                     double threeStarWidth;
                     try
                     {
-                        threeStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewThreeStarsCount)) * 100;
+                        threeStarWidth = (Convert.ToDouble(Model.ReviewThreeStarsCount) / TOTAL_REVIEW_COUNT) * 100;
                     }
                     catch
                     {
@@ -95,7 +95,7 @@
                     double twoStarWidth;
                     try
                     {
-                        twoStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewTwoStarsCount)) * 100;
+                        twoStarWidth = (Convert.ToDouble(Model.ReviewTwoStarsCount) / TOTAL_REVIEW_COUNT) * 100;
                     }
                     catch
                     {
@@ -117,7 +117,7 @@
                     double oneStarWidth;
                     try
                     {
-                        oneStarWidth = (TOTAL_REVIEW_COUNT / Convert.ToDouble(Model.ReviewOneStarsCount)) * 100;
+                        oneStarWidth = (Convert.ToDouble(Model.ReviewOneStarsCount) / TOTAL_REVIEW_COUNT) * 100;
                     }
                     catch
                     {

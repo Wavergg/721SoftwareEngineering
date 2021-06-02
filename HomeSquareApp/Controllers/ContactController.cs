@@ -22,7 +22,7 @@ namespace HomeSquareApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                MailMessage message = new MailMessage("homesquare322@gmail.com", model.Email);
+                MailMessage message = new MailMessage("homesquare322@gmail.com", "homesquare322@gmail.com");
                 message.Subject = string.Format("Message From {0}",model.Name);
                 message.Body = string.Format("Email: {0}\n", model.Email);
                 message.Body += string.Format("Phone: {0}\n\n", model.PhoneNumber);
