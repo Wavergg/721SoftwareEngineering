@@ -39,7 +39,7 @@ namespace HomeSquareApp
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-                {
+                { 
                     options.User.RequireUniqueEmail = true;
                     options.Password.RequiredLength = 8;
                     options.Password.RequireLowercase = false;

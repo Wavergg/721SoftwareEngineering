@@ -35,7 +35,8 @@ namespace HomeSquareApp.Controllers
         [AcceptVerbs("Get", "Post")]
         public IActionResult IsProductExist(string productName,string productOldName = null)
         {
-            if(productOldName != null && productOldName.ToLower() == productName.ToLower())
+            
+            if (productOldName != null && productOldName.ToLower() == productName.ToLower())
             {
                 return Json(true);
             }
@@ -259,7 +260,7 @@ namespace HomeSquareApp.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Sale Start Date Should be Before Than the End Date");
             }
-           
+            
             if (ModelState.IsValid)
             {
                 string uniqueFileName = ProcessUploadedFile(model.Image);
@@ -303,12 +304,17 @@ namespace HomeSquareApp.Controllers
         {
             string uniqueFileName = "";
 
-            string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using(var fileStream = new FileStream(filePath, FileMode.Create))
+            try { 
+                string uploadsFolder = Path.Combine(_HostingEnvironment.WebRootPath, "lib", "images", "products");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    Image.CopyTo(fileStream);
+                }
+            } catch
             {
-                Image.CopyTo(fileStream);
+
             }
             return uniqueFileName;
         }

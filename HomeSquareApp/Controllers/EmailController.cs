@@ -11,10 +11,8 @@ namespace HomeSquareApp.Controllers
     {
         //Move this to models later
         //If error is occured, SIT wifi might be the one to blame
-        public static void SendEmail(MailMessage message)
+        public static bool SendEmail(MailMessage message)
         {
-            
-
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential()
             {
@@ -23,6 +21,8 @@ namespace HomeSquareApp.Controllers
             };
             client.EnableSsl = true;
             client.Send(message);
+
+            return true;
         }
     }
 }

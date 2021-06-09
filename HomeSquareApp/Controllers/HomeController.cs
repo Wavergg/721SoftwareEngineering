@@ -64,7 +64,12 @@ namespace HomeSquareApp.Controllers
             }
             else if (searchCategories == "Recipes")
             {
-                return Json(true);
+                List<string> recipesName = _context.Recipe
+                                    .Where(r => r.RecipeName.ToLower().Contains(searchString.ToLower()))
+                                    .OrderByDescending(r => r.ApprovedDate)
+                                    .Take(5).Select(r => r.RecipeName)
+                                    .ToList();
+                return Json(recipesName);
             }
             return Json(null);
         }

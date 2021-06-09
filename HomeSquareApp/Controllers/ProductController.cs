@@ -68,7 +68,7 @@ namespace HomeSquareApp.Controllers
                 _productsContext = await _context.Product.Include(p => p.ProductStatus)
                         .Where(p => p.ProductStatus.ProductStatusName != "Hold")
                         .Include(p => p.Category)
-                        .Where(p => p.Category.CategoryName.ToLower().Contains(searchString) || p.ProductName.Contains(searchString))
+                        .Where(p => p.Category.CategoryName.ToLower().Contains(searchString.ToLower()) || p.ProductName.Contains(searchString.ToLower()))
                         .Include(p=>p.ServingType)
                         .ToListAsync();
 

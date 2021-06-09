@@ -184,14 +184,14 @@ namespace HomeSquareApp.Controllers
         {
             ApplicationUser user = await _UserManager.GetUserAsync(User);
 
-            List<Reward> recipes = _context.Reward
+            List<Reward> rewards = _context.Reward
                                 .Where(r => r.UserID == user.Id)
                                 .Include(r => r.Product)
                                 .OrderByDescending(r => r.RewardAddedDateTime).ToList();
 
-            if (recipes.Count() > ITEMS_PER_PAGE)
+            if (rewards.Count() > ITEMS_PER_PAGE)
             {
-                int pageCount = ((recipes.Count() - 1) / ITEMS_PER_PAGE) + 1;
+                int pageCount = ((rewards.Count() - 1) / ITEMS_PER_PAGE) + 1;
                 ViewData["PaginationCount"] = pageCount;
 
                 if (pageNumber > pageCount)
@@ -206,7 +206,7 @@ namespace HomeSquareApp.Controllers
 
             ViewData["SetActivePage"] = pageNumber;
 
-            return PartialView("_RewardTableDataPartial", recipes.Skip(pageNumber * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE));
+            return PartialView("_RewardTableDataPartial", rewards.Skip(pageNumber * ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE));
         }
 
 

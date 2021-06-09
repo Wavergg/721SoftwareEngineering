@@ -26,7 +26,7 @@ namespace HomeSquareApp.Controllers
             this._context = context;
         }
 
-        private void PerformOrderFilter(string filters, string category)
+        private void PerformRewardFilter(string filters, string category)
         {
             switch (category)
             {
@@ -58,7 +58,7 @@ namespace HomeSquareApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> OrderSortTableData(string sortOrder)
+        public async Task<IActionResult> RewardSortTableData(string sortOrder)
         {
             if (_rewardsContext == null)
             {
@@ -98,7 +98,7 @@ namespace HomeSquareApp.Controllers
                                     .Where(rp => rp.RewardPoolStatus != RewardPoolStatus.Deleted).ToListAsync();
             }
 
-            PerformOrderFilter(filters, category);
+            PerformRewardFilter(filters, category);
 
             _currentRange = 0;
             return PartialView("_AdminRewardTableDataPartial", _rewardsContext.Skip(_currentRange).Take(ITEMS_PER_PAGE).ToList());
@@ -132,7 +132,7 @@ namespace HomeSquareApp.Controllers
 
             foreach (AdminFilterModel filterItem in filters)
             {
-                PerformOrderFilter(filterItem.value, filterItem.category);
+                PerformRewardFilter(filterItem.value, filterItem.category);
             }
             _currentRange = 0;
 
