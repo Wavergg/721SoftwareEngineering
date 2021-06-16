@@ -70,7 +70,7 @@ namespace HomeSquareApp.ViewModels
 
         [Required]
         [Display(Name = "Expiry Month")]
-        [Range(2,2, ErrorMessage = "Should be in MM format")]
+        [Range(0,12, ErrorMessage = "Should be in MM format")]
         [RegularExpression(
             pattern: @"^(0?[1-9]|1[012])$",
             ErrorMessage = "Not a valid month")]
@@ -78,7 +78,7 @@ namespace HomeSquareApp.ViewModels
 
         [Required]
         [Display(Name = "Expiry Year")]
-        [Range( 2 , 2, ErrorMessage = "Should be in YY format")]
+        [StringLength(2,MinimumLength = 2, ErrorMessage = "Should be in YY format")]
         public string ExpiryYear { get; set; }
 
         [Required]
