@@ -122,8 +122,9 @@ namespace HomeSquareApp.Controllers
             ProductDetailsViewModel model = new ProductDetailsViewModel();
             model.Product = product;
             model.User = user;
-            model.CurrentUserReview = product.Review.Where(r => r.UserID == user.Id).FirstOrDefault();
-
+            if (user != null) { 
+                model.CurrentUserReview = product.Review.Where(r => r.UserID == user.Id).FirstOrDefault();
+            }
             return View(model);
         }
 

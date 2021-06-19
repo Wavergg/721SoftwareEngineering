@@ -253,7 +253,7 @@ namespace HomeSquareApp.Controllers
                         {
                             OrderID = order.OrderID,
                             ProductID = reward.ProductID,
-                            Quantity = (int)order.OrderTotal / 100,
+                            Quantity = 1,
                             TotalPrice = 0,
                         };
                         _context.OrderDetails.Add(orderDetails);
@@ -287,7 +287,7 @@ namespace HomeSquareApp.Controllers
                     user.Unit = model.Unit;
                     if(order.OrderTotal >= 100)
                     {
-                        user.RewardPlayChanceCount++;
+                        user.RewardPlayChanceCount += (int)order.OrderTotal/100;
                     }
                     _context.ApplicationUser.Update(user);
                     _context.SaveChanges();
