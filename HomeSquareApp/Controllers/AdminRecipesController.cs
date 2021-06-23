@@ -348,7 +348,7 @@ namespace HomeSquareApp.Controllers
             AdminRecipeEditViewModel model = new AdminRecipeEditViewModel();
             model.RecipeID = recipe.RecipeID;
             model.ExistingImageUrl = recipe.ImageUrl;
-            model.ExistingImagePath = Path.Combine("\\", "lib", "images", "recipes", recipe.ImageUrl).Replace('\\', '/');
+            model.ExistingImagePath = Path.Combine("\\lib", "images", "recipes", recipe.ImageUrl).Replace('\\', '/');
             model.UserID = recipe.UserID;
             model.RecipeName = recipe.RecipeName;
             model.RecipeSteps = _context.RecipeSteps.Where(rs => rs.RecipeID == recipe.RecipeID).ToList();
